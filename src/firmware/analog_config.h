@@ -5,19 +5,19 @@
 class AnalogConfig {
 public:
   enum class tag {
-    NTC_CONFIG,
-    VOLTAGE_DIVIDER,
+    RESISTANCE_MEAS,
+    VOLTAGE_MEAS,
     CURRENT_MEAS,
   };
 
   [[maybe_unused]] static constexpr AnalogConfig
-  ntc_config(const Resistance &r, const Voltage &vin) {
-    return AnalogConfig(tag::NTC_CONFIG, 0_Ohm, r, 0_Ohm, vin);
+  resistance_meas(const Resistance &r, const Voltage &vin) {
+    return AnalogConfig(tag::RESISTANCE_MEAS, 0_Ohm, r, 0_Ohm, vin);
   }
 
   [[maybe_unused]] static constexpr AnalogConfig
-  voltage_divider(const Resistance &r1, const Resistance &r2) {
-    return AnalogConfig(tag::VOLTAGE_DIVIDER, 0_Ohm, r1, r2, 0_V);
+  voltage_meas(const Resistance &r1, const Resistance &r2) {
+    return AnalogConfig(tag::VOLTAGE_MEAS, 0_Ohm, r1, r2, 0_V);
   }
 
   [[maybe_unused]] static constexpr AnalogConfig
