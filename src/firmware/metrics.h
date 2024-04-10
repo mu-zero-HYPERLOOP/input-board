@@ -120,6 +120,59 @@ private:
   float m_value;
 };
 
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) *
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const volatile float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) *
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const volatile float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) *
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) *
+                                                       b);
+}
+
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const float &b, Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return a * b;
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const volatile float &b,
+          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return a * b;
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const float &b,
+          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return a * b;
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator*(const volatile float &b,
+          Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return a * b;
+}
+
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
           int b_s, int b_m, int b_kg, int b_A, int b_K, int b_mol, int b_cd>
 static constexpr auto
@@ -147,7 +200,6 @@ operator*(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
                 a_mol + b_mol, a_cd + b_cd>(static_cast<float>(a) *
                                             static_cast<float>(b));
 }
-
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
           int b_s, int b_m, int b_kg, int b_A, int b_K, int b_mol, int b_cd>
 static constexpr auto
@@ -158,13 +210,67 @@ operator*(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
                                             static_cast<float>(b));
 }
 
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) /
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const volatile float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) /
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const volatile float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) /
+                                                       b);
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
+          const float &b) {
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a) /
+                                                       b);
+}
+
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const float &b, Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
+      b / static_cast<float>(a));
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const volatile float &b, volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
+      b / static_cast<float>(a));
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const float &b, volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
+      b / static_cast<float>(a));
+}
+template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+static constexpr auto
+operator/(const volatile float &b, Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+  return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
+      b / static_cast<float>(a));
+}
+
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
           int b_s, int b_m, int b_kg, int b_A, int b_K, int b_mol, int b_cd>
 static constexpr auto
 operator/(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const Metric<b_s, b_m, b_kg, b_A, b_K, b_mol, b_cd> &b) {
-  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K, 
-                a_mol - b_mol, a_cd - b_cd >(static_cast<float>(a) /
+  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K,
+                a_mol - b_mol, a_cd - b_cd>(static_cast<float>(a) /
                                             static_cast<float>(b));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
@@ -172,8 +278,8 @@ template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
 static constexpr auto
 operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const volatile Metric<b_s, b_m, b_kg, b_A, b_K, b_mol, b_cd> &b) {
-  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K, 
-                a_mol - b_mol, a_cd - b_cd >(static_cast<float>(a) /
+  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K,
+                a_mol - b_mol, a_cd - b_cd>(static_cast<float>(a) /
                                             static_cast<float>(b));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
@@ -181,8 +287,8 @@ template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
 static constexpr auto
 operator/(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const volatile Metric<b_s, b_m, b_kg, b_A, b_K, b_mol, b_cd> &b) {
-  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K, 
-                a_mol - b_mol, a_cd - b_cd >(static_cast<float>(a) /
+  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K,
+                a_mol - b_mol, a_cd - b_cd>(static_cast<float>(a) /
                                             static_cast<float>(b));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
@@ -190,8 +296,8 @@ template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
 static constexpr auto
 operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const Metric<b_s, b_m, b_kg, b_A, b_K, b_mol, b_cd> &b) {
-  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K, 
-                a_mol - b_mol, a_cd - b_cd >(static_cast<float>(a) /
+  return Metric<a_s - b_s, a_m - b_m, a_kg - b_kg, a_A - b_A, a_K - b_K,
+                a_mol - b_mol, a_cd - b_cd>(static_cast<float>(a) /
                                             static_cast<float>(b));
 }
 
@@ -463,7 +569,9 @@ constexpr Distance operator""_m(const long double v) { return Distance(v); }
 constexpr Distance operator""_m(const unsigned long long v) {
   return Distance(static_cast<float>(v));
 }
-constexpr Distance operator""_cm(const long double v) { return Distance(v / 1e2); }
+constexpr Distance operator""_cm(const long double v) {
+  return Distance(v / 1e2);
+}
 constexpr Distance operator""_cm(const unsigned long long v) {
   return Distance(static_cast<float>(v) / 1e2);
 }
@@ -791,9 +899,7 @@ constexpr Inductance operator""_uH(const unsigned long long v) {
 }
 
 // Velocity literals
-constexpr Velocity operator""_mps(const long double v) {
-  return Velocity(v);
-}
+constexpr Velocity operator""_mps(const long double v) { return Velocity(v); }
 constexpr Velocity operator""_mps(const unsigned long long v) {
   return Velocity(static_cast<float>(v));
 }

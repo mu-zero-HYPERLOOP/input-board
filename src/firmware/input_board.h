@@ -196,8 +196,7 @@ public:
     if constexpr (AIN1_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
       return (AIN1_CONFIG.vin() * AIN1_CONFIG.r2() / reading) -
              AIN1_CONFIG.r2();
-    } else if constexpr (AIN1_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
+    } else if constexpr (AIN1_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
       return reading *
              ((AIN1_CONFIG.r1() + AIN1_CONFIG.r2()) / AIN1_CONFIG.r2());
     } else {
@@ -210,8 +209,7 @@ public:
     if constexpr (AIN2_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
       return (AIN2_CONFIG.vin() * AIN2_CONFIG.r2() / reading) -
              AIN2_CONFIG.r2();
-    } else if constexpr (AIN2_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
+    } else if constexpr (AIN2_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
       return reading *
              ((AIN2_CONFIG.r1() + AIN2_CONFIG.r2()) / AIN2_CONFIG.r2());
     } else {
@@ -224,8 +222,7 @@ public:
     if constexpr (AIN3_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
       return ((AIN2_CONFIG.vin() * AIN2_CONFIG.r2()) / reading) -
              AIN2_CONFIG.r2();
-    } else if constexpr (AIN3_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
+    } else if constexpr (AIN3_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
       return reading *
              ((AIN3_CONFIG.r1() + AIN3_CONFIG.r2()) / AIN3_CONFIG.r2());
     } else {
@@ -234,26 +231,7 @@ public:
   }
 
   [[nodiscard]] static inline Voltage read_analog_voltage(uint8_t pin) {
-    switch (pin) {
-    case VMEAS1:
-      break;
-    case VMEAS2:
-      break;
-    case VMEAS3:
-      break;
-    case NTC_MUX_PIN:
-      break;
-    case AIN1:
-      break;
-    case AIN2:
-      break;
-    case AIN3:
-      break;
-    case AIN_MUX_PIN:
-      break;
-    }
-    assert(false);
-    return 0_V;
+    return Voltage((static_cast<float>(analogRead(pin)) * 3.3) / 4095);
   }
 
   [[nodiscard]] [[maybe_unused]] static inline bool read_din2() {
