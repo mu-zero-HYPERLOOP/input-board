@@ -1,9 +1,9 @@
 #pragma once
 
 #include "./input_board_config.h"
-#include "./metrics.h"
 #include "core_pins.h"
 #include "inttypes.h"
+#include "util/metrics.h"
 #include <cassert>
 
 class InputBoard {

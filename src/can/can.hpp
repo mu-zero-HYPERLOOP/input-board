@@ -32,8 +32,6 @@ struct CanBeginInfo {
         loopback(false) {}
 };
 
-typedef CAN_message_t CanMessage;
-
 template <CanInterface INTERFACE> struct CAN {
 private:
   struct RxSoftwareFifo {

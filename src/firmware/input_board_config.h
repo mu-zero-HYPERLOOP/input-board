@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./metrics.h"
+#include "util/metrics.h"
 #include "./input_board_pinout.h"
 #include "firmware/analog_config.h"
 
@@ -37,8 +37,4 @@ static constexpr Resistance VMEAS2_R2 = 1_kOhm;
 
 static constexpr Resistance VMEAS3_R1 = 1_kOhm;
 static constexpr Resistance VMEAS3_R2 = 1_kOhm;
-
-static constexpr DigitalInputPin LINEAR_ENCODER_LEFT_PIN = DigitalInputPin::DIN2;
-static constexpr DigitalInputPin LINEAR_ENCODER_RIGHT_PIN = DigitalInputPin::DIN3;
-static constexpr Distance     LINEAR_ENCODER_STRIDE = 10_cm;
 
