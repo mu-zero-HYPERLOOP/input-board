@@ -1,292 +1,113 @@
 #pragma once
 
-#include "./input_board_config.h"
 #include "core_pins.h"
+#include "firmware/input_board_config.h"
 #include "inttypes.h"
 #include "util/metrics.h"
+#include "util/timestamp.h"
 #include <cassert>
+#include <cstring>
+
+// DON'T TOUCH ME
+static constexpr AnalogConfig ANALOG_CONFIGS[] = {
+    AnalogConfig::isolated_voltage_meas(VMEAS1_R1, VMEAS1_R2, VMEAS1_FREQUENCY),
+    AnalogConfig::isolated_voltage_meas(VMEAS2_R1, VMEAS2_R2, VMEAS2_FREQUENCY),
+    AnalogConfig::isolated_voltage_meas(VMEAS3_R1, VMEAS3_R2, VMEAS3_FREQUENCY),
+    AIN1_CONFIG,
+    AIN2_CONFIG,
+    AIN3_CONFIG,
+    AnalogConfig::resistance_meas(NTC1_R, 5_V),
+    AnalogConfig::resistance_meas(NTC2_R, 5_V),
+    AnalogConfig::resistance_meas(NTC3_R, 5_V),
+    AnalogConfig::resistance_meas(NTC4_R, 5_V),
+    AnalogConfig::resistance_meas(NTC5_R, 5_V),
+    AnalogConfig::resistance_meas(NTC6_R, 5_V),
+    AnalogConfig::resistance_meas(NTC7_R, 5_V),
+    AnalogConfig::resistance_meas(NTC8_R, 5_V),
+    AIN_MUX1_CONFIG,
+    AIN_MUX2_CONFIG,
+    AIN_MUX3_CONFIG,
+    AIN_MUX4_CONFIG,
+    AIN_MUX5_CONFIG,
+    AIN_MUX6_CONFIG,
+    AIN_MUX7_CONFIG,
+    AIN_MUX8_CONFIG,
+};
+
+enum AnalogInput : uint8_t {
+  VMEAS1,
+  VMEAS2,
+  VMEAS3,
+  AIN1,
+  AIN2,
+  AIN3,
+  NTC1,
+  NTC2,
+  NTC3,
+  NTC4,
+  NTC5,
+  NTC6,
+  NTC7,
+  NTC8,
+  AIN_MUX1,
+  AIN_MUX2,
+  AIN_MUX3,
+  AIN_MUX4,
+  AIN_MUX5,
+  AIN_MUX6,
+  AIN_MUX7,
+  AIN_MUX8,
+  AIN_COUNT,
+};
+
+enum DigitalInputPin : uint8_t {
+  PIN_DIN2 = 2,
+  PIN_DIN3 = 3,
+  PIN_DIN4 = 4,
+  PIN_DIN5 = 5,
+  PIN_DIN6 = 6,
+};
+
 
 class InputBoard {
-public:
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux1() {
-    mux_sel(0, 0, 0);
-    Voltage reading = read_analog_voltage(AIN_MUX1);
-    if constexpr (AIN_MUX1_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX1_CONFIG.vin() * AIN_MUX1_CONFIG.r2() / reading) -
-             AIN_MUX1_CONFIG.r2();
-    } else if constexpr (AIN_MUX1_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX1_CONFIG.r1() + AIN_MUX1_CONFIG.r2()) /
-                        AIN_MUX1_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX1_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux2() {
-    mux_sel(0, 0, 1);
-    Voltage reading = read_analog_voltage(AIN_MUX2);
-    if constexpr (AIN_MUX2_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX2_CONFIG.vin() * AIN_MUX2_CONFIG.r2() / reading) -
-             AIN_MUX2_CONFIG.r2();
-    } else if constexpr (AIN_MUX2_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX2_CONFIG.r1() + AIN_MUX2_CONFIG.r2()) /
-                        AIN_MUX2_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX2_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux3() {
-    mux_sel(0, 1, 0);
-    Voltage reading = read_analog_voltage(AIN_MUX3);
-    if constexpr (AIN_MUX3_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX3_CONFIG.vin() * AIN_MUX3_CONFIG.r2() / reading) -
-             AIN_MUX3_CONFIG.r2();
-    } else if constexpr (AIN_MUX3_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX3_CONFIG.r1() + AIN_MUX3_CONFIG.r2()) /
-                        AIN_MUX3_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX3_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux4() {
-    mux_sel(0, 1, 1);
-    Voltage reading = read_analog_voltage(AIN_MUX4);
-    if constexpr (AIN_MUX4_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX4_CONFIG.vin() * AIN_MUX4_CONFIG.r2() / reading) -
-             AIN_MUX4_CONFIG.r2();
-    } else if constexpr (AIN_MUX4_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX4_CONFIG.r1() + AIN_MUX4_CONFIG.r2()) /
-                        AIN_MUX4_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX4_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux5() {
-    mux_sel(1, 0, 0);
-    Voltage reading = read_analog_voltage(AIN_MUX5);
-    if constexpr (AIN_MUX5_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX5_CONFIG.vin() * AIN_MUX5_CONFIG.r2() / reading) -
-             AIN_MUX5_CONFIG.r2();
-    } else if constexpr (AIN_MUX5_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX5_CONFIG.r1() + AIN_MUX5_CONFIG.r2()) /
-                        AIN_MUX5_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX5_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux6() {
-    mux_sel(1, 0, 1);
-    Voltage reading = read_analog_voltage(AIN_MUX6);
-    if constexpr (AIN_MUX6_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX6_CONFIG.vin() * AIN_MUX6_CONFIG.r2() / reading) -
-             AIN_MUX6_CONFIG.r2();
-    } else if constexpr (AIN_MUX6_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX6_CONFIG.r1() + AIN_MUX6_CONFIG.r2()) /
-                        AIN_MUX6_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX6_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux7() {
-    mux_sel(1, 1, 0);
-    Voltage reading = read_analog_voltage(AIN_MUX7);
-    if constexpr (AIN_MUX7_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX7_CONFIG.vin() * AIN_MUX7_CONFIG.r2() / reading) -
-             AIN_MUX7_CONFIG.r2();
-    } else if constexpr (AIN_MUX7_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX7_CONFIG.r1() + AIN_MUX7_CONFIG.r2()) /
-                        AIN_MUX7_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX7_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain_mux8() {
-    mux_sel(1, 1, 1);
-    Voltage reading = read_analog_voltage(AIN_MUX8);
-    if constexpr (AIN_MUX8_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN_MUX8_CONFIG.vin() * AIN_MUX8_CONFIG.r2() / reading) -
-             AIN_MUX8_CONFIG.r2();
-    } else if constexpr (AIN_MUX8_CONFIG.tag() ==
-                         AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading * ((AIN_MUX8_CONFIG.r1() + AIN_MUX8_CONFIG.r2()) /
-                        AIN_MUX8_CONFIG.r2());
-    } else {
-      return reading / AIN_MUX8_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc1() {
-    mux_sel(0, 0, 0);
-    Voltage reading = read_analog_voltage(NTC1);
-    return (5_V * NTC1_R / reading) - NTC1_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc2() {
-    mux_sel(0, 0, 1);
-    Voltage reading = read_analog_voltage(NTC2);
-    return (5_V * NTC2_R / reading) - NTC2_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc3() {
-    mux_sel(0, 1, 0);
-    Voltage reading = read_analog_voltage(NTC3);
-    return (5_V * NTC3_R / reading) - NTC3_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc4() {
-    mux_sel(0, 1, 1);
-    Voltage reading = read_analog_voltage(NTC4);
-    return (5_V * NTC4_R / reading) - NTC4_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc5() {
-    mux_sel(1, 0, 0);
-    Voltage reading = read_analog_voltage(NTC5);
-    return (5_V * NTC5_R / reading) - NTC5_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc6() {
-    mux_sel(1, 0, 1);
-    Voltage reading = read_analog_voltage(NTC6);
-    return (5_V * NTC6_R / reading) - NTC6_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc7() {
-    mux_sel(1, 1, 0);
-    Voltage reading = read_analog_voltage(NTC7);
-    return (5_V * NTC7_R / reading) - NTC7_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Resistance read_ntc8() {
-    mux_sel(1, 1, 1);
-    Voltage reading = read_analog_voltage(NTC8);
-    return (5_V * NTC8_R / reading) - NTC8_R;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Voltage read_vmeas1() {
-    Voltage reading = read_analog_voltage(VMEAS1);
-    return reading;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Voltage read_vmeas2() {
-    Voltage reading = read_analog_voltage(VMEAS2);
-    return reading;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline Voltage read_vmeas3() {
-    Voltage reading = read_analog_voltage(VMEAS3);
-    return reading;
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain1() {
-    Voltage reading = read_analog_voltage(AIN1);
-    if constexpr (AIN1_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN1_CONFIG.vin() * AIN1_CONFIG.r2() / reading) -
-             AIN1_CONFIG.r2();
-    } else if constexpr (AIN1_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading *
-             ((AIN1_CONFIG.r1() + AIN1_CONFIG.r2()) / AIN1_CONFIG.r2());
-    } else {
-      return reading / AIN1_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain2() {
-    Voltage reading = read_analog_voltage(AIN2);
-    if constexpr (AIN2_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return (AIN2_CONFIG.vin() * AIN2_CONFIG.r2() / reading) -
-             AIN2_CONFIG.r2();
-    } else if constexpr (AIN2_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading *
-             ((AIN2_CONFIG.r1() + AIN2_CONFIG.r2()) / AIN2_CONFIG.r2());
-    } else {
-      return reading / AIN2_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline auto read_ain3() {
-    Voltage reading = read_analog_voltage(AIN3);
-    if constexpr (AIN3_CONFIG.tag() == AnalogConfig::tag::RESISTANCE_MEAS) {
-      return ((AIN2_CONFIG.vin() * AIN2_CONFIG.r2()) / reading) -
-             AIN2_CONFIG.r2();
-    } else if constexpr (AIN3_CONFIG.tag() == AnalogConfig::tag::VOLTAGE_MEAS) {
-      return reading *
-             ((AIN3_CONFIG.r1() + AIN3_CONFIG.r2()) / AIN3_CONFIG.r2());
-    } else {
-      return reading / AIN3_CONFIG.r2();
-    }
-  }
-
-  [[nodiscard]] static inline Voltage read_analog_voltage(uint8_t pin) {
-    return Voltage((static_cast<float>(analogRead(pin)) * 3.3) / 4095);
-  }
-
-  [[nodiscard]] [[maybe_unused]] static inline bool read_din2() {
-    return digitalReadFast(DIN2);
-  }
-  [[nodiscard]] [[maybe_unused]] static inline bool read_din3() {
-    return digitalReadFast(DIN3);
-  }
-  [[nodiscard]] [[maybe_unused]] static inline bool read_din4() {
-    return digitalReadFast(DIN4);
-  }
-  [[nodiscard]] [[maybe_unused]] static inline bool read_din5() {
-    return digitalReadFast(DIN5);
-  }
-  [[nodiscard]] [[maybe_unused]] static inline bool read_din6() {
-    return digitalReadFast(DIN6);
-  }
-  [[nodiscard]] [[maybe_unused]] static inline bool read_digital(uint8_t pin) {
-    return digitalReadFast(pin);
-  }
 
 private:
-  enum AnalogInputPin : uint8_t {
-    VMEAS1 = 21,
-    VMEAS2 = 20,
-    VMEAS3 = 19,
-    NTC_MUX_PIN = 17,
-    NTC1 = NTC_MUX_PIN,
-    NTC2 = NTC_MUX_PIN,
-    NTC3 = NTC_MUX_PIN,
-    NTC4 = NTC_MUX_PIN,
-    NTC5 = NTC_MUX_PIN,
-    NTC6 = NTC_MUX_PIN,
-    NTC7 = NTC_MUX_PIN,
-    NTC8 = NTC_MUX_PIN,
-    AIN1 = 15,
-    AIN2 = 14,
-    AIN3 = 18,
-    AIN_MUX_PIN = 16,
-    AIN_MUX1 = AIN_MUX_PIN,
-    AIN_MUX2 = AIN_MUX_PIN,
-    AIN_MUX3 = AIN_MUX_PIN,
-    AIN_MUX4 = AIN_MUX_PIN,
-    AIN_MUX5 = AIN_MUX_PIN,
-    AIN_MUX6 = AIN_MUX_PIN,
-    AIN_MUX7 = AIN_MUX_PIN,
-    AIN_MUX8 = AIN_MUX_PIN,
-  };
+  union AnalogReading {
+    Voltage u;
+    Current i;
+    Resistance r;
 
-  enum DigitalInputPin : uint8_t {
-    DIN2 = 2,
-    DIN3 = 3,
-    DIN4 = 4,
-    DIN5 = 5,
-    DIN6 = 6,
+    AnalogReading() { this->u = Voltage(0.0); }
+
+    AnalogReading &operator=(Voltage &&u) {
+      this->u = u;
+      return *this;
+    }
+
+    AnalogReading &operator=(Current &&i) {
+      this->i = i;
+      return *this;
+    }
+
+    AnalogReading &operator=(Resistance &&r) {
+      this->r = r;
+      return *this;
+    }
+
+    AnalogReading &operator=(Voltage &u) {
+      this->u = u;
+      return *this;
+    }
+
+    AnalogReading &operator=(Current &i) {
+      this->i = i;
+      return *this;
+    }
+
+    AnalogReading &operator=(Resistance &r) {
+      this->r = r;
+      return *this;
+    }
   };
 
   enum MuxControlPin : uint8_t {
@@ -295,9 +116,148 @@ private:
     MUX_SEL_2 = 36,
   };
 
-  static inline void mux_sel(bool sel2, bool sel1, bool sel0) {
-    digitalWriteFast(MuxControlPin::MUX_SEL_0, sel0);
-    digitalWriteFast(MuxControlPin::MUX_SEL_1, sel1);
-    digitalWriteFast(MuxControlPin::MUX_SEL_2, sel2);
+  enum AnalogInputPin : uint8_t {
+    PIN_VMEAS1 = 21,
+    PIN_VMEAS2 = 20,
+    PIN_VMEAS3 = 19,
+    PIN_NTC1 = 17,
+    PIN_NTC2 = 17,
+    PIN_NTC3 = 17,
+    PIN_NTC4 = 17,
+    PIN_NTC5 = 17,
+    PIN_NTC6 = 17,
+    PIN_NTC7 = 17,
+    PIN_NTC8 = 17,
+    PIN_AIN1 = 15,
+    PIN_AIN2 = 14,
+    PIN_AIN3 = 18,
+    PIN_AIN_MUX1 = 16,
+    PIN_AIN_MUX2 = 16,
+    PIN_AIN_MUX3 = 16,
+    PIN_AIN_MUX4 = 16,
+    PIN_AIN_MUX5 = 16,
+    PIN_AIN_MUX6 = 16,
+    PIN_AIN_MUX7 = 16,
+    PIN_AIN_MUX8 = 16,
+    NaP = 0xFF,
+  };
+
+  static constexpr uint8_t SDC_TRIG_PIN = 32;
+
+  static inline void set_mux_sel(uint8_t mux_sel) {
+    digitalWriteFast(MuxControlPin::MUX_SEL_0, (mux_sel & 0x1) != 0);
+    digitalWriteFast(MuxControlPin::MUX_SEL_1, (mux_sel & 0x2) != 0);
+    digitalWriteFast(MuxControlPin::MUX_SEL_2, (mux_sel & 0x4) != 0);
+  }
+
+  static constexpr AnalogInputPin input_to_pin(AnalogInput ain) {
+    switch (ain) {
+    case VMEAS1:
+      return PIN_VMEAS1;
+    case VMEAS2:
+      return PIN_VMEAS2;
+    case VMEAS3:
+      return PIN_VMEAS3;
+    case AIN1:
+      return PIN_AIN1;
+    case AIN2:
+      return PIN_AIN2;
+    case AIN3:
+      return PIN_AIN3;
+    case NTC1:
+      return PIN_NTC1;
+    case NTC2:
+      return PIN_NTC2;
+    case NTC3:
+      return PIN_NTC3;
+    case NTC4:
+      return PIN_NTC4;
+    case NTC5:
+      return PIN_NTC5;
+    case NTC6:
+      return PIN_NTC6;
+    case NTC7:
+      return PIN_NTC7;
+    case NTC8:
+      return PIN_NTC8;
+    case AIN_MUX1:
+      return PIN_AIN_MUX1;
+    case AIN_MUX2:
+      return PIN_AIN_MUX2;
+    case AIN_MUX3:
+      return PIN_AIN_MUX3;
+    case AIN_MUX4:
+      return PIN_AIN_MUX4;
+    case AIN_MUX5:
+      return PIN_AIN_MUX5;
+    case AIN_MUX6:
+      return PIN_AIN_MUX6;
+    case AIN_MUX7:
+      return PIN_AIN_MUX7;
+    case AIN_MUX8:
+      return PIN_AIN_MUX8;
+    case AIN_COUNT:
+      return NaP;
+    }
+  }
+
+  template <AnalogInput AIN> static auto read() {
+    constexpr AnalogInputPin pin = input_to_pin(AIN);
+    Voltage reading =
+        Voltage(static_cast<float>(analogRead(pin)) * 3.3f / 4095.0f);
+    m_new_value[AIN] = true;
+    if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                  AnalogConfig::tag::RESISTANCE_MEAS) {
+      return (ANALOG_CONFIGS[AIN].vin() * ANALOG_CONFIGS[AIN].r2()) / reading -
+             ANALOG_CONFIGS[AIN].r2();
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::VOLTAGE_MEAS) {
+      return reading * ((ANALOG_CONFIGS[AIN].r1() + ANALOG_CONFIGS[AIN].r2()) /
+                        ANALOG_CONFIGS[AIN].r2());
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::CURRENT_MEAS) {
+      return reading / ANALOG_CONFIGS[AIN].r2();
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::ISOLATED_VOLTAGES) {
+      // TODO
+      return reading;
+    }
+  }
+
+  static AnalogReading m_readings[AIN_COUNT];
+  static bool m_new_value[AIN_COUNT];
+  static uint8_t m_mux_sel;
+  static Timestamp m_last_mux_transition;
+  static Timestamp m_last_meas[AIN3 + 1]; // not for mux inputs
+  static constexpr Duration MUX_TRANSITION_TIME = 100_ms;
+
+public:
+  static void begin();
+
+  static inline void set_sdc_status(bool close) {
+    digitalWrite(SDC_TRIG_PIN, close);
+  }
+
+  static void update();
+
+  template <AnalogInput AIN> static inline bool has_next() {
+    return m_new_value[AIN];
+  }
+
+  template <AnalogInput AIN> static inline auto get_ain() {
+    m_new_value[AIN] = false;
+    if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                  AnalogConfig::tag::RESISTANCE_MEAS) {
+      return m_readings[AIN].r;
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::VOLTAGE_MEAS) {
+      return m_readings[AIN].u;
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::CURRENT_MEAS) {
+      return m_readings[AIN].i;
+    } else if constexpr (ANALOG_CONFIGS[AIN].tag() ==
+                         AnalogConfig::tag::ISOLATED_VOLTAGES) {
+      return m_readings[AIN].u;
+    }
   }
 };

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Arduino.h>
 #include "metrics.h"
+#include <Arduino.h>
 #include <cstdint>
 
 class Timestamp {
@@ -24,6 +24,7 @@ class Timestamp {
 public:
   inline static Timestamp now() { return Timestamp(micros()); }
 
+  Timestamp() = default;
   Timestamp(const Timestamp &o) : Timestamp(o.m_time_us) {}
   Timestamp(const volatile Timestamp &o) : Timestamp(o.m_time_us) {}
   Timestamp(Timestamp &&o) : Timestamp(o.m_time_us) {}

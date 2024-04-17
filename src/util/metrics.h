@@ -192,25 +192,25 @@ operator*(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
-operator*(const float &b, Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+operator*(const float &b, const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return a * b;
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator*(const volatile float &b,
-          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return a * b;
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator*(const float &b,
-          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return a * b;
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator*(const volatile float &b,
-          Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return a * b;
 }
 
@@ -282,28 +282,28 @@ operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
-operator/(const float &b, Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+operator/(const float &b, const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
       b / static_cast<float>(a));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator/(const volatile float &b,
-          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
       b / static_cast<float>(a));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator/(const float &b,
-          volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
       b / static_cast<float>(a));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator/(const volatile float &b,
-          Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+          const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
       b / static_cast<float>(a));
 }

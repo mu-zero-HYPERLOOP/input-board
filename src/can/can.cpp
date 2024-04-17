@@ -19,7 +19,7 @@ void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
   } else {
     assert(false);
   }
-  beginInfo.loopback = true;
+  beginInfo.loopback = false;
   if (filter_count > 0) {
     beginInfo.filters = new CanFilter[filter_count];
     beginInfo.filter_count = filter_count;
@@ -74,7 +74,7 @@ void canzero_can1_setup(uint32_t baudrate, canzero_can_filter *filters,
   } else {
     assert(false);
   }
-  beginInfo.loopback = true;
+  beginInfo.loopback = false;
   if (filter_count > 0) {
     beginInfo.filters = new CanFilter[filter_count];
     beginInfo.filter_count = filter_count;
