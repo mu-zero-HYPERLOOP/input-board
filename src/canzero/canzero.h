@@ -100,6 +100,10 @@ static inline float canzero_get_acceleration_estimation() {
   extern float __oe_acceleration_estimation;
   return __oe_acceleration_estimation;
 }
+static inline float canzero_get_track_length() {
+  extern float __oe_track_length;
+  return __oe_track_length;
+}
 static inline sdc_status canzero_get_sdc_status() {
   extern sdc_status __oe_sdc_status;
   return __oe_sdc_status;
@@ -132,10 +136,6 @@ static inline int16_t canzero_get_fiducial_count2() {
   extern int16_t __oe_fiducial_count2;
   return __oe_fiducial_count2;
 }
-static inline error_flag canzero_get_error_invalid_position_estimation() {
-  extern error_flag __oe_error_invalid_position_estimation;
-  return __oe_error_invalid_position_estimation;
-}
 static inline error_flag canzero_get_error_invalid_position() {
   extern error_flag __oe_error_invalid_position;
   return __oe_error_invalid_position;
@@ -144,9 +144,9 @@ static inline error_flag canzero_get_error_invalid_velocity_profile() {
   extern error_flag __oe_error_invalid_velocity_profile;
   return __oe_error_invalid_velocity_profile;
 }
-static inline error_flag canzero_get_error_invalid_acceleration_profile() {
-  extern error_flag __oe_error_invalid_acceleration_profile;
-  return __oe_error_invalid_acceleration_profile;
+static inline error_flag canzero_get_error_invalid_acceleration() {
+  extern error_flag __oe_error_invalid_acceleration;
+  return __oe_error_invalid_acceleration;
 }
 static inline error_flag canzero_get_error_battery_over_temperature() {
   extern error_flag __oe_error_battery_over_temperature;
@@ -164,13 +164,37 @@ static inline error_flag canzero_get_error_mcu_over_temperature() {
   extern error_flag __oe_error_mcu_over_temperature;
   return __oe_error_mcu_over_temperature;
 }
+static inline float canzero_get_error_mcu_over_temperature_thresh() {
+  extern float __oe_error_mcu_over_temperature_thresh;
+  return __oe_error_mcu_over_temperature_thresh;
+}
+static inline float canzero_get_error_mcu_over_temperature_timeout() {
+  extern float __oe_error_mcu_over_temperature_timeout;
+  return __oe_error_mcu_over_temperature_timeout;
+}
 static inline error_flag canzero_get_error_ebox_over_temperature() {
   extern error_flag __oe_error_ebox_over_temperature;
   return __oe_error_ebox_over_temperature;
 }
+static inline float canzero_get_error_ebox_over_temperature_thresh() {
+  extern float __oe_error_ebox_over_temperature_thresh;
+  return __oe_error_ebox_over_temperature_thresh;
+}
+static inline float canzero_get_error_ebox_over_temperature_timeout() {
+  extern float __oe_error_ebox_over_temperature_timeout;
+  return __oe_error_ebox_over_temperature_timeout;
+}
 static inline error_flag canzero_get_error_cooling_cycle_over_temperature() {
   extern error_flag __oe_error_cooling_cycle_over_temperature;
   return __oe_error_cooling_cycle_over_temperature;
+}
+static inline float canzero_get_error_cooling_cycle_over_temperature_thresh() {
+  extern float __oe_error_cooling_cycle_over_temperature_thresh;
+  return __oe_error_cooling_cycle_over_temperature_thresh;
+}
+static inline float canzero_get_error_cooling_cycle_over_temperature_timeout() {
+  extern float __oe_error_cooling_cycle_over_temperature_timeout;
+  return __oe_error_cooling_cycle_over_temperature_timeout;
 }
 static inline error_flag canzero_get_warn_invalid_position_estimation() {
   extern error_flag __oe_warn_invalid_position_estimation;
@@ -204,13 +228,37 @@ static inline error_flag canzero_get_warn_mcu_over_temperature() {
   extern error_flag __oe_warn_mcu_over_temperature;
   return __oe_warn_mcu_over_temperature;
 }
+static inline float canzero_get_warn_mcu_over_temperature_thresh() {
+  extern float __oe_warn_mcu_over_temperature_thresh;
+  return __oe_warn_mcu_over_temperature_thresh;
+}
+static inline float canzero_get_warn_mcu_over_temperature_timeout() {
+  extern float __oe_warn_mcu_over_temperature_timeout;
+  return __oe_warn_mcu_over_temperature_timeout;
+}
 static inline error_flag canzero_get_warn_ebox_over_temperature() {
   extern error_flag __oe_warn_ebox_over_temperature;
   return __oe_warn_ebox_over_temperature;
 }
+static inline float canzero_get_warn_ebox_over_temperature_thresh() {
+  extern float __oe_warn_ebox_over_temperature_thresh;
+  return __oe_warn_ebox_over_temperature_thresh;
+}
+static inline float canzero_get_warn_ebox_over_temperature_timeout() {
+  extern float __oe_warn_ebox_over_temperature_timeout;
+  return __oe_warn_ebox_over_temperature_timeout;
+}
 static inline error_flag canzero_get_warn_cooling_cycle_over_temperature() {
   extern error_flag __oe_warn_cooling_cycle_over_temperature;
   return __oe_warn_cooling_cycle_over_temperature;
+}
+static inline float canzero_get_warn_cooling_cycle_over_temperature_thresh() {
+  extern float __oe_warn_cooling_cycle_over_temperature_thresh;
+  return __oe_warn_cooling_cycle_over_temperature_thresh;
+}
+static inline float canzero_get_warn_cooling_cycle_over_temperature_timeout() {
+  extern float __oe_warn_cooling_cycle_over_temperature_timeout;
+  return __oe_warn_cooling_cycle_over_temperature_timeout;
 }
 typedef struct {
   get_resp_header header;
@@ -241,10 +289,9 @@ typedef struct {
 static const uint32_t canzero_message_input_board_stream_sdc_status_id = 0x7A;
 typedef struct {
   error_flag error_mcu_over_temperature;
-  error_flag error_invalid_position_estimation;
   error_flag error_invalid_position;
   error_flag error_invalid_velocity_profile;
-  error_flag error_invalid_acceleration_profile;
+  error_flag error_invalid_acceleration;
   error_flag error_battery_over_temperature;
   error_flag error_cooling_cycle_over_pressure;
   error_flag error_cooling_cycle_low_pressure;
@@ -361,25 +408,24 @@ static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_
   frame->id = 0x5A;
   frame->dlc = 3;
   ((uint32_t*)data)[0] = (uint8_t)(msg->error_mcu_over_temperature & (0xFF >> (8 - 1)));
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_position_estimation & (0xFF >> (8 - 1))) << 1;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_position & (0xFF >> (8 - 1))) << 2;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_velocity_profile & (0xFF >> (8 - 1))) << 3;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_acceleration_profile & (0xFF >> (8 - 1))) << 4;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_battery_over_temperature & (0xFF >> (8 - 1))) << 5;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_over_pressure & (0xFF >> (8 - 1))) << 6;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_low_pressure & (0xFF >> (8 - 1))) << 7;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_ebox_over_temperature & (0xFF >> (8 - 1))) << 8;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_over_temperature & (0xFF >> (8 - 1))) << 9;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_position_estimation & (0xFF >> (8 - 1))) << 10;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_position & (0xFF >> (8 - 1))) << 11;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_velocity_profile & (0xFF >> (8 - 1))) << 12;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_acceleration_profile & (0xFF >> (8 - 1))) << 13;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_battery_over_temperature & (0xFF >> (8 - 1))) << 14;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_over_pressure & (0xFF >> (8 - 1))) << 15;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_low_pressure & (0xFF >> (8 - 1))) << 16;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_mcu_over_temperature & (0xFF >> (8 - 1))) << 17;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_ebox_over_temperature & (0xFF >> (8 - 1))) << 18;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_over_temperature & (0xFF >> (8 - 1))) << 19;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_position & (0xFF >> (8 - 1))) << 1;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_velocity_profile & (0xFF >> (8 - 1))) << 2;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_invalid_acceleration & (0xFF >> (8 - 1))) << 3;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_battery_over_temperature & (0xFF >> (8 - 1))) << 4;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_over_pressure & (0xFF >> (8 - 1))) << 5;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_low_pressure & (0xFF >> (8 - 1))) << 6;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_ebox_over_temperature & (0xFF >> (8 - 1))) << 7;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->error_cooling_cycle_over_temperature & (0xFF >> (8 - 1))) << 8;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_position_estimation & (0xFF >> (8 - 1))) << 9;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_position & (0xFF >> (8 - 1))) << 10;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_velocity_profile & (0xFF >> (8 - 1))) << 11;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_invalid_acceleration_profile & (0xFF >> (8 - 1))) << 12;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_battery_over_temperature & (0xFF >> (8 - 1))) << 13;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_over_pressure & (0xFF >> (8 - 1))) << 14;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_low_pressure & (0xFF >> (8 - 1))) << 15;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_mcu_over_temperature & (0xFF >> (8 - 1))) << 16;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_ebox_over_temperature & (0xFF >> (8 - 1))) << 17;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->warn_cooling_cycle_over_temperature & (0xFF >> (8 - 1))) << 18;
 }
 static void canzero_serialize_canzero_message_input_board_stream_state(canzero_message_input_board_stream_state* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
@@ -451,25 +497,24 @@ static void canzero_deserialize_canzero_message_input_board_stream_sdc_status(ca
 static void canzero_deserialize_canzero_message_input_board_stream_errors(canzero_frame* frame, canzero_message_input_board_stream_errors* msg) {
   uint8_t* data = frame->data;
   msg->error_mcu_over_temperature = (error_flag)(((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_invalid_position_estimation = (error_flag)((((uint32_t*)data)[0] >> 1) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_invalid_position = (error_flag)((((uint32_t*)data)[0] >> 2) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_invalid_velocity_profile = (error_flag)((((uint32_t*)data)[0] >> 3) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_invalid_acceleration_profile = (error_flag)((((uint32_t*)data)[0] >> 4) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_battery_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 5) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_cooling_cycle_over_pressure = (error_flag)((((uint32_t*)data)[0] >> 6) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_cooling_cycle_low_pressure = (error_flag)((((uint32_t*)data)[0] >> 7) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_ebox_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 8) & (0xFFFFFFFF >> (32 - 1)));
-  msg->error_cooling_cycle_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 9) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_invalid_position_estimation = (error_flag)((((uint32_t*)data)[0] >> 10) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_invalid_position = (error_flag)((((uint32_t*)data)[0] >> 11) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_invalid_velocity_profile = (error_flag)((((uint32_t*)data)[0] >> 12) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_invalid_acceleration_profile = (error_flag)((((uint32_t*)data)[0] >> 13) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_battery_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 14) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_cooling_cycle_over_pressure = (error_flag)((((uint32_t*)data)[0] >> 15) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_cooling_cycle_low_pressure = (error_flag)((((uint32_t*)data)[0] >> 16) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_mcu_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 17) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_ebox_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 18) & (0xFFFFFFFF >> (32 - 1)));
-  msg->warn_cooling_cycle_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 19) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_invalid_position = (error_flag)((((uint32_t*)data)[0] >> 1) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_invalid_velocity_profile = (error_flag)((((uint32_t*)data)[0] >> 2) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_invalid_acceleration = (error_flag)((((uint32_t*)data)[0] >> 3) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_battery_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 4) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_cooling_cycle_over_pressure = (error_flag)((((uint32_t*)data)[0] >> 5) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_cooling_cycle_low_pressure = (error_flag)((((uint32_t*)data)[0] >> 6) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_ebox_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 7) & (0xFFFFFFFF >> (32 - 1)));
+  msg->error_cooling_cycle_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 8) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_invalid_position_estimation = (error_flag)((((uint32_t*)data)[0] >> 9) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_invalid_position = (error_flag)((((uint32_t*)data)[0] >> 10) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_invalid_velocity_profile = (error_flag)((((uint32_t*)data)[0] >> 11) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_invalid_acceleration_profile = (error_flag)((((uint32_t*)data)[0] >> 12) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_battery_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 13) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_cooling_cycle_over_pressure = (error_flag)((((uint32_t*)data)[0] >> 14) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_cooling_cycle_low_pressure = (error_flag)((((uint32_t*)data)[0] >> 15) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_mcu_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 16) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_ebox_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 17) & (0xFFFFFFFF >> (32 - 1)));
+  msg->warn_cooling_cycle_over_temperature = (error_flag)((((uint32_t*)data)[0] >> 18) & (0xFFFFFFFF >> (32 - 1)));
 }
 static void canzero_deserialize_canzero_message_input_board_stream_state(canzero_frame* frame, canzero_message_input_board_stream_state* msg) {
   uint8_t* data = frame->data;
@@ -512,6 +557,10 @@ static inline void canzero_set_acceleration_estimation(float value){
   extern float __oe_acceleration_estimation;
   __oe_acceleration_estimation = value;
 }
+static inline void canzero_set_track_length(float value){
+  extern float __oe_track_length;
+  __oe_track_length = value;
+}
 void canzero_set_sdc_status(sdc_status value);
 static inline void canzero_set_mcu_temperature(float value){
   extern float __oe_mcu_temperature;
@@ -541,16 +590,39 @@ static inline void canzero_set_fiducial_count2(int16_t value){
   extern int16_t __oe_fiducial_count2;
   __oe_fiducial_count2 = value;
 }
-void canzero_set_error_invalid_position_estimation(error_flag value);
 void canzero_set_error_invalid_position(error_flag value);
 void canzero_set_error_invalid_velocity_profile(error_flag value);
-void canzero_set_error_invalid_acceleration_profile(error_flag value);
+void canzero_set_error_invalid_acceleration(error_flag value);
 void canzero_set_error_battery_over_temperature(error_flag value);
 void canzero_set_error_cooling_cycle_over_pressure(error_flag value);
 void canzero_set_error_cooling_cycle_low_pressure(error_flag value);
 void canzero_set_error_mcu_over_temperature(error_flag value);
+static inline void canzero_set_error_mcu_over_temperature_thresh(float value){
+  extern float __oe_error_mcu_over_temperature_thresh;
+  __oe_error_mcu_over_temperature_thresh = value;
+}
+static inline void canzero_set_error_mcu_over_temperature_timeout(float value){
+  extern float __oe_error_mcu_over_temperature_timeout;
+  __oe_error_mcu_over_temperature_timeout = value;
+}
 void canzero_set_error_ebox_over_temperature(error_flag value);
+static inline void canzero_set_error_ebox_over_temperature_thresh(float value){
+  extern float __oe_error_ebox_over_temperature_thresh;
+  __oe_error_ebox_over_temperature_thresh = value;
+}
+static inline void canzero_set_error_ebox_over_temperature_timeout(float value){
+  extern float __oe_error_ebox_over_temperature_timeout;
+  __oe_error_ebox_over_temperature_timeout = value;
+}
 void canzero_set_error_cooling_cycle_over_temperature(error_flag value);
+static inline void canzero_set_error_cooling_cycle_over_temperature_thresh(float value){
+  extern float __oe_error_cooling_cycle_over_temperature_thresh;
+  __oe_error_cooling_cycle_over_temperature_thresh = value;
+}
+static inline void canzero_set_error_cooling_cycle_over_temperature_timeout(float value){
+  extern float __oe_error_cooling_cycle_over_temperature_timeout;
+  __oe_error_cooling_cycle_over_temperature_timeout = value;
+}
 void canzero_set_warn_invalid_position_estimation(error_flag value);
 void canzero_set_warn_invalid_position(error_flag value);
 void canzero_set_warn_invalid_velocity_profile(error_flag value);
@@ -559,6 +631,30 @@ void canzero_set_warn_battery_over_temperature(error_flag value);
 void canzero_set_warn_cooling_cycle_over_pressure(error_flag value);
 void canzero_set_warn_cooling_cycle_low_pressure(error_flag value);
 void canzero_set_warn_mcu_over_temperature(error_flag value);
+static inline void canzero_set_warn_mcu_over_temperature_thresh(float value){
+  extern float __oe_warn_mcu_over_temperature_thresh;
+  __oe_warn_mcu_over_temperature_thresh = value;
+}
+static inline void canzero_set_warn_mcu_over_temperature_timeout(float value){
+  extern float __oe_warn_mcu_over_temperature_timeout;
+  __oe_warn_mcu_over_temperature_timeout = value;
+}
 void canzero_set_warn_ebox_over_temperature(error_flag value);
+static inline void canzero_set_warn_ebox_over_temperature_thresh(float value){
+  extern float __oe_warn_ebox_over_temperature_thresh;
+  __oe_warn_ebox_over_temperature_thresh = value;
+}
+static inline void canzero_set_warn_ebox_over_temperature_timeout(float value){
+  extern float __oe_warn_ebox_over_temperature_timeout;
+  __oe_warn_ebox_over_temperature_timeout = value;
+}
 void canzero_set_warn_cooling_cycle_over_temperature(error_flag value);
+static inline void canzero_set_warn_cooling_cycle_over_temperature_thresh(float value){
+  extern float __oe_warn_cooling_cycle_over_temperature_thresh;
+  __oe_warn_cooling_cycle_over_temperature_thresh = value;
+}
+static inline void canzero_set_warn_cooling_cycle_over_temperature_timeout(float value){
+  extern float __oe_warn_cooling_cycle_over_temperature_timeout;
+  __oe_warn_cooling_cycle_over_temperature_timeout = value;
+}
 #endif

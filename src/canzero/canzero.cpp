@@ -3,6 +3,7 @@ input_board_state __oe_state;
 float __oe_position_estimation;
 float __oe_velocity_estimation;
 float __oe_acceleration_estimation;
+float __oe_track_length;
 sdc_status __oe_sdc_status;
 float __oe_mcu_temperature;
 float __oe_cooling_cycle_temperature;
@@ -11,16 +12,21 @@ float __oe_ebox_temperature;
 float __oe_cooling_cycle_pressure;
 int16_t __oe_fiducial_count1;
 int16_t __oe_fiducial_count2;
-error_flag __oe_error_invalid_position_estimation;
 error_flag __oe_error_invalid_position;
 error_flag __oe_error_invalid_velocity_profile;
-error_flag __oe_error_invalid_acceleration_profile;
+error_flag __oe_error_invalid_acceleration;
 error_flag __oe_error_battery_over_temperature;
 error_flag __oe_error_cooling_cycle_over_pressure;
 error_flag __oe_error_cooling_cycle_low_pressure;
 error_flag __oe_error_mcu_over_temperature;
+float __oe_error_mcu_over_temperature_thresh;
+float __oe_error_mcu_over_temperature_timeout;
 error_flag __oe_error_ebox_over_temperature;
+float __oe_error_ebox_over_temperature_thresh;
+float __oe_error_ebox_over_temperature_timeout;
 error_flag __oe_error_cooling_cycle_over_temperature;
+float __oe_error_cooling_cycle_over_temperature_thresh;
+float __oe_error_cooling_cycle_over_temperature_timeout;
 error_flag __oe_warn_invalid_position_estimation;
 error_flag __oe_warn_invalid_position;
 error_flag __oe_warn_invalid_velocity_profile;
@@ -29,8 +35,14 @@ error_flag __oe_warn_battery_over_temperature;
 error_flag __oe_warn_cooling_cycle_over_pressure;
 error_flag __oe_warn_cooling_cycle_low_pressure;
 error_flag __oe_warn_mcu_over_temperature;
+float __oe_warn_mcu_over_temperature_thresh;
+float __oe_warn_mcu_over_temperature_timeout;
 error_flag __oe_warn_ebox_over_temperature;
+float __oe_warn_ebox_over_temperature_thresh;
+float __oe_warn_ebox_over_temperature_timeout;
 error_flag __oe_warn_cooling_cycle_over_temperature;
+float __oe_warn_cooling_cycle_over_temperature_thresh;
+float __oe_warn_cooling_cycle_over_temperature_timeout;
 
 typedef enum {
   HEARTBEAT_JOB_TAG = 0,
@@ -286,10 +298,9 @@ static void schedule_jobs(uint32_t time) {
         canzero_exit_critical();
         canzero_message_input_board_stream_errors stream_message;
         stream_message.error_mcu_over_temperature = __oe_error_mcu_over_temperature;
-        stream_message.error_invalid_position_estimation = __oe_error_invalid_position_estimation;
         stream_message.error_invalid_position = __oe_error_invalid_position;
         stream_message.error_invalid_velocity_profile = __oe_error_invalid_velocity_profile;
-        stream_message.error_invalid_acceleration_profile = __oe_error_invalid_acceleration_profile;
+        stream_message.error_invalid_acceleration = __oe_error_invalid_acceleration;
         stream_message.error_battery_over_temperature = __oe_error_battery_over_temperature;
         stream_message.error_cooling_cycle_over_pressure = __oe_error_cooling_cycle_over_pressure;
         stream_message.error_cooling_cycle_low_pressure = __oe_error_cooling_cycle_low_pressure;
@@ -406,63 +417,63 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 4: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_sdc_status) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_track_length - (0)) / 0.000000011641532185403987)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 5: {
-    resp.data |= ((uint32_t)((__oe_mcu_temperature - (-1)) / 0.592156862745098)) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_sdc_status) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 6: {
-    resp.data |= ((uint32_t)((__oe_cooling_cycle_temperature - (-1)) / 0.592156862745098)) << 0;
+    resp.data |= ((uint32_t)((__oe_mcu_temperature - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 7: {
-    resp.data |= ((uint32_t)((__oe_battery_24V_temperature - (-1)) / 0.592156862745098)) << 0;
+    resp.data |= ((uint32_t)((__oe_cooling_cycle_temperature - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 8: {
-    resp.data |= ((uint32_t)((__oe_ebox_temperature - (-1)) / 0.592156862745098)) << 0;
+    resp.data |= ((uint32_t)((__oe_battery_24V_temperature - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 9: {
-    resp.data |= ((uint32_t)((__oe_cooling_cycle_pressure - (-1)) / 0.0392156862745098)) << 0;
+    resp.data |= ((uint32_t)((__oe_ebox_temperature - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 10: {
-    resp.data |= ((uint32_t)(((uint16_t)__oe_fiducial_count1) & (0xFFFF >> (16 - 16)))) << 0;
+    resp.data |= ((uint32_t)((__oe_cooling_cycle_pressure - (-1)) / 0.0392156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 11: {
-    resp.data |= ((uint32_t)(((uint16_t)__oe_fiducial_count2) & (0xFFFF >> (16 - 16)))) << 0;
+    resp.data |= ((uint32_t)(((uint16_t)__oe_fiducial_count1) & (0xFFFF >> (16 - 16)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 12: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_error_invalid_position_estimation) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint16_t)__oe_fiducial_count2) & (0xFFFF >> (16 - 16)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
@@ -483,7 +494,7 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 15: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_error_invalid_acceleration_profile) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_error_invalid_acceleration) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
@@ -518,84 +529,168 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 20: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_error_ebox_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_mcu_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 21: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_error_cooling_cycle_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_mcu_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 22: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_position_estimation) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_error_ebox_over_temperature) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 23: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_position) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_ebox_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 24: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_velocity_profile) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_ebox_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 25: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_acceleration_profile) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_error_cooling_cycle_over_temperature) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 26: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_battery_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_cooling_cycle_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 27: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_cooling_cycle_over_pressure) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)((__oe_error_cooling_cycle_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 28: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_cooling_cycle_low_pressure) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_position_estimation) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 29: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_mcu_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_position) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 30: {
-    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_ebox_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_velocity_profile) & (0xFF >> (8 - 1)))) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
     break;
   }
   case 31: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_invalid_acceleration_profile) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 32: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_battery_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 33: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_cooling_cycle_over_pressure) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 34: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_cooling_cycle_low_pressure) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 35: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_mcu_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 36: {
+    resp.data |= ((uint32_t)((__oe_warn_mcu_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 37: {
+    resp.data |= ((uint32_t)((__oe_warn_mcu_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 38: {
+    resp.data |= ((uint32_t)(((uint8_t)__oe_warn_ebox_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 39: {
+    resp.data |= ((uint32_t)((__oe_warn_ebox_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 40: {
+    resp.data |= ((uint32_t)((__oe_warn_ebox_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 41: {
     resp.data |= ((uint32_t)(((uint8_t)__oe_warn_cooling_cycle_over_temperature) & (0xFF >> (8 - 1)))) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 42: {
+    resp.data |= ((uint32_t)((__oe_warn_cooling_cycle_over_temperature_thresh - (-1)) / 0.592156862745098)) << 0;
+    resp.header.sof = 1;
+    resp.header.eof = 1;
+    resp.header.toggle = 0;
+    break;
+  }
+  case 43: {
+    resp.data |= ((uint32_t)((__oe_warn_cooling_cycle_over_temperature_timeout - (0)) / 0.000000013969838622484784)) << 0;
     resp.header.sof = 1;
     resp.header.eof = 1;
     resp.header.toggle = 0;
@@ -657,12 +752,21 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
+    float track_length_tmp;
+    track_length_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
+    canzero_set_track_length(track_length_tmp);
+    break;
+  }
+  case 5 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
     sdc_status sdc_status_tmp;
     sdc_status_tmp = (sdc_status)((msg.data & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_sdc_status(sdc_status_tmp);
     break;
   }
-  case 5 : {
+  case 6 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -671,7 +775,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_mcu_temperature(mcu_temperature_tmp);
     break;
   }
-  case 6 : {
+  case 7 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -680,7 +784,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_temperature(cooling_cycle_temperature_tmp);
     break;
   }
-  case 7 : {
+  case 8 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -689,7 +793,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_battery_24V_temperature(battery_24V_temperature_tmp);
     break;
   }
-  case 8 : {
+  case 9 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -698,7 +802,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ebox_temperature(ebox_temperature_tmp);
     break;
   }
-  case 9 : {
+  case 10 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -707,7 +811,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure(cooling_cycle_pressure_tmp);
     break;
   }
-  case 10 : {
+  case 11 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -716,22 +820,13 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_fiducial_count1(fiducial_count1_tmp);
     break;
   }
-  case 11 : {
+  case 12 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
     int16_t fiducial_count2_tmp;
     fiducial_count2_tmp = (int16_t)(msg.data & (0xFFFFFFFF >> (32 - 16)));
     canzero_set_fiducial_count2(fiducial_count2_tmp);
-    break;
-  }
-  case 12 : {
-    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
-      return;
-    }
-    error_flag error_invalid_position_estimation_tmp;
-    error_invalid_position_estimation_tmp = (error_flag)((msg.data & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_invalid_position_estimation(error_invalid_position_estimation_tmp);
     break;
   }
   case 13 : {
@@ -756,9 +851,9 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
-    error_flag error_invalid_acceleration_profile_tmp;
-    error_invalid_acceleration_profile_tmp = (error_flag)((msg.data & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_invalid_acceleration_profile(error_invalid_acceleration_profile_tmp);
+    error_flag error_invalid_acceleration_tmp;
+    error_invalid_acceleration_tmp = (error_flag)((msg.data & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_invalid_acceleration(error_invalid_acceleration_tmp);
     break;
   }
   case 16 : {
@@ -801,12 +896,48 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
+    float error_mcu_over_temperature_thresh_tmp;
+    error_mcu_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_error_mcu_over_temperature_thresh(error_mcu_over_temperature_thresh_tmp);
+    break;
+  }
+  case 21 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float error_mcu_over_temperature_timeout_tmp;
+    error_mcu_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_error_mcu_over_temperature_timeout(error_mcu_over_temperature_timeout_tmp);
+    break;
+  }
+  case 22 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
     error_flag error_ebox_over_temperature_tmp;
     error_ebox_over_temperature_tmp = (error_flag)((msg.data & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_ebox_over_temperature(error_ebox_over_temperature_tmp);
     break;
   }
-  case 21 : {
+  case 23 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float error_ebox_over_temperature_thresh_tmp;
+    error_ebox_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_error_ebox_over_temperature_thresh(error_ebox_over_temperature_thresh_tmp);
+    break;
+  }
+  case 24 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float error_ebox_over_temperature_timeout_tmp;
+    error_ebox_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_error_ebox_over_temperature_timeout(error_ebox_over_temperature_timeout_tmp);
+    break;
+  }
+  case 25 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -815,7 +946,25 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_cooling_cycle_over_temperature(error_cooling_cycle_over_temperature_tmp);
     break;
   }
-  case 22 : {
+  case 26 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float error_cooling_cycle_over_temperature_thresh_tmp;
+    error_cooling_cycle_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_error_cooling_cycle_over_temperature_thresh(error_cooling_cycle_over_temperature_thresh_tmp);
+    break;
+  }
+  case 27 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float error_cooling_cycle_over_temperature_timeout_tmp;
+    error_cooling_cycle_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_error_cooling_cycle_over_temperature_timeout(error_cooling_cycle_over_temperature_timeout_tmp);
+    break;
+  }
+  case 28 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -824,7 +973,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_invalid_position_estimation(warn_invalid_position_estimation_tmp);
     break;
   }
-  case 23 : {
+  case 29 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -833,7 +982,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_invalid_position(warn_invalid_position_tmp);
     break;
   }
-  case 24 : {
+  case 30 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -842,7 +991,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_invalid_velocity_profile(warn_invalid_velocity_profile_tmp);
     break;
   }
-  case 25 : {
+  case 31 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -851,7 +1000,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_invalid_acceleration_profile(warn_invalid_acceleration_profile_tmp);
     break;
   }
-  case 26 : {
+  case 32 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -860,7 +1009,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_battery_over_temperature(warn_battery_over_temperature_tmp);
     break;
   }
-  case 27 : {
+  case 33 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -869,7 +1018,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_cooling_cycle_over_pressure(warn_cooling_cycle_over_pressure_tmp);
     break;
   }
-  case 28 : {
+  case 34 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -878,7 +1027,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_cooling_cycle_low_pressure(warn_cooling_cycle_low_pressure_tmp);
     break;
   }
-  case 29 : {
+  case 35 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -887,7 +1036,25 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_mcu_over_temperature(warn_mcu_over_temperature_tmp);
     break;
   }
-  case 30 : {
+  case 36 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_mcu_over_temperature_thresh_tmp;
+    warn_mcu_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_warn_mcu_over_temperature_thresh(warn_mcu_over_temperature_thresh_tmp);
+    break;
+  }
+  case 37 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_mcu_over_temperature_timeout_tmp;
+    warn_mcu_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_warn_mcu_over_temperature_timeout(warn_mcu_over_temperature_timeout_tmp);
+    break;
+  }
+  case 38 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
@@ -896,13 +1063,49 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_warn_ebox_over_temperature(warn_ebox_over_temperature_tmp);
     break;
   }
-  case 31 : {
+  case 39 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_ebox_over_temperature_thresh_tmp;
+    warn_ebox_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_warn_ebox_over_temperature_thresh(warn_ebox_over_temperature_thresh_tmp);
+    break;
+  }
+  case 40 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_ebox_over_temperature_timeout_tmp;
+    warn_ebox_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_warn_ebox_over_temperature_timeout(warn_ebox_over_temperature_timeout_tmp);
+    break;
+  }
+  case 41 : {
     if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
       return;
     }
     error_flag warn_cooling_cycle_over_temperature_tmp;
     warn_cooling_cycle_over_temperature_tmp = (error_flag)((msg.data & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_warn_cooling_cycle_over_temperature(warn_cooling_cycle_over_temperature_tmp);
+    break;
+  }
+  case 42 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_cooling_cycle_over_temperature_thresh_tmp;
+    warn_cooling_cycle_over_temperature_thresh_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 8))) * 0.592156862745098 + -1);
+    canzero_set_warn_cooling_cycle_over_temperature_thresh(warn_cooling_cycle_over_temperature_thresh_tmp);
+    break;
+  }
+  case 43 : {
+    if (msg.header.sof != 1 || msg.header.toggle != 0 || msg.header.eof != 1) {
+      return;
+    }
+    float warn_cooling_cycle_over_temperature_timeout_tmp;
+    warn_cooling_cycle_over_temperature_timeout_tmp = (float)((msg.data & (0xFFFFFFFF >> (32 - 32))) * 0.000000013969838622484784 + 0);
+    canzero_set_warn_cooling_cycle_over_temperature_timeout(warn_cooling_cycle_over_temperature_timeout_tmp);
     break;
   }
   default:
@@ -984,17 +1187,6 @@ void canzero_set_sdc_status(sdc_status value) {
     }
   }
 }
-void canzero_set_error_invalid_position_estimation(error_flag value) {
-  extern error_flag __oe_error_invalid_position_estimation;
-  if (__oe_error_invalid_position_estimation != value) {
-    __oe_error_invalid_position_estimation = value;
-    uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_interval_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_interval_job.last_schedule + 0;
-      scheduler_promote_job(&errors_interval_job);
-    }
-  }
-}
 void canzero_set_error_invalid_position(error_flag value) {
   extern error_flag __oe_error_invalid_position;
   if (__oe_error_invalid_position != value) {
@@ -1017,10 +1209,10 @@ void canzero_set_error_invalid_velocity_profile(error_flag value) {
     }
   }
 }
-void canzero_set_error_invalid_acceleration_profile(error_flag value) {
-  extern error_flag __oe_error_invalid_acceleration_profile;
-  if (__oe_error_invalid_acceleration_profile != value) {
-    __oe_error_invalid_acceleration_profile = value;
+void canzero_set_error_invalid_acceleration(error_flag value) {
+  extern error_flag __oe_error_invalid_acceleration;
+  if (__oe_error_invalid_acceleration != value) {
+    __oe_error_invalid_acceleration = value;
     uint32_t time = canzero_get_time();
     if (errors_interval_job.climax > errors_interval_job.job.stream_interval_job.last_schedule + 0) {
       errors_interval_job.climax = errors_interval_job.job.stream_interval_job.last_schedule + 0;

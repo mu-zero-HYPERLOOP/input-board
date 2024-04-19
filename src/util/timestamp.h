@@ -92,6 +92,10 @@ class Duration {
   friend Duration operator-(const volatile Duration &, const Duration &);
 
 public:
+  static Duration from_ms(uint32_t ms) {
+    return Duration(ms * 1000);
+  }
+
   constexpr Duration() : m_us(0) {}
   constexpr Duration(Time x)
       : m_us(static_cast<uint32_t>(static_cast<float>(x) * 1e6)) {}

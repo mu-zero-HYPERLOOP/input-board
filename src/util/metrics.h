@@ -49,13 +49,8 @@ public:
     return *this;
   }
 
-
-  Metric abs() {
-    return Metric(fabs(m_value));
-  }
-  Metric abs() volatile {
-    return Metric(fabs(m_value));
-  }
+  Metric abs() const { return Metric(fabs(m_value)); }
+  Metric abs() const volatile { return Metric(fabs(m_value)); }
 
   Metric &operator+=(const Metric &o) {
     m_value += o.m_value;
@@ -124,33 +119,31 @@ public:
     m_value /= v;
     return *this;
   }
-  Metric& operator%=(const Metric& o) {
+  Metric &operator%=(const Metric &o) {
     m_value = fmod(m_value, o.m_value);
     return *this;
   }
-  volatile Metric& operator%=(const volatile Metric& o) volatile {
+  volatile Metric &operator%=(const volatile Metric &o) volatile {
     m_value = fmod(m_value, o.m_value);
     return *this;
   }
-  Metric& operator%=(const volatile Metric& o) {
+  Metric &operator%=(const volatile Metric &o) {
     m_value = fmod(m_value, o.m_value);
     return *this;
   }
-  volatile Metric& operator%=(const Metric& o) volatile {
+  volatile Metric &operator%=(const Metric &o) volatile {
     m_value = fmod(m_value, o.m_value);
     return *this;
   }
 
-  Metric rem(const Metric& o) {
+  Metric rem(const Metric &o) { return Metric(remainder(m_value, o.m_value)); }
+  Metric rem(const volatile Metric &o) volatile {
     return Metric(remainder(m_value, o.m_value));
   }
-  Metric rem(const volatile Metric& o) volatile {
+  Metric rem(const Metric &o) volatile {
     return Metric(remainder(m_value, o.m_value));
   }
-  Metric rem(const Metric& o) volatile {
-    return Metric(remainder(m_value, o.m_value));
-  }
-  Metric rem(const volatile Metric& o) {
+  Metric rem(const volatile Metric &o) {
     return Metric(remainder(m_value, o.m_value));
   }
 
@@ -192,7 +185,8 @@ operator*(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
-operator*(const float &b, const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+operator*(const float &b,
+          const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return a * b;
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
@@ -282,7 +276,8 @@ operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
-operator/(const float &b, const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
+operator/(const float &b,
+          const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<-a_s, -a_m, -a_kg, -a_A, -a_K, -a_mol, -a_cd>(
       b / static_cast<float>(a));
 }
@@ -332,7 +327,6 @@ operator/(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &b) {
   return static_cast<float>(a) / static_cast<float>(b);
 }
-
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd,
           int b_s, int b_m, int b_kg, int b_A, int b_K, int b_mol, int b_cd>
@@ -453,36 +447,34 @@ operator+(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a) {
   return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(static_cast<float>(a));
 }
 
-
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator%(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &b) {
-  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(fmod(static_cast<float>(a),
-                                                       static_cast<float>(b)));
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(
+      fmod(static_cast<float>(a), static_cast<float>(b)));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator%(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &b) {
-  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(fmod(static_cast<float>(a),
-                                                       static_cast<float>(b)));
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(
+      fmod(static_cast<float>(a), static_cast<float>(b)));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator%(const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &b) {
-  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(fmod(static_cast<float>(a),
-                                                       static_cast<float>(b)));
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(
+      fmod(static_cast<float>(a), static_cast<float>(b)));
 }
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
 operator%(const volatile Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &a,
           const Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd> &b) {
-  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(fmod(static_cast<float>(a),
-                                                       static_cast<float>(b)));
+  return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(
+      fmod(static_cast<float>(a), static_cast<float>(b)));
 }
-
 
 template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
 static constexpr auto
@@ -978,61 +970,59 @@ constexpr Conductance operator""_S(const long double v) {
 constexpr Conductance operator""_S(unsigned long long v) {
   return Conductance(static_cast<float>(v));
 }
-  constexpr Conductance operator""_mS(const long double v) {
-    return Conductance(v / 1e3);
-  }
-  constexpr Conductance operator""_mS(const unsigned long long v) {
-    return Conductance(static_cast<float>(v / 1e3));
-  }
-  constexpr Conductance operator""_uS(const long double v) {
-    return Conductance(v / 1e6);
-  }
-  constexpr Conductance operator""_uS(const unsigned long long v) {
-    return Conductance(static_cast<float>(v / 1e6));
-  }
+constexpr Conductance operator""_mS(const long double v) {
+  return Conductance(v / 1e3);
+}
+constexpr Conductance operator""_mS(const unsigned long long v) {
+  return Conductance(static_cast<float>(v / 1e3));
+}
+constexpr Conductance operator""_uS(const long double v) {
+  return Conductance(v / 1e6);
+}
+constexpr Conductance operator""_uS(const unsigned long long v) {
+  return Conductance(static_cast<float>(v / 1e6));
+}
 
-  // Inductance literals
-  constexpr Inductance operator""_kH(const long double v) {
-    return Inductance(v * 1e3);
-  }
-  constexpr Inductance operator""_kH(const unsigned long long v) {
-    return Inductance(static_cast<float>(v) * 1e3);
-  }
-  constexpr Inductance operator""_H(const long double v) {
-    return Inductance(v);
-  }
-  constexpr Inductance operator""_H(const unsigned long long v) {
-    return Inductance(static_cast<float>(v));
-  }
-  constexpr Inductance operator""_mH(const long double v) {
-    return Inductance(v / 1e3);
-  }
-  constexpr Inductance operator""_mH(const unsigned long long v) {
-    return Inductance(static_cast<float>(v) / 1e3);
-  }
-  constexpr Inductance operator""_uH(const long double v) {
-    return Inductance(v / 1e6);
-  }
-  constexpr Inductance operator""_uH(const unsigned long long v) {
-    return Inductance(static_cast<float>(v) / 1e6);
-  }
+// Inductance literals
+constexpr Inductance operator""_kH(const long double v) {
+  return Inductance(v * 1e3);
+}
+constexpr Inductance operator""_kH(const unsigned long long v) {
+  return Inductance(static_cast<float>(v) * 1e3);
+}
+constexpr Inductance operator""_H(const long double v) { return Inductance(v); }
+constexpr Inductance operator""_H(const unsigned long long v) {
+  return Inductance(static_cast<float>(v));
+}
+constexpr Inductance operator""_mH(const long double v) {
+  return Inductance(v / 1e3);
+}
+constexpr Inductance operator""_mH(const unsigned long long v) {
+  return Inductance(static_cast<float>(v) / 1e3);
+}
+constexpr Inductance operator""_uH(const long double v) {
+  return Inductance(v / 1e6);
+}
+constexpr Inductance operator""_uH(const unsigned long long v) {
+  return Inductance(static_cast<float>(v) / 1e6);
+}
 
-  // Velocity literals
-  constexpr Velocity operator""_mps(const long double v) { return Velocity(v); }
-  constexpr Velocity operator""_mps(const unsigned long long v) {
-    return Velocity(static_cast<float>(v));
-  }
-  constexpr Velocity operator""_kmph(const long double v) {
-    return Velocity(v / 3.6);
-  }
-  constexpr Velocity operator""_kmph(const unsigned long long v) {
-    return Velocity(static_cast<float>(v) / 3.6);
-  }
+// Velocity literals
+constexpr Velocity operator""_mps(const long double v) { return Velocity(v); }
+constexpr Velocity operator""_mps(const unsigned long long v) {
+  return Velocity(static_cast<float>(v));
+}
+constexpr Velocity operator""_kmph(const long double v) {
+  return Velocity(v / 3.6);
+}
+constexpr Velocity operator""_kmph(const unsigned long long v) {
+  return Velocity(static_cast<float>(v) / 3.6);
+}
 
-  // Acceleration literals
-  constexpr Acceleration operator""_mps2(const long double v) {
-    return Acceleration(v);
-  }
-  constexpr Acceleration operator""_mps2(const unsigned long long v) {
-    return Acceleration(static_cast<float>(v));
-  }
+// Acceleration literals
+constexpr Acceleration operator""_mps2(const long double v) {
+  return Acceleration(v);
+}
+constexpr Acceleration operator""_mps2(const unsigned long long v) {
+  return Acceleration(static_cast<float>(v));
+}

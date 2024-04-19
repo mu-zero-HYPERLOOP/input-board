@@ -1,5 +1,6 @@
 #pragma once
 
+#include <InternalTemperature.h>
 #include "core_pins.h"
 #include "firmware/input_board_config.h"
 #include "inttypes.h"
@@ -67,7 +68,6 @@ enum DigitalInputPin : uint8_t {
   PIN_DIN5 = 5,
   PIN_DIN6 = 6,
 };
-
 
 class InputBoard {
 
@@ -231,6 +231,7 @@ private:
   static Timestamp m_last_meas[AIN3 + 1]; // not for mux inputs
   static constexpr Duration MUX_TRANSITION_TIME = 100_ms;
 
+
 public:
   static void begin();
 
@@ -259,5 +260,11 @@ public:
                          AnalogConfig::tag::ISOLATED_VOLTAGES) {
       return m_readings[AIN].u;
     }
+  }
+
+  static Temperature read_mcu_temperature() {
+    float temp = InternalTemperature.readTemperatureC();
+    float temp_kelvin = temp - 273.15f;
+    return Temperature(temp_kelvin);
   }
 };
