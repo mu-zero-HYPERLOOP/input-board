@@ -25,10 +25,10 @@ public:
   static Acceleration getAcceleration();
 
 private:
-  using EKF = Ekf<DIM_STATE, DIM_OBSER>;
   StateEstimation() = delete;
   static void position_update(const Distance& pos, const Timestamp& timstamp);
   static void acceleration_update(const Acceleration& acc, const Timestamp& timestamp);
+  using EKF = Ekf<DIM_STATE, DIM_OBSER>;
   static EKF ekf;
 };
 
