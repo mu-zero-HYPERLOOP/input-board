@@ -6,6 +6,12 @@
 template <int s, int m, int kg, int A, int K, int mol, int cd> struct Metric {
 public:
   Metric() : m_value(0.0f) {}
+
+  static constexpr Metric<0, 0, 0, 0, 1, 0, 0> from_celcius(float celcius) {
+    static_assert(s == 0 && m == 0 && kg == 0 && A == 0 && K == 1 && mol == 0 && cd == 0, "only statically avaiable on Temperature");
+    return Metric<0,0,0,0,1,0,0>(celcius - 273.15);
+  };
+
   constexpr explicit Metric(const float &v) : m_value(v) {}
   constexpr explicit Metric(const volatile float &v) : m_value(v) {}
 
@@ -149,6 +155,17 @@ public:
 
   explicit constexpr operator float() const { return m_value; }
   explicit constexpr operator float() const volatile { return m_value; }
+
+  template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+  explicit constexpr
+  operator Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>() const {
+    return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(m_value);
+  }
+  template <int a_s, int a_m, int a_kg, int a_A, int a_K, int a_mol, int a_cd>
+  explicit constexpr
+  operator Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>() const volatile {
+    return Metric<a_s, a_m, a_kg, a_A, a_K, a_mol, a_cd>(m_value);
+  }
 
 private:
   float m_value;

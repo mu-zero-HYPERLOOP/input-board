@@ -72,7 +72,6 @@ public:
   static inline Timestamp last_isr() { return m_last_isr; }
 
 private:
-  LinearEncoder() {}
   static void encoder_back_isr();
   static void encoder_front_isr();
 

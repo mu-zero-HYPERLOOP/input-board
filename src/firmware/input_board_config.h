@@ -3,48 +3,41 @@
 #include "firmware/analog_config.h"
 #include "util/metrics.h"
 
-static constexpr Resistance NTC1_R = 10_kOhm;
-static constexpr Resistance NTC2_R = 10_kOhm;
-static constexpr Resistance NTC3_R = 10_kOhm;
-static constexpr Resistance NTC4_R = 10_kOhm;
-static constexpr Resistance NTC5_R = 10_kOhm;
-static constexpr Resistance NTC6_R = 10_kOhm;
-static constexpr Resistance NTC7_R = 10_kOhm;
-static constexpr Resistance NTC8_R = 10_kOhm;
+// 5V----NTC----uC----R----GND
+static constexpr Resistance NTC18_1_R = 10_kOhm;
+static constexpr Resistance NTC18_2_R = 10_kOhm;
+static constexpr Resistance NTC18_3_R = 10_kOhm;
+static constexpr Resistance NTC18_4_R = 10_kOhm;
+static constexpr Resistance NTC18_5_R = 10_kOhm;
+static constexpr Resistance NTC18_6_R = 10_kOhm;
+static constexpr Resistance NTC18_7_R = 10_kOhm;
+static constexpr Resistance NTC18_8_R = 10_kOhm;
 
-// Frequency is ignored for mux inputs
-static constexpr AnalogConfig AIN_MUX1_CONFIG =
-    AnalogConfig::voltage_meas(10_kOhm, 2_kOhm);
-static constexpr AnalogConfig AIN_MUX2_CONFIG =
-    AnalogConfig::voltage_meas(1_kOhm, 2_kOhm);
-static constexpr AnalogConfig AIN_MUX3_CONFIG =
-    AnalogConfig::current_meas(180_Ohm);
-static constexpr AnalogConfig AIN_MUX4_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V);
-static constexpr AnalogConfig AIN_MUX5_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V);
-static constexpr AnalogConfig AIN_MUX6_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V);
-static constexpr AnalogConfig AIN_MUX7_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V);
-static constexpr AnalogConfig AIN_MUX8_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V);
+// AnalogConfig::
+// - voltage_meas(r1,r2)       -> [ PIN-----R1----uC----R2----GND ]
+// - current_meas(r)           -> [ PIN-----uC----R-----------GND ]
+// - resistance_meas(r1, Vref) -> [ Vref----R-----uC----R1----GND ]
 
-static constexpr AnalogConfig AIN1_CONFIG =
-    AnalogConfig::current_meas(180_Ohm, 100_Hz);
-static constexpr AnalogConfig AIN2_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V, 100_Hz);
-static constexpr AnalogConfig AIN3_CONFIG =
-    AnalogConfig::resistance_meas(10_kOhm, 5_V, 100_Hz);
+static constexpr AnalogConfig AIN14_1_CONFIG = AnalogConfig::current_meas(180_Ohm);
 
-static constexpr Resistance VMEAS1_R1 = 1_kOhm;
-static constexpr Resistance VMEAS1_R2 = 1_kOhm;
-static constexpr Frequency VMEAS1_FREQUENCY = 100_Hz;
+static constexpr AnalogConfig AIN14_2_CONFIG = AnalogConfig::voltage_meas(1_kOhm, 2_kOhm);
+static constexpr AnalogConfig AIN14_3_CONFIG = AnalogConfig::none();
+static constexpr AnalogConfig AIN14_4_CONFIG = AnalogConfig::none();
+static constexpr AnalogConfig AIN14_5_CONFIG = AnalogConfig::none();
+static constexpr AnalogConfig AIN14_6_CONFIG = AnalogConfig::none();
+static constexpr AnalogConfig AIN14_7_CONFIG = AnalogConfig::none();
+static constexpr AnalogConfig AIN14_8_CONFIG = AnalogConfig::none();
 
-static constexpr Resistance VMEAS2_R1 = 1_kOhm;
-static constexpr Resistance VMEAS2_R2 = 1_kOhm;
-static constexpr Frequency VMEAS2_FREQUENCY = 100_Hz;
+static constexpr AnalogConfig AIN17_CONFIG = AnalogConfig::voltage_meas(1_kOhm, 1_kOhm);
+static constexpr AnalogConfig AIN16_CONFIG = AnalogConfig::voltage_meas(1_kOhm, 1_kOhm);
+static constexpr AnalogConfig AIN15_CONFIG = AnalogConfig::voltage_meas(1_kOhm, 1_kOhm);
 
-static constexpr Resistance VMEAS3_R1 = 1_kOhm;
-static constexpr Resistance VMEAS3_R2 = 1_kOhm;
-static constexpr Frequency VMEAS3_FREQUENCY = 100_Hz;
+// Vref -- R1 -- uC --- R2 --- Vmeas
+static constexpr Resistance VMEAS21_R1 = 1_kOhm;
+static constexpr Resistance VMEAS21_R2 = 1_kOhm;
+
+static constexpr Resistance VMEAS20_R1 = 1_kOhm;
+static constexpr Resistance VMEAS20_R2 = 1_kOhm;
+
+static constexpr Resistance VMEAS19_R1 = 1_kOhm;
+static constexpr Resistance VMEAS19_R2 = 1_kOhm;
