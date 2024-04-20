@@ -14,10 +14,10 @@ static Acceleration s_acc;
 void StateEstimation::begin() {
   LinearEncoderBeginInfo linEncBeginInfo;
   linEncBeginInfo.stride = 2_cm;
-  linEncBeginInfo.back_pin = PIN_DIN2;
-  linEncBeginInfo.front_pin = PIN_DIN3;
-  linEncBeginInfo.back_edge_pin = PIN_DIN4;
-  linEncBeginInfo.front_edge_pin = PIN_DIN5;
+  linEncBeginInfo.back_pin = DIN2;
+  linEncBeginInfo.front_pin = DIN3;
+  linEncBeginInfo.back_edge_pin = DIN4;
+  linEncBeginInfo.front_edge_pin = DIN5;
   linEncBeginInfo.stripe_count = last_stripe_count;
   LinearEncoder::begin(linEncBeginInfo);
   last_accel = Timestamp::now();
