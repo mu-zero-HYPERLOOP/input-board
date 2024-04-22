@@ -21,6 +21,11 @@ public:
   constexpr Metric(Metric &&o) : m_value(o.m_value) {}
   constexpr Metric(Metric volatile &&o) : m_value(o.m_value) {}
 
+  float as_celcius() const{
+    static_assert(s == 0 && m == 0 && kg == 0 && A == 0 && K == 1 && mol == 0 && cd == 0, "only statically avaiable on Temperature");
+    return m_value - 273.15;
+  };
+
   Metric &operator=(const Metric &o) {
     m_value = o.m_value;
     return *this;

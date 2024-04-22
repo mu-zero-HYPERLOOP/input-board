@@ -6,7 +6,7 @@ struct SteinhartNtc {
   explicit constexpr SteinhartNtc(float A, float B, float C, float D)
       : m_A(A), m_B(B), m_C(C), m_D(D) {}
 
-  Temperature convert(const Resistance &ntc_r) const {
+  Temperature inline convert(const Resistance &ntc_r) const {
     const float ln_r = log(static_cast<float>(ntc_r));
     const float ln2_r = ln_r * ln_r;
     return Temperature(1.0f /
@@ -25,7 +25,7 @@ public:
   explicit constexpr BetaModelNtc(float beta, Resistance r25)
       : m_beta(beta), m_r25(r25) {}
 
-  Temperature apply(const Resistance &ntc_r) const {
+  Temperature inline apply(const Resistance &ntc_r) const {
     return Temperature(1.0f /
                        (-(log(static_cast<float>(m_r25 / ntc_r)) / m_beta) +
                         static_cast<float>((1.0f / 25_Celcius))));

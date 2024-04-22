@@ -92,6 +92,9 @@ class Duration {
   friend Duration operator-(const volatile Duration &, const Duration &);
 
 public:
+  static Duration from_s(float s) {
+    return Duration(s * 1000000);
+  }
   static Duration from_ms(uint32_t ms) {
     return Duration(ms * 1000);
   }
