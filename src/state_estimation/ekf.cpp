@@ -131,7 +131,7 @@ int calculate_gain(Ekf<dim_state, dim_obser>& ekf) {
   mat_mul<dim_obser, dim_state, dim_obser>(ekf.temp3, ekf.H_T, ekf.temp4);
   mat_add<dim_obser, dim_obser>(ekf.temp4, ekf.R, ekf.temp4);
   if (mat_inv<dim_obser>(ekf.temp4, ekf.temp7, ekf.temp5)) return 1;
-  mat_mul<>(ekf.temp2, ekf.temp7, ekf.K);
+  mat_mul<dim_state, dim_obser, dim_obser>(ekf.temp2, ekf.temp7, ekf.K);
   return 0;
 }
 
@@ -158,6 +158,8 @@ int ekf_step(Ekf<dim_state, dim_obser>& ekf, float* z) {
   update_state_cov<dim_state, dim_obser>(ekf);
   return 0;
 }
+
+template int ekf_step(Ekf<3, 2> &ekf, float *z);
 
 
 
