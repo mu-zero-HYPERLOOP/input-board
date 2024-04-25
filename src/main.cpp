@@ -6,6 +6,7 @@
 
 #include "canzero/canzero.h"
 #include "core_pins.h"
+#include "defaults.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "firmware/input_board_config.h"
@@ -15,7 +16,7 @@
 #include "util/metrics.h"
 #include "util/ntc_eq.h"
 #include "util/timeout.h"
-#include "defaults.h"
+#include "util/timing.h"
 
 constexpr AnalogInput AIN_24BAT_TEMP = NTC18_1;
 constexpr auto BAT24_NTC_EQ =
@@ -139,7 +140,19 @@ int main() {
 
   StateEstimation::begin();
 
+  IntervalTiming main_loop_interval_timer;
+
+  Interval log_interval(10_Hz);
+
   while (true) {
+
+    main_loop_interval_timer.tick();
+
+    if (log_interval.next()) {
+      Serial.printf("main loop time : %fHz\n",
+                    static_cast<float>(main_loop_interval_timer.frequency()));
+    }
+
     canzero_set_state(input_board_state_RUNNING);
     // =============== CANzero receive from CAN =================
     canzero_can0_poll();
@@ -271,9 +284,7 @@ int main() {
     // TODO some better handling is probably required here
     canzero_set_sdc_status(sdc_status_CLOSED);
 
-
     // =================== CANzero update =======================
     canzero_update_continue(canzero_get_time());
   }
 }
-
