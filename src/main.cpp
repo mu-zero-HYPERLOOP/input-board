@@ -17,6 +17,7 @@
 #include "util/ntc_eq.h"
 #include "util/timeout.h"
 #include "util/timing.h"
+#include "util/lina.h"
 
 constexpr AnalogInput AIN_24BAT_TEMP = NTC18_1;
 constexpr auto BAT24_NTC_EQ =
@@ -131,9 +132,12 @@ static ErrorLevelRangeCheck<EXPECT_UNDER>
 
 int main() {
 
+  Serial.printf("Hello, World!");
+
   canzero_set_state(input_board_state_INIT);
 
   canzero_init();
+
   defaults();
 
   InputBoard::begin();
@@ -148,10 +152,10 @@ int main() {
 
     main_loop_interval_timer.tick();
 
-    if (log_interval.next()) {
-      Serial.printf("main loop time : %fHz\n",
-                    static_cast<float>(main_loop_interval_timer.frequency()));
-    }
+    /* if (log_interval.next()) { */
+    /*   Serial.printf("main loop time : %fHz\n", */
+    /*                 static_cast<float>(main_loop_interval_timer.frequency())); */
+    /* } */
 
     canzero_set_state(input_board_state_RUNNING);
     // =============== CANzero receive from CAN =================
@@ -253,9 +257,9 @@ int main() {
     const Distance pos = StateEstimation::getPosition();
     const Velocity vel = StateEstimation::getVelocity();
     const Acceleration accel = StateEstimation::getAcceleration();
-    canzero_set_position_estimation(static_cast<float>(pos));
-    canzero_set_velocity_estimation(static_cast<float>(vel));
-    canzero_set_acceleration_estimation(static_cast<float>(accel));
+    canzero_set_position(static_cast<float>(pos));
+    canzero_set_velocity(static_cast<float>(vel));
+    canzero_set_acceleration(static_cast<float>(accel));
 
     // ================= Error-Handling & Logging ===============
     bat24_under_volt_check.check();
@@ -264,7 +268,7 @@ int main() {
     link24_under_volt_check.check();
     link24_over_volt_check.check();
     link24_over_current_check.check();
-    if (canzero_get_expect_link45_online()) {
+    if (canzero_get_link45_expect_online()) {
       // only check if 45V is actually expected to be online!
       link45_under_volt_check.check();
     } else {
@@ -284,7 +288,14 @@ int main() {
     // TODO some better handling is probably required here
     canzero_set_sdc_status(sdc_status_CLOSED);
 
+  
     // =================== CANzero update =======================
     canzero_update_continue(canzero_get_time());
   }
+  /* vec<complex,2> x(complex(0,1), complex(1,2)); */
+
+  /* vec3 x = vec3(1,2,3); */
+  /* mat3 A = mat3(vec3(1,2,3), vec3(1,2,3), vec3(1,2,3)); */
+  /* mat3 B = mat3(x,x,x); */
+
 }

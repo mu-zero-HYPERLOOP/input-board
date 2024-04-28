@@ -3,7 +3,7 @@
 #include "canzero/canzero.h"
 #include "util/timestamp.h"
 #include <assert.h>
-#include <inttypes.h>
+#include <cinttypes>
 
 void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
                         int filter_count) {
@@ -20,7 +20,7 @@ void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
     assert(false);
   }
   beginInfo.loopback = false;
-  if (filter_count > 0) {
+  if (filter_count > 0 && false) {
     beginInfo.filters = new CanFilter[filter_count];
     beginInfo.filter_count = filter_count;
     for (int i = 0; i < filter_count; ++i) {
@@ -32,7 +32,7 @@ void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
     beginInfo.filters = nullptr;
     beginInfo.filter_count = 0;
   }
-  Can1::begin(beginInfo);
+  Can3::begin(beginInfo);
 
   delete[] beginInfo.filters;
 }
@@ -42,14 +42,15 @@ void canzero_can0_send(canzero_frame *frame) {
   msg.len = frame->dlc;
   msg.flags.remote = false;
   msg.flags.extended = frame->id & CANZERO_FRAME_IDE_BIT;
+  msg.flags.overrun = false;
   for (int i = 0; i < 8; i++) {
     msg.buf[i] = frame->data[i];
   }
-  Can1::send(msg);
+  Can3::send(msg);
 }
 int canzero_can0_recv(canzero_frame *frame) {
   CAN_message_t msg;
-  int rx = Can1::recv(msg);
+  int rx = Can3::recv(msg);
   if (rx) {
     frame->id = msg.id | (msg.flags.extended ? CANZERO_FRAME_IDE_BIT : 0) |
                 (msg.flags.remote ? CANZERO_FRAME_RTR_BIT : 0);
@@ -75,7 +76,7 @@ void canzero_can1_setup(uint32_t baudrate, canzero_can_filter *filters,
     assert(false);
   }
   beginInfo.loopback = false;
-  if (filter_count > 0) {
+  if (filter_count > 0 && false) {
     beginInfo.filters = new CanFilter[filter_count];
     beginInfo.filter_count = filter_count;
     for (int i = 0; i < filter_count; ++i) {
@@ -97,6 +98,7 @@ void canzero_can1_send(canzero_frame *frame) {
   msg.len = frame->dlc;
   msg.flags.remote = false;
   msg.flags.extended = frame->id & CANZERO_FRAME_IDE_BIT;
+  msg.flags.overrun = false;
   for (int i = 0; i < 8; i++) {
     msg.buf[i] = frame->data[i];
   }

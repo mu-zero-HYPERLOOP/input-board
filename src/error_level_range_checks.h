@@ -20,33 +20,33 @@ public:
     const error_level_config &config = m_config_getter();
     const auto now = Timestamp::now();
     if constexpr (ORD == EXPECT_UNDER) {
-      if (v < config.error_thresh) {
+      if (v < config.m_error_thresh) {
         m_last_non_error = now;
       }
-      if (v < config.warning_thresh) {
+      if (v < config.m_warning_thresh) {
         m_last_non_warning = now;
       }
-      if (v < config.info_thresh) {
+      if (v < config.m_info_thresh) {
         m_last_non_info = now;
       }
     } else { // expect OVER
-      if (v > config.error_thresh) {
+      if (v > config.m_error_thresh) {
         m_last_non_error = now;
       }
-      if (v > config.warning_thresh) {
+      if (v > config.m_warning_thresh) {
         m_last_non_warning = now;
       }
-      if (v > config.info_thresh) {
+      if (v > config.m_info_thresh) {
         m_last_non_info = now;
       }
     }
 
-    if (now - m_last_non_error > Duration::from_s(config.error_timeout)) {
+    if (now - m_last_non_error > Duration::from_s(config.m_error_timeout)) {
       m_error_setter(error_level_ERROR);
     } else if (now - m_last_non_warning >
-               Duration::from_s(config.warning_timeout)) {
+               Duration::from_s(config.m_warning_timeout)) {
       m_error_setter(error_level_WARNING);
-    } else if (now - m_last_non_info > Duration::from_s(config.info_timeout)) {
+    } else if (now - m_last_non_info > Duration::from_s(config.m_info_timeout)) {
       m_error_setter(error_level_INFO);
     } else {
       m_error_setter(error_level_OK);
