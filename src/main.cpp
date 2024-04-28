@@ -17,7 +17,6 @@
 #include "util/ntc_eq.h"
 #include "util/timeout.h"
 #include "util/timing.h"
-#include "util/lina.h"
 
 constexpr AnalogInput AIN_24BAT_TEMP = NTC18_1;
 constexpr auto BAT24_NTC_EQ =
