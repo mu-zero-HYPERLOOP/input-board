@@ -4,24 +4,32 @@
 #include <cstring>
 
 template<uint8_t n_row, uint8_t n_col>
-void mat_sub(const float* a, const float* b, float* res) {
+void mat_print(const BaseType* a) {
   for (uint8_t row = 0; row < n_row; row++) {
     for (uint8_t col = 0; col < n_col; col++) {
-      res[row * n_row + col] = a[row * n_row + col] - b[row * n_row + col];
+    }
+  }
+}
+
+template<uint8_t n_row, uint8_t n_col>
+void mat_sub(const BaseType* a, const BaseType* b, BaseType* res) {
+  for (uint8_t row = 0; row < n_row; row++) {
+    for (uint8_t col = 0; col < n_col; col++) {
+      res[row * n_col + col] = a[row * n_col + col] - b[row * n_col + col];
     }
   }
 }
 template<uint8_t n_row, uint8_t n_col>
-void mat_add(const float* a, const float* b, float* res) {
+void mat_add(const BaseType* a, const BaseType* b, BaseType* res) {
   for (uint8_t row = 0; row < n_row; row++) {
     for (uint8_t col = 0; col < n_col; col++) {
-      res[row * n_row + col] = a[row * n_row + col] + b[row * n_row + col];
+      res[row * n_col + col] = a[row * n_col + col] + b[row * n_col + col];
     }
   }
 }
 template<uint8_t n_1, uint8_t n_2, uint8_t n_3>
-void mat_mul(const float* a, const float* b, float* res) {
-  memset(res, 0, sizeof(float) * n_1 * n_3);
+void mat_mul(const BaseType* a, const BaseType* b, BaseType* res) {
+  memset(res, 0, sizeof(BaseType) * n_1 * n_3);
   for (uint8_t x = 0; x < n_1; x++) {
     for (uint8_t y = 0; y < n_3; y++) {
       for (uint8_t k = 0; k < n_2; k++) {
@@ -32,12 +40,12 @@ void mat_mul(const float* a, const float* b, float* res) {
 }
 
 template<uint8_t n_row, uint8_t n_col>
-void mat_mv(const float* a, float* res) {
-  memcpy(res, a, sizeof(float) * n_row * n_col);
+void mat_mv(const BaseType* a, BaseType* res) {
+  memcpy(res, a, sizeof(BaseType) * n_row * n_col);
 }
 
 template<uint8_t N>
-int choldc1(float* res, float* acc) {
+int choldc1(BaseType* res, BaseType* acc) {
     int i,j,k;
     double sum;
     for (i = 0; i < N; i++) {
@@ -61,8 +69,7 @@ int choldc1(float* res, float* acc) {
 }
 
 template<uint8_t N>
-int choldcsl(float* a, float* res, float* acc) 
-{
+int choldcsl(BaseType* a, BaseType* res, BaseType* acc) {
     int i,j,k; double sum;
     for (i = 0; i < N; i++) 
         for (j = 0; j < N; j++) 
@@ -78,13 +85,11 @@ int choldcsl(float* a, float* res, float* acc)
             res[j*N+i] = sum / acc[j];
         }
     }
-
     return 0; /* success */
 }
 
 template<uint8_t N>
-int mat_inv(float* a, float* res, float* acc) 
-{
+int mat_inv(BaseType* a, BaseType* res, BaseType* acc) {
     int i,j,k;
     if (choldcsl<N>(a,res,acc)) return 1;
     for (i = 0; i < N; i++) {
@@ -130,13 +135,14 @@ int calculate_gain(Ekf<dim_state, dim_obser>& ekf) {
   mat_mul<dim_obser, dim_state, dim_state>(ekf.H, ekf.P, ekf.temp3);
   mat_mul<dim_obser, dim_state, dim_obser>(ekf.temp3, ekf.H_T, ekf.temp4);
   mat_add<dim_obser, dim_obser>(ekf.temp4, ekf.R, ekf.temp4);
+  
   if (mat_inv<dim_obser>(ekf.temp4, ekf.temp7, ekf.temp5)) return 1;
   mat_mul<dim_state, dim_obser, dim_obser>(ekf.temp2, ekf.temp7, ekf.K);
   return 0;
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
-void update_mean(Ekf<dim_state, dim_obser>& ekf, float* z) {
+void update_mean(Ekf<dim_state, dim_obser>& ekf, BaseType* z) {
   mat_sub<dim_obser, 1>(z, ekf.h_x, ekf.temp5);
   mat_mul<dim_state, dim_obser, 1>(ekf.K, ekf.temp5, ekf.temp6);
   mat_add<dim_state, 1>(ekf.x_hat, ekf.temp6, ekf.x_hat);
@@ -150,7 +156,7 @@ void update_state_cov(Ekf<dim_state, dim_obser>& ekf) {
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
-int ekf_step(Ekf<dim_state, dim_obser>& ekf, float* z) {
+int ekf_step(Ekf<dim_state, dim_obser>& ekf, BaseType* z) {
   predict_mean<dim_state, dim_obser>(ekf);
   predict_state_cov<dim_state, dim_obser>(ekf);
   if (calculate_gain(ekf)) return 1;
@@ -159,8 +165,7 @@ int ekf_step(Ekf<dim_state, dim_obser>& ekf, float* z) {
   return 0;
 }
 
-template int ekf_step(Ekf<3, 2> &ekf, float *z);
-
-
+// needed for compiler to know which template instanciations are actually used
+template int ekf_step(Ekf<3, 2> &ekf, BaseType *z);
 
 
