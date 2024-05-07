@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <type_traits>
 
 template<uint8_t n_row, uint8_t n_col>
 void mat_print(const BaseType* a) {
@@ -88,8 +89,17 @@ int choldcsl(BaseType* a, BaseType* res, BaseType* acc) {
     return 0; /* success */
 }
 
+
 template<uint8_t N>
 int mat_inv(BaseType* a, BaseType* res, BaseType* acc) {
+  if constexpr (N == 2) {
+    BaseType scalar = static_cast<BaseType>(1.0) / (a[0] * a[3] - a[1] * a[2]);
+    res[0] = a[3] * scalar;
+    res[1] = -a[1] * scalar;
+    res[2] = -a[2] * scalar;
+    res[3] = a[0] * scalar;
+    return 0;
+  } else {
     int i,j,k;
     if (choldcsl<N>(a,res,acc)) return 1;
     for (i = 0; i < N; i++) {
@@ -113,8 +123,8 @@ int mat_inv(BaseType* a, BaseType* res, BaseType* acc) {
             res[i*N+j] = res[j*N+i];
         }
     }
-
     return 0; /* success */
+    }
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
