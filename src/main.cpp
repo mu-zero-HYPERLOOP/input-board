@@ -1,8 +1,8 @@
-/**
- * @author      : kistenklaus (karlsasssie@gmail.com)
+/** @author      : kistenklaus (karlsasssie@gmail.com)
  * @file        : main
  * @created     : Dienstag Apr 09, 2024 14:48:23 CEST
  */
+
 
 #include "canzero/canzero.h"
 #include "core_pins.h"
@@ -10,13 +10,14 @@
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "firmware/input_board_config.h"
-#include "state_estimation/state_estimation.h"
+#include "state_estimation/linear_encoder.h"
 #include "util/ema.hpp"
 #include "util/interval.h"
 #include "util/metrics.h"
 #include "util/ntc_eq.h"
 #include "util/timeout.h"
 #include "util/timing.h"
+#include "state_estimation/accelerometer.h"
 
 constexpr AnalogInput AIN_24BAT_TEMP = NTC18_1;
 constexpr auto BAT24_NTC_EQ =
@@ -133,30 +134,59 @@ int main() {
 
   Serial.printf("Hello, World!");
 
-  canzero_set_state(input_board_state_INIT);
 
   canzero_init();
+
+  canzero_update_continue(canzero_get_time());
+
+  canzero_set_state(input_board_state_INIT);
 
   defaults();
 
   InputBoard::begin();
 
-  StateEstimation::begin();
+
+  LinearEncoderBeginInfo linear_encoder_begin_info;
+  linear_encoder_begin_info.stride = 2_cm;
+  linear_encoder_begin_info.back_pin = DIN2;
+  linear_encoder_begin_info.front_pin = DIN3;
+  linear_encoder_begin_info.back_edge_pin = DIN4;
+  linear_encoder_begin_info.front_edge_pin = DIN5;
+  linear_encoder_begin_info.stripe_count = 0;
+  LinearEncoder::begin(linear_encoder_begin_info);
+
+  Accelerometer::begin();
 
   IntervalTiming main_loop_interval_timer;
 
-  Interval log_interval(10_Hz);
+  Interval log_interval(0.5_Hz);
 
+  delay(1);
+calibration:
+  canzero_set_state(input_board_state_CALIBRATION);
+  Serial.println("Begin calibration");
+  canzero_set_command(input_board_command_NONE);
+  canzero_update_continue(canzero_get_time()); //flush canzero
+
+  Accelerometer::calibrate();
+
+  Accelerometer::estimate_distribution();
+
+
+
+
+  canzero_set_state(input_board_state_RUNNING);
+  canzero_update_continue(canzero_get_time()); //flush canzero
+                                               //
+  Velocity vel = 0_mps;
   while (true) {
+
+    if (canzero_get_command() == input_board_command_CALIBRATE) {
+      goto calibration;
+    }
 
     main_loop_interval_timer.tick();
 
-    /* if (log_interval.next()) { */
-    /*   Serial.printf("main loop time : %fHz\n", */
-    /*                 static_cast<float>(main_loop_interval_timer.frequency())); */
-    /* } */
-
-    canzero_set_state(input_board_state_RUNNING);
     // =============== CANzero receive from CAN =================
     canzero_can0_poll();
     canzero_can1_poll();
@@ -165,6 +195,7 @@ int main() {
     if (mcu_temp_interval.next()) {
       const Temperature mcu_temp = InputBoard::read_mcu_temperature();
       canzero_set_mcu_temperature(mcu_temp.as_celcius());
+      /* canzero_set_mcu_temperature(mcu_temp.as_celcius()); */
     }
 
     // ==================== 24V-Battery Temperature =============
@@ -251,11 +282,12 @@ int main() {
     }
 
     // ==================== State Estimation ====================
-    StateEstimation::update();
 
-    const Distance pos = StateEstimation::getPosition();
-    const Velocity vel = StateEstimation::getVelocity();
-    const Acceleration accel = StateEstimation::getAcceleration();
+    Accelerometer::read();
+    const Distance pos = 0_m;
+    const Acceleration accel = Accelerometer::x();
+    vel += accel * main_loop_interval_timer.period();
+
     canzero_set_position(static_cast<float>(pos));
     canzero_set_velocity(static_cast<float>(vel));
     canzero_set_acceleration(static_cast<float>(accel));
@@ -290,6 +322,17 @@ int main() {
   
     // =================== CANzero update =======================
     canzero_update_continue(canzero_get_time());
+
+
+    if (log_interval.next()) {
+      /* Serial.printf("============DEBUG-INFO==========\n"); */ /* Serial.printf("main loop time  : %fHz\n", */ /*               static_cast<float>(main_loop_interval_timer.frequency())); */
+      /*  */
+      /* Serial.printf("mcu_temperature : %f°C\n", canzero_get_mcu_temperature()); */
+      /* Serial.printf("stripe-count    : %lu\n", LinearEncoder::stripe_count()); */
+      /* Serial.printf("acce-x          : %fm/s²\n", static_cast<float>(Accelerometer::x())); */
+      /* Serial.printf("acce-y          : %fm/s²\n", static_cast<float>(Accelerometer::y())); */
+      /* Serial.printf("acce-z          : %fm/s²\n", static_cast<float>(Accelerometer::z())); */
+    }
   }
   /* vec<complex,2> x(complex(0,1), complex(1,2)); */
 

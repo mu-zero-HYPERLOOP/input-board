@@ -1,4 +1,4 @@
-#include "state_estimation.h"
+#include "state_estimation/state_estimation.h"
 #include "firmware/input_board.h"
 #include "linear_encoder.h"
 #include "state_estimation/accelerometer.h"
@@ -28,15 +28,20 @@ void StateEstimation::update() {
     StateEstimation::position_update(LinearEncoder::position(), LinearEncoder::last_isr());
   }
   const Timestamp now = Timestamp::now();
-  if (now - last_accel > 1.0f / ACCELEROMETER_FREQ) {
-    Acceleration accel = Accelerometer::readAccel();
+  if (Accelerometer::read()) {
+    Acceleration accel = Accelerometer::x();
     acceleration_update(accel, now);
     last_accel = last_accel + 1.0f / ACCELEROMETER_FREQ;
   }
 }
-Distance StateEstimation::getPosition() {}
-Velocity StateEstimation::getVelocity() {}
-Acceleration StateEstimation::getAcceleration() {}
+Distance StateEstimation::getPosition() {
+  return s_pos;
+}
+Velocity StateEstimation::getVelocity() {
+}
+Acceleration StateEstimation::getAcceleration() {
+  return s_acc;
+}
 
 void StateEstimation::position_update(const Distance &pos,
                                       const Timestamp &timstamp) {
