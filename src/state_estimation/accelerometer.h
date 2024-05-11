@@ -7,16 +7,28 @@
 #include <numeric>
 #include <random>
 
+enum AccelerometerRange {
+  ACCEL_RANGE_05G,
+  ACCEL_RANGE_1G,
+  ACCEL_RANGE_2G,
+  ACCEL_RANGE_4G,
+};
+
+struct AccelerometerBeginInfo {
+  Frequency frequency = 3.2_kHz;
+  AccelerometerRange range = AccelerometerRange::ACCEL_RANGE_2G;
+};
+
 class Accelerometer {
 public:
-  static void begin() {
+  static void begin(const AccelerometerBeginInfo& beginInfo = AccelerometerBeginInfo()) {
     Serial.printf("Hello, world\n");
     assert(m_adxl.beginSPI(ACCEL_CS));
-    m_adxl.setRange(ADXL313_RANGE_2_G);
+    m_adxl.setRange(beginInfo.range);
     m_adxl.setFullResBit(true);
-    m_adxl.setFifoMode(ADXL313_FIFO_MODE_FIFO);
+    m_adxl.setFifoMode(ADXL313_FIFO_MODE_STREAM);
     m_adxl.setAxisOffset(0, 0, 0);
-    m_adxl.setRate(3200); // lowest possible data rate!
+    m_adxl.setRate(static_cast<float>(beginInfo.frequency)); // lowest possible data rate!
     m_adxl.clearFifo();
     m_adxl.measureModeOn();
   }
@@ -65,9 +77,9 @@ public:
       x_error += std::round(x_round_error / LSBpG) * LSBpG;
       y_error += std::round(y_round_error / LSBpG) * LSBpG;
       z_error += std::round(z_round_error / LSBpG) * LSBpG;
-      Serial.printf("x-error : %f (%f) [%i]\n", x_error, x_round_error, (int)std::round(x_round_error / LSBpG));
-      Serial.printf("y-error : %f (%f) [%i]\n", y_error, y_round_error, (int)std::round(y_round_error / LSBpG));
-      Serial.printf("z-error : %f (%f) [%i]\n", z_error, z_round_error, (int)std::round(z_round_error / LSBpG));
+      /* Serial.printf("x-error : %f (%f) [%i]\n", x_error, x_round_error, (int)std::round(x_round_error / LSBpG)); */
+      /* Serial.printf("y-error : %f (%f) [%i]\n", y_error, y_round_error, (int)std::round(y_round_error / LSBpG)); */
+      /* Serial.printf("z-error : %f (%f) [%i]\n", z_error, z_round_error, (int)std::round(z_round_error / LSBpG)); */
       m_adxl.setAxisOffset(std::round(x_error / LSBpG),
                            std::round(y_error / LSBpG),
                            std::round(z_error / LSBpG));
@@ -113,10 +125,10 @@ public:
     y_variance /= ESTIMATION_SAMPLES;
     z_variance /= ESTIMATION_SAMPLES;
 
-    Serial.printf("N_x(%f,%f)\n", x_mean, std::sqrt(x_variance));
-    Serial.printf("N_y(%f,%f)\n", y_mean, std::sqrt(y_variance));
-    Serial.printf("N_z(%f,%f)\n", z_mean, std::sqrt(z_variance));
-
+    /* Serial.printf("N_x(%f,%f)\n", x_mean, std::sqrt(x_variance)); */
+    /* Serial.printf("N_y(%f,%f)\n", y_mean, std::sqrt(y_variance)); */
+    /* Serial.printf("N_z(%f,%f)\n", z_mean, std::sqrt(z_variance)); */
+    /*  */
     return {std::normal_distribution{x_mean, (float)x_variance},
             std::normal_distribution{y_mean, (float)y_variance},
             std::normal_distribution{z_mean, (float)z_variance}};
