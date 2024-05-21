@@ -28,5 +28,5 @@ add_executable(${PROJECT_NAME}
   src/state_estimation.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE src/)
+target_include_directories(${PROJECT_NAME} PRIVATE src/ mock/)
 
