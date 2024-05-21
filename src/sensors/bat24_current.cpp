@@ -24,6 +24,9 @@ static FASTRUN void on_value(const Voltage& v) {
 }
 
 void FLASHMEM sensors::bat24_current::begin() {
+  canzero_set_bat24_current(0);
+  canzero_set_bat24_current_calibration_offset(0);
+  canzero_set_bat24_current_calibration_target(0);
   input_board::register_periodic_reading(MEAS_FREQUENCY,
       PIN, on_value);
 }

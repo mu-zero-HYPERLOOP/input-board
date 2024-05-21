@@ -166,6 +166,10 @@ static inline float canzero_get_raw_acceleration() {
   extern float __oe_raw_acceleration;
   return __oe_raw_acceleration;
 }
+static inline error_flag canzero_get_error_acceleration_out_of_range() {
+  extern error_flag __oe_error_acceleration_out_of_range;
+  return __oe_error_acceleration_out_of_range;
+}
 static inline float canzero_get_acceleration_calibration_variance() {
   extern float __oe_acceleration_calibration_variance;
   return __oe_acceleration_calibration_variance;
@@ -185,6 +189,10 @@ static inline float canzero_get_raw_lateral_acceleration() {
 static inline float canzero_get_lateral_acceleration() {
   extern float __oe_lateral_acceleration;
   return __oe_lateral_acceleration;
+}
+static inline error_flag canzero_get_error_lateral_acceleration_out_of_range() {
+  extern error_flag __oe_error_lateral_acceleration_out_of_range;
+  return __oe_error_lateral_acceleration_out_of_range;
 }
 static inline float canzero_get_lateral_acceleration_calibration_variance() {
   extern float __oe_lateral_acceleration_calibration_variance;
@@ -206,6 +214,10 @@ static inline float canzero_get_vertical_acceleration() {
   extern float __oe_vertical_acceleration;
   return __oe_vertical_acceleration;
 }
+static inline error_flag canzero_get_error_vertical_acceleration_out_of_range() {
+  extern error_flag __oe_error_vertical_acceleration_out_of_range;
+  return __oe_error_vertical_acceleration_out_of_range;
+}
 static inline float canzero_get_vertical_acceleration_calibration_variance() {
   extern float __oe_vertical_acceleration_calibration_variance;
   return __oe_vertical_acceleration_calibration_variance;
@@ -217,6 +229,10 @@ static inline float canzero_get_vertical_acceleration_calibration_offset() {
 static inline float canzero_get_vertical_acceleration_calibration_target() {
   extern float __oe_vertical_acceleration_calibration_target;
   return __oe_vertical_acceleration_calibration_target;
+}
+static inline error_flag canzero_get_error_acceleration_calibation_failed() {
+  extern error_flag __oe_error_acceleration_calibation_failed;
+  return __oe_error_acceleration_calibation_failed;
 }
 static inline float canzero_get_track_length() {
   extern float __oe_track_length;
@@ -631,6 +647,10 @@ static inline void canzero_set_raw_acceleration(float value){
   extern float __oe_raw_acceleration;
   __oe_raw_acceleration = value;
 }
+static inline void canzero_set_error_acceleration_out_of_range(error_flag value){
+  extern error_flag __oe_error_acceleration_out_of_range;
+  __oe_error_acceleration_out_of_range = value;
+}
 static inline void canzero_set_acceleration_calibration_variance(float value){
   extern float __oe_acceleration_calibration_variance;
   __oe_acceleration_calibration_variance = value;
@@ -650,6 +670,10 @@ static inline void canzero_set_raw_lateral_acceleration(float value){
 static inline void canzero_set_lateral_acceleration(float value){
   extern float __oe_lateral_acceleration;
   __oe_lateral_acceleration = value;
+}
+static inline void canzero_set_error_lateral_acceleration_out_of_range(error_flag value){
+  extern error_flag __oe_error_lateral_acceleration_out_of_range;
+  __oe_error_lateral_acceleration_out_of_range = value;
 }
 static inline void canzero_set_lateral_acceleration_calibration_variance(float value){
   extern float __oe_lateral_acceleration_calibration_variance;
@@ -671,6 +695,10 @@ static inline void canzero_set_vertical_acceleration(float value){
   extern float __oe_vertical_acceleration;
   __oe_vertical_acceleration = value;
 }
+static inline void canzero_set_error_vertical_acceleration_out_of_range(error_flag value){
+  extern error_flag __oe_error_vertical_acceleration_out_of_range;
+  __oe_error_vertical_acceleration_out_of_range = value;
+}
 static inline void canzero_set_vertical_acceleration_calibration_variance(float value){
   extern float __oe_vertical_acceleration_calibration_variance;
   __oe_vertical_acceleration_calibration_variance = value;
@@ -682,6 +710,10 @@ static inline void canzero_set_vertical_acceleration_calibration_offset(float va
 static inline void canzero_set_vertical_acceleration_calibration_target(float value){
   extern float __oe_vertical_acceleration_calibration_target;
   __oe_vertical_acceleration_calibration_target = value;
+}
+static inline void canzero_set_error_acceleration_calibation_failed(error_flag value){
+  extern error_flag __oe_error_acceleration_calibation_failed;
+  __oe_error_acceleration_calibation_failed = value;
 }
 static inline void canzero_set_track_length(float value){
   extern float __oe_track_length;
