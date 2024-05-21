@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <cinttypes>
 
-void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
+void FLASHMEM canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
                         int filter_count) {
   CanBeginInfo beginInfo;
   if (baudrate == CAN_BAUDRATE_125Kbps) {
@@ -36,7 +36,7 @@ void canzero_can0_setup(uint32_t baudrate, canzero_can_filter *filters,
 
   delete[] beginInfo.filters;
 }
-void canzero_can0_send(canzero_frame *frame) {
+void FLASHMEM canzero_can0_send(canzero_frame *frame) {
   CAN_message_t msg;
   msg.id = frame->id & 0x1FFFFFFF;
   msg.len = frame->dlc;
@@ -48,7 +48,7 @@ void canzero_can0_send(canzero_frame *frame) {
   }
   Can3::send(msg);
 }
-int canzero_can0_recv(canzero_frame *frame) {
+int FASTRUN canzero_can0_recv(canzero_frame *frame) {
   CAN_message_t msg;
   int rx = Can3::recv(msg);
   if (rx) {
@@ -61,7 +61,7 @@ int canzero_can0_recv(canzero_frame *frame) {
   }
   return rx;
 }
-void canzero_can1_setup(uint32_t baudrate, canzero_can_filter *filters,
+void FASTRUN canzero_can1_setup(uint32_t baudrate, canzero_can_filter *filters,
                         int filter_count) {
   CanBeginInfo beginInfo;
   if (baudrate == CAN_BAUDRATE_125Kbps) {
@@ -92,7 +92,7 @@ void canzero_can1_setup(uint32_t baudrate, canzero_can_filter *filters,
 
   delete[] beginInfo.filters;
 }
-void canzero_can1_send(canzero_frame *frame) {
+void FASTRUN canzero_can1_send(canzero_frame *frame) {
   CAN_message_t msg;
   msg.id = frame->id & 0x1FFFFFFF;
   msg.len = frame->dlc;
@@ -104,7 +104,7 @@ void canzero_can1_send(canzero_frame *frame) {
   }
   Can2::send(msg);
 }
-int canzero_can1_recv(canzero_frame *frame) {
+int FASTRUN canzero_can1_recv(canzero_frame *frame) {
   CAN_message_t msg;
   int rx = Can2::recv(msg);
   if (rx) {
@@ -117,16 +117,16 @@ int canzero_can1_recv(canzero_frame *frame) {
   }
   return rx;
 }
-void canzero_request_update(uint32_t time) {
+void FASTRUN canzero_request_update(uint32_t time) {
   // pass
 }
 
 static Timestamp g_start = Timestamp::now();
 
-uint32_t canzero_get_time() { return (Timestamp::now() - g_start).as_ms(); }
-void canzero_enter_critical() {
+uint32_t FASTRUN canzero_get_time() { return (Timestamp::now() - g_start).as_ms(); }
+void FASTRUN canzero_enter_critical() {
   // pass
 }
-void canzero_exit_critical() {
+void FASTRUN canzero_exit_critical() {
   // pass
 }

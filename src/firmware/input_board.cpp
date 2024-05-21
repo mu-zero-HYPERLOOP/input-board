@@ -9,14 +9,15 @@
 #include <InternalTemperature.h>
 #include <SparkFunADXL313.h>
 #include <tuple>
+#include <avr/pgmspace.h>
 
 constexpr size_t MAX_AIN_PERIODIC_JOBS = 6;
 constexpr size_t MAX_MUX_PERIODIC_JOBS = 16;
 
-static AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler;
-static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
+static DMAMEM AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler;
+static DMAMEM MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
 
-void input_board::begin() { 
+void FLASHMEM input_board::begin() { 
   analogReadResolution(12); 
   analogReadAveraging(32);
   pinMode(din_2, INPUT_PULLDOWN);
@@ -26,40 +27,40 @@ void input_board::begin() {
   pinMode(din_6, INPUT_PULLDOWN);
 }
 
-Voltage input_board::sync_read(ain_pin pin) {
+Voltage FASTRUN input_board::sync_read(ain_pin pin) {
   return analogRead(pin) * 3.3_V / 4095.0f;
 }
 
-Voltage input_board::sync_read(mux_pin pin) {
+Voltage FASTRUN input_board::sync_read(mux_pin pin) {
   return m_mux_scheduler.sync_read(pin);
 }
 
-Temperature input_board::read_mcu_temperature() {
+Temperature PROGMEM input_board::read_mcu_temperature() {
   float temp = InternalTemperature.readTemperatureC();
   float temp_kelvin = temp - 273.15f;
   return Temperature(temp_kelvin);
 }
 
-void input_board::set_sdc(bool close) { digitalWrite(sdc_ctrl, close); }
+void FASTRUN input_board::set_sdc(bool close) { digitalWrite(sdc_ctrl, close); }
 
-void input_board::mux_select(uint8_t sel) {
+void FASTRUN input_board::mux_select(uint8_t sel) {
   digitalWrite(mux_sel0, sel & 0x1);
   digitalWrite(mux_sel1, sel & 0x2);
   digitalWrite(mux_sel2, sel & 0x4);
 }
 
-bool input_board::register_periodic_reading(const Time &period, ain_pin pin,
+bool FLASHMEM input_board::register_periodic_reading(const Time &period, ain_pin pin,
                                             void (*on_value)(const Voltage &)) {
   return m_ain_scheduler.register_periodic(period, pin, on_value);
 }
 
-bool input_board::register_periodic_reading(const Time &period, mux_pin pin,
+bool FLASHMEM input_board::register_periodic_reading(const Time &period, mux_pin pin,
                                             void (*on_value)(const Voltage &)) {
   return m_mux_scheduler.register_periodic(period, pin, on_value);
 }
 
 /// sends the input board to sleep for at least ms amount of milliseconds.
-void input_board::delay(const Duration &ms) {
+void FASTRUN input_board::delay(const Duration &ms) {
   if (ms < 1_ms) {
     ::delay(1);
   } else {
@@ -73,7 +74,7 @@ static void (*m_accelerometer_on_value)(const Acceleration &x,
                                         const Acceleration &z);
 
 
-bool input_board::register_periodic_accelerometer_reading(
+bool FLASHMEM input_board::register_periodic_accelerometer_reading(
     const Frequency &frequency, AccelerometerRange range,
     void (*on_value)(const Acceleration &x, const Acceleration &y,
                      const Acceleration &z)) {
@@ -96,7 +97,7 @@ static constexpr Acceleration G = Acceleration(9.80665f);
 static constexpr float RESOLUTION = 1024;
 
 
-std::tuple<Acceleration, Acceleration, Acceleration> input_board::sync_read_acceleration() {
+std::tuple<Acceleration, Acceleration, Acceleration> FASTRUN input_board::sync_read_acceleration() {
   while (!m_adxl.dataReady()) {
   }
   m_adxl.readAccel();
@@ -105,7 +106,7 @@ std::tuple<Acceleration, Acceleration, Acceleration> input_board::sync_read_acce
                          (m_adxl.z / RESOLUTION) * G);
 }
 
-void input_board::update_continue() {
+void FASTRUN input_board::update_continue() {
 
   m_mux_scheduler.update_continue();
   m_ain_scheduler.update_continue();
@@ -120,11 +121,11 @@ void input_board::update_continue() {
   }
 }
 
-bool input_board::read_digital(din_pin pin) {
+bool FASTRUN input_board::read_digital(din_pin pin) {
   return digitalReadFast(pin) != 0;
 }
 
-void input_board::register_exit(din_pin pin, input_board::ExtiEdge edge,
+void FLASHMEM input_board::register_exit(din_pin pin, input_board::ExtiEdge edge,
                                 void (*on_exti)()) {
   switch (edge) {
   case ANY_EDGE:
@@ -139,18 +140,18 @@ void input_board::register_exit(din_pin pin, input_board::ExtiEdge edge,
   }
 }
 
-input_board::InterruptLock input_board::InterruptLock::acquire() {
+input_board::InterruptLock FASTRUN input_board::InterruptLock::acquire() {
   __disable_irq();
   return InterruptLock();
 }
 
-void input_board::InterruptLock::release() {
+void FASTRUN input_board::InterruptLock::release() {
   if (m_acquried) {
     __enable_irq();
   }
   m_acquried = false;
 }
-input_board::InterruptLock::~InterruptLock() {
+FASTRUN input_board::InterruptLock::~InterruptLock() {
   if (m_acquried) {
     __enable_irq();
   }

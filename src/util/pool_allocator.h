@@ -1,13 +1,16 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
+#include <avr/pgmspace.h>
+
 template <size_t ELEMENT_SIZE, size_t CAPACITY>
 struct PoolAllocator {
 
   PoolAllocator() {
     for (size_t i = 1; i < CAPACITY; ++i) {
-      m_pool[i - 1].m_next = m_pool + i;
+      m_pool[i - 1].m_next = m_pool.data() + i;
     }
     m_pool[CAPACITY - 1].m_next = nullptr;
     m_freelist = &m_pool[0];
@@ -38,6 +41,6 @@ private:
   };
 
 private:
-  alignas(std::max_align_t) Entry m_pool[CAPACITY];
+  std::array<Entry, CAPACITY> m_pool;
   Entry *m_freelist;
 };

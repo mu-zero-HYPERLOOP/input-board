@@ -6,7 +6,6 @@
 #include <iterator>
 #include <optional>
 #include <tuple>
-#include <iostream>
 
 template <typename Key, typename Value, size_t CAP> struct MinHeap {
 

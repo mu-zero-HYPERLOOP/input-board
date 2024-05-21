@@ -5,6 +5,7 @@
 #include "util/metrics.h"
 #include <cassert>
 #include <cmath>
+#include <avr/pgmspace.h>
 
 static void on_value(const Acceleration &x, const Acceleration &y,
                      const Acceleration &z) {
@@ -19,13 +20,13 @@ static void on_value(const Acceleration &x, const Acceleration &y,
   //TODO update state estimation!
 }
 
-void sensors::accelerometer::begin() {
+void FLASHMEM sensors::accelerometer::begin() {
   assert(input_board::register_periodic_accelerometer_reading(MEAS_FREQUENCY,
         input_board::AccelerometerRange::ACCEL_RANGE_1G,
                                                               on_value));
 }
 
-void sensors::accelerometer::calibrate() {
+void PROGMEM sensors::accelerometer::calibrate() {
   Acceleration x_sum = 0_mps2;
   Acceleration y_sum = 0_mps2;
   Acceleration z_sum = 0_mps2;
@@ -73,6 +74,6 @@ void sensors::accelerometer::calibrate() {
   canzero_set_vertical_acceleration_calibration_variance(y_var);
 }
 
-void sensors::accelerometer::update() {
+void FASTRUN sensors::accelerometer::update() {
 
 }

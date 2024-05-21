@@ -330,10 +330,6 @@ static inline float canzero_get_link45_voltage_calibration_target() {
   extern float __oe_link45_voltage_calibration_target;
   return __oe_link45_voltage_calibration_target;
 }
-static inline bool_t canzero_get_link45_expect_online() {
-  extern bool_t __oe_link45_expect_online;
-  return __oe_link45_expect_online;
-}
 static inline error_level canzero_get_error_level_link45_under_voltage() {
   extern error_level __oe_error_level_link45_under_voltage;
   return __oe_error_level_link45_under_voltage;
@@ -780,10 +776,6 @@ static inline void canzero_set_link45_voltage_calibration_offset(float value){
 static inline void canzero_set_link45_voltage_calibration_target(float value){
   extern float __oe_link45_voltage_calibration_target;
   __oe_link45_voltage_calibration_target = value;
-}
-static inline void canzero_set_link45_expect_online(bool_t value){
-  extern bool_t __oe_link45_expect_online;
-  __oe_link45_expect_online = value;
 }
 void canzero_set_error_level_link45_under_voltage(error_level value);
 static inline void canzero_set_error_level_config_link45_under_voltage(error_level_config value){

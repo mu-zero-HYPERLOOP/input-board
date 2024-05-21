@@ -2,20 +2,20 @@
 #include "canzero/canzero.h"
 #include <cmath>
 #include <iterator>
-#include <iostream>
+#include <avr/pgmspace.h>
 
-Acceleration previous_target_acceleration = 0_mps2;
+DMAMEM Acceleration previous_target_acceleration = 0_mps2;
 
-void state_estimation::begin() {
+void FLASHMEM state_estimation::begin() {
   // no need to initalize the periperals.
 }
 
-void state_estimation::calibrate() {
+void PROGMEM state_estimation::calibrate() {
   float variance = canzero_get_acceleration_calibration_variance();
   // idk do some shit with it.
 }
 
-void state_estimation::linear_encoder_update(
+void FASTRUN state_estimation::linear_encoder_update(
     const sensors::linear_encoder::LinearEncoderEvent event) {
   int16_t stripe_count = canzero_get_linear_encoder_count();
   switch (event.m_tag) {
@@ -40,16 +40,16 @@ void state_estimation::linear_encoder_update(
   // perform actual state estimation here.
 }
 
-void state_estimation::acceleration_update(const Acceleration &acc,
+void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
                                            const Timestamp &timestamp) {
 
 }
 
 
-void state_estimation::target_acceleration_update(const Acceleration &acc, const Timestamp &timestamp) {
+void FASTRUN state_estimation::target_acceleration_update(const Acceleration &acc, const Timestamp &timestamp) {
 }
 
-void state_estimation::update() {
+void FASTRUN state_estimation::update() {
   Acceleration target_acceleration = Acceleration(canzero_get_target_acceleration());
   if ((target_acceleration - previous_target_acceleration).abs() < 0.00001_mps2) {
     target_acceleration_update(target_acceleration, Timestamp::now());

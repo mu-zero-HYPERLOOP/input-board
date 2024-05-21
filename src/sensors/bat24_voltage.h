@@ -2,6 +2,8 @@
 
 #include "firmware/pinout.h"
 #include "util/metrics.h"
+#include <avr/pgmspace.h>
+
 namespace sensors::bat24_voltage {
 
 constexpr Frequency MEAS_FREQUENCY = 1_kHz;

@@ -227,7 +227,7 @@ static void can_defaults() {
       .m_error_timeout = 10.0,
   });
   // ================= MICS =====================
-  canzero_set_link45_expect_online(bool_t_FALSE);
+  canzero_set_assert_45V_system_online(bool_t_FALSE);
   canzero_set_sdc_status(sdc_status_OPEN);
   canzero_set_assertion_fault(error_flag_OK);
 }

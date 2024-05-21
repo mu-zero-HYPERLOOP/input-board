@@ -2,13 +2,14 @@
 #include "firmware/input_board.h"
 #include "state_estimation.h"
 #include "util/circular_queue.h"
+#include <avr/pgmspace.h>
 #include <cassert>
 
+DMAMEM static volatile sensors::linear_encoder::Direction m_dir;
+DMAMEM static CircularQueue<sensors::linear_encoder::LinearEncoderEvent, 16>
+    m_event_queue {};
 
-static volatile sensors::linear_encoder::Direction m_dir;
-static CircularQueue<sensors::linear_encoder::LinearEncoderEvent, 16> m_event_queue{};
-
-static void back_pin_isr() {
+void FASTRUN back_pin_isr() {
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);
@@ -42,7 +43,7 @@ static void back_pin_isr() {
   m_dir = dir;
 }
 
-static void front_pin_isr() {
+static void FASTRUN front_pin_isr() {
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);
@@ -73,14 +74,14 @@ static void front_pin_isr() {
   m_dir = dir;
 }
 
-void end_detection_front_isr() {
+void FASTRUN end_detection_front_isr() {
   using namespace sensors::linear_encoder;
   m_event_queue.enqueue(LinearEncoderEvent{
       .m_tag = LinearEncoderEventTag::END_DETECTION_FRONT,
       .m_timestamp = Timestamp::now(),
   });
 }
-void end_detection_back_isr() {
+void FASTRUN end_detection_back_isr() {
   using namespace sensors::linear_encoder;
   m_event_queue.enqueue(LinearEncoderEvent{
       .m_tag = LinearEncoderEventTag::END_DETECTION_BACK,
@@ -88,7 +89,7 @@ void end_detection_back_isr() {
   });
 }
 
-void sensors::linear_encoder::begin() {
+void FLASHMEM sensors::linear_encoder::begin() {
   input_board::register_exit(PIN_FRONT, input_board::ANY_EDGE, front_pin_isr);
   input_board::register_exit(PIN_BACK, input_board::ANY_EDGE, back_pin_isr);
   input_board::register_exit(PIN_END_DETECTION_FRONT, input_board::ANY_EDGE,
@@ -97,11 +98,11 @@ void sensors::linear_encoder::begin() {
                              end_detection_back_isr);
 }
 
-void sensors::linear_encoder::calibrate() {
+void PROGMEM sensors::linear_encoder::calibrate() {
   // pass
 }
 
-void sensors::linear_encoder::update() {
+void FASTRUN sensors::linear_encoder::update() {
 
   for (unsigned int i = 0; i < 100; ++i) {
     auto lock = input_board::InterruptLock::acquire();

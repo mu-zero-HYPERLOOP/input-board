@@ -3,34 +3,35 @@
 #include "firmware/input_board.h"
 #include "util/timing.h"
 #include "canzero/canzero.h"
-#include <iostream>
+#include <avr/pgmspace.h>
 
 
-static volatile IntervalTiming m_interval_timer(1.0);
+static volatile DMAMEM IntervalTiming m_interval_timer(1.0);
 
 constexpr auto VOLUME_PER_TRIG = 50_ml;
 
-static BoxcarFilter<FlowRate, 10> filter(0_l / 1_s);
-static Timestamp last_trig = Timestamp::now();
+static DMAMEM BoxcarFilter<FlowRate, 10> filter(0_l / 1_s);
+static DMAMEM Timestamp last_trig = Timestamp::now();
 
-static void on_exti() {
+static void FASTRUN on_exti() {
   last_trig = Timestamp::now();
   m_interval_timer.tick();
   Frequency frequency = m_interval_timer.frequency();
   FlowRate flow_rate = VOLUME_PER_TRIG * frequency;
   filter.push(flow_rate);
-  canzero_set_cooling_cycle_flow_rate(static_cast<float>(filter.get() / 1_l));
+  // TODO actually update canzero (not not from a ISR).
+  /* canzero_set_cooling_cycle_flow_rate(static_cast<float>(filter.get() / 1_l)); */
 }
 
-void sensors::mass_flow_rate::begin() {
+void FLASHMEM sensors::mass_flow_rate::begin() {
   input_board::register_exit(PIN, input_board::FALLING_EDGE, on_exti);
 }
 
-void sensors::mass_flow_rate::calibrate() {
+void PROGMEM sensors::mass_flow_rate::calibrate() {
   // pass
 }
 
-void sensors::mass_flow_rate::update() {
+void FASTRUN sensors::mass_flow_rate::update() {
   if (Timestamp::now() - last_trig > 1_s) {
     // pull value down if no exti trig for the last second.
     filter.push(0_l / 1_s);

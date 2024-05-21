@@ -1,4 +1,5 @@
 #include "canzero.h"
+#include <avr/pgmspace.h>
 uint32_t min_u32(uint32_t v, uint32_t max) {
     if (v > max) {
         return max;
@@ -11,99 +12,98 @@ uint64_t min_u64(uint64_t v, uint64_t max) {
     }
     return v;
 }
-uint64_t __oe_config_hash;
-date_time __oe_build_time;
-input_board_state __oe_state;
-sdc_status __oe_sdc_status;
-float __oe_position;
-float __oe_velocity;
-float __oe_acceleration;
-input_board_command __oe_command;
-float __oe_target_acceleration;
-bool_t __oe_assert_45V_system_online;
-int16_t __oe_linear_encoder_count;
-float __oe_raw_acceleration;
-float __oe_acceleration_calibration_variance;
-float __oe_acceleration_calibration_offset;
-float __oe_acceleration_calibration_target;
-float __oe_raw_lateral_acceleration;
-float __oe_lateral_acceleration;
-float __oe_lateral_acceleration_calibration_variance;
-float __oe_lateral_acceleration_calibration_offset;
-float __oe_lateral_acceleration_calibration_target;
-float __oe_raw_vertical_acceleration;
-float __oe_vertical_acceleration;
-float __oe_vertical_acceleration_calibration_variance;
-float __oe_vertical_acceleration_calibration_offset;
-float __oe_vertical_acceleration_calibration_target;
-float __oe_track_length;
-float __oe_bat24_voltage;
-float __oe_bat24_voltage_calibration_offset;
-float __oe_bat24_voltage_calibration_target;
-error_level __oe_error_level_bat24_under_voltage;
-error_level_config __oe_error_level_config_bat24_under_voltage;
-error_level __oe_error_level_bat24_over_voltage;
-error_level_config __oe_error_level_config_bat24_over_voltage;
-float __oe_bat24_current;
-float __oe_bat24_current_calibration_offset;
-float __oe_bat24_current_calibration_target;
-error_level __oe_error_level_bat24_over_current;
-error_level_config __oe_error_level_config_bat24_over_current;
-float __oe_link24_voltage;
-float __oe_link24_voltage_calibration_offset;
-float __oe_link24_voltage_calibration_target;
-error_level __oe_error_level_link24_under_voltage;
-error_level_config __oe_error_level_config_link24_under_voltage;
-error_level __oe_error_level_link24_over_voltage;
-error_level_config __oe_error_level_config_link24_over_voltage;
-float __oe_link24_current;
-float __oe_link24_current_calibration_offset;
-float __oe_link24_current_calibration_target;
-error_level __oe_error_level_link24_over_current;
-error_level_config __oe_error_level_config_link24_over_current;
-float __oe_link45_voltage;
-float __oe_link45_voltage_calibration_offset;
-float __oe_link45_voltage_calibration_target;
-bool_t __oe_link45_expect_online;
-error_level __oe_error_level_link45_under_voltage;
-error_level_config __oe_error_level_config_link45_under_voltage;
-error_level __oe_error_level_link45_over_voltage;
-error_level_config __oe_error_level_config_link45_over_voltage;
-float __oe_link45_current;
-float __oe_link45_current_calibration_offset;
-float __oe_link45_current_calibration_target;
-error_level __oe_error_level_link45_over_current;
-error_level_config __oe_error_level_config_link45_over_current;
-float __oe_cooling_cycle_pressure;
-float __oe_cooling_cycle_pressure_calibration_offset;
-float __oe_cooling_cycle_pressure_calibration_target;
-error_level __oe_error_level_cooling_cycle_under_pressure;
-error_level_config __oe_error_level_config_cooling_cycle_under_pressure;
-error_level __oe_error_level_cooling_cycle_over_pressure;
-error_level_config __oe_error_level_config_cooling_cycle_over_pressure;
-float __oe_mcu_temperature;
-error_level __oe_error_level_mcu_temperature;
-error_level_config __oe_error_level_config_mcu_temperature;
-float __oe_cooling_cycle_temperature;
-error_level __oe_error_level_cooling_cycle_temperature;
-error_level_config __oe_error_level_config_cooling_temperature;
-float __oe_bat24_temperature;
-error_level __oe_error_level_bat24_temperature;
-error_level_config __oe_error_level_config_bat24_temperature;
-float __oe_supercap_temperature;
-error_level __oe_error_level_supercap_temperature;
-error_level_config __oe_error_level_config_supercap_temperature;
-float __oe_buck_temperature;
-error_level __oe_error_level_buck_temperature;
-error_level_config __oe_error_level_config_buck_temperature;
-float __oe_ebox_temperature;
-error_level __oe_error_level_ebox_temperature;
-error_level_config __oe_error_level_config_ebox_temperature;
-float __oe_ambient_temperature;
-error_level __oe_error_level_ambient_temperature;
-error_level_config __oe_error_level_config_ambient_temperature;
-float __oe_cooling_cycle_flow_rate;
-error_flag __oe_assertion_fault;
+uint64_t DMAMEM __oe_config_hash;
+date_time DMAMEM __oe_build_time;
+input_board_state DMAMEM __oe_state;
+sdc_status DMAMEM __oe_sdc_status;
+float DMAMEM __oe_position;
+float DMAMEM __oe_velocity;
+float DMAMEM __oe_acceleration;
+input_board_command DMAMEM __oe_command;
+float DMAMEM __oe_target_acceleration;
+bool_t DMAMEM __oe_assert_45V_system_online;
+int16_t DMAMEM __oe_linear_encoder_count;
+float DMAMEM __oe_raw_acceleration;
+float DMAMEM __oe_acceleration_calibration_variance;
+float DMAMEM __oe_acceleration_calibration_offset;
+float DMAMEM __oe_acceleration_calibration_target;
+float DMAMEM __oe_raw_lateral_acceleration;
+float DMAMEM __oe_lateral_acceleration;
+float DMAMEM __oe_lateral_acceleration_calibration_variance;
+float DMAMEM __oe_lateral_acceleration_calibration_offset;
+float DMAMEM __oe_lateral_acceleration_calibration_target;
+float DMAMEM __oe_raw_vertical_acceleration;
+float DMAMEM __oe_vertical_acceleration;
+float DMAMEM __oe_vertical_acceleration_calibration_variance;
+float DMAMEM __oe_vertical_acceleration_calibration_offset;
+float DMAMEM __oe_vertical_acceleration_calibration_target;
+float DMAMEM __oe_track_length;
+float DMAMEM __oe_bat24_voltage;
+float DMAMEM __oe_bat24_voltage_calibration_offset;
+float DMAMEM __oe_bat24_voltage_calibration_target;
+error_level DMAMEM __oe_error_level_bat24_under_voltage;
+error_level_config DMAMEM __oe_error_level_config_bat24_under_voltage;
+error_level DMAMEM __oe_error_level_bat24_over_voltage;
+error_level_config DMAMEM __oe_error_level_config_bat24_over_voltage;
+float DMAMEM __oe_bat24_current;
+float DMAMEM __oe_bat24_current_calibration_offset;
+float DMAMEM __oe_bat24_current_calibration_target;
+error_level DMAMEM __oe_error_level_bat24_over_current;
+error_level_config DMAMEM __oe_error_level_config_bat24_over_current;
+float DMAMEM __oe_link24_voltage;
+float DMAMEM __oe_link24_voltage_calibration_offset;
+float DMAMEM __oe_link24_voltage_calibration_target;
+error_level DMAMEM __oe_error_level_link24_under_voltage;
+error_level_config DMAMEM __oe_error_level_config_link24_under_voltage;
+error_level DMAMEM __oe_error_level_link24_over_voltage;
+error_level_config DMAMEM __oe_error_level_config_link24_over_voltage;
+float DMAMEM __oe_link24_current;
+float DMAMEM __oe_link24_current_calibration_offset;
+float DMAMEM __oe_link24_current_calibration_target;
+error_level DMAMEM __oe_error_level_link24_over_current;
+error_level_config DMAMEM __oe_error_level_config_link24_over_current;
+float DMAMEM __oe_link45_voltage;
+float DMAMEM __oe_link45_voltage_calibration_offset;
+float DMAMEM __oe_link45_voltage_calibration_target;
+error_level DMAMEM __oe_error_level_link45_under_voltage;
+error_level_config DMAMEM __oe_error_level_config_link45_under_voltage;
+error_level DMAMEM __oe_error_level_link45_over_voltage;
+error_level_config DMAMEM __oe_error_level_config_link45_over_voltage;
+float DMAMEM __oe_link45_current;
+float DMAMEM __oe_link45_current_calibration_offset;
+float DMAMEM __oe_link45_current_calibration_target;
+error_level DMAMEM __oe_error_level_link45_over_current;
+error_level_config DMAMEM __oe_error_level_config_link45_over_current;
+float DMAMEM __oe_cooling_cycle_pressure;
+float DMAMEM __oe_cooling_cycle_pressure_calibration_offset;
+float DMAMEM __oe_cooling_cycle_pressure_calibration_target;
+error_level DMAMEM __oe_error_level_cooling_cycle_under_pressure;
+error_level_config DMAMEM __oe_error_level_config_cooling_cycle_under_pressure;
+error_level DMAMEM __oe_error_level_cooling_cycle_over_pressure;
+error_level_config DMAMEM __oe_error_level_config_cooling_cycle_over_pressure;
+float DMAMEM __oe_mcu_temperature;
+error_level DMAMEM __oe_error_level_mcu_temperature;
+error_level_config DMAMEM __oe_error_level_config_mcu_temperature;
+float DMAMEM __oe_cooling_cycle_temperature;
+error_level DMAMEM __oe_error_level_cooling_cycle_temperature;
+error_level_config DMAMEM __oe_error_level_config_cooling_temperature;
+float DMAMEM __oe_bat24_temperature;
+error_level DMAMEM __oe_error_level_bat24_temperature;
+error_level_config DMAMEM __oe_error_level_config_bat24_temperature;
+float DMAMEM __oe_supercap_temperature;
+error_level DMAMEM __oe_error_level_supercap_temperature;
+error_level_config DMAMEM __oe_error_level_config_supercap_temperature;
+float DMAMEM __oe_buck_temperature;
+error_level DMAMEM __oe_error_level_buck_temperature;
+error_level_config DMAMEM __oe_error_level_config_buck_temperature;
+float DMAMEM __oe_ebox_temperature;
+error_level DMAMEM __oe_error_level_ebox_temperature;
+error_level_config DMAMEM __oe_error_level_config_ebox_temperature;
+float DMAMEM __oe_ambient_temperature;
+error_level DMAMEM __oe_error_level_ambient_temperature;
+error_level_config DMAMEM __oe_error_level_config_ambient_temperature;
+float DMAMEM __oe_cooling_cycle_flow_rate;
+error_flag DMAMEM __oe_assertion_fault;
 static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
   frame->id = 0xBE;
@@ -398,7 +398,7 @@ typedef struct {
   union job_pool_allocator_entry *freelist;
 } job_pool_allocator;
 
-static job_pool_allocator job_allocator;
+static job_pool_allocator DMAMEM job_allocator;
 static void job_pool_allocator_init() {
   for (uint8_t i = 1; i < 64; i++) {
     job_allocator.job[i - 1].next = job_allocator.job + i;
@@ -426,7 +426,7 @@ typedef struct {
   job_t *heap[SCHEDULE_HEAP_SIZE]; // job**
   uint32_t size;
 } job_scheduler_t;
-static job_scheduler_t scheduler;
+static job_scheduler_t DMAMEM scheduler;
 static void scheduler_promote_job(job_t *job) {
   int index = job->position;
   if (index == 0) {
@@ -877,27 +877,27 @@ static uint32_t scheduler_next_job_timeout() {
   return scheduler.heap[0]->climax;
 }
 
-static uint32_t __oe_config_hash_rx_fragmentation_buffer[2];
-static uint32_t __oe_build_time_rx_fragmentation_buffer[2];
-static uint32_t __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[7];
-static uint32_t __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[7];
-static void canzero_handle_get_req(canzero_frame* frame) {
+static uint32_t DMAMEM __oe_config_hash_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_build_time_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[7];
+static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
   canzero_message_get_req msg;
   canzero_deserialize_canzero_message_get_req(frame, &msg);
   if (msg.m_header.m_server_id != 10) {
@@ -1501,20 +1501,13 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 53: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link45_expect_online) & (0xFF >> (8 - 1)))) << 0;
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
-    resp.m_header.m_toggle = 0;
-    break;
-  }
-  case 54: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_under_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 55: {
+  case 54: {
     __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1553,17 +1546,17 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer, 7, 55, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer, 7, 54, msg.m_header.m_client_id);
     break;
   }
-  case 56: {
+  case 55: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 57: {
+  case 56: {
     __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1602,38 +1595,38 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer, 7, 57, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer, 7, 56, msg.m_header.m_client_id);
     break;
   }
-  case 58: {
+  case 57: {
     resp.m_data |= min_u32((__oe_link45_current - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 59: {
+  case 58: {
     resp.m_data |= min_u32((__oe_link45_current_calibration_offset - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 60: {
+  case 59: {
     resp.m_data |= min_u32((__oe_link45_current_calibration_target - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 61: {
+  case 60: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_current) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 62: {
+  case 61: {
     __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1672,38 +1665,38 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_current_rx_fragmentation_buffer, 7, 62, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_current_rx_fragmentation_buffer, 7, 61, msg.m_header.m_client_id);
     break;
   }
-  case 63: {
+  case 62: {
     resp.m_data |= min_u32((__oe_cooling_cycle_pressure - (-1)) / 0.0392156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 64: {
+  case 63: {
     resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_offset - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 65: {
+  case 64: {
     resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_target - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 66: {
+  case 65: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_under_pressure) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 67: {
+  case 66: {
     __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_cycle_under_pressure.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1742,17 +1735,17 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer, 7, 67, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer, 7, 66, msg.m_header.m_client_id);
     break;
   }
-  case 68: {
+  case 67: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_over_pressure) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 69: {
+  case 68: {
     __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1791,24 +1784,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer, 7, 69, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer, 7, 68, msg.m_header.m_client_id);
     break;
   }
-  case 70: {
+  case 69: {
     resp.m_data |= min_u32((__oe_mcu_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 71: {
+  case 70: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_mcu_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 72: {
+  case 71: {
     __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_mcu_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1847,24 +1840,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_mcu_temperature_rx_fragmentation_buffer, 7, 72, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_mcu_temperature_rx_fragmentation_buffer, 7, 71, msg.m_header.m_client_id);
     break;
   }
-  case 73: {
+  case 72: {
     resp.m_data |= min_u32((__oe_cooling_cycle_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 74: {
+  case 73: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 75: {
+  case 74: {
     __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1903,24 +1896,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_temperature_rx_fragmentation_buffer, 7, 75, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_temperature_rx_fragmentation_buffer, 7, 74, msg.m_header.m_client_id);
     break;
   }
-  case 76: {
+  case 75: {
     resp.m_data |= min_u32((__oe_bat24_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 77: {
+  case 76: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 78: {
+  case 77: {
     __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_bat24_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -1959,24 +1952,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_temperature_rx_fragmentation_buffer, 7, 78, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_temperature_rx_fragmentation_buffer, 7, 77, msg.m_header.m_client_id);
     break;
   }
-  case 79: {
+  case 78: {
     resp.m_data |= min_u32((__oe_supercap_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 80: {
+  case 79: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 81: {
+  case 80: {
     __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_supercap_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -2015,24 +2008,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_temperature_rx_fragmentation_buffer, 7, 81, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_temperature_rx_fragmentation_buffer, 7, 80, msg.m_header.m_client_id);
     break;
   }
-  case 82: {
+  case 81: {
     resp.m_data |= min_u32((__oe_buck_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 83: {
+  case 82: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_buck_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 84: {
+  case 83: {
     __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_buck_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -2071,24 +2064,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_buck_temperature_rx_fragmentation_buffer, 7, 84, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_buck_temperature_rx_fragmentation_buffer, 7, 83, msg.m_header.m_client_id);
     break;
   }
-  case 85: {
+  case 84: {
     resp.m_data |= min_u32((__oe_ebox_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 86: {
+  case 85: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ebox_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 87: {
+  case 86: {
     __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_ebox_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -2127,24 +2120,24 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_ebox_temperature_rx_fragmentation_buffer, 7, 87, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_ebox_temperature_rx_fragmentation_buffer, 7, 86, msg.m_header.m_client_id);
     break;
   }
-  case 88: {
+  case 87: {
     resp.m_data |= min_u32((__oe_ambient_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 89: {
+  case 88: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ambient_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 90: {
+  case 89: {
     __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_ambient_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
     {
     uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_info_thresh - ((float)-10000)) / (float)0.000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
@@ -2183,17 +2176,17 @@ static void canzero_handle_get_req(canzero_frame* frame) {
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_ambient_temperature_rx_fragmentation_buffer, 7, 90, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_ambient_temperature_rx_fragmentation_buffer, 7, 89, msg.m_header.m_client_id);
     break;
   }
-  case 91: {
+  case 90: {
     resp.m_data |= min_u32((__oe_cooling_cycle_flow_rate - (0)) / 0.00392156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 92: {
+  case 91: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
@@ -2208,47 +2201,47 @@ static void canzero_handle_get_req(canzero_frame* frame) {
   canzero_serialize_canzero_message_get_resp(&resp, &resp_frame);
   canzero_can0_send(&resp_frame);
 }
-static uint32_t config_hash_tmp_tx_fragmentation_buffer[2];
-static uint32_t config_hash_tmp_tx_fragmentation_offset = 0;
-static uint32_t build_time_tmp_tx_fragmentation_buffer[2];
-static uint32_t build_time_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_bat24_under_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_bat24_over_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_bat24_over_current_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link24_over_current_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link45_under_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link45_over_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_link45_over_current_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_mcu_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_cooling_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_bat24_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_supercap_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_buck_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_ebox_temperature_tmp_tx_fragmentation_offset = 0;
-static uint32_t error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[7];
-static uint32_t error_level_config_ambient_temperature_tmp_tx_fragmentation_offset = 0;
-static void canzero_handle_set_req(canzero_frame* frame) {
+static uint32_t DMAMEM config_hash_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM config_hash_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM build_time_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM build_time_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_bat24_under_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_bat24_over_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_bat24_over_current_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link24_over_current_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link45_under_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link45_over_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_link45_over_current_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_mcu_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_cooling_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_bat24_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_supercap_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_buck_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_ebox_temperature_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_ambient_temperature_tmp_tx_fragmentation_offset = 0;
+static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
   canzero_message_set_req msg;
   canzero_deserialize_canzero_message_set_req(frame, &msg);
   if (msg.m_header.m_server_id != 10) {
@@ -2886,21 +2879,12 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    bool_t link45_expect_online_tmp;
-    link45_expect_online_tmp = ((bool_t)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_link45_expect_online(link45_expect_online_tmp);
-    break;
-  }
-  case 54 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
-      return;
-    }
     error_level error_level_link45_under_voltage_tmp;
     error_level_link45_under_voltage_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
     canzero_set_error_level_link45_under_voltage(error_level_link45_under_voltage_tmp);
     break;
   }
-  case 55 : {
+  case 54 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2929,7 +2913,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_link45_under_voltage(error_level_config_link45_under_voltage_tmp);
     break;
   }
-  case 56 : {
+  case 55 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2938,7 +2922,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link45_over_voltage(error_level_link45_over_voltage_tmp);
     break;
   }
-  case 57 : {
+  case 56 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2967,7 +2951,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_link45_over_voltage(error_level_config_link45_over_voltage_tmp);
     break;
   }
-  case 58 : {
+  case 57 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2976,7 +2960,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current(link45_current_tmp);
     break;
   }
-  case 59 : {
+  case 58 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2985,7 +2969,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current_calibration_offset(link45_current_calibration_offset_tmp);
     break;
   }
-  case 60 : {
+  case 59 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2994,7 +2978,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current_calibration_target(link45_current_calibration_target_tmp);
     break;
   }
-  case 61 : {
+  case 60 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3003,7 +2987,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link45_over_current(error_level_link45_over_current_tmp);
     break;
   }
-  case 62 : {
+  case 61 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3032,7 +3016,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_link45_over_current(error_level_config_link45_over_current_tmp);
     break;
   }
-  case 63 : {
+  case 62 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3041,7 +3025,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure(cooling_cycle_pressure_tmp);
     break;
   }
-  case 64 : {
+  case 63 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3050,7 +3034,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure_calibration_offset(cooling_cycle_pressure_calibration_offset_tmp);
     break;
   }
-  case 65 : {
+  case 64 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3059,7 +3043,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure_calibration_target(cooling_cycle_pressure_calibration_target_tmp);
     break;
   }
-  case 66 : {
+  case 65 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3068,7 +3052,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_cooling_cycle_under_pressure(error_level_cooling_cycle_under_pressure_tmp);
     break;
   }
-  case 67 : {
+  case 66 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3097,7 +3081,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_cooling_cycle_under_pressure(error_level_config_cooling_cycle_under_pressure_tmp);
     break;
   }
-  case 68 : {
+  case 67 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3106,7 +3090,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_cooling_cycle_over_pressure(error_level_cooling_cycle_over_pressure_tmp);
     break;
   }
-  case 69 : {
+  case 68 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3135,7 +3119,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_cooling_cycle_over_pressure(error_level_config_cooling_cycle_over_pressure_tmp);
     break;
   }
-  case 70 : {
+  case 69 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3144,7 +3128,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_mcu_temperature(mcu_temperature_tmp);
     break;
   }
-  case 71 : {
+  case 70 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3153,7 +3137,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_mcu_temperature(error_level_mcu_temperature_tmp);
     break;
   }
-  case 72 : {
+  case 71 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3182,7 +3166,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_mcu_temperature(error_level_config_mcu_temperature_tmp);
     break;
   }
-  case 73 : {
+  case 72 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3191,7 +3175,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_temperature(cooling_cycle_temperature_tmp);
     break;
   }
-  case 74 : {
+  case 73 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3200,7 +3184,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_cooling_cycle_temperature(error_level_cooling_cycle_temperature_tmp);
     break;
   }
-  case 75 : {
+  case 74 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3229,7 +3213,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_cooling_temperature(error_level_config_cooling_temperature_tmp);
     break;
   }
-  case 76 : {
+  case 75 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3238,7 +3222,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_temperature(bat24_temperature_tmp);
     break;
   }
-  case 77 : {
+  case 76 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3247,7 +3231,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_bat24_temperature(error_level_bat24_temperature_tmp);
     break;
   }
-  case 78 : {
+  case 77 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3276,7 +3260,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_bat24_temperature(error_level_config_bat24_temperature_tmp);
     break;
   }
-  case 79 : {
+  case 78 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3285,7 +3269,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_supercap_temperature(supercap_temperature_tmp);
     break;
   }
-  case 80 : {
+  case 79 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3294,7 +3278,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_supercap_temperature(error_level_supercap_temperature_tmp);
     break;
   }
-  case 81 : {
+  case 80 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3323,7 +3307,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_supercap_temperature(error_level_config_supercap_temperature_tmp);
     break;
   }
-  case 82 : {
+  case 81 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3332,7 +3316,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_buck_temperature(buck_temperature_tmp);
     break;
   }
-  case 83 : {
+  case 82 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3341,7 +3325,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_buck_temperature(error_level_buck_temperature_tmp);
     break;
   }
-  case 84 : {
+  case 83 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3370,7 +3354,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_buck_temperature(error_level_config_buck_temperature_tmp);
     break;
   }
-  case 85 : {
+  case 84 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3379,7 +3363,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ebox_temperature(ebox_temperature_tmp);
     break;
   }
-  case 86 : {
+  case 85 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3388,7 +3372,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_ebox_temperature(error_level_ebox_temperature_tmp);
     break;
   }
-  case 87 : {
+  case 86 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3417,7 +3401,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_ebox_temperature(error_level_config_ebox_temperature_tmp);
     break;
   }
-  case 88 : {
+  case 87 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3426,7 +3410,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ambient_temperature(ambient_temperature_tmp);
     break;
   }
-  case 89 : {
+  case 88 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3435,7 +3419,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_ambient_temperature(error_level_ambient_temperature_tmp);
     break;
   }
-  case 90 : {
+  case 89 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3464,7 +3448,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_config_ambient_temperature(error_level_config_ambient_temperature_tmp);
     break;
   }
-  case 91 : {
+  case 90 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3473,7 +3457,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_flow_rate(cooling_cycle_flow_rate_tmp);
     break;
   }
-  case 92 : {
+  case 91 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3494,7 +3478,7 @@ static void canzero_handle_set_req(canzero_frame* frame) {
   canzero_can0_send(&resp_frame);
 
 }
-static void canzero_handle_heartbeat_can0(canzero_frame* frame) {
+ void canzero_handle_heartbeat_can0(canzero_frame* frame) {
   canzero_message_heartbeat_can0 msg;
   canzero_deserialize_canzero_message_heartbeat_can0(frame, &msg);
 
@@ -3513,7 +3497,7 @@ static void canzero_handle_heartbeat_can0(canzero_frame* frame) {
       = msg.m_ticks_next;
   }
 }
-static void canzero_handle_heartbeat_can1(canzero_frame* frame) {
+ void canzero_handle_heartbeat_can1(canzero_frame* frame) {
   canzero_message_heartbeat_can1 msg;
   canzero_deserialize_canzero_message_heartbeat_can1(frame, &msg);
 
@@ -3613,7 +3597,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 4586634212330102562ull;
+  __oe_config_hash = 15191060854476302398ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
