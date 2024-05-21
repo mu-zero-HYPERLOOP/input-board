@@ -14,7 +14,7 @@ private:
 };
 
 struct IntervalTiming {
-  inline IntervalTiming() : m_last(Timestamp::now()), m_ema(0.001, 0_s) {}
+  inline IntervalTiming(float alpha = 0.5) : m_last(Timestamp::now()), m_ema(alpha, 0_s) {}
 
   auto tick() -> void {
     const auto now = Timestamp::now();
@@ -24,9 +24,22 @@ struct IntervalTiming {
     m_ema.push(static_cast<Time>(static_cast<float>(time_since_last_tick.as_us()) / 1e6));
   }
 
+  auto tick() volatile -> void {
+    const auto now = Timestamp::now();
+    Duration time_since_last_tick = now - m_last;
+    m_last = now;
+    /* Serial.printf("time_since = %f\n", static_cast<float>(time_since_last_tick.as_us()) / 1.e6); */
+    m_ema.push(static_cast<Time>(static_cast<float>(time_since_last_tick.as_us()) / 1e6));
+  }
+
+
   auto frequency() -> Frequency { return 1.0f / m_ema.get(); };
 
   auto period() -> Time { return m_ema.get(); };
+
+  auto frequency() volatile -> Frequency { return 1.0f / m_ema.get(); };
+
+  auto period() volatile -> Time { return m_ema.get(); };
 
 private:
   Timestamp m_last;

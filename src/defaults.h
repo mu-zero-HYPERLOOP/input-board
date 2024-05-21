@@ -2,8 +2,10 @@
 
 #include "canzero/canzero.h"
 
-static void defaults() {
+static void can_defaults() {
   // ============== BAT24 Error handling config =====================
+  canzero_set_bat24_current(0);
+  canzero_set_bat24_voltage(0);
   canzero_set_error_level_bat24_under_voltage(error_level_OK);
   canzero_set_error_level_config_bat24_under_voltage(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -40,6 +42,8 @@ static void defaults() {
   });
 
   // ============== LINK24 Error handling config ====================
+  canzero_set_link24_current(0);
+  canzero_set_link24_voltage(0);
   canzero_set_error_level_link24_under_voltage(error_level_OK);
   canzero_set_error_level_config_link24_under_voltage(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -77,6 +81,8 @@ static void defaults() {
       .m_error_timeout = 2.0,
   });
   // ============== LINK45 Error handling config ====================
+  canzero_set_link45_current(0);
+  canzero_set_link45_voltage(0);
   canzero_set_error_level_link45_under_voltage(error_level_OK);
   canzero_set_error_level_config_link45_under_voltage(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -114,6 +120,8 @@ static void defaults() {
       .m_error_timeout = 2.0,
   });
   // ======= Cooling over/under pressure Error handling config =======
+  canzero_set_cooling_cycle_pressure_calibration_offset(0);
+  canzero_set_cooling_cycle_pressure_calibration_target(1);
   canzero_set_error_level_cooling_cycle_under_pressure(error_level_OK);
   canzero_set_error_level_config_cooling_cycle_under_pressure(
       error_level_config{
@@ -140,6 +148,7 @@ static void defaults() {
       .m_error_timeout = 2.0,
   });
   // ============ Temperature Error handling config =================
+  canzero_set_mcu_temperature(0);
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_config_mcu_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -152,6 +161,7 @@ static void defaults() {
       .m_error_thresh = 85.0,
       .m_error_timeout = 1.0,
   });
+  canzero_set_cooling_cycle_temperature(0);
   canzero_set_error_level_cooling_cycle_temperature(error_level_OK);
   canzero_set_error_level_config_cooling_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -164,6 +174,7 @@ static void defaults() {
       .m_error_thresh = 80.0,
       .m_error_timeout = 1.0,
   });
+  canzero_set_bat24_temperature(0);
   canzero_set_error_level_bat24_temperature(error_level_OK);
   canzero_set_error_level_config_bat24_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -176,6 +187,7 @@ static void defaults() {
       .m_error_thresh = 80.0,
       .m_error_timeout = 1.0,
   });
+  canzero_set_supercap_temperature(0);
   canzero_set_error_level_supercap_temperature(error_level_OK);
   canzero_set_error_level_config_supercap_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -188,6 +200,7 @@ static void defaults() {
       .m_error_thresh = 80.0,
       .m_error_timeout = 1.0,
   });
+  canzero_set_ebox_temperature(0);
   canzero_set_error_level_ebox_temperature(error_level_OK);
   canzero_set_error_level_config_ebox_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,
@@ -200,6 +213,7 @@ static void defaults() {
       .m_error_thresh = 80.0,
       .m_error_timeout = 1.0,
   });
+  canzero_set_ambient_temperature(0);
   canzero_set_error_level_ambient_temperature(error_level_OK);
   canzero_set_error_level_config_ambient_temperature(error_level_config{
       .m_ignore_info = bool_t_FALSE,

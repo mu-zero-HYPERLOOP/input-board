@@ -1,76 +1,158 @@
-#include "input_board.h"
+#include "firmware/input_board.h"
+#include "core_pins.h"
+#include "firmware/ain_scheduler.h"
+#include "firmware/mux_scheduler.h"
+#include "firmware/pinout.h"
+#include "imxrt.h"
 
-InputBoard::AnalogReading InputBoard::m_readings[AIN_COUNT];
-bool InputBoard::m_new_value[AIN_COUNT];
-uint8_t InputBoard::m_mux_sel;
-Timestamp InputBoard::m_last_meas[AIN15 + 1]; // not for mux inputs
-Timestamp InputBoard::m_last_mux_transition;
+#include <Arduino.h>
+#include <InternalTemperature.h>
+#include <SparkFunADXL313.h>
+#include <tuple>
 
-void InputBoard::begin() {
-  for (size_t i = 0; i < AIN_COUNT; ++i) {
-    m_new_value[i] = false;
-    m_readings[i].u = Voltage(0.0f);
-  }
-  m_mux_sel = 0;
-  set_mux_sel(m_mux_sel);
-  m_last_mux_transition = Timestamp::now();
-  for (size_t i = 0; i < sizeof(m_last_meas) / sizeof(Timestamp); i++) {
-    m_last_meas[i] = Timestamp::now();
+constexpr size_t MAX_AIN_PERIODIC_JOBS = 6;
+constexpr size_t MAX_MUX_PERIODIC_JOBS = 16;
+
+static AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler;
+static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
+
+void input_board::begin() { 
+  analogReadResolution(12); 
+  analogReadAveraging(32);
+  pinMode(din_2, INPUT_PULLDOWN);
+  pinMode(din_3, INPUT_PULLDOWN);
+  pinMode(din_4, INPUT_PULLDOWN);
+  pinMode(din_5, INPUT_PULLDOWN);
+  pinMode(din_6, INPUT_PULLDOWN);
+}
+
+Voltage input_board::sync_read(ain_pin pin) {
+  return analogRead(pin) * 3.3_V / 4095.0f;
+}
+
+Voltage input_board::sync_read(mux_pin pin) {
+  return m_mux_scheduler.sync_read(pin);
+}
+
+Temperature input_board::read_mcu_temperature() {
+  float temp = InternalTemperature.readTemperatureC();
+  float temp_kelvin = temp - 273.15f;
+  return Temperature(temp_kelvin);
+}
+
+void input_board::set_sdc(bool close) { digitalWrite(sdc_ctrl, close); }
+
+void input_board::mux_select(uint8_t sel) {
+  digitalWrite(mux_sel0, sel & 0x1);
+  digitalWrite(mux_sel1, sel & 0x2);
+  digitalWrite(mux_sel2, sel & 0x4);
+}
+
+bool input_board::register_periodic_reading(const Time &period, ain_pin pin,
+                                            void (*on_value)(const Voltage &)) {
+  return m_ain_scheduler.register_periodic(period, pin, on_value);
+}
+
+bool input_board::register_periodic_reading(const Time &period, mux_pin pin,
+                                            void (*on_value)(const Voltage &)) {
+  return m_mux_scheduler.register_periodic(period, pin, on_value);
+}
+
+/// sends the input board to sleep for at least ms amount of milliseconds.
+void input_board::delay(const Duration &ms) {
+  if (ms < 1_ms) {
+    ::delay(1);
+  } else {
+    ::delay(ms.as_ms());
   }
 }
 
-void InputBoard::update() {
-  const Timestamp now = Timestamp::now();
+static ADXL313 m_adxl;
+static void (*m_accelerometer_on_value)(const Acceleration &x,
+                                        const Acceleration &y,
+                                        const Acceleration &z);
 
-  m_readings[VMEAS21] = read<VMEAS21>();
 
-  m_readings[VMEAS20] = read<VMEAS20>();
-
-  m_readings[VMEAS19] = read<VMEAS19>();
-
-  m_readings[AIN17] = read<AIN17>();
-
-  m_readings[AIN16] = read<AIN16>();
-
-  m_readings[AIN15] = read<AIN15>();
-
-  if (now - m_last_mux_transition > MUX_TRANSITION_TIME) {
-    m_last_mux_transition = m_last_mux_transition + MUX_TRANSITION_TIME;
-    switch (m_mux_sel) {
-    case 0:
-      m_readings[NTC18_1] = read_internal<NTC18_1>();
-      m_readings[AIN14_1] = read_internal<AIN14_1>();
-      break;
-    case 1:
-      m_readings[NTC18_2] = read_internal<NTC18_2>();
-      m_readings[AIN14_2] = read_internal<AIN14_2>();
-      break;
-    case 2:
-      m_readings[NTC18_3] = read_internal<NTC18_3>();
-      m_readings[AIN14_3] = read_internal<AIN14_3>();
-      break;
-    case 3:
-      m_readings[NTC18_4] = read_internal<NTC18_4>();
-      m_readings[AIN14_4] = read_internal<AIN14_4>();
-      break;
-    case 4:
-      m_readings[NTC18_5] = read_internal<NTC18_5>();
-      m_readings[AIN14_5] = read_internal<AIN14_5>();
-      break;
-    case 5:
-      m_readings[NTC18_6] = read_internal<NTC18_6>();
-      m_readings[AIN14_6] = read_internal<AIN14_6>();
-      break;
-    case 6:
-      m_readings[NTC18_7] = read_internal<NTC18_7>();
-      m_readings[AIN14_7] = read_internal<AIN14_7>();
-      break;
-    case 7:
-      m_readings[NTC18_8] = read_internal<NTC18_8>();
-      m_readings[AIN14_8] = read_internal<AIN14_8>();
-      break;
-    }
-    m_mux_sel = (m_mux_sel + 1) & 0x7;
-    set_mux_sel(m_mux_sel);
+bool input_board::register_periodic_accelerometer_reading(
+    const Frequency &frequency, AccelerometerRange range,
+    void (*on_value)(const Acceleration &x, const Acceleration &y,
+                     const Acceleration &z)) {
+  if (m_accelerometer_on_value != nullptr) {
+    return false;
   }
+  m_accelerometer_on_value = on_value;
+  assert(m_adxl.beginSPI(ctrl_pin::accel_cs));
+  m_adxl.setRange(range);
+  m_adxl.setFullResBit(true);
+  m_adxl.setFifoMode(ADXL313_FIFO_MODE_STREAM);
+  m_adxl.setAxisOffset(0, 0, 0);
+  m_adxl.setRate(static_cast<float>(frequency));
+  m_adxl.clearFifo();
+  m_adxl.measureModeOn();
+  return true;
+}
+
+static constexpr Acceleration G = Acceleration(9.80665f);
+static constexpr float RESOLUTION = 1024;
+
+
+std::tuple<Acceleration, Acceleration, Acceleration> input_board::sync_read_acceleration() {
+  while (!m_adxl.dataReady()) {
+  }
+  m_adxl.readAccel();
+  return std::make_tuple((m_adxl.x / RESOLUTION) * G,
+                         (m_adxl.y / RESOLUTION) * G,
+                         (m_adxl.z / RESOLUTION) * G);
+}
+
+void input_board::update_continue() {
+
+  m_mux_scheduler.update_continue();
+  m_ain_scheduler.update_continue();
+
+  if (m_accelerometer_on_value != nullptr) {
+    if (m_adxl.dataReady()) {
+      m_adxl.readAccel();
+      m_accelerometer_on_value((m_adxl.x / RESOLUTION) * G,
+                               (m_adxl.y / RESOLUTION) * G,
+                               (m_adxl.z / RESOLUTION) * G);
+    }
+  }
+}
+
+bool input_board::read_digital(din_pin pin) {
+  return digitalReadFast(pin) != 0;
+}
+
+void input_board::register_exit(din_pin pin, input_board::ExtiEdge edge,
+                                void (*on_exti)()) {
+  switch (edge) {
+  case ANY_EDGE:
+    attachInterrupt(pin, on_exti, CHANGE);
+    break;
+  case RISING_EDGE:
+    attachInterrupt(pin, on_exti, RISING);
+    break;
+  case FALLING_EDGE:
+    attachInterrupt(pin, on_exti, FALLING);
+    break;
+  }
+}
+
+input_board::InterruptLock input_board::InterruptLock::acquire() {
+  __disable_irq();
+  return InterruptLock();
+}
+
+void input_board::InterruptLock::release() {
+  if (m_acquried) {
+    __enable_irq();
+  }
+  m_acquried = false;
+}
+input_board::InterruptLock::~InterruptLock() {
+  if (m_acquried) {
+    __enable_irq();
+  }
+  m_acquried = false;
 }

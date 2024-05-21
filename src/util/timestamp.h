@@ -1,7 +1,7 @@
 #pragma once
 
 #include "metrics.h"
-#include <Arduino.h>
+#include <chrono>
 #include <cstdint>
 
 class Timestamp {
@@ -22,7 +22,12 @@ class Timestamp {
                              const class Timestamp &);
 
 public:
-  inline static Timestamp now() { return Timestamp(micros()); }
+  inline static Timestamp now() {
+    using namespace std::chrono;
+    microseconds x =
+        duration_cast<microseconds>(system_clock::now().time_since_epoch());
+    return Timestamp(x.count());
+  }
 
   Timestamp() = default;
   Timestamp(const Timestamp &o) : Timestamp(o.m_time_us) {}
@@ -97,6 +102,10 @@ public:
   }
   static Duration from_ms(uint32_t ms) {
     return Duration(ms * 1000);
+  }
+
+  static Duration from_us(uint32_t us) {
+    return Duration(us);
   }
 
   constexpr Duration() : m_us(0) {}

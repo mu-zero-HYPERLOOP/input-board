@@ -1,5 +1,4 @@
-
-
+#pragma once
 #include "canzero/canzero.h"
 #include "util/timestamp.h"
 #include <functional>
