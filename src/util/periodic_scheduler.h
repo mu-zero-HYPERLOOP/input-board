@@ -12,7 +12,7 @@ struct PeriodicScheduler {
   using duration = typename Clock::duration;
   using time_point = typename Clock::time_point;
 public:
-  explicit PeriodicScheduler() {}
+  explicit PeriodicScheduler() : m_allocator(), m_min_heap() {}
 
   virtual ~PeriodicScheduler() = default;
 

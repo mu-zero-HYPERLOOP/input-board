@@ -7,6 +7,8 @@
 #include <avr/pgmspace.h>
 #include <cassert>
 #include <cmath>
+#include <avr/pgmspace.h>
+#include <Arduino.h>
 
 static DMAMEM Acceleration max_acceleration = 0_mps2;
 
@@ -80,16 +82,17 @@ void PROGMEM sensors::accelerometer::calibrate() {
   Acceleration y_sum = 0_mps2;
   Acceleration z_sum = 0_mps2;
 
-  constexpr size_t MEAN_ESTIMATION_IT = 1000;
+  constexpr size_t MEAN_ESTIMATION_IT = 10;
   for (unsigned int i = 0; i < MEAN_ESTIMATION_IT; ++i) {
     const auto &[x, y, z] = input_board::sync_read_acceleration();
+    Serial.printf("acceleration : %f\n", static_cast<float>(x));
     x_sum += x;
     y_sum += y;
     z_sum += z;
   }
   Acceleration x_average = x_sum / MEAN_ESTIMATION_IT;
-  Acceleration x_expected =
-      Acceleration(canzero_get_acceleration_calibration_target());
+    Serial.printf("average      : %f\n", static_cast<float>(x_average));
+  Acceleration x_expected = Acceleration(canzero_get_acceleration_calibration_target());
   Acceleration x_offset = x_expected - x_average;
   canzero_set_acceleration_calibration_offset(static_cast<float>(x_offset));
 
@@ -117,7 +120,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
     calibration_ok = false;
   }
 
-  constexpr size_t VARIANCE_ESTIMATION_IT = 1000;
+  constexpr size_t VARIANCE_ESTIMATION_IT = 10;
   float x_var = 0;
   float y_var = 0;
   float z_var = 0;

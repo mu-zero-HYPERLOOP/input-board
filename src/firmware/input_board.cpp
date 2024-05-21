@@ -14,8 +14,8 @@
 constexpr size_t MAX_AIN_PERIODIC_JOBS = 6;
 constexpr size_t MAX_MUX_PERIODIC_JOBS = 16;
 
-static DMAMEM AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler;
-static DMAMEM MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
+static AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler{};
+static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler{};
 
 void FLASHMEM input_board::begin() { 
   analogReadResolution(12); 

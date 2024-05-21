@@ -6,6 +6,7 @@
 #include "util/pool_allocator.h"
 #include <chrono>
 #include <cstddef>
+#include <Arduino.h>
 
 static std::chrono::high_resolution_clock::time_point SOR =
     std::chrono::high_resolution_clock::now();
@@ -22,6 +23,7 @@ public:
 
   bool register_periodic(const Time &period, mux_pin pin,
                          void (*on_value)(const Voltage &)) {
+
     // parse pin!
     const uint8_t mux_sel = (pin & MUX_SEL_MASK) >> MUX_SEL_SHR;
     const ain_pin mux_pin = static_cast<ain_pin>(pin & MUX_PIN_MASK);
@@ -30,11 +32,13 @@ public:
         std::chrono::duration<float>(static_cast<float>(period));
     duration clock_period = std::chrono::duration_cast<duration>(_period);
 
+
     // Search for active tasks with the same mux_sel and, which currently
     // havn't registered a callback for the mux_pin.
     for (typename Scheduler::Iterator it = m_heap_scheduler.begin();
          it != m_heap_scheduler.end(); ++it) {
       if ((*it)->m_mux_sel == mux_sel) {
+        Serial.println("FUCK");
         if (mux_pin == ain_pin::ain_ntc_mux) {
           if ((*it)->m_on_ntc_value == nullptr) {
             (*it)->m_on_ntc_value = on_value;
@@ -71,6 +75,7 @@ public:
     }
     job->m_last_ntc_reading = Clock::now() - clock_period;
     job->m_last_ain_reading = Clock::now() - clock_period;
+
     return m_heap_scheduler.insert(Clock::now(), job);
   }
 

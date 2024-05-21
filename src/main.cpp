@@ -14,6 +14,7 @@
 
 
 #include "canzero/canzero.h"
+#include "core_pins.h"
 #include "defaults.h"
 #include "firmware/input_board.h"
 #include "sensors/accelerometer.h"
@@ -27,8 +28,13 @@
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
 #include <avr/pgmspace.h>
+#include <Arduino.h>
+#include <chrono>
 
 int main() {
+  Serial.begin(9600);
+  delay(1000);
+  Serial.println("Hello world");
 
   canzero_init();
   can_defaults();
@@ -37,10 +43,13 @@ int main() {
 
   canzero_set_target_acceleration(0);
 
+  Serial.println("Still alive ");
+
   input_board::begin();
 
   sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
+  
 
   sensors::cooling_pressure::begin();
   sensors::mass_flow_rate::begin();
@@ -48,11 +57,13 @@ int main() {
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
+
   sensors::link24_voltage::begin();
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
 
 calibration:
+  Serial.printf("Calibrate\n");
   canzero_set_state(input_board_state_CALIBRATION);
   canzero_update_continue(canzero_get_time());
 
@@ -72,13 +83,12 @@ calibration:
   
   
 
-  canzero_set_state(input_board_state_RUNNING);
-  canzero_update_continue(canzero_get_time()); 
   while (true) {
     canzero_can0_poll();
     canzero_can1_poll();
 
     if (input_board_command_CALIBRATE == canzero_get_command()) {
+      canzero_set_command(input_board_command_NONE);
       goto calibration;
     }
     input_board::update_continue();
@@ -96,6 +106,8 @@ calibration:
     sensors::link45_current::update();
     sensors::link45_voltage::update();
 
+
+    canzero_set_state(input_board_state_RUNNING);
     canzero_update_continue(canzero_get_time());
   }
 
