@@ -12,7 +12,9 @@ public:
       : m_getter(getter), m_config_getter(config_getter),
         m_error_setter(error_setter), m_last_non_error(Timestamp::now()),
         m_last_non_warning(Timestamp::now()),
-        m_last_non_info(Timestamp::now()) {}
+        m_last_non_info(Timestamp::now()) {
+    m_error_setter(error_level_OK);
+  }
 
   void check() {
     const float v = m_getter();
@@ -45,7 +47,8 @@ public:
     } else if (now - m_last_non_warning >
                Duration::from_s(config.m_warning_timeout)) {
       m_error_setter(error_level_WARNING);
-    } else if (now - m_last_non_info > Duration::from_s(config.m_info_timeout)) {
+    } else if (now - m_last_non_info >
+               Duration::from_s(config.m_info_timeout)) {
       m_error_setter(error_level_INFO);
     } else {
       m_error_setter(error_level_OK);

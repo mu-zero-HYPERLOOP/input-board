@@ -14,10 +14,10 @@
 
 
 #include "canzero/canzero.h"
-#include "core_pins.h"
 #include "defaults.h"
 #include "firmware/input_board.h"
 #include "sensors/accelerometer.h"
+#include "sensors/ambient_temperature.h"
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_voltage.h"
 #include "sensors/cooling_pressure.h"
@@ -28,13 +28,8 @@
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
 #include <avr/pgmspace.h>
-#include <Arduino.h>
-#include <chrono>
 
 int main() {
-  Serial.begin(9600);
-  delay(1000);
-  Serial.println("Hello world");
 
   canzero_init();
   can_defaults();
@@ -43,7 +38,6 @@ int main() {
 
   canzero_set_target_acceleration(0);
 
-  Serial.println("Still alive ");
 
   input_board::begin();
 
@@ -54,6 +48,8 @@ int main() {
   sensors::cooling_pressure::begin();
   sensors::mass_flow_rate::begin();
 
+  sensors::ambient_temperature::begin();
+
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
@@ -63,7 +59,6 @@ int main() {
   sensors::link45_voltage::begin();
 
 calibration:
-  Serial.printf("Calibrate\n");
   canzero_set_state(input_board_state_CALIBRATION);
   canzero_update_continue(canzero_get_time());
 
@@ -72,6 +67,8 @@ calibration:
 
   sensors::cooling_pressure::calibrate(1_bar);
   sensors::mass_flow_rate::calibrate();
+
+  sensors::ambient_temperature::calibrate();
 
   sensors::bat24_current::calibrate();
   sensors::bat24_voltage::calibrate();
@@ -97,7 +94,9 @@ calibration:
     sensors::linear_encoder::update();
 
     sensors::cooling_pressure::update();
-    sensors::mass_flow_rate::calibrate();
+    sensors::mass_flow_rate::update();
+
+    sensors::ambient_temperature::update();
 
     sensors::bat24_current::update();
     sensors::bat24_voltage::update();
@@ -105,7 +104,6 @@ calibration:
     sensors::link24_voltage::update();
     sensors::link45_current::update();
     sensors::link45_voltage::update();
-
 
     canzero_set_state(input_board_state_RUNNING);
     canzero_update_continue(canzero_get_time());

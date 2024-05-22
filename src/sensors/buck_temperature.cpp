@@ -1,5 +1,4 @@
 #include "sensors/buck_temperature.h"
-#include "FlexCAN_T4.h"
 #include "boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"

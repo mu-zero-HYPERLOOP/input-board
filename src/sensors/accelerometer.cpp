@@ -8,14 +8,16 @@
 #include <cassert>
 #include <cmath>
 #include <avr/pgmspace.h>
-#include <Arduino.h>
 
 static DMAMEM Acceleration max_acceleration = 0_mps2;
+
+constexpr Acceleration G = 9.80665_mps2;
 
 constexpr input_board::AccelerometerRange range = input_board::ACCEL_RANGE_1G;
 
 static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
                              const Acceleration &z) {
+
   Timestamp now = Timestamp::now();
   Acceleration acceleration =
       x + Acceleration(canzero_get_acceleration_calibration_offset());
@@ -51,14 +53,13 @@ void FLASHMEM sensors::accelerometer::begin() {
   canzero_set_acceleration_calibration_variance(0);
 
   canzero_set_lateral_acceleration_calibration_offset(0);
-  canzero_set_lateral_acceleration_calibration_target(1);
+  canzero_set_lateral_acceleration_calibration_target(static_cast<float>(G));
   canzero_set_lateral_acceleration_calibration_variance(0);
 
   canzero_set_vertical_acceleration_calibration_offset(0);
   canzero_set_vertical_acceleration_calibration_target(0);
   canzero_set_vertical_acceleration_calibration_variance(0);
 
-  constexpr Acceleration G = 9.80665_mps2;
   switch (range) {
   case input_board::ACCEL_RANGE_05G:
     max_acceleration = G / 2.0;
@@ -82,16 +83,14 @@ void PROGMEM sensors::accelerometer::calibrate() {
   Acceleration y_sum = 0_mps2;
   Acceleration z_sum = 0_mps2;
 
-  constexpr size_t MEAN_ESTIMATION_IT = 10;
+  constexpr size_t MEAN_ESTIMATION_IT = 1000;
   for (unsigned int i = 0; i < MEAN_ESTIMATION_IT; ++i) {
     const auto &[x, y, z] = input_board::sync_read_acceleration();
-    Serial.printf("acceleration : %f\n", static_cast<float>(x));
     x_sum += x;
     y_sum += y;
     z_sum += z;
   }
   Acceleration x_average = x_sum / MEAN_ESTIMATION_IT;
-    Serial.printf("average      : %f\n", static_cast<float>(x_average));
   Acceleration x_expected = Acceleration(canzero_get_acceleration_calibration_target());
   Acceleration x_offset = x_expected - x_average;
   canzero_set_acceleration_calibration_offset(static_cast<float>(x_offset));
@@ -100,7 +99,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
   Acceleration z_expected =
       Acceleration(canzero_get_lateral_acceleration_calibration_target());
   Acceleration z_offset = z_expected - z_average;
-  canzero_set_acceleration_calibration_offset(static_cast<float>(z_offset));
+  canzero_set_lateral_acceleration_calibration_offset(static_cast<float>(z_offset));
 
   Acceleration y_average = z_sum / MEAN_ESTIMATION_IT;
   Acceleration y_expected =

@@ -6,7 +6,6 @@
 #include "util/pool_allocator.h"
 #include <chrono>
 #include <cstddef>
-#include <Arduino.h>
 
 static std::chrono::high_resolution_clock::time_point SOR =
     std::chrono::high_resolution_clock::now();
@@ -38,7 +37,6 @@ public:
     for (typename Scheduler::Iterator it = m_heap_scheduler.begin();
          it != m_heap_scheduler.end(); ++it) {
       if ((*it)->m_mux_sel == mux_sel) {
-        Serial.println("FUCK");
         if (mux_pin == ain_pin::ain_ntc_mux) {
           if ((*it)->m_on_ntc_value == nullptr) {
             (*it)->m_on_ntc_value = on_value;

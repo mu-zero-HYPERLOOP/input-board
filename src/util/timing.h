@@ -20,7 +20,6 @@ struct IntervalTiming {
     const auto now = Timestamp::now();
     Duration time_since_last_tick = now - m_last;
     m_last = now;
-    /* Serial.printf("time_since = %f\n", static_cast<float>(time_since_last_tick.as_us()) / 1.e6); */
     m_ema.push(static_cast<Time>(static_cast<float>(time_since_last_tick.as_us()) / 1e6));
   }
 
@@ -28,7 +27,6 @@ struct IntervalTiming {
     const auto now = Timestamp::now();
     Duration time_since_last_tick = now - m_last;
     m_last = now;
-    /* Serial.printf("time_since = %f\n", static_cast<float>(time_since_last_tick.as_us()) / 1.e6); */
     m_ema.push(static_cast<Time>(static_cast<float>(time_since_last_tick.as_us()) / 1e6));
   }
 

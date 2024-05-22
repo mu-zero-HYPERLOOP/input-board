@@ -5,7 +5,6 @@
 #include "firmware/pinout.h"
 #include "imxrt.h"
 
-#include <Arduino.h>
 #include <InternalTemperature.h>
 #include <SparkFunADXL313.h>
 #include <tuple>

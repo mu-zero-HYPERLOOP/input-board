@@ -86,15 +86,20 @@ typedef enum {
 } bool_t;
 typedef struct {
   bool_t m_ignore_info;
+  bool_t m_ignore_warning;
+  bool_t m_ignore_error;
   float m_info_thresh;
   float m_info_timeout;
-  bool_t m_ignore_warning;
   float m_warning_thresh;
   float m_warning_timeout;
-  bool_t m_ignore_error;
   float m_error_thresh;
   float m_error_timeout;
 } error_level_config;
+typedef enum {
+  calibration_mode_USE_OFFSET = 0,
+  calibration_mode_USE_TARGET = 1,
+  calibration_mode_DISABLE = 2,
+} calibration_mode;
 typedef struct {
   uint32_t id;
   uint8_t dlc;
@@ -278,6 +283,14 @@ static inline float canzero_get_bat24_current_calibration_target() {
   extern float __oe_bat24_current_calibration_target;
   return __oe_bat24_current_calibration_target;
 }
+static inline calibration_mode canzero_get_bat24_current_calibration_mode() {
+  extern calibration_mode __oe_bat24_current_calibration_mode;
+  return __oe_bat24_current_calibration_mode;
+}
+static inline error_flag canzero_get_error_bat24_current_calibration_failed() {
+  extern error_flag __oe_error_bat24_current_calibration_failed;
+  return __oe_error_bat24_current_calibration_failed;
+}
 static inline error_level canzero_get_error_level_bat24_over_current() {
   extern error_level __oe_error_level_bat24_over_current;
   return __oe_error_level_bat24_over_current;
@@ -446,6 +459,10 @@ static inline error_level_config canzero_get_error_level_config_bat24_temperatur
   extern error_level_config __oe_error_level_config_bat24_temperature;
   return __oe_error_level_config_bat24_temperature;
 }
+static inline error_flag canzero_get_error_bat24_temperature_invalid() {
+  extern error_flag __oe_error_bat24_temperature_invalid;
+  return __oe_error_bat24_temperature_invalid;
+}
 static inline float canzero_get_supercap_temperature() {
   extern float __oe_supercap_temperature;
   return __oe_supercap_temperature;
@@ -485,6 +502,10 @@ static inline error_level_config canzero_get_error_level_config_ebox_temperature
 static inline float canzero_get_ambient_temperature() {
   extern float __oe_ambient_temperature;
   return __oe_ambient_temperature;
+}
+static inline error_flag canzero_get_error_ambient_temperature_invalid() {
+  extern error_flag __oe_error_ambient_temperature_invalid;
+  return __oe_error_ambient_temperature_invalid;
 }
 static inline error_level canzero_get_error_level_ambient_temperature() {
   extern error_level __oe_error_level_ambient_temperature;
@@ -753,6 +774,14 @@ static inline void canzero_set_bat24_current_calibration_target(float value){
   extern float __oe_bat24_current_calibration_target;
   __oe_bat24_current_calibration_target = value;
 }
+static inline void canzero_set_bat24_current_calibration_mode(calibration_mode value){
+  extern calibration_mode __oe_bat24_current_calibration_mode;
+  __oe_bat24_current_calibration_mode = value;
+}
+static inline void canzero_set_error_bat24_current_calibration_failed(error_flag value){
+  extern error_flag __oe_error_bat24_current_calibration_failed;
+  __oe_error_bat24_current_calibration_failed = value;
+}
 void canzero_set_error_level_bat24_over_current(error_level value);
 static inline void canzero_set_error_level_config_bat24_over_current(error_level_config value){
   extern error_level_config __oe_error_level_config_bat24_over_current;
@@ -885,6 +914,10 @@ static inline void canzero_set_error_level_config_bat24_temperature(error_level_
   extern error_level_config __oe_error_level_config_bat24_temperature;
   __oe_error_level_config_bat24_temperature = value;
 }
+static inline void canzero_set_error_bat24_temperature_invalid(error_flag value){
+  extern error_flag __oe_error_bat24_temperature_invalid;
+  __oe_error_bat24_temperature_invalid = value;
+}
 static inline void canzero_set_supercap_temperature(float value){
   extern float __oe_supercap_temperature;
   __oe_supercap_temperature = value;
@@ -915,6 +948,10 @@ static inline void canzero_set_error_level_config_ebox_temperature(error_level_c
 static inline void canzero_set_ambient_temperature(float value){
   extern float __oe_ambient_temperature;
   __oe_ambient_temperature = value;
+}
+static inline void canzero_set_error_ambient_temperature_invalid(error_flag value){
+  extern error_flag __oe_error_ambient_temperature_invalid;
+  __oe_error_ambient_temperature_invalid = value;
 }
 void canzero_set_error_level_ambient_temperature(error_level value);
 static inline void canzero_set_error_level_config_ambient_temperature(error_level_config value){

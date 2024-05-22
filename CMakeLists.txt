@@ -16,15 +16,22 @@ add_executable(${PROJECT_NAME}
   src/main.cpp
   src/canzero/canzero.cpp
   src/sensors/accelerometer.cpp
+  src/sensors/ambient_temperature.cpp
   src/sensors/bat24_current.cpp
+  src/sensors/bat24_temperature.cpp
   src/sensors/bat24_voltage.cpp
+  src/sensors/buck_temperature.cpp
   src/sensors/cooling_pressure.cpp
+  src/sensors/cooling_temperature.cpp
+  src/sensors/ebox_temperature.cpp
   src/sensors/linear_encoder.cpp
   src/sensors/link24_current.cpp
   src/sensors/link24_voltage.cpp
   src/sensors/link45_current.cpp
   src/sensors/link45_voltage.cpp
   src/sensors/mass_flow_rate.cpp
+  src/sensors/mcu_temperature.cpp
+  src/sensors/supercap_temperature.cpp
   src/state_estimation.cpp
 )
 
