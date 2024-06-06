@@ -107,6 +107,7 @@ typedef struct {
   bool_t m_ignore_warning;
   bool_t m_ignore_error;
 } error_level_config;
+static const node_id CANZERO_NODE_ID = node_id_input_board;
 typedef struct {
   uint32_t id;
   uint8_t dlc;
