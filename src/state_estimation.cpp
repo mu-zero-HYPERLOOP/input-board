@@ -1,7 +1,9 @@
 #include "state_estimation.h"
 #include "canzero/canzero.h"
 #include "state_estimation/ekf.hpp"
+#include "util/metrics.h"
 #include "util/timestamp.h"
+#include <algorithm>
 #include <iterator>
 #include <avr/pgmspace.h>
 
@@ -18,6 +20,8 @@ constexpr float max_variance = std::numeric_limits<float>::max();
 static Timestamp last_state_update;
 
 static Ekf<DIM_STATE, DIM_OBSER> ekf;
+
+constexpr Distance stripe_width = 5_mm;
 
 
 void FLASHMEM state_estimation::begin() {
@@ -96,7 +100,7 @@ void FASTRUN state_estimation::linear_encoder_update(
   last_state_update = Timestamp::now();
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
-  float target_accel = canzero_get_acceleration();
+  float target_accel = canzero_get_target_acceleration();
   ekf.f_xu[acc_i] = target_accel;
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] 
@@ -133,7 +137,7 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   last_state_update = Timestamp::now();
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
-  float target_accel = canzero_get_acceleration();
+  float target_accel = canzero_get_target_acceleration();
   ekf.f_xu[acc_i] = target_accel;
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] 
@@ -176,5 +180,17 @@ void FASTRUN state_estimation::update() {
     target_acceleration_update(target_acceleration, Timestamp::now());
     previous_target_acceleration = target_acceleration;
   }
+  const float dur_us = (Timestamp::now() - last_state_update).as_us();
+  constexpr float us_in_s = 1e6f;
+  canzero_set_acceleration(ekf.x_hat[acc_i]);
+  canzero_set_velocity(ekf.x_hat[speed_i] + dur_us * ekf.x_hat[acc_i] / us_in_s);
+  float predicted_position = ekf.x_hat[pos_i] 
+      + dur_us * ekf.x_hat[speed_i] / us_in_s 
+      + 0.5 * dur_us * dur_us * ekf.x_hat[acc_i] / us_in_s / us_in_s;
+  int16_t stripe_count = canzero_get_linear_encoder_count();
+  float min_position = stripe_count * static_cast<float>(stripe_width);
+  float max_position = min_position + static_cast<float>(stripe_width);
+  float possible_position = std::clamp(predicted_position, min_position, max_position);
+  canzero_set_position(possible_position);
 }
 
