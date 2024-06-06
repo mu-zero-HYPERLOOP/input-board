@@ -1,7 +1,6 @@
 #pragma once
 #include "canzero/canzero.h"
 #include "util/timestamp.h"
-#include <functional>
 
 enum ErrorLevelRangeCheckOrd { EXPECT_UNDER, EXPECT_OVER };
 

@@ -73,9 +73,6 @@ bool read_digital(din_pin pin);
 void register_exit(din_pin pin, ExtiEdge edge, void (*on_exti)());
 
 struct InterruptLock {
-private:
-  InterruptLock() : m_acquried(true) {}
-
 public:
   static InterruptLock acquire();
   void release();
@@ -86,6 +83,7 @@ public:
   InterruptLock &operator=(const InterruptLock &) = delete;
   InterruptLock &operator=(InterruptLock &&o) = delete;
 private:
+  InterruptLock() : m_acquried(true) {}
   bool m_acquried;
 };
 

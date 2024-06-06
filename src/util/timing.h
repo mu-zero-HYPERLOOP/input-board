@@ -30,6 +30,16 @@ struct IntervalTiming {
     m_ema.push(static_cast<Time>(static_cast<float>(time_since_last_tick.as_us()) / 1e6));
   }
 
+  void reset(){
+    const auto now = Timestamp::now();
+    m_last = now;
+  }
+
+  void reset() volatile {
+    const auto now = Timestamp::now();
+    m_last = now;
+  }
+
 
   auto frequency() -> Frequency { return 1.0f / m_ema.get(); };
 

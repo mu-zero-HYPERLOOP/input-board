@@ -25,17 +25,38 @@ static void FASTRUN on_value(const Voltage &v) {
   const Temperature temperature =
       sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
   filter.push(temperature);
-  canzero_set_supercap_temperature(static_cast<float>(filter.get() - 0_Celcius));
+  canzero_set_supercap_temperature(
+      static_cast<float>(filter.get() - 0_Celcius));
 }
 
 void FLASHMEM sensors::supercap_temperature::begin() {
+  canzero_set_supercap_temperature(24);
+  canzero_set_error_supercap_temperature_invalid(error_flag_OK);
+  canzero_set_error_level_supercap_temperature(error_level_OK);
+  canzero_set_error_level_config_supercap_temperature(error_level_config{
+      .m_info_thresh = 45,
+      .m_info_timeout = 5,
+      .m_warning_thresh = 65,
+      .m_warning_timeout = 5,
+      .m_error_thresh = 80,
+      .m_error_timeout = 5,
+      .m_ignore_info = bool_t_FALSE,
+      .m_ignore_warning = bool_t_FALSE,
+      .m_ignore_error = bool_t_FALSE,
+  });
   assert(input_board::register_periodic_reading(FREQUENCY, PIN, on_value));
 }
 
 void PROGMEM sensors::supercap_temperature::calibrate() {
-  for(size_t i= 0; i< filter.size(); ++i) {
+  for (size_t i = 0; i < filter.size(); ++i) {
     on_value(input_board::sync_read(PIN));
+    canzero_update_continue(canzero_get_time());
+    input_board::delay(1_ms);
   }
+  const bool sensable =
+      filter.get() <= 200_Celcius && filter.get() >= 0_Celcius;
+  canzero_set_error_supercap_temperature_invalid(sensable ? error_flag_OK
+                                                          : error_flag_ERROR);
 }
 
 void FASTRUN sensors::supercap_temperature::update() { error_check.check(); }

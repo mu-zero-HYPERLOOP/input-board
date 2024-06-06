@@ -790,10 +790,10 @@ constexpr Temperature operator""_K(const unsigned long long v) {
   return Temperature(static_cast<float>(v));
 }
 constexpr Temperature operator""_Celcius(const long double v) {
-  return Temperature(v - 273.15);
+  return Temperature(v + 273.15);
 }
 constexpr Temperature operator""_Celcius(const unsigned long long v) {
-  return Temperature(static_cast<float>(v) - 273.15);
+  return Temperature(static_cast<float>(v) + 273.15);
 }
 
 // Frequency literals

@@ -59,12 +59,8 @@ bool FLASHMEM input_board::register_periodic_reading(const Time &period, mux_pin
 }
 
 /// sends the input board to sleep for at least ms amount of milliseconds.
-void FASTRUN input_board::delay(const Duration &ms) {
-  if (ms < 1_ms) {
-    ::delay(1);
-  } else {
-    ::delay(ms.as_ms());
-  }
+void FASTRUN input_board::delay(const Duration &dt) {
+  delayMicroseconds(dt.as_us());
 }
 
 static ADXL313 m_adxl;

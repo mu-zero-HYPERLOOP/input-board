@@ -25,26 +25,28 @@ bool_t DMAMEM __oe_assert_45V_system_online;
 int16_t DMAMEM __oe_linear_encoder_count;
 float DMAMEM __oe_raw_acceleration;
 error_flag DMAMEM __oe_error_acceleration_out_of_range;
-float DMAMEM __oe_acceleration_calibration_variance;
-float DMAMEM __oe_acceleration_calibration_offset;
-float DMAMEM __oe_acceleration_calibration_target;
+double DMAMEM __oe_acceleration_calibration_variance;
+double DMAMEM __oe_acceleration_calibration_offset;
+double DMAMEM __oe_acceleration_calibration_target;
 float DMAMEM __oe_raw_lateral_acceleration;
 float DMAMEM __oe_lateral_acceleration;
 error_flag DMAMEM __oe_error_lateral_acceleration_out_of_range;
-float DMAMEM __oe_lateral_acceleration_calibration_variance;
-float DMAMEM __oe_lateral_acceleration_calibration_offset;
-float DMAMEM __oe_lateral_acceleration_calibration_target;
+double DMAMEM __oe_lateral_acceleration_calibration_variance;
+double DMAMEM __oe_lateral_acceleration_calibration_offset;
+double DMAMEM __oe_lateral_acceleration_calibration_target;
 float DMAMEM __oe_raw_vertical_acceleration;
 float DMAMEM __oe_vertical_acceleration;
 error_flag DMAMEM __oe_error_vertical_acceleration_out_of_range;
-float DMAMEM __oe_vertical_acceleration_calibration_variance;
-float DMAMEM __oe_vertical_acceleration_calibration_offset;
-float DMAMEM __oe_vertical_acceleration_calibration_target;
+double DMAMEM __oe_vertical_acceleration_calibration_variance;
+double DMAMEM __oe_vertical_acceleration_calibration_offset;
+double DMAMEM __oe_vertical_acceleration_calibration_target;
 error_flag DMAMEM __oe_error_acceleration_calibation_failed;
 float DMAMEM __oe_track_length;
 float DMAMEM __oe_bat24_voltage;
+calibration_mode DMAMEM __oe_bat24_voltage_calibration_mode;
 float DMAMEM __oe_bat24_voltage_calibration_offset;
 float DMAMEM __oe_bat24_voltage_calibration_target;
+error_flag DMAMEM __oe_error_bat24_voltage_invalid;
 error_level DMAMEM __oe_error_level_bat24_under_voltage;
 error_level_config DMAMEM __oe_error_level_config_bat24_under_voltage;
 error_level DMAMEM __oe_error_level_bat24_over_voltage;
@@ -53,44 +55,54 @@ float DMAMEM __oe_bat24_current;
 float DMAMEM __oe_bat24_current_calibration_offset;
 float DMAMEM __oe_bat24_current_calibration_target;
 calibration_mode DMAMEM __oe_bat24_current_calibration_mode;
-error_flag DMAMEM __oe_error_bat24_current_calibration_failed;
+error_flag DMAMEM __oe_error_bat24_current_invalid;
 error_level DMAMEM __oe_error_level_bat24_over_current;
 error_level_config DMAMEM __oe_error_level_config_bat24_over_current;
 float DMAMEM __oe_link24_voltage;
+calibration_mode DMAMEM __oe_link24_voltage_calibration_mode;
 float DMAMEM __oe_link24_voltage_calibration_offset;
 float DMAMEM __oe_link24_voltage_calibration_target;
+error_flag DMAMEM __oe_error_link24_voltage_invalid;
 error_level DMAMEM __oe_error_level_link24_under_voltage;
 error_level_config DMAMEM __oe_error_level_config_link24_under_voltage;
 error_level DMAMEM __oe_error_level_link24_over_voltage;
 error_level_config DMAMEM __oe_error_level_config_link24_over_voltage;
 float DMAMEM __oe_link24_current;
+calibration_mode DMAMEM __oe_link24_current_calibration_mode;
 float DMAMEM __oe_link24_current_calibration_offset;
 float DMAMEM __oe_link24_current_calibration_target;
+error_flag DMAMEM __oe_error_link24_current_invalid;
 error_level DMAMEM __oe_error_level_link24_over_current;
 error_level_config DMAMEM __oe_error_level_config_link24_over_current;
 float DMAMEM __oe_link45_voltage;
+calibration_mode DMAMEM __oe_link45_voltage_calibration_mode;
 float DMAMEM __oe_link45_voltage_calibration_offset;
 float DMAMEM __oe_link45_voltage_calibration_target;
+error_flag DMAMEM __oe_error_link45_voltage_invalid;
 error_level DMAMEM __oe_error_level_link45_under_voltage;
 error_level_config DMAMEM __oe_error_level_config_link45_under_voltage;
 error_level DMAMEM __oe_error_level_link45_over_voltage;
 error_level_config DMAMEM __oe_error_level_config_link45_over_voltage;
 float DMAMEM __oe_link45_current;
+calibration_mode DMAMEM __oe_link45_current_calibration_mode;
 float DMAMEM __oe_link45_current_calibration_offset;
 float DMAMEM __oe_link45_current_calibration_target;
+error_flag DMAMEM __oe_error_link45_current_invalid;
 error_level DMAMEM __oe_error_level_link45_over_current;
 error_level_config DMAMEM __oe_error_level_config_link45_over_current;
 float DMAMEM __oe_cooling_cycle_pressure;
+calibration_mode DMAMEM __oe_cooling_cycle_pressure_calibration_mode;
 float DMAMEM __oe_cooling_cycle_pressure_calibration_offset;
 float DMAMEM __oe_cooling_cycle_pressure_calibration_target;
-error_level DMAMEM __oe_error_level_cooling_cycle_under_pressure;
-error_level_config DMAMEM __oe_error_level_config_cooling_cycle_under_pressure;
+error_flag DMAMEM __oe_error_cooling_cycle_pressure_invalid;
 error_level DMAMEM __oe_error_level_cooling_cycle_over_pressure;
 error_level_config DMAMEM __oe_error_level_config_cooling_cycle_over_pressure;
 float DMAMEM __oe_mcu_temperature;
+error_flag DMAMEM __oe_error_mcu_temperature_invalid;
 error_level DMAMEM __oe_error_level_mcu_temperature;
 error_level_config DMAMEM __oe_error_level_config_mcu_temperature;
 float DMAMEM __oe_cooling_cycle_temperature;
+error_flag DMAMEM __oe_error_cooling_cycle_temperature_invalid;
 error_level DMAMEM __oe_error_level_cooling_cycle_temperature;
 error_level_config DMAMEM __oe_error_level_config_cooling_temperature;
 float DMAMEM __oe_bat24_temperature;
@@ -98,12 +110,15 @@ error_level DMAMEM __oe_error_level_bat24_temperature;
 error_level_config DMAMEM __oe_error_level_config_bat24_temperature;
 error_flag DMAMEM __oe_error_bat24_temperature_invalid;
 float DMAMEM __oe_supercap_temperature;
+error_flag DMAMEM __oe_error_supercap_temperature_invalid;
 error_level DMAMEM __oe_error_level_supercap_temperature;
 error_level_config DMAMEM __oe_error_level_config_supercap_temperature;
 float DMAMEM __oe_buck_temperature;
+error_flag DMAMEM __oe_error_buck_temperature_invalid;
 error_level DMAMEM __oe_error_level_buck_temperature;
 error_level_config DMAMEM __oe_error_level_config_buck_temperature;
 float DMAMEM __oe_ebox_temperature;
+error_flag DMAMEM __oe_error_ebox_temperature_invalid;
 error_level DMAMEM __oe_error_level_ebox_temperature;
 error_level_config DMAMEM __oe_error_level_config_ebox_temperature;
 float DMAMEM __oe_ambient_temperature;
@@ -111,10 +126,14 @@ error_flag DMAMEM __oe_error_ambient_temperature_invalid;
 error_level DMAMEM __oe_error_level_ambient_temperature;
 error_level_config DMAMEM __oe_error_level_config_ambient_temperature;
 float DMAMEM __oe_cooling_cycle_flow_rate;
+float DMAMEM __oe_loop_frequency;
 error_flag DMAMEM __oe_assertion_fault;
 static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0xBE;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0xBD;
   frame->dlc = 8;
   ((uint32_t*)data)[0] = (uint8_t)(msg->m_header.m_sof & (0xFF >> (8 - 1)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_header.m_eof & (0xFF >> (8 - 1))) << 1;
@@ -126,7 +145,10 @@ static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp*
 }
 static void canzero_serialize_canzero_message_set_resp(canzero_message_set_resp* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0xDE;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0xDD;
   frame->dlc = 4;
   ((uint32_t*)data)[0] = (uint16_t)(msg->m_header.m_od_index & (0xFFFF >> (16 - 13)));
   ((uint32_t*)data)[0] |= msg->m_header.m_client_id << 13;
@@ -135,52 +157,77 @@ static void canzero_serialize_canzero_message_set_resp(canzero_message_set_resp*
 }
 static void canzero_serialize_canzero_message_input_board_stream_state(canzero_message_input_board_stream_state* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x4D;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x4C;
   frame->dlc = 1;
   ((uint32_t*)data)[0] = (uint8_t)(msg->m_state & (0xFF >> (8 - 2)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_sdc_status & (0xFF >> (8 - 1))) << 2;
 }
 static void canzero_serialize_canzero_message_input_board_stream_position_estimation(canzero_message_input_board_stream_position_estimation* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x8E;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x8D;
   frame->dlc = 6;
-  uint32_t position_0 = (msg->m_position - -0) / 0.0007629510948348211;
+  uint32_t position_0 = ((msg->m_position - -0) / 0.0007629510948348211) + 0.5f;
   if (position_0 > 0xFFFF) {
     position_0 = 0xFFFF;
   }
   ((uint32_t*)data)[0] = position_0;
-  uint32_t velocity_16 = (msg->m_velocity - -10) / 0.00030518043793392844;
+  uint32_t velocity_16 = ((msg->m_velocity - -10) / 0.00030518043793392844) + 0.5f;
   if (velocity_16 > 0xFFFF) {
     velocity_16 = 0xFFFF;
   }
   ((uint32_t*)data)[0] |= velocity_16 << 16;
-  uint32_t acceleration_32 = (msg->m_acceleration - -50) / 0.0015259021896696422;
+  uint32_t acceleration_32 = ((msg->m_acceleration - -50) / 0.0015259021896696422) + 0.5f;
   if (acceleration_32 > 0xFFFF) {
     acceleration_32 = 0xFFFF;
   }
   ((uint32_t*)data)[1] = acceleration_32;
 }
+static void canzero_serialize_canzero_message_input_board_stream_debug(canzero_message_input_board_stream_debug* msg, canzero_frame* frame) {
+  uint8_t* data = frame->data;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x9A;
+  frame->dlc = 4;
+  uint32_t loop_frequency_0 = ((msg->m_loop_frequency - 0) / 0.00000023283064370807974) + 0.5f;
+  if (loop_frequency_0 > 0xFFFFFFFF) {
+    loop_frequency_0 = 0xFFFFFFFF;
+  }
+  ((uint32_t*)data)[0] = loop_frequency_0;
+}
 static void canzero_serialize_canzero_message_input_board_stream_linear_encoder(canzero_message_input_board_stream_linear_encoder* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x7B;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x79;
   frame->dlc = 2;
   ((uint32_t*)data)[0] = msg->m_linear_encoder_count;
 }
 static void canzero_serialize_canzero_message_input_board_stream_accelerations(canzero_message_input_board_stream_accelerations* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x5C;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x9B;
   frame->dlc = 6;
-  uint32_t raw_acceleration_0 = (msg->m_raw_acceleration - -50) / 0.0015259021896696422;
+  uint32_t raw_acceleration_0 = ((msg->m_raw_acceleration - -50) / 0.0015259021896696422) + 0.5f;
   if (raw_acceleration_0 > 0xFFFF) {
     raw_acceleration_0 = 0xFFFF;
   }
   ((uint32_t*)data)[0] = raw_acceleration_0;
-  uint32_t lateral_acceleration_16 = (msg->m_lateral_acceleration - -10) / 0.00030518043793392844;
+  uint32_t lateral_acceleration_16 = ((msg->m_lateral_acceleration - -10) / 0.00030518043793392844) + 0.5f;
   if (lateral_acceleration_16 > 0xFFFF) {
     lateral_acceleration_16 = 0xFFFF;
   }
   ((uint32_t*)data)[0] |= lateral_acceleration_16 << 16;
-  uint32_t vertical_acceleration_32 = (msg->m_vertical_acceleration - -10) / 0.00030518043793392844;
+  uint32_t vertical_acceleration_32 = ((msg->m_vertical_acceleration - -10) / 0.00030518043793392844) + 0.5f;
   if (vertical_acceleration_32 > 0xFFFF) {
     vertical_acceleration_32 = 0xFFFF;
   }
@@ -188,14 +235,17 @@ static void canzero_serialize_canzero_message_input_board_stream_accelerations(c
 }
 static void canzero_serialize_canzero_message_input_board_stream_bat24(canzero_message_input_board_stream_bat24* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x7C;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x5A;
   frame->dlc = 8;
-  uint32_t bat24_voltage_0 = (msg->m_bat24_voltage - 0) / 0.000000011641532185403987;
+  uint32_t bat24_voltage_0 = ((msg->m_bat24_voltage - 0) / 0.000000011641532185403987) + 0.5f;
   if (bat24_voltage_0 > 0xFFFFFFFF) {
     bat24_voltage_0 = 0xFFFFFFFF;
   }
   ((uint32_t*)data)[0] = bat24_voltage_0;
-  uint32_t bat24_current_32 = (msg->m_bat24_current - -30) / 0.000000013969838622484784;
+  uint32_t bat24_current_32 = ((msg->m_bat24_current - -30) / 0.000000013969838622484784) + 0.5f;
   if (bat24_current_32 > 0xFFFFFFFF) {
     bat24_current_32 = 0xFFFFFFFF;
   }
@@ -203,14 +253,17 @@ static void canzero_serialize_canzero_message_input_board_stream_bat24(canzero_m
 }
 static void canzero_serialize_canzero_message_input_board_stream_link24(canzero_message_input_board_stream_link24* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x9B;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x99;
   frame->dlc = 8;
-  uint32_t link24_voltage_0 = (msg->m_link24_voltage - 0) / 0.000000011641532185403987;
+  uint32_t link24_voltage_0 = ((msg->m_link24_voltage - 0) / 0.000000011641532185403987) + 0.5f;
   if (link24_voltage_0 > 0xFFFFFFFF) {
     link24_voltage_0 = 0xFFFFFFFF;
   }
   ((uint32_t*)data)[0] = link24_voltage_0;
-  uint32_t link24_current_32 = (msg->m_link24_current - -30) / 0.000000013969838622484784;
+  uint32_t link24_current_32 = ((msg->m_link24_current - -30) / 0.000000013969838622484784) + 0.5f;
   if (link24_current_32 > 0xFFFFFFFF) {
     link24_current_32 = 0xFFFFFFFF;
   }
@@ -218,14 +271,17 @@ static void canzero_serialize_canzero_message_input_board_stream_link24(canzero_
 }
 static void canzero_serialize_canzero_message_input_board_stream_link45(canzero_message_input_board_stream_link45* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x5A;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x58;
   frame->dlc = 8;
-  uint32_t link45_voltage_0 = (msg->m_link45_voltage - 0) / 0.00000023283064370807974;
+  uint32_t link45_voltage_0 = ((msg->m_link45_voltage - 0) / 0.00000023283064370807974) + 0.5f;
   if (link45_voltage_0 > 0xFFFFFFFF) {
     link45_voltage_0 = 0xFFFFFFFF;
   }
   ((uint32_t*)data)[0] = link45_voltage_0;
-  uint32_t link45_current_32 = (msg->m_link45_current - -1000) / 0.0000004656612874161595;
+  uint32_t link45_current_32 = ((msg->m_link45_current - -1000) / 0.0000004656612874161595) + 0.5f;
   if (link45_current_32 > 0xFFFFFFFF) {
     link45_current_32 = 0xFFFFFFFF;
   }
@@ -233,14 +289,17 @@ static void canzero_serialize_canzero_message_input_board_stream_link45(canzero_
 }
 static void canzero_serialize_canzero_message_input_board_stream_cooling(canzero_message_input_board_stream_cooling* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x9C;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x7A;
   frame->dlc = 2;
-  uint32_t cooling_cycle_pressure_0 = (msg->m_cooling_cycle_pressure - -1) / 0.0392156862745098;
+  uint32_t cooling_cycle_pressure_0 = ((msg->m_cooling_cycle_pressure - -1) / 0.0392156862745098) + 0.5f;
   if (cooling_cycle_pressure_0 > 0xFF) {
     cooling_cycle_pressure_0 = 0xFF;
   }
   ((uint32_t*)data)[0] = cooling_cycle_pressure_0;
-  uint32_t cooling_cycle_temperature_8 = (msg->m_cooling_cycle_temperature - -1) / 0.592156862745098;
+  uint32_t cooling_cycle_temperature_8 = ((msg->m_cooling_cycle_temperature - -1) / 0.592156862745098) + 0.5f;
   if (cooling_cycle_temperature_8 > 0xFF) {
     cooling_cycle_temperature_8 = 0xFF;
   }
@@ -248,34 +307,37 @@ static void canzero_serialize_canzero_message_input_board_stream_cooling(canzero
 }
 static void canzero_serialize_canzero_message_input_board_stream_temperatures(canzero_message_input_board_stream_temperatures* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x7A;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x78;
   frame->dlc = 6;
-  uint32_t mcu_temperature_0 = (msg->m_mcu_temperature - -1) / 0.592156862745098;
+  uint32_t mcu_temperature_0 = ((msg->m_mcu_temperature - -1) / 0.592156862745098) + 0.5f;
   if (mcu_temperature_0 > 0xFF) {
     mcu_temperature_0 = 0xFF;
   }
   ((uint32_t*)data)[0] = mcu_temperature_0;
-  uint32_t bat24_temperature_8 = (msg->m_bat24_temperature - -1) / 0.592156862745098;
+  uint32_t bat24_temperature_8 = ((msg->m_bat24_temperature - -1) / 0.592156862745098) + 0.5f;
   if (bat24_temperature_8 > 0xFF) {
     bat24_temperature_8 = 0xFF;
   }
   ((uint32_t*)data)[0] |= bat24_temperature_8 << 8;
-  uint32_t supercap_temperature_16 = (msg->m_supercap_temperature - -1) / 0.592156862745098;
+  uint32_t supercap_temperature_16 = ((msg->m_supercap_temperature - -1) / 0.592156862745098) + 0.5f;
   if (supercap_temperature_16 > 0xFF) {
     supercap_temperature_16 = 0xFF;
   }
   ((uint32_t*)data)[0] |= supercap_temperature_16 << 16;
-  uint32_t buck_temperature_24 = (msg->m_buck_temperature - -1) / 0.592156862745098;
+  uint32_t buck_temperature_24 = ((msg->m_buck_temperature - -1) / 0.592156862745098) + 0.5f;
   if (buck_temperature_24 > 0xFF) {
     buck_temperature_24 = 0xFF;
   }
   ((uint32_t*)data)[0] |= buck_temperature_24 << 24;
-  uint32_t ebox_temperature_32 = (msg->m_ebox_temperature - -1) / 0.592156862745098;
+  uint32_t ebox_temperature_32 = ((msg->m_ebox_temperature - -1) / 0.592156862745098) + 0.5f;
   if (ebox_temperature_32 > 0xFF) {
     ebox_temperature_32 = 0xFF;
   }
   ((uint32_t*)data)[1] = ebox_temperature_32;
-  uint32_t ambient_temperature_40 = (msg->m_ambient_temperature - -1) / 0.592156862745098;
+  uint32_t ambient_temperature_40 = ((msg->m_ambient_temperature - -1) / 0.592156862745098) + 0.5f;
   if (ambient_temperature_40 > 0xFF) {
     ambient_temperature_40 = 0xFF;
   }
@@ -283,43 +345,68 @@ static void canzero_serialize_canzero_message_input_board_stream_temperatures(ca
 }
 static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_message_input_board_stream_errors* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
-  frame->id = 0x5B;
-  frame->dlc = 5;
-  ((uint32_t*)data)[0] = (uint8_t)(msg->m_error_level_bat24_under_voltage & (0xFF >> (8 - 2)));
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_voltage & (0xFF >> (8 - 2))) << 2;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_current & (0xFF >> (8 - 2))) << 4;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_under_voltage & (0xFF >> (8 - 2))) << 6;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_voltage & (0xFF >> (8 - 2))) << 8;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_current & (0xFF >> (8 - 2))) << 10;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_under_voltage & (0xFF >> (8 - 2))) << 12;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_over_voltage & (0xFF >> (8 - 2))) << 14;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_over_current & (0xFF >> (8 - 2))) << 16;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_cooling_cycle_under_pressure & (0xFF >> (8 - 2))) << 18;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_cooling_cycle_over_pressure & (0xFF >> (8 - 2))) << 20;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_mcu_temperature & (0xFF >> (8 - 2))) << 22;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_cooling_cycle_temperature & (0xFF >> (8 - 2))) << 24;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_temperature & (0xFF >> (8 - 2))) << 26;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_supercap_temperature & (0xFF >> (8 - 2))) << 28;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_buck_temperature & (0xFF >> (8 - 2))) << 30;
-  ((uint32_t*)data)[1] = (uint8_t)(msg->m_error_level_ebox_temperature & (0xFF >> (8 - 2)));
-  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_ambient_temperature & (0xFF >> (8 - 2))) << 2;
-  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_assertion_fault & (0xFF >> (8 - 1))) << 4;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x59;
+  frame->dlc = 7;
+  ((uint32_t*)data)[0] = (uint8_t)(msg->m_error_acceleration_out_of_range & (0xFF >> (8 - 1)));
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_lateral_acceleration_out_of_range & (0xFF >> (8 - 1))) << 1;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_vertical_acceleration_out_of_range & (0xFF >> (8 - 1))) << 2;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_bat24_voltage_invalid & (0xFF >> (8 - 1))) << 3;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_under_voltage & (0xFF >> (8 - 2))) << 4;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_voltage & (0xFF >> (8 - 2))) << 6;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_bat24_current_invalid & (0xFF >> (8 - 1))) << 8;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_current & (0xFF >> (8 - 2))) << 9;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link24_voltage_invalid & (0xFF >> (8 - 1))) << 11;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_under_voltage & (0xFF >> (8 - 2))) << 12;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_voltage & (0xFF >> (8 - 2))) << 14;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link24_current_invalid & (0xFF >> (8 - 1))) << 16;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_current & (0xFF >> (8 - 2))) << 17;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link45_voltage_invalid & (0xFF >> (8 - 1))) << 19;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_under_voltage & (0xFF >> (8 - 2))) << 20;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_over_voltage & (0xFF >> (8 - 2))) << 22;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link45_current_invalid & (0xFF >> (8 - 1))) << 24;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link45_over_current & (0xFF >> (8 - 2))) << 25;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_cooling_cycle_pressure_invalid & (0xFF >> (8 - 1))) << 27;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_cooling_cycle_over_pressure & (0xFF >> (8 - 2))) << 28;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_mcu_temperature_invalid & (0xFF >> (8 - 1))) << 30;
+  ((uint64_t*)data)[0] |= ((uint64_t)(uint8_t)(msg->m_error_level_mcu_temperature & (0xFF >> (8 - 2)))) << 31 ;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_cooling_cycle_temperature_invalid & (0xFF >> (8 - 1))) << 1;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_cooling_cycle_temperature & (0xFF >> (8 - 2))) << 2;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_bat24_temperature_invalid & (0xFF >> (8 - 1))) << 4;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_bat24_temperature & (0xFF >> (8 - 2))) << 5;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_supercap_temperature_invalid & (0xFF >> (8 - 1))) << 7;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_supercap_temperature & (0xFF >> (8 - 2))) << 8;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_buck_temperature_invalid & (0xFF >> (8 - 1))) << 10;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_buck_temperature & (0xFF >> (8 - 2))) << 11;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_ebox_temperature_invalid & (0xFF >> (8 - 1))) << 13;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_ebox_temperature & (0xFF >> (8 - 2))) << 14;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_ambient_temperature_invalid & (0xFF >> (8 - 1))) << 16;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_ambient_temperature & (0xFF >> (8 - 2))) << 17;
+  ((uint32_t*)data)[1] |= (uint8_t)(msg->m_assertion_fault & (0xFF >> (8 - 1))) << 19;
 }
 static void canzero_serialize_canzero_message_heartbeat_can0(canzero_message_heartbeat_can0* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
   frame->id = 0xE9;
   frame->dlc = 2;
-  ((uint32_t*)data)[0] = (uint8_t)(msg->m_node_id & (0xFF >> (8 - 4)));
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 4;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_ticks_next & (0xFF >> (8 - 7))) << 5;
+  ((uint32_t*)data)[0] = msg->m_node_id;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 8;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_ticks_next & (0xFF >> (8 - 7))) << 9;
 }
 static void canzero_serialize_canzero_message_heartbeat_can1(canzero_message_heartbeat_can1* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
   frame->id = 0xE8;
   frame->dlc = 2;
-  ((uint32_t*)data)[0] = (uint8_t)(msg->m_node_id & (0xFF >> (8 - 4)));
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 4;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_ticks_next & (0xFF >> (8 - 7))) << 5;
+  ((uint32_t*)data)[0] = msg->m_node_id;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 8;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_ticks_next & (0xFF >> (8 - 7))) << 9;
 }
 static void canzero_deserialize_canzero_message_get_req(canzero_frame* frame, canzero_message_get_req* msg) {
   uint8_t* data = frame->data;
@@ -337,17 +424,22 @@ static void canzero_deserialize_canzero_message_set_req(canzero_frame* frame, ca
   msg->m_header.m_server_id = ((((uint32_t*)data)[0] >> 24) & (0xFFFFFFFF >> (32 - 8)));
   msg->m_data = (((uint32_t*)data)[1] & (0xFFFFFFFF >> (32 - 32)));
 }
+static void canzero_deserialize_canzero_message_mother_board_stream_motor_command(canzero_frame* frame, canzero_message_mother_board_stream_motor_command* msg) {
+  uint8_t* data = frame->data;
+  msg->m_target_acceleration = (((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 32))) * 0.000000023283064370807974 + -50;
+  msg->m_motor_driver_command = (motor_command)(((uint32_t*)data)[1] & (0xFFFFFFFF >> (32 - 3)));
+}
 static void canzero_deserialize_canzero_message_heartbeat_can0(canzero_frame* frame, canzero_message_heartbeat_can0* msg) {
   uint8_t* data = frame->data;
-  msg->m_node_id = (node_id)(((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 4)));
-  msg->m_unregister = ((((uint32_t*)data)[0] >> 4) & (0xFFFFFFFF >> (32 - 1)));
-  msg->m_ticks_next = ((((uint32_t*)data)[0] >> 5) & (0xFFFFFFFF >> (32 - 7)));
+  msg->m_node_id = (((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 8)));
+  msg->m_unregister = ((((uint32_t*)data)[0] >> 8) & (0xFFFFFFFF >> (32 - 1)));
+  msg->m_ticks_next = ((((uint32_t*)data)[0] >> 9) & (0xFFFFFFFF >> (32 - 7)));
 }
 static void canzero_deserialize_canzero_message_heartbeat_can1(canzero_frame* frame, canzero_message_heartbeat_can1* msg) {
   uint8_t* data = frame->data;
-  msg->m_node_id = (node_id)(((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 4)));
-  msg->m_unregister = ((((uint32_t*)data)[0] >> 4) & (0xFFFFFFFF >> (32 - 1)));
-  msg->m_ticks_next = ((((uint32_t*)data)[0] >> 5) & (0xFFFFFFFF >> (32 - 7)));
+  msg->m_node_id = (((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 8)));
+  msg->m_unregister = ((((uint32_t*)data)[0] >> 8) & (0xFFFFFFFF >> (32 - 1)));
+  msg->m_ticks_next = ((((uint32_t*)data)[0] >> 9) & (0xFFFFFFFF >> (32 - 7)));
 }
 __attribute__((weak)) void canzero_can0_wdg_timeout(uint8_t node_id) {}
 __attribute__((weak)) void canzero_can1_wdg_timeout(uint8_t node_id) {}
@@ -540,7 +632,7 @@ static void schedule_heartbeat_wdg_job() {
 }
 
 static job_t state_interval_job;
-static const uint32_t state_interval = 0;
+static const uint32_t state_interval = 1;
 static void schedule_state_interval_job(){
   uint32_t time = canzero_get_time();
   state_interval_job.climax = time + state_interval;
@@ -550,7 +642,7 @@ static void schedule_state_interval_job(){
   scheduler_schedule(&state_interval_job);
 }
 static job_t position_estimation_interval_job;
-static const uint32_t position_estimation_interval = 50;
+static const uint32_t position_estimation_interval = 10;
 static void schedule_position_estimation_interval_job(){
   uint32_t time = canzero_get_time();
   position_estimation_interval_job.climax = time + position_estimation_interval;
@@ -559,23 +651,33 @@ static void schedule_position_estimation_interval_job(){
   position_estimation_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&position_estimation_interval_job);
 }
+static job_t debug_interval_job;
+static const uint32_t debug_interval = 500;
+static void schedule_debug_interval_job(){
+  uint32_t time = canzero_get_time();
+  debug_interval_job.climax = time + debug_interval;
+  debug_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
+  debug_interval_job.job.stream_job.stream_id = 2;
+  debug_interval_job.job.stream_job.last_schedule = time;
+  scheduler_schedule(&debug_interval_job);
+}
 static job_t linear_encoder_interval_job;
 static const uint32_t linear_encoder_interval = 50;
 static void schedule_linear_encoder_interval_job(){
   uint32_t time = canzero_get_time();
   linear_encoder_interval_job.climax = time + linear_encoder_interval;
   linear_encoder_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  linear_encoder_interval_job.job.stream_job.stream_id = 2;
+  linear_encoder_interval_job.job.stream_job.stream_id = 3;
   linear_encoder_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&linear_encoder_interval_job);
 }
 static job_t accelerations_interval_job;
-static const uint32_t accelerations_interval = 200;
+static const uint32_t accelerations_interval = 50;
 static void schedule_accelerations_interval_job(){
   uint32_t time = canzero_get_time();
   accelerations_interval_job.climax = time + accelerations_interval;
   accelerations_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  accelerations_interval_job.job.stream_job.stream_id = 3;
+  accelerations_interval_job.job.stream_job.stream_id = 4;
   accelerations_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&accelerations_interval_job);
 }
@@ -585,7 +687,7 @@ static void schedule_bat24_interval_job(){
   uint32_t time = canzero_get_time();
   bat24_interval_job.climax = time + bat24_interval;
   bat24_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  bat24_interval_job.job.stream_job.stream_id = 4;
+  bat24_interval_job.job.stream_job.stream_id = 5;
   bat24_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&bat24_interval_job);
 }
@@ -595,7 +697,7 @@ static void schedule_link24_interval_job(){
   uint32_t time = canzero_get_time();
   link24_interval_job.climax = time + link24_interval;
   link24_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  link24_interval_job.job.stream_job.stream_id = 5;
+  link24_interval_job.job.stream_job.stream_id = 6;
   link24_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&link24_interval_job);
 }
@@ -605,7 +707,7 @@ static void schedule_link45_interval_job(){
   uint32_t time = canzero_get_time();
   link45_interval_job.climax = time + link45_interval;
   link45_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  link45_interval_job.job.stream_job.stream_id = 6;
+  link45_interval_job.job.stream_job.stream_id = 7;
   link45_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&link45_interval_job);
 }
@@ -615,7 +717,7 @@ static void schedule_cooling_interval_job(){
   uint32_t time = canzero_get_time();
   cooling_interval_job.climax = time + cooling_interval;
   cooling_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  cooling_interval_job.job.stream_job.stream_id = 7;
+  cooling_interval_job.job.stream_job.stream_id = 8;
   cooling_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&cooling_interval_job);
 }
@@ -625,17 +727,17 @@ static void schedule_temperatures_interval_job(){
   uint32_t time = canzero_get_time();
   temperatures_interval_job.climax = time + temperatures_interval;
   temperatures_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  temperatures_interval_job.job.stream_job.stream_id = 8;
+  temperatures_interval_job.job.stream_job.stream_id = 9;
   temperatures_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&temperatures_interval_job);
 }
 static job_t errors_interval_job;
-static const uint32_t errors_interval = 0;
+static const uint32_t errors_interval = 1;
 static void schedule_errors_interval_job(){
   uint32_t time = canzero_get_time();
   errors_interval_job.climax = time + errors_interval;
   errors_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  errors_interval_job.job.stream_job.stream_id = 9;
+  errors_interval_job.job.stream_job.stream_id = 10;
   errors_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&errors_interval_job);
 }
@@ -665,7 +767,7 @@ static void schedule_jobs(uint32_t time) {
       }
       case 1: {
         job->job.stream_job.last_schedule = time;
-        scheduler_reschedule(time + 50);
+        scheduler_reschedule(time + 10);
         canzero_exit_critical();
         canzero_message_input_board_stream_position_estimation stream_message;
         stream_message.m_position = __oe_position;
@@ -673,10 +775,21 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_acceleration = __oe_acceleration;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_position_estimation(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
       case 2: {
+        job->job.stream_job.last_schedule = time;
+        scheduler_reschedule(time + 500);
+        canzero_exit_critical();
+        canzero_message_input_board_stream_debug stream_message;
+        stream_message.m_loop_frequency = __oe_loop_frequency;
+        canzero_frame stream_frame;
+        canzero_serialize_canzero_message_input_board_stream_debug(&stream_message, &stream_frame);
+        canzero_can0_send(&stream_frame);
+        break;
+      }
+      case 3: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 1000);
         canzero_exit_critical();
@@ -687,9 +800,9 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 3: {
+      case 4: {
         job->job.stream_job.last_schedule = time;
-        scheduler_reschedule(time + 200);
+        scheduler_reschedule(time + 50);
         canzero_exit_critical();
         canzero_message_input_board_stream_accelerations stream_message;
         stream_message.m_raw_acceleration = __oe_raw_acceleration;
@@ -700,7 +813,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can0_send(&stream_frame);
         break;
       }
-      case 4: {
+      case 5: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -709,10 +822,10 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_bat24_current = __oe_bat24_current;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_bat24(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
-      case 5: {
+      case 6: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -721,10 +834,10 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_link24_current = __oe_link24_current;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_link24(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
-      case 6: {
+      case 7: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -733,10 +846,10 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_link45_current = __oe_link45_current;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_link45(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
-      case 7: {
+      case 8: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 500);
         canzero_exit_critical();
@@ -748,7 +861,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 8: {
+      case 9: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 500);
         canzero_exit_critical();
@@ -764,28 +877,44 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 9: {
+      case 10: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 1000);
         canzero_exit_critical();
         canzero_message_input_board_stream_errors stream_message;
+        stream_message.m_error_acceleration_out_of_range = __oe_error_acceleration_out_of_range;
+        stream_message.m_error_lateral_acceleration_out_of_range = __oe_error_lateral_acceleration_out_of_range;
+        stream_message.m_error_vertical_acceleration_out_of_range = __oe_error_vertical_acceleration_out_of_range;
+        stream_message.m_error_bat24_voltage_invalid = __oe_error_bat24_voltage_invalid;
         stream_message.m_error_level_bat24_under_voltage = __oe_error_level_bat24_under_voltage;
         stream_message.m_error_level_bat24_over_voltage = __oe_error_level_bat24_over_voltage;
+        stream_message.m_error_bat24_current_invalid = __oe_error_bat24_current_invalid;
         stream_message.m_error_level_bat24_over_current = __oe_error_level_bat24_over_current;
+        stream_message.m_error_link24_voltage_invalid = __oe_error_link24_voltage_invalid;
         stream_message.m_error_level_link24_under_voltage = __oe_error_level_link24_under_voltage;
         stream_message.m_error_level_link24_over_voltage = __oe_error_level_link24_over_voltage;
+        stream_message.m_error_link24_current_invalid = __oe_error_link24_current_invalid;
         stream_message.m_error_level_link24_over_current = __oe_error_level_link24_over_current;
+        stream_message.m_error_link45_voltage_invalid = __oe_error_link45_voltage_invalid;
         stream_message.m_error_level_link45_under_voltage = __oe_error_level_link45_under_voltage;
         stream_message.m_error_level_link45_over_voltage = __oe_error_level_link45_over_voltage;
+        stream_message.m_error_link45_current_invalid = __oe_error_link45_current_invalid;
         stream_message.m_error_level_link45_over_current = __oe_error_level_link45_over_current;
-        stream_message.m_error_level_cooling_cycle_under_pressure = __oe_error_level_cooling_cycle_under_pressure;
+        stream_message.m_error_cooling_cycle_pressure_invalid = __oe_error_cooling_cycle_pressure_invalid;
         stream_message.m_error_level_cooling_cycle_over_pressure = __oe_error_level_cooling_cycle_over_pressure;
+        stream_message.m_error_mcu_temperature_invalid = __oe_error_mcu_temperature_invalid;
         stream_message.m_error_level_mcu_temperature = __oe_error_level_mcu_temperature;
+        stream_message.m_error_cooling_cycle_temperature_invalid = __oe_error_cooling_cycle_temperature_invalid;
         stream_message.m_error_level_cooling_cycle_temperature = __oe_error_level_cooling_cycle_temperature;
+        stream_message.m_error_bat24_temperature_invalid = __oe_error_bat24_temperature_invalid;
         stream_message.m_error_level_bat24_temperature = __oe_error_level_bat24_temperature;
+        stream_message.m_error_supercap_temperature_invalid = __oe_error_supercap_temperature_invalid;
         stream_message.m_error_level_supercap_temperature = __oe_error_level_supercap_temperature;
+        stream_message.m_error_buck_temperature_invalid = __oe_error_buck_temperature_invalid;
         stream_message.m_error_level_buck_temperature = __oe_error_level_buck_temperature;
+        stream_message.m_error_ebox_temperature_invalid = __oe_error_ebox_temperature_invalid;
         stream_message.m_error_level_ebox_temperature = __oe_error_level_ebox_temperature;
+        stream_message.m_error_ambient_temperature_invalid = __oe_error_ambient_temperature_invalid;
         stream_message.m_error_level_ambient_temperature = __oe_error_level_ambient_temperature;
         stream_message.m_assertion_fault = __oe_assertion_fault;
         canzero_frame stream_frame;
@@ -857,7 +986,7 @@ static void schedule_jobs(uint32_t time) {
         fragmentation_response.m_header.m_toggle = fragmentation_job->offset % 2;
         fragmentation_response.m_header.m_od_index = fragmentation_job->od_index;
         fragmentation_response.m_header.m_client_id = fragmentation_job->client_id;
-        fragmentation_response.m_header.m_server_id = 0xA;
+        fragmentation_response.m_header.m_server_id = 0x8;
         fragmentation_response.m_data = fragmentation_job->buffer[fragmentation_job->offset];
         fragmentation_job->offset += 1;
         if (fragmentation_job->offset == fragmentation_job->size) {
@@ -870,7 +999,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_exit_critical();
         canzero_frame fragmentation_frame;
         canzero_serialize_canzero_message_get_resp(&fragmentation_response, &fragmentation_frame);
-        canzero_can0_send(&fragmentation_frame);
+        canzero_can1_send(&fragmentation_frame);
         break;
       }
       default: {
@@ -887,6 +1016,15 @@ static uint32_t scheduler_next_job_timeout() {
 
 static uint32_t DMAMEM __oe_config_hash_rx_fragmentation_buffer[2];
 static uint32_t DMAMEM __oe_build_time_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_acceleration_calibration_variance_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_acceleration_calibration_offset_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_acceleration_calibration_target_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_lateral_acceleration_calibration_variance_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_lateral_acceleration_calibration_offset_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_lateral_acceleration_calibration_target_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_vertical_acceleration_calibration_variance_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_vertical_acceleration_calibration_offset_rx_fragmentation_buffer[2];
+static uint32_t DMAMEM __oe_vertical_acceleration_calibration_target_rx_fragmentation_buffer[2];
 static uint32_t DMAMEM __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[7];
@@ -896,7 +1034,6 @@ static uint32_t DMAMEM __oe_error_level_config_link24_over_current_rx_fragmentat
 static uint32_t DMAMEM __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[7];
-static uint32_t DMAMEM __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[7];
@@ -908,7 +1045,7 @@ static uint32_t DMAMEM __oe_error_level_config_ambient_temperature_rx_fragmentat
 static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
   canzero_message_get_req msg;
   canzero_deserialize_canzero_message_get_req(frame, &msg);
-  if (msg.m_header.m_server_id != 10) {
+  if (msg.m_header.m_server_id != 8) {
     return;
   }
   canzero_message_get_resp resp{};
@@ -984,7 +1121,7 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 8: {
-    resp.m_data |= min_u32((__oe_target_acceleration - (-50)) / 0.0015259021896696422, 0xFFFF) << 0;
+    resp.m_data |= min_u32((__oe_target_acceleration - (-50)) / 0.000000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -1019,28 +1156,46 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 13: {
-    resp.m_data |= min_u32((__oe_acceleration_calibration_variance - (-1)) / 0.000030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_acceleration_calibration_variance - ((double)-1)) / (double)0.00000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_acceleration_calibration_variance_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_acceleration_calibration_variance_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_acceleration_calibration_variance_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_acceleration_calibration_variance_rx_fragmentation_buffer, 2, 13, msg.m_header.m_client_id);
     break;
   }
   case 14: {
-    resp.m_data |= min_u32((__oe_acceleration_calibration_offset - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_acceleration_calibration_offset - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_acceleration_calibration_offset_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_acceleration_calibration_offset_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_acceleration_calibration_offset_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_acceleration_calibration_offset_rx_fragmentation_buffer, 2, 14, msg.m_header.m_client_id);
     break;
   }
   case 15: {
-    resp.m_data |= min_u32((__oe_acceleration_calibration_target - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_acceleration_calibration_target - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_acceleration_calibration_target_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_acceleration_calibration_target_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_acceleration_calibration_target_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_acceleration_calibration_target_rx_fragmentation_buffer, 2, 15, msg.m_header.m_client_id);
     break;
   }
   case 16: {
-    resp.m_data |= min_u32((__oe_raw_lateral_acceleration - (-50)) / 0.0015259021896696422, 0xFFFF) << 0;
+    resp.m_data |= min_u32((__oe_raw_lateral_acceleration - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -1061,24 +1216,42 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 19: {
-    resp.m_data |= min_u32((__oe_lateral_acceleration_calibration_variance - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_lateral_acceleration_calibration_variance - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_lateral_acceleration_calibration_variance_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_lateral_acceleration_calibration_variance_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_lateral_acceleration_calibration_variance_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_lateral_acceleration_calibration_variance_rx_fragmentation_buffer, 2, 19, msg.m_header.m_client_id);
     break;
   }
   case 20: {
-    resp.m_data |= min_u32((__oe_lateral_acceleration_calibration_offset - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_lateral_acceleration_calibration_offset - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_lateral_acceleration_calibration_offset_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_lateral_acceleration_calibration_offset_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_lateral_acceleration_calibration_offset_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_lateral_acceleration_calibration_offset_rx_fragmentation_buffer, 2, 20, msg.m_header.m_client_id);
     break;
   }
   case 21: {
-    resp.m_data |= min_u32((__oe_lateral_acceleration_calibration_target - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_lateral_acceleration_calibration_target - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_lateral_acceleration_calibration_target_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_lateral_acceleration_calibration_target_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_lateral_acceleration_calibration_target_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_lateral_acceleration_calibration_target_rx_fragmentation_buffer, 2, 21, msg.m_header.m_client_id);
     break;
   }
   case 22: {
@@ -1103,24 +1276,42 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 25: {
-    resp.m_data |= min_u32((__oe_vertical_acceleration_calibration_variance - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_vertical_acceleration_calibration_variance - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_vertical_acceleration_calibration_variance_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_vertical_acceleration_calibration_variance_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_vertical_acceleration_calibration_variance_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_vertical_acceleration_calibration_variance_rx_fragmentation_buffer, 2, 25, msg.m_header.m_client_id);
     break;
   }
   case 26: {
-    resp.m_data |= min_u32((__oe_vertical_acceleration_calibration_offset - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_vertical_acceleration_calibration_offset - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_vertical_acceleration_calibration_offset_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_vertical_acceleration_calibration_offset_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_vertical_acceleration_calibration_offset_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_vertical_acceleration_calibration_offset_rx_fragmentation_buffer, 2, 26, msg.m_header.m_client_id);
     break;
   }
   case 27: {
-    resp.m_data |= min_u32((__oe_vertical_acceleration_calibration_target - (-10)) / 0.00030518043793392844, 0xFFFF) << 0;
+    {
+      uint64_t masked = (min_u64((__oe_vertical_acceleration_calibration_target - ((double)-10)) / (double)0.0000000000000000010842021724855044, 0xFFFFFFFFFFFFFFFFull) & (0xFFFFFFFFFFFFFFFF >> (64 - 64)));
+      __oe_vertical_acceleration_calibration_target_rx_fragmentation_buffer[0] = ((uint32_t*)&masked)[0];
+      __oe_vertical_acceleration_calibration_target_rx_fragmentation_buffer[1] = ((uint32_t*)&masked)[1];
+    }
+    resp.m_data = __oe_vertical_acceleration_calibration_target_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_vertical_acceleration_calibration_target_rx_fragmentation_buffer, 2, 27, msg.m_header.m_client_id);
     break;
   }
   case 28: {
@@ -1145,1112 +1336,781 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 31: {
-    resp.m_data |= min_u32((__oe_bat24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_bat24_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 32: {
-    resp.m_data |= min_u32((__oe_bat24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_bat24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 33: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_bat24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 34: {
-    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_bat24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0];
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_bat24_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer, 7, 34, msg.m_header.m_client_id);
     break;
   }
   case 35: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 36: {
-    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_bat24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_bat24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_bat24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-    resp.m_data = __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0];
+    resp.m_data = __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer, 7, 36, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer, 7, 36, msg.m_header.m_client_id);
     break;
   }
   case 37: {
-    resp.m_data |= min_u32((__oe_bat24_current - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 38: {
-    resp.m_data |= min_u32((__oe_bat24_current_calibration_offset - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_bat24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_bat24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer, 7, 38, msg.m_header.m_client_id);
     break;
   }
   case 39: {
-    resp.m_data |= min_u32((__oe_bat24_current_calibration_target - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_bat24_current - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 40: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_bat24_current_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_bat24_current_calibration_offset - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 41: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_bat24_current_calibration_failed) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_data |= min_u32((__oe_bat24_current_calibration_target - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 42: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_over_current) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_bat24_current_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 43: {
-    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0] = (__oe_error_level_config_bat24_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0];
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_bat24_current_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_over_current_rx_fragmentation_buffer, 7, 43, msg.m_header.m_client_id);
     break;
   }
   case 44: {
-    resp.m_data |= min_u32((__oe_link24_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_over_current) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 45: {
-    resp.m_data |= min_u32((__oe_link24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_bat24_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_bat24_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_bat24_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_bat24_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_bat24_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_bat24_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[6] = (__oe_error_level_config_bat24_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_over_current_rx_fragmentation_buffer, 7, 45, msg.m_header.m_client_id);
     break;
   }
   case 46: {
-    resp.m_data |= min_u32((__oe_link24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link24_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 47: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link24_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 48: {
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0];
+    resp.m_data |= min_u32((__oe_link24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer, 7, 48, msg.m_header.m_client_id);
     break;
   }
   case 49: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_link24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 50: {
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0];
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_link24_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer, 7, 50, msg.m_header.m_client_id);
     break;
   }
   case 51: {
-    resp.m_data |= min_u32((__oe_link24_current - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 52: {
-    resp.m_data |= min_u32((__oe_link24_current_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer, 7, 52, msg.m_header.m_client_id);
     break;
   }
   case 53: {
-    resp.m_data |= min_u32((__oe_link24_current_calibration_target - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 54: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_current) & (0xFF >> (8 - 2)))) << 0;
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer, 7, 54, msg.m_header.m_client_id);
+    break;
+  }
+  case 55: {
+    resp.m_data |= min_u32((__oe_link24_current - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 55: {
-    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0] = (__oe_error_level_config_link24_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link24_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link24_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_current_rx_fragmentation_buffer, 7, 55, msg.m_header.m_client_id);
-    break;
-  }
   case 56: {
-    resp.m_data |= min_u32((__oe_link45_voltage - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link24_current_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 57: {
-    resp.m_data |= min_u32((__oe_link45_voltage_calibration_offset - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link24_current_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 58: {
-    resp.m_data |= min_u32((__oe_link45_voltage_calibration_target - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link24_current_calibration_target - (-30)) / 0.000000013969838622484784, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 59: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_under_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_link24_current_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 60: {
-    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer, 7, 60, msg.m_header.m_client_id);
-    break;
-  }
-  case 61: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_current) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 62: {
-    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
+  case 61: {
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[6] = (__oe_error_level_config_link24_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-    resp.m_data = __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0];
+    resp.m_data = __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer, 7, 62, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_current_rx_fragmentation_buffer, 7, 61, msg.m_header.m_client_id);
+    break;
+  }
+  case 62: {
+    resp.m_data |= min_u32((__oe_link45_voltage - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
     break;
   }
   case 63: {
-    resp.m_data |= min_u32((__oe_link45_current - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link45_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 64: {
-    resp.m_data |= min_u32((__oe_link45_current_calibration_offset - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link45_voltage_calibration_offset - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 65: {
-    resp.m_data |= min_u32((__oe_link45_current_calibration_target - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link45_voltage_calibration_target - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 66: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_current) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_link45_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 67: {
-    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] = (__oe_error_level_config_link45_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_link45_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_link45_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_current_rx_fragmentation_buffer, 7, 67, msg.m_header.m_client_id);
-    break;
-  }
-  case 68: {
-    resp.m_data |= min_u32((__oe_cooling_cycle_pressure - (-1)) / 0.0392156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_under_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
+  case 68: {
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link45_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link45_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link45_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link45_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link45_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link45_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link45_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer, 7, 68, msg.m_header.m_client_id);
+    break;
+  }
   case 69: {
-    resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_offset - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 70: {
-    resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_target - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link45_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link45_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link45_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link45_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link45_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link45_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link45_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer, 7, 70, msg.m_header.m_client_id);
     break;
   }
   case 71: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_under_pressure) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_link45_current - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 72: {
-    __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_cycle_under_pressure.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_cycle_under_pressure.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_cycle_under_pressure.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_under_pressure.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer[0];
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link45_current_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_under_pressure_rx_fragmentation_buffer, 7, 72, msg.m_header.m_client_id);
     break;
   }
   case 73: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_over_pressure) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_link45_current_calibration_offset - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 74: {
-    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0];
+    resp.m_data |= min_u32((__oe_link45_current_calibration_target - (-1000)) / 0.0000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer, 7, 74, msg.m_header.m_client_id);
     break;
   }
   case 75: {
-    resp.m_data |= min_u32((__oe_mcu_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_link45_current_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 76: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_mcu_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link45_over_current) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 77: {
-    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_mcu_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_mcu_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_mcu_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_mcu_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link45_over_current.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link45_over_current.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link45_over_current.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link45_over_current.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link45_over_current.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link45_over_current.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[6] = (__oe_error_level_config_link45_over_current.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_over_current.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link45_over_current.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-    resp.m_data = __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0];
+    resp.m_data = __oe_error_level_config_link45_over_current_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_mcu_temperature_rx_fragmentation_buffer, 7, 77, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_link45_over_current_rx_fragmentation_buffer, 7, 77, msg.m_header.m_client_id);
     break;
   }
   case 78: {
-    resp.m_data |= min_u32((__oe_cooling_cycle_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= min_u32((__oe_cooling_cycle_pressure - (-1)) / 0.0392156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 79: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_cooling_cycle_pressure_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 80: {
-    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_cooling_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_cooling_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_cooling_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0];
+    resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_offset - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_temperature_rx_fragmentation_buffer, 7, 80, msg.m_header.m_client_id);
     break;
   }
   case 81: {
-    resp.m_data |= min_u32((__oe_bat24_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= min_u32((__oe_cooling_cycle_pressure_calibration_target - (-1)) / 0.0000000023283064370807974, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 82: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_cooling_cycle_pressure_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 83: {
-    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_bat24_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_bat24_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_bat24_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_temperature_rx_fragmentation_buffer, 7, 83, msg.m_header.m_client_id);
-    break;
-  }
-  case 84: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_bat24_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_over_pressure) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
+  case 84: {
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_cooling_cycle_over_pressure.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[6] = (__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_cooling_cycle_over_pressure.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_cycle_over_pressure_rx_fragmentation_buffer, 7, 84, msg.m_header.m_client_id);
+    break;
+  }
   case 85: {
-    resp.m_data |= min_u32((__oe_supercap_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= min_u32((__oe_mcu_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 86: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_mcu_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 87: {
-    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_supercap_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_supercap_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_supercap_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_supercap_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_temperature_rx_fragmentation_buffer, 7, 87, msg.m_header.m_client_id);
-    break;
-  }
-  case 88: {
-    resp.m_data |= min_u32((__oe_buck_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_mcu_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
+  case 88: {
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_mcu_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_mcu_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_mcu_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_mcu_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_mcu_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_mcu_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_mcu_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_mcu_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_mcu_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_mcu_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_mcu_temperature_rx_fragmentation_buffer, 7, 88, msg.m_header.m_client_id);
+    break;
+  }
   case 89: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_buck_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= min_u32((__oe_cooling_cycle_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 90: {
-    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_buck_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_buck_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_buck_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_buck_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0];
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_cooling_cycle_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_buck_temperature_rx_fragmentation_buffer, 7, 90, msg.m_header.m_client_id);
     break;
   }
   case 91: {
-    resp.m_data |= min_u32((__oe_ebox_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_cooling_cycle_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 92: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ebox_temperature) & (0xFF >> (8 - 2)))) << 0;
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_cooling_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_cooling_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_cooling_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_cooling_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_cooling_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_cooling_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_cooling_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_cooling_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_cooling_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_cooling_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_cooling_temperature_rx_fragmentation_buffer, 7, 92, msg.m_header.m_client_id);
+    break;
+  }
+  case 93: {
+    resp.m_data |= min_u32((__oe_bat24_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 93: {
-    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_ebox_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_ebox_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_ebox_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ebox_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0];
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
-    resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_ebox_temperature_rx_fragmentation_buffer, 7, 93, msg.m_header.m_client_id);
-    break;
-  }
   case 94: {
-    resp.m_data |= min_u32((__oe_ambient_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_bat24_temperature) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 95: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_ambient_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_bat24_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_bat24_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_bat24_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_bat24_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_bat24_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_bat24_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_bat24_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_bat24_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_bat24_temperature_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
+    resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_temperature_rx_fragmentation_buffer, 7, 95, msg.m_header.m_client_id);
     break;
   }
   case 96: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ambient_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_bat24_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 97: {
-    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] = (__oe_error_level_config_ambient_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_ambient_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] |= ((__oe_error_level_config_ambient_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[1] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[1] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[2] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[2] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[3] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[3] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[4] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[4] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[5] = (masked >> 29);
-    }
-    {
-    uint32_t masked = (min_u32((__oe_error_level_config_ambient_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[5] |= (masked << 3);
-      __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[6] = (masked >> 29);
-    }
-
-    resp.m_data = __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0];
+    resp.m_data |= min_u32((__oe_supercap_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
     resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 0;
+    resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_ambient_temperature_rx_fragmentation_buffer, 7, 97, msg.m_header.m_client_id);
     break;
   }
   case 98: {
-    resp.m_data |= min_u32((__oe_cooling_cycle_flow_rate - (0)) / 0.00392156862745098, 0xFF) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_supercap_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 99: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 100: {
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_supercap_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_supercap_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_supercap_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_supercap_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_supercap_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_supercap_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_supercap_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_supercap_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_temperature_rx_fragmentation_buffer, 7, 100, msg.m_header.m_client_id);
+    break;
+  }
+  case 101: {
+    resp.m_data |= min_u32((__oe_buck_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 102: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_buck_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 103: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_buck_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 104: {
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_buck_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_buck_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_buck_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_buck_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_buck_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_buck_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_buck_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_buck_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_buck_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_buck_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_buck_temperature_rx_fragmentation_buffer, 7, 104, msg.m_header.m_client_id);
+    break;
+  }
+  case 105: {
+    resp.m_data |= min_u32((__oe_ebox_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 106: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_ebox_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 107: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ebox_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 108: {
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_ebox_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_ebox_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_ebox_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_ebox_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_ebox_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_ebox_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_ebox_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_ebox_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_ebox_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_ebox_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_ebox_temperature_rx_fragmentation_buffer, 7, 108, msg.m_header.m_client_id);
+    break;
+  }
+  case 109: {
+    resp.m_data |= min_u32((__oe_ambient_temperature - (-1)) / 0.592156862745098, 0xFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 110: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_ambient_temperature_invalid) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 111: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_ambient_temperature) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 112: {
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_ambient_temperature.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_ambient_temperature.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_ambient_temperature.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_ambient_temperature.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_ambient_temperature.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_ambient_temperature.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[6] = (__oe_error_level_config_ambient_temperature.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_ambient_temperature.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_ambient_temperature.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+
+    resp.m_data = __oe_error_level_config_ambient_temperature_rx_fragmentation_buffer[0];
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 0;
+    resp.m_header.m_toggle = 0;
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_ambient_temperature_rx_fragmentation_buffer, 7, 112, msg.m_header.m_client_id);
+    break;
+  }
+  case 113: {
+    resp.m_data |= min_u32((__oe_cooling_cycle_flow_rate - (0)) / 0.00392156862745098, 0xFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 114: {
+    resp.m_data |= min_u32((__oe_loop_frequency - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 115: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
@@ -2263,12 +2123,30 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
   resp.m_header.m_server_id = msg.m_header.m_server_id;
   canzero_frame resp_frame;
   canzero_serialize_canzero_message_get_resp(&resp, &resp_frame);
-  canzero_can0_send(&resp_frame);
+  canzero_can1_send(&resp_frame);
 }
 static uint32_t DMAMEM config_hash_tmp_tx_fragmentation_buffer[2];
 static uint32_t DMAMEM config_hash_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM build_time_tmp_tx_fragmentation_buffer[2];
 static uint32_t DMAMEM build_time_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM acceleration_calibration_variance_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM acceleration_calibration_offset_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM acceleration_calibration_target_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM lateral_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM lateral_acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM lateral_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM lateral_acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM lateral_acceleration_calibration_target_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM lateral_acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM vertical_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM vertical_acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM vertical_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM vertical_acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM vertical_acceleration_calibration_target_tmp_tx_fragmentation_buffer[2];
+static uint32_t DMAMEM vertical_acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[7];
 static uint32_t DMAMEM error_level_config_bat24_under_voltage_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[7];
@@ -2287,8 +2165,6 @@ static uint32_t DMAMEM error_level_config_link45_over_voltage_tmp_tx_fragmentati
 static uint32_t DMAMEM error_level_config_link45_over_voltage_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[7];
 static uint32_t DMAMEM error_level_config_link45_over_current_tmp_tx_fragmentation_offset = 0;
-static uint32_t DMAMEM error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[7];
-static uint32_t DMAMEM error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[7];
 static uint32_t DMAMEM error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[7];
@@ -2308,7 +2184,7 @@ static uint32_t DMAMEM error_level_config_ambient_temperature_tmp_tx_fragmentati
 static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
   canzero_message_set_req msg;
   canzero_deserialize_canzero_message_set_req(frame, &msg);
-  if (msg.m_header.m_server_id != 10) {
+  if (msg.m_header.m_server_id != 8) {
     return;
   }
   canzero_message_set_resp resp{};
@@ -2419,7 +2295,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     float target_acceleration_tmp;
-    target_acceleration_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.0015259021896696422 + -50);
+    target_acceleration_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000023283064370807974 + -50);
     canzero_set_target_acceleration(target_acceleration_tmp);
     break;
   }
@@ -2460,29 +2336,65 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     break;
   }
   case 13 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+    }else {
+      acceleration_calibration_variance_tmp_tx_fragmentation_offset += 1;
+      if (acceleration_calibration_variance_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    acceleration_calibration_variance_tmp_tx_fragmentation_buffer[acceleration_calibration_variance_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float acceleration_calibration_variance_tmp;
-    acceleration_calibration_variance_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.000030518043793392844 + -1);
+    double acceleration_calibration_variance_tmp;
+    acceleration_calibration_variance_tmp = ((uint64_t)acceleration_calibration_variance_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(acceleration_calibration_variance_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.00000000000000000010842021724855044 + -1;
     canzero_set_acceleration_calibration_variance(acceleration_calibration_variance_tmp);
     break;
   }
   case 14 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+    }else {
+      acceleration_calibration_offset_tmp_tx_fragmentation_offset += 1;
+      if (acceleration_calibration_offset_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    acceleration_calibration_offset_tmp_tx_fragmentation_buffer[acceleration_calibration_offset_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float acceleration_calibration_offset_tmp;
-    acceleration_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double acceleration_calibration_offset_tmp;
+    acceleration_calibration_offset_tmp = ((uint64_t)acceleration_calibration_offset_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(acceleration_calibration_offset_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_acceleration_calibration_offset(acceleration_calibration_offset_tmp);
     break;
   }
   case 15 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
+    }else {
+      acceleration_calibration_target_tmp_tx_fragmentation_offset += 1;
+      if (acceleration_calibration_target_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    acceleration_calibration_target_tmp_tx_fragmentation_buffer[acceleration_calibration_target_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float acceleration_calibration_target_tmp;
-    acceleration_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double acceleration_calibration_target_tmp;
+    acceleration_calibration_target_tmp = ((uint64_t)acceleration_calibration_target_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(acceleration_calibration_target_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_acceleration_calibration_target(acceleration_calibration_target_tmp);
     break;
   }
@@ -2491,7 +2403,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     float raw_lateral_acceleration_tmp;
-    raw_lateral_acceleration_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.0015259021896696422 + -50);
+    raw_lateral_acceleration_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
     canzero_set_raw_lateral_acceleration(raw_lateral_acceleration_tmp);
     break;
   }
@@ -2514,29 +2426,65 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     break;
   }
   case 19 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      lateral_acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+    }else {
+      lateral_acceleration_calibration_variance_tmp_tx_fragmentation_offset += 1;
+      if (lateral_acceleration_calibration_variance_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    lateral_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[lateral_acceleration_calibration_variance_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float lateral_acceleration_calibration_variance_tmp;
-    lateral_acceleration_calibration_variance_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double lateral_acceleration_calibration_variance_tmp;
+    lateral_acceleration_calibration_variance_tmp = ((uint64_t)lateral_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(lateral_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_lateral_acceleration_calibration_variance(lateral_acceleration_calibration_variance_tmp);
     break;
   }
   case 20 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      lateral_acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+    }else {
+      lateral_acceleration_calibration_offset_tmp_tx_fragmentation_offset += 1;
+      if (lateral_acceleration_calibration_offset_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    lateral_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[lateral_acceleration_calibration_offset_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float lateral_acceleration_calibration_offset_tmp;
-    lateral_acceleration_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double lateral_acceleration_calibration_offset_tmp;
+    lateral_acceleration_calibration_offset_tmp = ((uint64_t)lateral_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(lateral_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_lateral_acceleration_calibration_offset(lateral_acceleration_calibration_offset_tmp);
     break;
   }
   case 21 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      lateral_acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
+    }else {
+      lateral_acceleration_calibration_target_tmp_tx_fragmentation_offset += 1;
+      if (lateral_acceleration_calibration_target_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    lateral_acceleration_calibration_target_tmp_tx_fragmentation_buffer[lateral_acceleration_calibration_target_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float lateral_acceleration_calibration_target_tmp;
-    lateral_acceleration_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double lateral_acceleration_calibration_target_tmp;
+    lateral_acceleration_calibration_target_tmp = ((uint64_t)lateral_acceleration_calibration_target_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(lateral_acceleration_calibration_target_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_lateral_acceleration_calibration_target(lateral_acceleration_calibration_target_tmp);
     break;
   }
@@ -2568,29 +2516,65 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     break;
   }
   case 25 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      vertical_acceleration_calibration_variance_tmp_tx_fragmentation_offset = 0;
+    }else {
+      vertical_acceleration_calibration_variance_tmp_tx_fragmentation_offset += 1;
+      if (vertical_acceleration_calibration_variance_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    vertical_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[vertical_acceleration_calibration_variance_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float vertical_acceleration_calibration_variance_tmp;
-    vertical_acceleration_calibration_variance_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double vertical_acceleration_calibration_variance_tmp;
+    vertical_acceleration_calibration_variance_tmp = ((uint64_t)vertical_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(vertical_acceleration_calibration_variance_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_vertical_acceleration_calibration_variance(vertical_acceleration_calibration_variance_tmp);
     break;
   }
   case 26 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      vertical_acceleration_calibration_offset_tmp_tx_fragmentation_offset = 0;
+    }else {
+      vertical_acceleration_calibration_offset_tmp_tx_fragmentation_offset += 1;
+      if (vertical_acceleration_calibration_offset_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    vertical_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[vertical_acceleration_calibration_offset_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float vertical_acceleration_calibration_offset_tmp;
-    vertical_acceleration_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double vertical_acceleration_calibration_offset_tmp;
+    vertical_acceleration_calibration_offset_tmp = ((uint64_t)vertical_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(vertical_acceleration_calibration_offset_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_vertical_acceleration_calibration_offset(vertical_acceleration_calibration_offset_tmp);
     break;
   }
   case 27 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+    if (msg.m_header.m_sof == 1) {
+      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
+        return; //TODO proper error response frame!
+      }
+      vertical_acceleration_calibration_target_tmp_tx_fragmentation_offset = 0;
+    }else {
+      vertical_acceleration_calibration_target_tmp_tx_fragmentation_offset += 1;
+      if (vertical_acceleration_calibration_target_tmp_tx_fragmentation_offset >= 2) {
+        return;
+      }
+    }
+    vertical_acceleration_calibration_target_tmp_tx_fragmentation_buffer[vertical_acceleration_calibration_target_tmp_tx_fragmentation_offset] = msg.m_data;
+    if (msg.m_header.m_eof == 0) {
       return;
     }
-    float vertical_acceleration_calibration_target_tmp;
-    vertical_acceleration_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.00030518043793392844 + -10);
+    double vertical_acceleration_calibration_target_tmp;
+    vertical_acceleration_calibration_target_tmp = ((uint64_t)vertical_acceleration_calibration_target_tmp_tx_fragmentation_buffer[0] | (((uint64_t)(vertical_acceleration_calibration_target_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) << 32)) * 0.0000000000000000010842021724855044 + -10;
     canzero_set_vertical_acceleration_calibration_target(vertical_acceleration_calibration_target_tmp);
     break;
   }
@@ -2625,12 +2609,21 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
+    calibration_mode bat24_voltage_calibration_mode_tmp;
+    bat24_voltage_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_bat24_voltage_calibration_mode(bat24_voltage_calibration_mode_tmp);
+    break;
+  }
+  case 32 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
     float bat24_voltage_calibration_offset_tmp;
     bat24_voltage_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000004656612874161595 + -10);
     canzero_set_bat24_voltage_calibration_offset(bat24_voltage_calibration_offset_tmp);
     break;
   }
-  case 32 : {
+  case 33 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2639,7 +2632,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_voltage_calibration_target(bat24_voltage_calibration_target_tmp);
     break;
   }
-  case 33 : {
+  case 34 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_bat24_voltage_invalid_tmp;
+    error_bat24_voltage_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_bat24_voltage_invalid(error_bat24_voltage_invalid_tmp);
+    break;
+  }
+  case 35 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2648,7 +2650,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_bat24_under_voltage(error_level_bat24_under_voltage_tmp);
     break;
   }
-  case 34 : {
+  case 36 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2665,19 +2667,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_bat24_under_voltage_tmp;
-    error_level_config_bat24_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_bat24_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_under_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_under_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_under_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_under_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_under_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_under_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_under_voltage_tmp.m_info_thresh = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_under_voltage_tmp.m_info_timeout = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_under_voltage_tmp.m_warning_thresh = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_under_voltage_tmp.m_warning_timeout = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_under_voltage_tmp.m_error_thresh = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_under_voltage_tmp.m_error_timeout = ((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_bat24_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_bat24_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_bat24_under_voltage(error_level_config_bat24_under_voltage_tmp);
     break;
   }
-  case 35 : {
+  case 37 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2686,7 +2688,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_bat24_over_voltage(error_level_bat24_over_voltage_tmp);
     break;
   }
-  case 36 : {
+  case 38 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2703,19 +2705,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_bat24_over_voltage_tmp;
-    error_level_config_bat24_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_bat24_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_over_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_over_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_over_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_voltage_tmp.m_info_thresh = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_voltage_tmp.m_info_timeout = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_voltage_tmp.m_warning_thresh = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_voltage_tmp.m_warning_timeout = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_voltage_tmp.m_error_thresh = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_voltage_tmp.m_error_timeout = ((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_bat24_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_bat24_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_bat24_over_voltage(error_level_config_bat24_over_voltage_tmp);
     break;
   }
-  case 37 : {
+  case 39 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2724,7 +2726,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_current(bat24_current_tmp);
     break;
   }
-  case 38 : {
+  case 40 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2733,7 +2735,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_current_calibration_offset(bat24_current_calibration_offset_tmp);
     break;
   }
-  case 39 : {
+  case 41 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2742,7 +2744,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_current_calibration_target(bat24_current_calibration_target_tmp);
     break;
   }
-  case 40 : {
+  case 42 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2751,16 +2753,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_current_calibration_mode(bat24_current_calibration_mode_tmp);
     break;
   }
-  case 41 : {
+  case 43 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_flag error_bat24_current_calibration_failed_tmp;
-    error_bat24_current_calibration_failed_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_bat24_current_calibration_failed(error_bat24_current_calibration_failed_tmp);
+    error_flag error_bat24_current_invalid_tmp;
+    error_bat24_current_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_bat24_current_invalid(error_bat24_current_invalid_tmp);
     break;
   }
-  case 42 : {
+  case 44 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2769,7 +2771,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_bat24_over_current(error_level_bat24_over_current_tmp);
     break;
   }
-  case 43 : {
+  case 45 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2786,19 +2788,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_bat24_over_current_tmp;
-    error_level_config_bat24_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_bat24_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_over_current_tmp.m_info_thresh = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_current_tmp.m_info_timeout = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_over_current_tmp.m_warning_thresh = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_current_tmp.m_warning_timeout = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_over_current_tmp.m_error_thresh = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_over_current_tmp.m_error_timeout = ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_current_tmp.m_info_thresh = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_current_tmp.m_info_timeout = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_current_tmp.m_warning_thresh = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_current_tmp.m_warning_timeout = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_current_tmp.m_error_thresh = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_over_current_tmp.m_error_timeout = ((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_bat24_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_bat24_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_bat24_over_current(error_level_config_bat24_over_current_tmp);
     break;
   }
-  case 44 : {
+  case 46 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2807,7 +2809,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_voltage(link24_voltage_tmp);
     break;
   }
-  case 45 : {
+  case 47 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    calibration_mode link24_voltage_calibration_mode_tmp;
+    link24_voltage_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_link24_voltage_calibration_mode(link24_voltage_calibration_mode_tmp);
+    break;
+  }
+  case 48 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2816,7 +2827,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_voltage_calibration_offset(link24_voltage_calibration_offset_tmp);
     break;
   }
-  case 46 : {
+  case 49 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2825,7 +2836,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_voltage_calibration_target(link24_voltage_calibration_target_tmp);
     break;
   }
-  case 47 : {
+  case 50 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_link24_voltage_invalid_tmp;
+    error_link24_voltage_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_link24_voltage_invalid(error_link24_voltage_invalid_tmp);
+    break;
+  }
+  case 51 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2834,7 +2854,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link24_under_voltage(error_level_link24_under_voltage_tmp);
     break;
   }
-  case 48 : {
+  case 52 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2851,19 +2871,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link24_under_voltage_tmp;
-    error_level_config_link24_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link24_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_under_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_under_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_under_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_under_voltage_tmp.m_info_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_under_voltage_tmp.m_info_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_under_voltage_tmp.m_warning_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_under_voltage_tmp.m_warning_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_under_voltage_tmp.m_error_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_under_voltage_tmp.m_error_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link24_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link24_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link24_under_voltage(error_level_config_link24_under_voltage_tmp);
     break;
   }
-  case 49 : {
+  case 53 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2872,7 +2892,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link24_over_voltage(error_level_link24_over_voltage_tmp);
     break;
   }
-  case 50 : {
+  case 54 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2889,19 +2909,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link24_over_voltage_tmp;
-    error_level_config_link24_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link24_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_over_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_voltage_tmp.m_info_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_voltage_tmp.m_info_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_voltage_tmp.m_warning_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_voltage_tmp.m_warning_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_voltage_tmp.m_error_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_voltage_tmp.m_error_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link24_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link24_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link24_over_voltage(error_level_config_link24_over_voltage_tmp);
     break;
   }
-  case 51 : {
+  case 55 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2910,7 +2930,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_current(link24_current_tmp);
     break;
   }
-  case 52 : {
+  case 56 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    calibration_mode link24_current_calibration_mode_tmp;
+    link24_current_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_link24_current_calibration_mode(link24_current_calibration_mode_tmp);
+    break;
+  }
+  case 57 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2919,7 +2948,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_current_calibration_offset(link24_current_calibration_offset_tmp);
     break;
   }
-  case 53 : {
+  case 58 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2928,7 +2957,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link24_current_calibration_target(link24_current_calibration_target_tmp);
     break;
   }
-  case 54 : {
+  case 59 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_link24_current_invalid_tmp;
+    error_link24_current_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_link24_current_invalid(error_link24_current_invalid_tmp);
+    break;
+  }
+  case 60 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2937,7 +2975,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link24_over_current(error_level_link24_over_current_tmp);
     break;
   }
-  case 55 : {
+  case 61 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -2954,19 +2992,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link24_over_current_tmp;
-    error_level_config_link24_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link24_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_over_current_tmp.m_info_thresh = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_current_tmp.m_info_timeout = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_current_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_current_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_current_tmp.m_error_thresh = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_current_tmp.m_error_timeout = ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_current_tmp.m_info_thresh = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_current_tmp.m_info_timeout = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_current_tmp.m_warning_thresh = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_current_tmp.m_warning_timeout = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_current_tmp.m_error_thresh = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link24_over_current_tmp.m_error_timeout = ((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link24_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link24_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link24_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link24_over_current(error_level_config_link24_over_current_tmp);
     break;
   }
-  case 56 : {
+  case 62 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2975,7 +3013,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_voltage(link45_voltage_tmp);
     break;
   }
-  case 57 : {
+  case 63 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    calibration_mode link45_voltage_calibration_mode_tmp;
+    link45_voltage_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_link45_voltage_calibration_mode(link45_voltage_calibration_mode_tmp);
+    break;
+  }
+  case 64 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2984,7 +3031,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_voltage_calibration_offset(link45_voltage_calibration_offset_tmp);
     break;
   }
-  case 58 : {
+  case 65 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -2993,7 +3040,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_voltage_calibration_target(link45_voltage_calibration_target_tmp);
     break;
   }
-  case 59 : {
+  case 66 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_link45_voltage_invalid_tmp;
+    error_link45_voltage_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_link45_voltage_invalid(error_link45_voltage_invalid_tmp);
+    break;
+  }
+  case 67 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3002,7 +3058,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link45_under_voltage(error_level_link45_under_voltage_tmp);
     break;
   }
-  case 60 : {
+  case 68 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3019,19 +3075,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link45_under_voltage_tmp;
-    error_level_config_link45_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link45_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_under_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_under_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_under_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_under_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_under_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_under_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_under_voltage_tmp.m_info_thresh = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_under_voltage_tmp.m_info_timeout = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_under_voltage_tmp.m_warning_thresh = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_under_voltage_tmp.m_warning_timeout = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_under_voltage_tmp.m_error_thresh = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_under_voltage_tmp.m_error_timeout = ((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link45_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link45_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link45_under_voltage(error_level_config_link45_under_voltage_tmp);
     break;
   }
-  case 61 : {
+  case 69 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3040,7 +3096,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link45_over_voltage(error_level_link45_over_voltage_tmp);
     break;
   }
-  case 62 : {
+  case 70 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3057,19 +3113,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link45_over_voltage_tmp;
-    error_level_config_link45_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link45_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_over_voltage_tmp.m_info_thresh = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_voltage_tmp.m_info_timeout = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_over_voltage_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_voltage_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_over_voltage_tmp.m_error_thresh = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_voltage_tmp.m_error_timeout = ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_voltage_tmp.m_info_thresh = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_voltage_tmp.m_info_timeout = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_voltage_tmp.m_warning_thresh = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_voltage_tmp.m_warning_timeout = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_voltage_tmp.m_error_thresh = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_voltage_tmp.m_error_timeout = ((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link45_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link45_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_over_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link45_over_voltage(error_level_config_link45_over_voltage_tmp);
     break;
   }
-  case 63 : {
+  case 71 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3078,7 +3134,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current(link45_current_tmp);
     break;
   }
-  case 64 : {
+  case 72 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    calibration_mode link45_current_calibration_mode_tmp;
+    link45_current_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_link45_current_calibration_mode(link45_current_calibration_mode_tmp);
+    break;
+  }
+  case 73 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3087,7 +3152,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current_calibration_offset(link45_current_calibration_offset_tmp);
     break;
   }
-  case 65 : {
+  case 74 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3096,7 +3161,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_link45_current_calibration_target(link45_current_calibration_target_tmp);
     break;
   }
-  case 66 : {
+  case 75 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_link45_current_invalid_tmp;
+    error_link45_current_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_link45_current_invalid(error_link45_current_invalid_tmp);
+    break;
+  }
+  case 76 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3105,7 +3179,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_link45_over_current(error_level_link45_over_current_tmp);
     break;
   }
-  case 67 : {
+  case 77 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3122,19 +3196,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_link45_over_current_tmp;
-    error_level_config_link45_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link45_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link45_over_current_tmp.m_info_thresh = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_current_tmp.m_info_timeout = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_over_current_tmp.m_warning_thresh = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_current_tmp.m_warning_timeout = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_link45_over_current_tmp.m_error_thresh = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_link45_over_current_tmp.m_error_timeout = ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_current_tmp.m_info_thresh = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_current_tmp.m_info_timeout = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_current_tmp.m_warning_thresh = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_current_tmp.m_warning_timeout = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_current_tmp.m_error_thresh = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_link45_over_current_tmp.m_error_timeout = ((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_link45_over_current_tmp.m_ignore_info = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_link45_over_current_tmp.m_ignore_warning = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_link45_over_current_tmp.m_ignore_error = ((bool_t)((error_level_config_link45_over_current_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_link45_over_current(error_level_config_link45_over_current_tmp);
     break;
   }
-  case 68 : {
+  case 78 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3143,7 +3217,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure(cooling_cycle_pressure_tmp);
     break;
   }
-  case 69 : {
+  case 79 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    calibration_mode cooling_cycle_pressure_calibration_mode_tmp;
+    cooling_cycle_pressure_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_cooling_cycle_pressure_calibration_mode(cooling_cycle_pressure_calibration_mode_tmp);
+    break;
+  }
+  case 80 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3152,7 +3235,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure_calibration_offset(cooling_cycle_pressure_calibration_offset_tmp);
     break;
   }
-  case 70 : {
+  case 81 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3161,45 +3244,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_pressure_calibration_target(cooling_cycle_pressure_calibration_target_tmp);
     break;
   }
-  case 71 : {
+  case 82 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_level error_level_cooling_cycle_under_pressure_tmp;
-    error_level_cooling_cycle_under_pressure_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
-    canzero_set_error_level_cooling_cycle_under_pressure(error_level_cooling_cycle_under_pressure_tmp);
+    error_flag error_cooling_cycle_pressure_invalid_tmp;
+    error_cooling_cycle_pressure_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_cooling_cycle_pressure_invalid(error_cooling_cycle_pressure_invalid_tmp);
     break;
   }
-  case 72 : {
-    if (msg.m_header.m_sof == 1) {
-      if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
-        return; //TODO proper error response frame!
-      }
-      error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset = 0;
-    }else {
-      error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset += 1;
-      if (error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset >= 7) {
-        return;
-      }
-    }
-    error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_offset] = msg.m_data;
-    if (msg.m_header.m_eof == 0) {
-      return;
-    }
-    error_level_config error_level_config_cooling_cycle_under_pressure_tmp;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_ignore_info = ((bool_t)((error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_cooling_cycle_under_pressure_tmp.m_ignore_warning = ((bool_t)((error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_cycle_under_pressure_tmp.m_ignore_error = ((bool_t)((error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_cycle_under_pressure_tmp.m_info_thresh = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_info_timeout = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_warning_thresh = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_warning_timeout = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_error_thresh = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_under_pressure_tmp.m_error_timeout = ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_under_pressure_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    canzero_set_error_level_config_cooling_cycle_under_pressure(error_level_config_cooling_cycle_under_pressure_tmp);
-    break;
-  }
-  case 73 : {
+  case 83 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3208,7 +3262,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_cooling_cycle_over_pressure(error_level_cooling_cycle_over_pressure_tmp);
     break;
   }
-  case 74 : {
+  case 84 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3225,19 +3279,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_cooling_cycle_over_pressure_tmp;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_info = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_warning = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_error = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_cycle_over_pressure_tmp.m_info_thresh = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_info_timeout = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_warning_thresh = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_warning_timeout = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_error_thresh = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_cycle_over_pressure_tmp.m_error_timeout = ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_info_thresh = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_info_timeout = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_warning_thresh = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_warning_timeout = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_error_thresh = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_error_timeout = ((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_info = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_warning = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_cooling_cycle_over_pressure_tmp.m_ignore_error = ((bool_t)((error_level_config_cooling_cycle_over_pressure_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_cooling_cycle_over_pressure(error_level_config_cooling_cycle_over_pressure_tmp);
     break;
   }
-  case 75 : {
+  case 85 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3246,7 +3300,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_mcu_temperature(mcu_temperature_tmp);
     break;
   }
-  case 76 : {
+  case 86 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_mcu_temperature_invalid_tmp;
+    error_mcu_temperature_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_mcu_temperature_invalid(error_mcu_temperature_invalid_tmp);
+    break;
+  }
+  case 87 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3255,7 +3318,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_mcu_temperature(error_level_mcu_temperature_tmp);
     break;
   }
-  case 77 : {
+  case 88 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3272,19 +3335,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_mcu_temperature_tmp;
-    error_level_config_mcu_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_mcu_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_mcu_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_mcu_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_mcu_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_mcu_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_mcu_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_mcu_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_mcu_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_mcu_temperature_tmp.m_info_thresh = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_mcu_temperature_tmp.m_info_timeout = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_mcu_temperature_tmp.m_warning_thresh = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_mcu_temperature_tmp.m_warning_timeout = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_mcu_temperature_tmp.m_error_thresh = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_mcu_temperature_tmp.m_error_timeout = ((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_mcu_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_mcu_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_mcu_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_mcu_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_mcu_temperature(error_level_config_mcu_temperature_tmp);
     break;
   }
-  case 78 : {
+  case 89 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3293,7 +3356,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_temperature(cooling_cycle_temperature_tmp);
     break;
   }
-  case 79 : {
+  case 90 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_cooling_cycle_temperature_invalid_tmp;
+    error_cooling_cycle_temperature_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_cooling_cycle_temperature_invalid(error_cooling_cycle_temperature_invalid_tmp);
+    break;
+  }
+  case 91 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3302,7 +3374,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_cooling_cycle_temperature(error_level_cooling_cycle_temperature_tmp);
     break;
   }
-  case 80 : {
+  case 92 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3319,19 +3391,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_cooling_temperature_tmp;
-    error_level_config_cooling_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_cooling_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_cooling_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_cooling_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_cooling_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_temperature_tmp.m_info_thresh = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_temperature_tmp.m_info_timeout = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_temperature_tmp.m_warning_thresh = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_temperature_tmp.m_warning_timeout = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_temperature_tmp.m_error_thresh = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_cooling_temperature_tmp.m_error_timeout = ((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_cooling_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_cooling_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_cooling_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_cooling_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_cooling_temperature(error_level_config_cooling_temperature_tmp);
     break;
   }
-  case 81 : {
+  case 93 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3340,7 +3412,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_bat24_temperature(bat24_temperature_tmp);
     break;
   }
-  case 82 : {
+  case 94 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3349,7 +3421,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_bat24_temperature(error_level_bat24_temperature_tmp);
     break;
   }
-  case 83 : {
+  case 95 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3366,19 +3438,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_bat24_temperature_tmp;
-    error_level_config_bat24_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_bat24_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_bat24_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_bat24_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_bat24_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_temperature_tmp.m_info_thresh = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_temperature_tmp.m_info_timeout = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_temperature_tmp.m_warning_thresh = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_temperature_tmp.m_warning_timeout = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_temperature_tmp.m_error_thresh = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_bat24_temperature_tmp.m_error_timeout = ((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_bat24_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_bat24_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_bat24_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_bat24_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_bat24_temperature(error_level_config_bat24_temperature_tmp);
     break;
   }
-  case 84 : {
+  case 96 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3387,7 +3459,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_bat24_temperature_invalid(error_bat24_temperature_invalid_tmp);
     break;
   }
-  case 85 : {
+  case 97 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3396,7 +3468,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_supercap_temperature(supercap_temperature_tmp);
     break;
   }
-  case 86 : {
+  case 98 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_supercap_temperature_invalid_tmp;
+    error_supercap_temperature_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_supercap_temperature_invalid(error_supercap_temperature_invalid_tmp);
+    break;
+  }
+  case 99 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3405,7 +3486,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_supercap_temperature(error_level_supercap_temperature_tmp);
     break;
   }
-  case 87 : {
+  case 100 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3422,19 +3503,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_supercap_temperature_tmp;
-    error_level_config_supercap_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_supercap_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_supercap_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_supercap_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_supercap_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_supercap_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_supercap_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_supercap_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_supercap_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_temperature_tmp.m_info_thresh = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_temperature_tmp.m_info_timeout = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_temperature_tmp.m_warning_thresh = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_temperature_tmp.m_warning_timeout = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_temperature_tmp.m_error_thresh = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_temperature_tmp.m_error_timeout = ((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_supercap_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_supercap_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_supercap_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_supercap_temperature(error_level_config_supercap_temperature_tmp);
     break;
   }
-  case 88 : {
+  case 101 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3443,7 +3524,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_buck_temperature(buck_temperature_tmp);
     break;
   }
-  case 89 : {
+  case 102 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_buck_temperature_invalid_tmp;
+    error_buck_temperature_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_buck_temperature_invalid(error_buck_temperature_invalid_tmp);
+    break;
+  }
+  case 103 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3452,7 +3542,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_buck_temperature(error_level_buck_temperature_tmp);
     break;
   }
-  case 90 : {
+  case 104 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3469,19 +3559,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_buck_temperature_tmp;
-    error_level_config_buck_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_buck_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_buck_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_buck_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_buck_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_buck_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_buck_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_buck_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_buck_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_buck_temperature_tmp.m_info_thresh = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_buck_temperature_tmp.m_info_timeout = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_buck_temperature_tmp.m_warning_thresh = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_buck_temperature_tmp.m_warning_timeout = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_buck_temperature_tmp.m_error_thresh = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_buck_temperature_tmp.m_error_timeout = ((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_buck_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_buck_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_buck_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_buck_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_buck_temperature(error_level_config_buck_temperature_tmp);
     break;
   }
-  case 91 : {
+  case 105 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3490,7 +3580,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ebox_temperature(ebox_temperature_tmp);
     break;
   }
-  case 92 : {
+  case 106 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    error_flag error_ebox_temperature_invalid_tmp;
+    error_ebox_temperature_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_ebox_temperature_invalid(error_ebox_temperature_invalid_tmp);
+    break;
+  }
+  case 107 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3499,7 +3598,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_ebox_temperature(error_level_ebox_temperature_tmp);
     break;
   }
-  case 93 : {
+  case 108 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3516,19 +3615,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_ebox_temperature_tmp;
-    error_level_config_ebox_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_ebox_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_ebox_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_ebox_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ebox_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_ebox_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ebox_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_ebox_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ebox_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_ebox_temperature_tmp.m_info_thresh = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ebox_temperature_tmp.m_info_timeout = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ebox_temperature_tmp.m_warning_thresh = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ebox_temperature_tmp.m_warning_timeout = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ebox_temperature_tmp.m_error_thresh = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ebox_temperature_tmp.m_error_timeout = ((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ebox_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_ebox_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_ebox_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_ebox_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_ebox_temperature(error_level_config_ebox_temperature_tmp);
     break;
   }
-  case 94 : {
+  case 109 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3537,7 +3636,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ambient_temperature(ambient_temperature_tmp);
     break;
   }
-  case 95 : {
+  case 110 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3546,7 +3645,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_ambient_temperature_invalid(error_ambient_temperature_invalid_tmp);
     break;
   }
-  case 96 : {
+  case 111 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3555,7 +3654,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_error_level_ambient_temperature(error_level_ambient_temperature_tmp);
     break;
   }
-  case 97 : {
+  case 112 : {
     if (msg.m_header.m_sof == 1) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
@@ -3572,19 +3671,19 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     error_level_config error_level_config_ambient_temperature_tmp;
-    error_level_config_ambient_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_ambient_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[0] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_ambient_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[0] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_ambient_temperature_tmp.m_info_thresh = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[0] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ambient_temperature_tmp.m_info_timeout = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[1] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_ambient_temperature_tmp.m_warning_thresh = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[2] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ambient_temperature_tmp.m_warning_timeout = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[3] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
-    error_level_config_ambient_temperature_tmp.m_error_thresh = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[4] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.0000004656612874161595 + -1000;
-    error_level_config_ambient_temperature_tmp.m_error_timeout = ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[5] >> 3) | ((uint64_t)(error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 3))) << 29)) * 0.000000013969838622484784 + 0;
+    error_level_config_ambient_temperature_tmp.m_info_thresh = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ambient_temperature_tmp.m_info_timeout = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ambient_temperature_tmp.m_warning_thresh = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ambient_temperature_tmp.m_warning_timeout = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ambient_temperature_tmp.m_error_thresh = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_ambient_temperature_tmp.m_error_timeout = ((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_ambient_temperature_tmp.m_ignore_info = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_ambient_temperature_tmp.m_ignore_warning = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_ambient_temperature_tmp.m_ignore_error = ((bool_t)((error_level_config_ambient_temperature_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_error_level_config_ambient_temperature(error_level_config_ambient_temperature_tmp);
     break;
   }
-  case 98 : {
+  case 113 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3593,7 +3692,16 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_cooling_cycle_flow_rate(cooling_cycle_flow_rate_tmp);
     break;
   }
-  case 99 : {
+  case 114 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    float loop_frequency_tmp;
+    loop_frequency_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.00000023283064370807974 + 0);
+    canzero_set_loop_frequency(loop_frequency_tmp);
+    break;
+  }
+  case 115 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3611,24 +3719,33 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
   resp.m_header.m_erno = set_resp_erno_Success;
   canzero_frame resp_frame;
   canzero_serialize_canzero_message_set_resp(&resp, &resp_frame);
-  canzero_can0_send(&resp_frame);
+  canzero_can1_send(&resp_frame);
 
+}
+static void canzero_handle_mother_board_stream_motor_command(canzero_frame* frame) {
+  canzero_message_mother_board_stream_motor_command msg;
+  canzero_deserialize_canzero_message_mother_board_stream_motor_command(frame, &msg);
+  canzero_set_target_acceleration(msg.m_target_acceleration);
 }
  void canzero_handle_heartbeat_can0(canzero_frame* frame) {
   canzero_message_heartbeat_can0 msg;
   canzero_deserialize_canzero_message_heartbeat_can0(frame, &msg);
 
-  if (msg.m_node_id < node_id_count) {
-    heartbeat_wdg_job.job.wdg_job.can0_static_wdg_armed[msg.m_node_id] 
-      = (~msg.m_unregister) & 0b1;
-    heartbeat_wdg_job.job.wdg_job.can1_static_wdg_armed[msg.m_node_id] 
-      = (~msg.m_unregister) & 0b1;
+  if (msg.m_node_id < node_id_count) {   // static heartbeat
+    if (msg.m_unregister != 0) {  // unregister only unregisters this bus
+      heartbeat_wdg_job.job.wdg_job.can0_static_wdg_armed[msg.m_node_id] = 0;
+    } else { // register registers all buses
+      heartbeat_wdg_job.job.wdg_job.can0_static_wdg_armed[msg.m_node_id] = 1;
+      heartbeat_wdg_job.job.wdg_job.can1_static_wdg_armed[msg.m_node_id] = 1;
+    }
     heartbeat_wdg_job.job.wdg_job.can0_static_tick_countdowns[msg.m_node_id] = msg.m_ticks_next;
-  } else {
-    heartbeat_wdg_job.job.wdg_job.can0_dynamic_wdg_armed[msg.m_node_id - node_id_count] 
-      = (~msg.m_unregister) & 0b1;
-    heartbeat_wdg_job.job.wdg_job.can1_dynamic_wdg_armed[msg.m_node_id - node_id_count] 
-      = (~msg.m_unregister) & 0b1;
+  } else {  // dynamic heartbeat
+    if (msg.m_unregister != 0) { // unregister only unregisters this bus
+      heartbeat_wdg_job.job.wdg_job.can0_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 0;
+    } else { // register registers all buses
+      heartbeat_wdg_job.job.wdg_job.can0_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 1;
+      heartbeat_wdg_job.job.wdg_job.can1_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 1;
+    }
     heartbeat_wdg_job.job.wdg_job.can0_dynamic_tick_countdowns[msg.m_node_id - node_id_count]
       = msg.m_ticks_next;
   }
@@ -3637,17 +3754,21 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
   canzero_message_heartbeat_can1 msg;
   canzero_deserialize_canzero_message_heartbeat_can1(frame, &msg);
 
-  if (msg.m_node_id < node_id_count) {
-    heartbeat_wdg_job.job.wdg_job.can0_static_wdg_armed[msg.m_node_id] 
-      = (~msg.m_unregister) & 0b1;
-    heartbeat_wdg_job.job.wdg_job.can1_static_wdg_armed[msg.m_node_id] 
-      = (~msg.m_unregister) & 0b1;
+  if (msg.m_node_id < node_id_count) {   // static heartbeat
+    if (msg.m_unregister != 0) {  // unregister only unregisters this bus
+      heartbeat_wdg_job.job.wdg_job.can1_static_wdg_armed[msg.m_node_id] = 0;
+    } else { // register registers all buses
+      heartbeat_wdg_job.job.wdg_job.can0_static_wdg_armed[msg.m_node_id] = 1;
+      heartbeat_wdg_job.job.wdg_job.can1_static_wdg_armed[msg.m_node_id] = 1;
+    }
     heartbeat_wdg_job.job.wdg_job.can1_static_tick_countdowns[msg.m_node_id] = msg.m_ticks_next;
-  } else {
-    heartbeat_wdg_job.job.wdg_job.can0_dynamic_wdg_armed[msg.m_node_id - node_id_count] 
-      = (~msg.m_unregister) & 0b1;
-    heartbeat_wdg_job.job.wdg_job.can1_dynamic_wdg_armed[msg.m_node_id - node_id_count] 
-      = (~msg.m_unregister) & 0b1;
+  } else {  // dynamic heartbeat
+    if (msg.m_unregister != 0) { // unregister only unregisters this bus
+      heartbeat_wdg_job.job.wdg_job.can1_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 0;
+    } else { // register registers all buses
+      heartbeat_wdg_job.job.wdg_job.can0_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 1;
+      heartbeat_wdg_job.job.wdg_job.can1_dynamic_wdg_armed[msg.m_node_id - node_id_count] = 1;
+    }
     heartbeat_wdg_job.job.wdg_job.can1_dynamic_tick_countdowns[msg.m_node_id - node_id_count]
       = msg.m_ticks_next;
   }
@@ -3656,8 +3777,11 @@ void canzero_can0_poll() {
   canzero_frame frame;
   while (canzero_can0_recv(&frame)) {
     switch (frame.id) {
-      case 0xDF:
-        canzero_handle_set_req(&frame);
+      case 0xBE:
+        canzero_handle_get_req(&frame);
+        break;
+      case 0x47:
+        canzero_handle_mother_board_stream_motor_command(&frame);
         break;
       case 0xE9:
         canzero_handle_heartbeat_can0(&frame);
@@ -3669,8 +3793,8 @@ void canzero_can1_poll() {
   canzero_frame frame;
   while (canzero_can1_recv(&frame)) {
     switch (frame.id) {
-      case 0xBF:
-        canzero_handle_get_req(&frame);
+      case 0xDE:
+        canzero_handle_set_req(&frame);
         break;
       case 0xE8:
         canzero_handle_heartbeat_can1(&frame);
@@ -3733,7 +3857,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 7212152535255090483ull;
+  __oe_config_hash = 1227255131019799651ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -3751,6 +3875,7 @@ void canzero_init() {
   schedule_heartbeat_wdg_job();
   schedule_state_interval_job();
   schedule_position_estimation_interval_job();
+  schedule_debug_interval_job();
   schedule_linear_encoder_interval_job();
   schedule_accelerations_interval_job();
   schedule_bat24_interval_job();
@@ -3766,8 +3891,8 @@ void canzero_set_state(input_board_state value) {
   if (__oe_state != value) {
     __oe_state = value;
     uint32_t time = canzero_get_time();
-    if (state_interval_job.climax > state_interval_job.job.stream_job.last_schedule + 0) {
-      state_interval_job.climax = state_interval_job.job.stream_job.last_schedule + 0;
+    if (state_interval_job.climax > state_interval_job.job.stream_job.last_schedule + 1) {
+      state_interval_job.climax = state_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&state_interval_job);
     }
   }
@@ -3777,8 +3902,8 @@ void canzero_set_sdc_status(sdc_status value) {
   if (__oe_sdc_status != value) {
     __oe_sdc_status = value;
     uint32_t time = canzero_get_time();
-    if (state_interval_job.climax > state_interval_job.job.stream_job.last_schedule + 0) {
-      state_interval_job.climax = state_interval_job.job.stream_job.last_schedule + 0;
+    if (state_interval_job.climax > state_interval_job.job.stream_job.last_schedule + 1) {
+      state_interval_job.climax = state_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&state_interval_job);
     }
   }
@@ -3794,13 +3919,57 @@ void canzero_set_linear_encoder_count(int16_t value) {
     }
   }
 }
+void canzero_set_error_acceleration_out_of_range(error_flag value) {
+  extern error_flag __oe_error_acceleration_out_of_range;
+  if (__oe_error_acceleration_out_of_range != value) {
+    __oe_error_acceleration_out_of_range = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_lateral_acceleration_out_of_range(error_flag value) {
+  extern error_flag __oe_error_lateral_acceleration_out_of_range;
+  if (__oe_error_lateral_acceleration_out_of_range != value) {
+    __oe_error_lateral_acceleration_out_of_range = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_vertical_acceleration_out_of_range(error_flag value) {
+  extern error_flag __oe_error_vertical_acceleration_out_of_range;
+  if (__oe_error_vertical_acceleration_out_of_range != value) {
+    __oe_error_vertical_acceleration_out_of_range = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_bat24_voltage_invalid(error_flag value) {
+  extern error_flag __oe_error_bat24_voltage_invalid;
+  if (__oe_error_bat24_voltage_invalid != value) {
+    __oe_error_bat24_voltage_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
 void canzero_set_error_level_bat24_under_voltage(error_level value) {
   extern error_level __oe_error_level_bat24_under_voltage;
   if (__oe_error_level_bat24_under_voltage != value) {
     __oe_error_level_bat24_under_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3810,8 +3979,19 @@ void canzero_set_error_level_bat24_over_voltage(error_level value) {
   if (__oe_error_level_bat24_over_voltage != value) {
     __oe_error_level_bat24_over_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_bat24_current_invalid(error_flag value) {
+  extern error_flag __oe_error_bat24_current_invalid;
+  if (__oe_error_bat24_current_invalid != value) {
+    __oe_error_bat24_current_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3821,8 +4001,19 @@ void canzero_set_error_level_bat24_over_current(error_level value) {
   if (__oe_error_level_bat24_over_current != value) {
     __oe_error_level_bat24_over_current = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_link24_voltage_invalid(error_flag value) {
+  extern error_flag __oe_error_link24_voltage_invalid;
+  if (__oe_error_link24_voltage_invalid != value) {
+    __oe_error_link24_voltage_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3832,8 +4023,8 @@ void canzero_set_error_level_link24_under_voltage(error_level value) {
   if (__oe_error_level_link24_under_voltage != value) {
     __oe_error_level_link24_under_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3843,8 +4034,19 @@ void canzero_set_error_level_link24_over_voltage(error_level value) {
   if (__oe_error_level_link24_over_voltage != value) {
     __oe_error_level_link24_over_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_link24_current_invalid(error_flag value) {
+  extern error_flag __oe_error_link24_current_invalid;
+  if (__oe_error_link24_current_invalid != value) {
+    __oe_error_link24_current_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3854,8 +4056,19 @@ void canzero_set_error_level_link24_over_current(error_level value) {
   if (__oe_error_level_link24_over_current != value) {
     __oe_error_level_link24_over_current = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_link45_voltage_invalid(error_flag value) {
+  extern error_flag __oe_error_link45_voltage_invalid;
+  if (__oe_error_link45_voltage_invalid != value) {
+    __oe_error_link45_voltage_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3865,8 +4078,8 @@ void canzero_set_error_level_link45_under_voltage(error_level value) {
   if (__oe_error_level_link45_under_voltage != value) {
     __oe_error_level_link45_under_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3876,8 +4089,19 @@ void canzero_set_error_level_link45_over_voltage(error_level value) {
   if (__oe_error_level_link45_over_voltage != value) {
     __oe_error_level_link45_over_voltage = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_link45_current_invalid(error_flag value) {
+  extern error_flag __oe_error_link45_current_invalid;
+  if (__oe_error_link45_current_invalid != value) {
+    __oe_error_link45_current_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3887,19 +4111,19 @@ void canzero_set_error_level_link45_over_current(error_level value) {
   if (__oe_error_level_link45_over_current != value) {
     __oe_error_level_link45_over_current = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
 }
-void canzero_set_error_level_cooling_cycle_under_pressure(error_level value) {
-  extern error_level __oe_error_level_cooling_cycle_under_pressure;
-  if (__oe_error_level_cooling_cycle_under_pressure != value) {
-    __oe_error_level_cooling_cycle_under_pressure = value;
+void canzero_set_error_cooling_cycle_pressure_invalid(error_flag value) {
+  extern error_flag __oe_error_cooling_cycle_pressure_invalid;
+  if (__oe_error_cooling_cycle_pressure_invalid != value) {
+    __oe_error_cooling_cycle_pressure_invalid = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3909,8 +4133,19 @@ void canzero_set_error_level_cooling_cycle_over_pressure(error_level value) {
   if (__oe_error_level_cooling_cycle_over_pressure != value) {
     __oe_error_level_cooling_cycle_over_pressure = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_mcu_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_mcu_temperature_invalid;
+  if (__oe_error_mcu_temperature_invalid != value) {
+    __oe_error_mcu_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3920,8 +4155,19 @@ void canzero_set_error_level_mcu_temperature(error_level value) {
   if (__oe_error_level_mcu_temperature != value) {
     __oe_error_level_mcu_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_cooling_cycle_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_cooling_cycle_temperature_invalid;
+  if (__oe_error_cooling_cycle_temperature_invalid != value) {
+    __oe_error_cooling_cycle_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3931,8 +4177,8 @@ void canzero_set_error_level_cooling_cycle_temperature(error_level value) {
   if (__oe_error_level_cooling_cycle_temperature != value) {
     __oe_error_level_cooling_cycle_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3942,8 +4188,30 @@ void canzero_set_error_level_bat24_temperature(error_level value) {
   if (__oe_error_level_bat24_temperature != value) {
     __oe_error_level_bat24_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_bat24_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_bat24_temperature_invalid;
+  if (__oe_error_bat24_temperature_invalid != value) {
+    __oe_error_bat24_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_supercap_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_supercap_temperature_invalid;
+  if (__oe_error_supercap_temperature_invalid != value) {
+    __oe_error_supercap_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3953,8 +4221,19 @@ void canzero_set_error_level_supercap_temperature(error_level value) {
   if (__oe_error_level_supercap_temperature != value) {
     __oe_error_level_supercap_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_buck_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_buck_temperature_invalid;
+  if (__oe_error_buck_temperature_invalid != value) {
+    __oe_error_buck_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3964,8 +4243,19 @@ void canzero_set_error_level_buck_temperature(error_level value) {
   if (__oe_error_level_buck_temperature != value) {
     __oe_error_level_buck_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_ebox_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_ebox_temperature_invalid;
+  if (__oe_error_ebox_temperature_invalid != value) {
+    __oe_error_ebox_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3975,8 +4265,19 @@ void canzero_set_error_level_ebox_temperature(error_level value) {
   if (__oe_error_level_ebox_temperature != value) {
     __oe_error_level_ebox_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
+    }
+  }
+}
+void canzero_set_error_ambient_temperature_invalid(error_flag value) {
+  extern error_flag __oe_error_ambient_temperature_invalid;
+  if (__oe_error_ambient_temperature_invalid != value) {
+    __oe_error_ambient_temperature_invalid = value;
+    uint32_t time = canzero_get_time();
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3986,8 +4287,8 @@ void canzero_set_error_level_ambient_temperature(error_level value) {
   if (__oe_error_level_ambient_temperature != value) {
     __oe_error_level_ambient_temperature = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -3997,8 +4298,8 @@ void canzero_set_assertion_fault(error_flag value) {
   if (__oe_assertion_fault != value) {
     __oe_assertion_fault = value;
     uint32_t time = canzero_get_time();
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }

@@ -31,15 +31,15 @@ static void FASTRUN on_value(const Voltage &v) {
 
 void FLASHMEM sensors::ambient_temperature::begin() {
   canzero_set_error_level_config_ambient_temperature(error_level_config{
-      .m_ignore_info = bool_t_FALSE,
-      .m_ignore_warning = bool_t_FALSE,
-      .m_ignore_error = bool_t_FALSE,
       .m_info_thresh = 45,
       .m_info_timeout = 5,
       .m_warning_thresh = 65,
       .m_warning_timeout = 5,
       .m_error_thresh = 80,
       .m_error_timeout = 5,
+      .m_ignore_info = bool_t_FALSE,
+      .m_ignore_warning = bool_t_FALSE,
+      .m_ignore_error = bool_t_FALSE,
   });
   canzero_set_error_level_ambient_temperature(error_level_OK);
   canzero_set_error_ambient_temperature_invalid(error_flag_OK);
@@ -51,12 +51,15 @@ void FLASHMEM sensors::ambient_temperature::begin() {
 void PROGMEM sensors::ambient_temperature::calibrate() {
   for (size_t i = 0; i < filter.size(); ++i) {
     on_value(input_board::sync_read(PIN));
+    canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  bool invalid_reading =
-      (filter.get() <= -1_Celcius || filter.get() >= 100_Celcius);
-  canzero_set_error_ambient_temperature_invalid(
-      invalid_reading ? error_flag_ERROR : error_flag_OK);
+  const bool sensible =
+      filter.get() <= 100_Celcius && filter.get() >= 0_Celcius;
+  canzero_set_error_ambient_temperature_invalid(sensible ? error_flag_OK
+                                                         : error_flag_ERROR);
 }
 
-void FASTRUN sensors::ambient_temperature::update() { error_check.check(); }
+void FASTRUN sensors::ambient_temperature::update() { 
+  error_check.check(); 
+}

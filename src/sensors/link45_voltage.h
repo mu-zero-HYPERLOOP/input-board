@@ -5,10 +5,10 @@
 namespace sensors::link45_voltage {
 
 constexpr Frequency MEAS_FREQUENCY = 1_kHz;
-constexpr ain_pin PIN = ain_iso_21;
+constexpr ain_pin PIN = ain_iso_19;
 
 constexpr Resistance R1 = 33_kOhm;
-constexpr Resistance R2 = 570_Ohm;
+constexpr Resistance R2 = 560_Ohm;
 
 void begin();
 

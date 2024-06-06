@@ -8,7 +8,7 @@
 
 static volatile DMAMEM IntervalTiming m_interval_timer(1.0);
 
-constexpr auto VOLUME_PER_TRIG = 50_ml;
+constexpr auto VOLUME_PER_TRIG = 1_l / 553;
 
 static DMAMEM BoxcarFilter<FlowRate, 10> filter(0_l / 1_s);
 static DMAMEM Timestamp last_trig = Timestamp::now();
@@ -24,7 +24,8 @@ static void FASTRUN on_exti() {
 }
 
 void FLASHMEM sensors::mass_flow_rate::begin() {
-  input_board::register_exit(PIN, input_board::FALLING_EDGE, on_exti);
+  canzero_set_cooling_cycle_flow_rate(0);
+  input_board::register_exit(PIN, input_board::ExtiEdge::ANY_EDGE, on_exti);
 }
 
 void PROGMEM sensors::mass_flow_rate::calibrate() {
@@ -33,9 +34,8 @@ void PROGMEM sensors::mass_flow_rate::calibrate() {
 
 void FASTRUN sensors::mass_flow_rate::update() {
   if (Timestamp::now() - last_trig > 1_s) {
-    // pull value down if no exti trig for the last second.
     filter.push(0_l / 1_s);
     last_trig = last_trig + 100_ms;
-    canzero_set_cooling_cycle_flow_rate(static_cast<float>(filter.get() / 1_l));
   }
+  canzero_set_cooling_cycle_flow_rate(static_cast<float>(filter.get()));
 }

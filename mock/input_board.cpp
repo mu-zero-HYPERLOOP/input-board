@@ -3,6 +3,9 @@
 #include "firmware/ain_scheduler.h"
 #include "firmware/mux_scheduler.h"
 #include "firmware/pinout.h"
+#include "sensors/accelerometer.h"
+#include "sensors/ambient_temperature.h"
+#include "sensors/bat24_temperature.h"
 #include "sensors/bat24_voltage.h"
 #include <cassert>
 #include <chrono>
@@ -13,23 +16,33 @@
 
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_voltage.h"
+#include "sensors/buck_temperature.h"
 #include "sensors/cooling_pressure.h"
+#include "sensors/cooling_temperature.h"
+#include "sensors/ebox_temperature.h"
 #include "sensors/formulas/hall_sensors.h"
 #include "sensors/formulas/isolated_voltage.h"
+#include "sensors/formulas/ntc_north_star.h"
+#include "sensors/formulas/sick_pbt.h"
+#include "sensors/formulas/voltage_divider.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
 #include "sensors/link24_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
+#include "sensors/supercap_temperature.h"
 #include "state_estimation.h"
 #include "util/interval.h"
 #include "util/timing.h"
+#include <iostream>
 
 using namespace std::chrono;
 
 constexpr size_t MAX_AIN_PERIODIC_JOBS = 6;
 constexpr size_t MAX_MUX_PERIODIC_JOBS = 16;
+
+constexpr Acceleration G = 9.80665_mps2;
 
 static AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler;
 static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
@@ -37,9 +50,7 @@ static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler;
 static std::random_device rd{};
 static std::mt19937 gen{rd()};
 
-static std::normal_distribution cooling_pressure{0.75, 0.005};
-
-static std::normal_distribution mcu_temperature{24.15 + 273.15, 1.0};
+static std::normal_distribution mcu_temperature{35.0, 2.0};
 
 namespace input_board {
 static void set_digtal_state(din_pin pin, bool v);
@@ -59,13 +70,17 @@ static bool mux_helper(ain_pin pin, mux_pin mux_pin) {
 Voltage sync_read(ain_pin pin) {
 
   if (pin == ain_pin::ain_mux || pin == ain_pin::ain_ntc_mux) {
-    assert(high_resolution_clock::now() - last_mux_switch >=
-           MuxScheduler<MAX_MUX_PERIODIC_JOBS>::MIN_MUX_SWITCH_CHRONO_DURATION);
+    if (high_resolution_clock::now() - last_mux_switch <=
+        MuxScheduler<MAX_MUX_PERIODIC_JOBS>::MIN_MUX_SWITCH_CHRONO_DURATION -
+            1ms) {
+      /* std::cout << "trying to read a pin without waiting for the mutex to
+       * switch" << std::endl; */
+    }
   }
 
   switch (pin) {
   case sensors::bat24_voltage::PIN: {
-    constexpr Voltage mock = 24_V;
+    constexpr Voltage mock = 26_V + sensors::bat24_voltage::DEFAULT_OFFSET;
     Voltage v = sensors::formula::inv_isolated_voltage_meas(
         mock, sensors::bat24_voltage::R1, sensors::bat24_voltage::R2);
     std::normal_distribution bat24_voltage_dist{static_cast<float>(v), 0.015f};
@@ -74,13 +89,18 @@ Voltage sync_read(ain_pin pin) {
   case sensors::bat24_current::PIN: {
     if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
       std::normal_distribution bat24_current_dist{0.0f, 0.015f};
-      return Voltage(bat24_current_dist(gen));
+      const Voltage v = sensors::formula::inv_hall_effect_sensor(
+          Current(bat24_current_dist(gen)),
+          sensors::bat24_current::VOLT_PER_AMP,
+          sensors::bat24_current::DEFAULT_OFFSET +
+              Current(canzero_get_bat24_current_calibration_offset()));
+      return v;
     } else {
       constexpr Current mock = 7.5_A;
       Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::bat24_current::VOLT_PER_AMP,
-          Current(canzero_get_bat24_current_calibration_offset()));
-
+          sensors::bat24_current::DEFAULT_OFFSET +
+              Current(canzero_get_bat24_current_calibration_offset()));
       std::normal_distribution bat24_current_dist{static_cast<float>(v),
                                                   0.015f};
       return Voltage(bat24_current_dist(gen));
@@ -96,20 +116,32 @@ Voltage sync_read(ain_pin pin) {
     return Voltage(link24_current_dist(gen));
   }
   case sensors::link24_voltage::PIN: {
-    constexpr Voltage mock = 24_V;
+    constexpr Voltage mock = 24_V + sensors::link24_voltage::DEFAULT_OFFSET;
     Voltage v = sensors::formula::inv_isolated_voltage_meas(
         mock, sensors::link24_voltage::R1, sensors::link24_voltage::R2);
     std::normal_distribution link24_voltage_dist{static_cast<float>(v), 0.015f};
     return Voltage(link24_voltage_dist(gen));
   }
   case sensors::link45_current::PIN: {
-    constexpr Current mock = 7.5_A;
-    Voltage v = sensors::formula::inv_hall_effect_sensor(
-        mock, sensors::link45_current::VOLT_PER_AMP,
-        Current(canzero_get_link45_current_calibration_offset()));
+    if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
+      constexpr Current mock = 100_A;
+      Voltage v = sensors::formula::inv_hall_effect_sensor(
+          mock, sensors::link45_current::VOLT_PER_AMP,
+          Current(canzero_get_link45_current_calibration_offset()));
 
-    std::normal_distribution link45_current_dist{static_cast<float>(v), 0.015f};
-    return Voltage(link45_current_dist(gen));
+      std::normal_distribution link45_current_dist{static_cast<float>(v),
+                                                   0.015f};
+      return Voltage(link45_current_dist(gen));
+    } else {
+      constexpr Current mock = 0_A;
+      Voltage v = sensors::formula::inv_hall_effect_sensor(
+          mock, sensors::link45_current::VOLT_PER_AMP,
+          Current(canzero_get_link45_current_calibration_offset()));
+
+      std::normal_distribution link45_current_dist{static_cast<float>(v),
+                                                   0.015f};
+      return Voltage(link45_current_dist(gen));
+    }
   }
   case sensors::link45_voltage::PIN: {
     if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
@@ -127,7 +159,71 @@ Voltage sync_read(ain_pin pin) {
   case ain_pin::ain_ntc_mux:
   case ain_pin::ain_mux:
     if (mux_helper(pin, sensors::cooling_pressure::PIN)) {
-      return Voltage(cooling_pressure(gen));
+      constexpr Pressure mock = 1_bar;
+      constexpr Current i_mock = sensors::formula::inv_sick_pbt(mock);
+      constexpr Voltage v_mock = i_mock * sensors::cooling_pressure::R_MEAS;
+      std::normal_distribution dist{static_cast<float>(v_mock), 0.05f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::cooling_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::cooling_temperature::NTC_BETA,
+          sensors::cooling_temperature::NTC_R_REF,
+          sensors::cooling_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::cooling_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::ebox_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::ebox_temperature::NTC_BETA,
+          sensors::ebox_temperature::NTC_R_REF,
+          sensors::ebox_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::ebox_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::supercap_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::supercap_temperature::NTC_BETA,
+          sensors::supercap_temperature::NTC_R_REF,
+          sensors::supercap_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::supercap_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::bat24_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::bat24_temperature::NTC_BETA,
+          sensors::bat24_temperature::NTC_R_REF,
+          sensors::bat24_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::bat24_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::ambient_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::ambient_temperature::NTC_BETA,
+          sensors::ambient_temperature::NTC_R_REF,
+          sensors::ambient_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::ambient_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
+    } else if (mux_helper(pin, sensors::buck_temperature::PIN)) {
+      constexpr Temperature mock = 24_Celcius;
+      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
+          mock, sensors::buck_temperature::NTC_BETA,
+          sensors::buck_temperature::NTC_R_REF,
+          sensors::buck_temperature::NTC_T_REF);
+      const Voltage v = sensors::formula::vout_of_voltage_divider(
+          5_V, r_ntc, sensors::buck_temperature::R_MEAS);
+      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      return Voltage(dist(gen));
     } else {
       return 0_V;
     }
@@ -138,7 +234,9 @@ Voltage sync_read(ain_pin pin) {
 
 Voltage sync_read(mux_pin pin) { return m_mux_scheduler.sync_read(pin); }
 
-Temperature read_mcu_temperature() { return Temperature(mcu_temperature(gen)); }
+Temperature read_mcu_temperature() {
+  return Temperature(mcu_temperature(gen)) + 0_Celcius;
+}
 
 void set_sdc(bool close) {
   if (close) {
@@ -187,8 +285,7 @@ static void (*accel_callback)(const Acceleration &, const Acceleration &,
                               const Acceleration &);
 
 bool register_periodic_accelerometer_reading(
-    const Frequency &frequency,
-    AccelerometerRange range,
+    const Frequency &frequency, AccelerometerRange range,
     void (*on_value)(const Acceleration &x, const Acceleration &y,
                      const Acceleration &z)) {
   enable_accel = true;
@@ -197,15 +294,90 @@ bool register_periodic_accelerometer_reading(
   return true;
 }
 
-static std::normal_distribution lateral{0.0f, 0.1f};
-static std::normal_distribution vertical{0.0f, 0.1f};
+
+static constexpr float ACCEL_VARAIANCE = 0.1f;
+static std::normal_distribution lateral{0.0f, ACCEL_VARAIANCE};
+static std::normal_distribution vertical{static_cast<float>(G), ACCEL_VARAIANCE};
 
 std::tuple<Acceleration, Acceleration, Acceleration> sync_read_acceleration() {
 
-  std::normal_distribution accel{canzero_get_target_acceleration(), 0.1f};
+  std::normal_distribution accel{canzero_get_target_acceleration(), ACCEL_VARAIANCE};
 
-  return std::make_tuple(Acceleration(accel(gen)), Acceleration(vertical(gen)),
-                         Acceleration(lateral(gen)));
+  Acceleration fwd = Acceleration(accel(gen));
+  Acceleration vert = Acceleration(vertical(gen));
+  Acceleration lat = Acceleration(lateral(gen));
+  switch (sensors::accelerometer::range) {
+  case ACCEL_RANGE_05G:
+    if (fwd >= 0.5 * G) {
+      fwd = 0.5 * G;
+    } else if (fwd <= -0.5 * G) {
+      fwd = -0.5 * G;
+    }
+    if (vert >= 0.5 * G) {
+      vert = 0.5 * G;
+    } else if (vert <= -0.5 * G) {
+      vert = -0.5 * G;
+    }
+    if (lat >= 0.5 * G) {
+      lat = 0.5 * G;
+    } else if (lat <= -0.5 * G) {
+      lat = -0.5 * G;
+    }
+    break;
+  case ACCEL_RANGE_1G:
+    if (fwd >= G) {
+      fwd = G;
+    } else if (fwd <= -G) {
+      fwd = -G;
+    }
+    if (vert >= G) {
+      vert = G;
+    } else if (vert <= -G) {
+      vert = -G;
+    }
+    if (lat >= G) {
+      lat = G;
+    } else if (lat <= -G) {
+      lat = -G;
+    }
+    break;
+  case ACCEL_RANGE_2G:
+    if (fwd >= 2 * G) {
+      fwd = 2 * G;
+    } else if (fwd <= -2 * G) {
+      fwd = -2 * G;
+    }
+    if (vert >= 2 * G) {
+      vert = 2 * G;
+    } else if (vert <= -2 * G) {
+      vert = -2 * G;
+    }
+    if (lat >= 2 * G) {
+      lat = 2 * G;
+    } else if (lat <= -2 * G) {
+      lat = -2 * G;
+    }
+    break;
+  case ACCEL_RANGE_4G:
+    if (fwd >= 4 * G) {
+      fwd = 4 * G;
+    } else if (fwd <= -4 * G) {
+      fwd = -4 * G;
+    }
+    if (vert >= 4 * G) {
+      vert = 4 * G;
+    } else if (vert <= -4 * G) {
+      vert = -4 * G;
+    }
+    if (lat >= 4 * G) {
+      lat = 4 * G;
+    } else if (lat <= -4 * G) {
+      lat = -4 * G;
+    }
+    break;
+  }
+
+  return std::make_tuple(fwd, vert, lat);
 }
 
 std::tuple<Acceleration, Acceleration, Acceleration> sync_read_acceleration();
@@ -234,7 +406,6 @@ static void set_digtal_state(din_pin pin, bool v) {
       }
     }
     digital_states[pin] = v;
-    /* std::cout << "calling exti: " << pin << std::endl; */
     if (trig_exti && exti_mocks[pin].m_on_exti != nullptr) {
       exti_mocks[pin].m_on_exti();
     }
@@ -293,9 +464,9 @@ void mock_update() {
   }
   mock_position();
   if (enable_accel && accel_interval.next()) {
-    std::normal_distribution accel{canzero_get_target_acceleration(), 0.1f};
-    accel_callback(Acceleration(accel(gen)), Acceleration(vertical(gen)),
-                   Acceleration(lateral(gen)));
+
+    const auto& [x, y, z] = sync_read_acceleration();
+    accel_callback(x, y, z);
   }
 }
 
