@@ -165,7 +165,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
       0.5) {
     calibration_ok = false;
   }
-  canzero_set_error_acceleration_calibation_failed(
+  canzero_set_error_acceleration_calibration_failed(
       calibration_ok ? error_flag_OK : error_flag_ERROR);
 
   for (size_t i = 0; i < std::max(filter_y.size(), filter_z.size()); ++i) {
