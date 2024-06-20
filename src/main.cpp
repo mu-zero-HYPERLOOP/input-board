@@ -31,6 +31,7 @@
 #include "sensors/mass_flow_rate.h"
 #include "sensors/mcu_temperature.h"
 #include "sensors/supercap_temperature.h"
+#include "error_handling.hpp"
 #include <avr/pgmspace.h>
 #include "util/timing.h"
 
@@ -113,7 +114,12 @@ calibration:
       goto calibration;
     }
 
-    sdc::close();
+    
+    if (error_handling::no_error()) {
+      sdc::close();
+    } else {
+      sdc::open();
+    }
 
     input_board::update_continue();
 

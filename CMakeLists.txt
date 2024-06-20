@@ -34,6 +34,7 @@ add_executable(${PROJECT_NAME}
   src/sensors/supercap_temperature.cpp
   src/state_estimation.cpp
   src/state_estimation/ekf.cpp
+  src/error_handling.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE src/ mock/)

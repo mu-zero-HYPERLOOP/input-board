@@ -38,6 +38,14 @@ typedef enum {
   motor_command_ABORT = 5,
   motor_command_DISARM45 = 6,
 } motor_command;
+typedef enum {
+  input_board_command_NONE = 0,
+  input_board_command_CALIBRATE = 1,
+} input_board_command;
+typedef enum {
+  bool_t_FALSE = 0,
+  bool_t_TRUE = 1,
+} bool_t;
 typedef struct {
   uint8_t m_sof;
   uint8_t m_eof;
@@ -83,14 +91,6 @@ typedef struct {
   uint8_t m_min;
   uint8_t m_sec;
 } date_time;
-typedef enum {
-  input_board_command_NONE = 0,
-  input_board_command_CALIBRATE = 1,
-} input_board_command;
-typedef enum {
-  bool_t_FALSE = 0,
-  bool_t_TRUE = 1,
-} bool_t;
 typedef enum {
   calibration_mode_USE_OFFSET = 0,
   calibration_mode_USE_TARGET = 1,
@@ -242,9 +242,9 @@ static inline double canzero_get_vertical_acceleration_calibration_target() {
   extern double __oe_vertical_acceleration_calibration_target;
   return __oe_vertical_acceleration_calibration_target;
 }
-static inline error_flag canzero_get_error_acceleration_calibation_failed() {
-  extern error_flag __oe_error_acceleration_calibation_failed;
-  return __oe_error_acceleration_calibation_failed;
+static inline error_flag canzero_get_error_acceleration_calibration_failed() {
+  extern error_flag __oe_error_acceleration_calibration_failed;
+  return __oe_error_acceleration_calibration_failed;
 }
 static inline float canzero_get_track_length() {
   extern float __oe_track_length;
@@ -594,60 +594,60 @@ static inline error_flag canzero_get_assertion_fault() {
   extern error_flag __oe_assertion_fault;
   return __oe_assertion_fault;
 }
+static inline error_flag canzero_get_error_heartbeat_miss() {
+  extern error_flag __oe_error_heartbeat_miss;
+  return __oe_error_heartbeat_miss;
+}
 typedef struct {
   get_resp_header m_header;
   uint32_t m_data;
 } canzero_message_get_resp;
-static const uint32_t canzero_message_get_resp_id = 0xBD;
+static const uint32_t canzero_message_get_resp_id = 0x17D;
 typedef struct {
   set_resp_header m_header;
 } canzero_message_set_resp;
-static const uint32_t canzero_message_set_resp_id = 0xDD;
+static const uint32_t canzero_message_set_resp_id = 0x1BD;
 typedef struct {
   input_board_state m_state;
   sdc_status m_sdc_status;
 } canzero_message_input_board_stream_state;
-static const uint32_t canzero_message_input_board_stream_state_id = 0x4C;
+static const uint32_t canzero_message_input_board_stream_state_id = 0xA8;
 typedef struct {
   float m_position;
   float m_velocity;
   float m_acceleration;
 } canzero_message_input_board_stream_position_estimation;
-static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x8D;
-typedef struct {
-  float m_loop_frequency;
-} canzero_message_input_board_stream_debug;
-static const uint32_t canzero_message_input_board_stream_debug_id = 0x9A;
+static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x129;
 typedef struct {
   int16_t m_linear_encoder_count;
 } canzero_message_input_board_stream_linear_encoder;
-static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x79;
+static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0xB9;
 typedef struct {
   float m_raw_acceleration;
   float m_lateral_acceleration;
   float m_vertical_acceleration;
 } canzero_message_input_board_stream_accelerations;
-static const uint32_t canzero_message_input_board_stream_accelerations_id = 0x9B;
+static const uint32_t canzero_message_input_board_stream_accelerations_id = 0x13B;
 typedef struct {
   float m_bat24_voltage;
   float m_bat24_current;
 } canzero_message_input_board_stream_bat24;
-static const uint32_t canzero_message_input_board_stream_bat24_id = 0x5A;
+static const uint32_t canzero_message_input_board_stream_bat24_id = 0xBA;
 typedef struct {
   float m_link24_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
-static const uint32_t canzero_message_input_board_stream_link24_id = 0x99;
+static const uint32_t canzero_message_input_board_stream_link24_id = 0xF9;
 typedef struct {
   float m_link45_voltage;
   float m_link45_current;
 } canzero_message_input_board_stream_link45;
-static const uint32_t canzero_message_input_board_stream_link45_id = 0x58;
+static const uint32_t canzero_message_input_board_stream_link45_id = 0x139;
 typedef struct {
   float m_cooling_cycle_pressure;
   float m_cooling_cycle_temperature;
 } canzero_message_input_board_stream_cooling;
-static const uint32_t canzero_message_input_board_stream_cooling_id = 0x7A;
+static const uint32_t canzero_message_input_board_stream_cooling_id = 0xFA;
 typedef struct {
   float m_mcu_temperature;
   float m_bat24_temperature;
@@ -656,9 +656,10 @@ typedef struct {
   float m_ebox_temperature;
   float m_ambient_temperature;
 } canzero_message_input_board_stream_temperatures;
-static const uint32_t canzero_message_input_board_stream_temperatures_id = 0x78;
+static const uint32_t canzero_message_input_board_stream_temperatures_id = 0xB8;
 typedef struct {
   error_flag m_error_acceleration_out_of_range;
+  error_flag m_error_acceleration_calibration_failed;
   error_flag m_error_lateral_acceleration_out_of_range;
   error_flag m_error_vertical_acceleration_out_of_range;
   error_flag m_error_bat24_voltage_invalid;
@@ -692,35 +693,41 @@ typedef struct {
   error_level m_error_level_ebox_temperature;
   error_flag m_error_ambient_temperature_invalid;
   error_level m_error_level_ambient_temperature;
+  error_flag m_error_heartbeat_miss;
   error_flag m_assertion_fault;
 } canzero_message_input_board_stream_errors;
-static const uint32_t canzero_message_input_board_stream_errors_id = 0x59;
+static const uint32_t canzero_message_input_board_stream_errors_id = 0x13A;
 typedef struct {
   uint8_t m_node_id;
   uint8_t m_unregister;
   uint8_t m_ticks_next;
 } canzero_message_heartbeat_can0;
-static const uint32_t canzero_message_heartbeat_can0_id = 0xE9;
+static const uint32_t canzero_message_heartbeat_can0_id = 0x1E5;
 typedef struct {
   uint8_t m_node_id;
   uint8_t m_unregister;
   uint8_t m_ticks_next;
 } canzero_message_heartbeat_can1;
-static const uint32_t canzero_message_heartbeat_can1_id = 0xE8;
+static const uint32_t canzero_message_heartbeat_can1_id = 0x1E4;
 typedef struct {
   get_req_header m_header;
 } canzero_message_get_req;
-static const uint32_t canzero_message_get_req_id = 0xBE;
+static const uint32_t canzero_message_get_req_id = 0x17E;
 typedef struct {
   set_req_header m_header;
   uint32_t m_data;
 } canzero_message_set_req;
-static const uint32_t canzero_message_set_req_id = 0xDE;
+static const uint32_t canzero_message_set_req_id = 0x1BE;
 typedef struct {
   float m_target_acceleration;
   motor_command m_motor_driver_command;
 } canzero_message_mother_board_stream_motor_command;
-static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0x47;
+static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0xA1;
+typedef struct {
+  input_board_command m_input_board_command;
+  bool_t m_input_board_assert_45V_online;
+} canzero_message_mother_board_stream_input_board_command;
+static const uint32_t canzero_message_mother_board_stream_input_board_command_id = 0xA3;
 void canzero_can0_poll();
 void canzero_can1_poll();
 uint32_t canzero_update_continue(uint32_t delta_time);
@@ -729,350 +736,699 @@ static inline void canzero_set_config_hash(uint64_t value){
   extern uint64_t __oe_config_hash;
   __oe_config_hash = value;
 }
+
 static inline void canzero_set_build_time(date_time value){
   extern date_time __oe_build_time;
   __oe_build_time = value;
 }
+
 void canzero_set_state(input_board_state value);
+
 void canzero_set_sdc_status(sdc_status value);
+
 static inline void canzero_set_position(float value){
   extern float __oe_position;
   __oe_position = value;
 }
+
 static inline void canzero_set_velocity(float value){
   extern float __oe_velocity;
   __oe_velocity = value;
 }
+
 static inline void canzero_set_acceleration(float value){
   extern float __oe_acceleration;
   __oe_acceleration = value;
 }
+
 static inline void canzero_set_command(input_board_command value){
   extern input_board_command __oe_command;
   __oe_command = value;
 }
+
 static inline void canzero_set_target_acceleration(float value){
   extern float __oe_target_acceleration;
   __oe_target_acceleration = value;
 }
+
 static inline void canzero_set_assert_45V_system_online(bool_t value){
   extern bool_t __oe_assert_45V_system_online;
   __oe_assert_45V_system_online = value;
 }
+
 void canzero_set_linear_encoder_count(int16_t value);
+
 static inline void canzero_set_raw_acceleration(float value){
   extern float __oe_raw_acceleration;
   __oe_raw_acceleration = value;
 }
+
 void canzero_set_error_acceleration_out_of_range(error_flag value);
+
 static inline void canzero_set_acceleration_calibration_variance(double value){
   extern double __oe_acceleration_calibration_variance;
   __oe_acceleration_calibration_variance = value;
 }
+
 static inline void canzero_set_acceleration_calibration_offset(double value){
   extern double __oe_acceleration_calibration_offset;
   __oe_acceleration_calibration_offset = value;
 }
+
 static inline void canzero_set_acceleration_calibration_target(double value){
   extern double __oe_acceleration_calibration_target;
   __oe_acceleration_calibration_target = value;
 }
+
 static inline void canzero_set_raw_lateral_acceleration(float value){
   extern float __oe_raw_lateral_acceleration;
   __oe_raw_lateral_acceleration = value;
 }
+
 static inline void canzero_set_lateral_acceleration(float value){
   extern float __oe_lateral_acceleration;
   __oe_lateral_acceleration = value;
 }
+
 void canzero_set_error_lateral_acceleration_out_of_range(error_flag value);
+
 static inline void canzero_set_lateral_acceleration_calibration_variance(double value){
   extern double __oe_lateral_acceleration_calibration_variance;
   __oe_lateral_acceleration_calibration_variance = value;
 }
+
 static inline void canzero_set_lateral_acceleration_calibration_offset(double value){
   extern double __oe_lateral_acceleration_calibration_offset;
   __oe_lateral_acceleration_calibration_offset = value;
 }
+
 static inline void canzero_set_lateral_acceleration_calibration_target(double value){
   extern double __oe_lateral_acceleration_calibration_target;
   __oe_lateral_acceleration_calibration_target = value;
 }
+
 static inline void canzero_set_raw_vertical_acceleration(float value){
   extern float __oe_raw_vertical_acceleration;
   __oe_raw_vertical_acceleration = value;
 }
+
 static inline void canzero_set_vertical_acceleration(float value){
   extern float __oe_vertical_acceleration;
   __oe_vertical_acceleration = value;
 }
+
 void canzero_set_error_vertical_acceleration_out_of_range(error_flag value);
+
 static inline void canzero_set_vertical_acceleration_calibration_variance(double value){
   extern double __oe_vertical_acceleration_calibration_variance;
   __oe_vertical_acceleration_calibration_variance = value;
 }
+
 static inline void canzero_set_vertical_acceleration_calibration_offset(double value){
   extern double __oe_vertical_acceleration_calibration_offset;
   __oe_vertical_acceleration_calibration_offset = value;
 }
+
 static inline void canzero_set_vertical_acceleration_calibration_target(double value){
   extern double __oe_vertical_acceleration_calibration_target;
   __oe_vertical_acceleration_calibration_target = value;
 }
-static inline void canzero_set_error_acceleration_calibation_failed(error_flag value){
-  extern error_flag __oe_error_acceleration_calibation_failed;
-  __oe_error_acceleration_calibation_failed = value;
-}
+
+void canzero_set_error_acceleration_calibration_failed(error_flag value);
+
 static inline void canzero_set_track_length(float value){
   extern float __oe_track_length;
   __oe_track_length = value;
 }
+
 static inline void canzero_set_bat24_voltage(float value){
   extern float __oe_bat24_voltage;
   __oe_bat24_voltage = value;
 }
+
 static inline void canzero_set_bat24_voltage_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_bat24_voltage_calibration_mode;
   __oe_bat24_voltage_calibration_mode = value;
 }
+
 static inline void canzero_set_bat24_voltage_calibration_offset(float value){
   extern float __oe_bat24_voltage_calibration_offset;
   __oe_bat24_voltage_calibration_offset = value;
 }
+
 static inline void canzero_set_bat24_voltage_calibration_target(float value){
   extern float __oe_bat24_voltage_calibration_target;
   __oe_bat24_voltage_calibration_target = value;
 }
+
 void canzero_set_error_bat24_voltage_invalid(error_flag value);
+
 void canzero_set_error_level_bat24_under_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_bat24_under_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_bat24_under_voltage;
   __oe_error_level_config_bat24_under_voltage = value;
 }
+
 void canzero_set_error_level_bat24_over_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_bat24_over_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_bat24_over_voltage;
   __oe_error_level_config_bat24_over_voltage = value;
 }
+
 static inline void canzero_set_bat24_current(float value){
   extern float __oe_bat24_current;
   __oe_bat24_current = value;
 }
+
 static inline void canzero_set_bat24_current_calibration_offset(float value){
   extern float __oe_bat24_current_calibration_offset;
   __oe_bat24_current_calibration_offset = value;
 }
+
 static inline void canzero_set_bat24_current_calibration_target(float value){
   extern float __oe_bat24_current_calibration_target;
   __oe_bat24_current_calibration_target = value;
 }
+
 static inline void canzero_set_bat24_current_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_bat24_current_calibration_mode;
   __oe_bat24_current_calibration_mode = value;
 }
+
 void canzero_set_error_bat24_current_invalid(error_flag value);
+
 void canzero_set_error_level_bat24_over_current(error_level value);
+
 static inline void canzero_set_error_level_config_bat24_over_current(error_level_config value){
   extern error_level_config __oe_error_level_config_bat24_over_current;
   __oe_error_level_config_bat24_over_current = value;
 }
+
 static inline void canzero_set_link24_voltage(float value){
   extern float __oe_link24_voltage;
   __oe_link24_voltage = value;
 }
+
 static inline void canzero_set_link24_voltage_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_link24_voltage_calibration_mode;
   __oe_link24_voltage_calibration_mode = value;
 }
+
 static inline void canzero_set_link24_voltage_calibration_offset(float value){
   extern float __oe_link24_voltage_calibration_offset;
   __oe_link24_voltage_calibration_offset = value;
 }
+
 static inline void canzero_set_link24_voltage_calibration_target(float value){
   extern float __oe_link24_voltage_calibration_target;
   __oe_link24_voltage_calibration_target = value;
 }
+
 void canzero_set_error_link24_voltage_invalid(error_flag value);
+
 void canzero_set_error_level_link24_under_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_link24_under_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_link24_under_voltage;
   __oe_error_level_config_link24_under_voltage = value;
 }
+
 void canzero_set_error_level_link24_over_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_link24_over_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_link24_over_voltage;
   __oe_error_level_config_link24_over_voltage = value;
 }
+
 static inline void canzero_set_link24_current(float value){
   extern float __oe_link24_current;
   __oe_link24_current = value;
 }
+
 static inline void canzero_set_link24_current_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_link24_current_calibration_mode;
   __oe_link24_current_calibration_mode = value;
 }
+
 static inline void canzero_set_link24_current_calibration_offset(float value){
   extern float __oe_link24_current_calibration_offset;
   __oe_link24_current_calibration_offset = value;
 }
+
 static inline void canzero_set_link24_current_calibration_target(float value){
   extern float __oe_link24_current_calibration_target;
   __oe_link24_current_calibration_target = value;
 }
+
 void canzero_set_error_link24_current_invalid(error_flag value);
+
 void canzero_set_error_level_link24_over_current(error_level value);
+
 static inline void canzero_set_error_level_config_link24_over_current(error_level_config value){
   extern error_level_config __oe_error_level_config_link24_over_current;
   __oe_error_level_config_link24_over_current = value;
 }
+
 static inline void canzero_set_link45_voltage(float value){
   extern float __oe_link45_voltage;
   __oe_link45_voltage = value;
 }
+
 static inline void canzero_set_link45_voltage_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_link45_voltage_calibration_mode;
   __oe_link45_voltage_calibration_mode = value;
 }
+
 static inline void canzero_set_link45_voltage_calibration_offset(float value){
   extern float __oe_link45_voltage_calibration_offset;
   __oe_link45_voltage_calibration_offset = value;
 }
+
 static inline void canzero_set_link45_voltage_calibration_target(float value){
   extern float __oe_link45_voltage_calibration_target;
   __oe_link45_voltage_calibration_target = value;
 }
+
 void canzero_set_error_link45_voltage_invalid(error_flag value);
+
 void canzero_set_error_level_link45_under_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_link45_under_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_link45_under_voltage;
   __oe_error_level_config_link45_under_voltage = value;
 }
+
 void canzero_set_error_level_link45_over_voltage(error_level value);
+
 static inline void canzero_set_error_level_config_link45_over_voltage(error_level_config value){
   extern error_level_config __oe_error_level_config_link45_over_voltage;
   __oe_error_level_config_link45_over_voltage = value;
 }
+
 static inline void canzero_set_link45_current(float value){
   extern float __oe_link45_current;
   __oe_link45_current = value;
 }
+
 static inline void canzero_set_link45_current_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_link45_current_calibration_mode;
   __oe_link45_current_calibration_mode = value;
 }
+
 static inline void canzero_set_link45_current_calibration_offset(float value){
   extern float __oe_link45_current_calibration_offset;
   __oe_link45_current_calibration_offset = value;
 }
+
 static inline void canzero_set_link45_current_calibration_target(float value){
   extern float __oe_link45_current_calibration_target;
   __oe_link45_current_calibration_target = value;
 }
+
 void canzero_set_error_link45_current_invalid(error_flag value);
+
 void canzero_set_error_level_link45_over_current(error_level value);
+
 static inline void canzero_set_error_level_config_link45_over_current(error_level_config value){
   extern error_level_config __oe_error_level_config_link45_over_current;
   __oe_error_level_config_link45_over_current = value;
 }
+
 static inline void canzero_set_cooling_cycle_pressure(float value){
   extern float __oe_cooling_cycle_pressure;
   __oe_cooling_cycle_pressure = value;
 }
+
 static inline void canzero_set_cooling_cycle_pressure_calibration_mode(calibration_mode value){
   extern calibration_mode __oe_cooling_cycle_pressure_calibration_mode;
   __oe_cooling_cycle_pressure_calibration_mode = value;
 }
+
 static inline void canzero_set_cooling_cycle_pressure_calibration_offset(float value){
   extern float __oe_cooling_cycle_pressure_calibration_offset;
   __oe_cooling_cycle_pressure_calibration_offset = value;
 }
+
 static inline void canzero_set_cooling_cycle_pressure_calibration_target(float value){
   extern float __oe_cooling_cycle_pressure_calibration_target;
   __oe_cooling_cycle_pressure_calibration_target = value;
 }
+
 void canzero_set_error_cooling_cycle_pressure_invalid(error_flag value);
+
 void canzero_set_error_level_cooling_cycle_over_pressure(error_level value);
+
 static inline void canzero_set_error_level_config_cooling_cycle_over_pressure(error_level_config value){
   extern error_level_config __oe_error_level_config_cooling_cycle_over_pressure;
   __oe_error_level_config_cooling_cycle_over_pressure = value;
 }
+
 static inline void canzero_set_mcu_temperature(float value){
   extern float __oe_mcu_temperature;
   __oe_mcu_temperature = value;
 }
+
 void canzero_set_error_mcu_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_mcu_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_mcu_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_mcu_temperature;
   __oe_error_level_config_mcu_temperature = value;
 }
+
 static inline void canzero_set_cooling_cycle_temperature(float value){
   extern float __oe_cooling_cycle_temperature;
   __oe_cooling_cycle_temperature = value;
 }
+
 void canzero_set_error_cooling_cycle_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_cooling_cycle_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_cooling_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_cooling_temperature;
   __oe_error_level_config_cooling_temperature = value;
 }
+
 static inline void canzero_set_bat24_temperature(float value){
   extern float __oe_bat24_temperature;
   __oe_bat24_temperature = value;
 }
+
 void canzero_set_error_level_bat24_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_bat24_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_bat24_temperature;
   __oe_error_level_config_bat24_temperature = value;
 }
+
 void canzero_set_error_bat24_temperature_invalid(error_flag value);
+
 static inline void canzero_set_supercap_temperature(float value){
   extern float __oe_supercap_temperature;
   __oe_supercap_temperature = value;
 }
+
 void canzero_set_error_supercap_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_supercap_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_supercap_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_supercap_temperature;
   __oe_error_level_config_supercap_temperature = value;
 }
+
 static inline void canzero_set_buck_temperature(float value){
   extern float __oe_buck_temperature;
   __oe_buck_temperature = value;
 }
+
 void canzero_set_error_buck_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_buck_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_buck_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_buck_temperature;
   __oe_error_level_config_buck_temperature = value;
 }
+
 static inline void canzero_set_ebox_temperature(float value){
   extern float __oe_ebox_temperature;
   __oe_ebox_temperature = value;
 }
+
 void canzero_set_error_ebox_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_ebox_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_ebox_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_ebox_temperature;
   __oe_error_level_config_ebox_temperature = value;
 }
+
 static inline void canzero_set_ambient_temperature(float value){
   extern float __oe_ambient_temperature;
   __oe_ambient_temperature = value;
 }
+
 void canzero_set_error_ambient_temperature_invalid(error_flag value);
+
 void canzero_set_error_level_ambient_temperature(error_level value);
+
 static inline void canzero_set_error_level_config_ambient_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_ambient_temperature;
   __oe_error_level_config_ambient_temperature = value;
 }
+
 static inline void canzero_set_cooling_cycle_flow_rate(float value){
   extern float __oe_cooling_cycle_flow_rate;
   __oe_cooling_cycle_flow_rate = value;
 }
+
 static inline void canzero_set_loop_frequency(float value){
   extern float __oe_loop_frequency;
   __oe_loop_frequency = value;
 }
+
 void canzero_set_assertion_fault(error_flag value);
+
+void canzero_set_error_heartbeat_miss(error_flag value);
+
+void canzero_send_config_hash();
+
+void canzero_send_build_time();
+
+void canzero_send_state();
+
+void canzero_send_sdc_status();
+
+void canzero_send_position();
+
+void canzero_send_velocity();
+
+void canzero_send_acceleration();
+
+void canzero_send_command();
+
+void canzero_send_target_acceleration();
+
+void canzero_send_assert_45V_system_online();
+
+void canzero_send_linear_encoder_count();
+
+void canzero_send_raw_acceleration();
+
+void canzero_send_error_acceleration_out_of_range();
+
+void canzero_send_acceleration_calibration_variance();
+
+void canzero_send_acceleration_calibration_offset();
+
+void canzero_send_acceleration_calibration_target();
+
+void canzero_send_raw_lateral_acceleration();
+
+void canzero_send_lateral_acceleration();
+
+void canzero_send_error_lateral_acceleration_out_of_range();
+
+void canzero_send_lateral_acceleration_calibration_variance();
+
+void canzero_send_lateral_acceleration_calibration_offset();
+
+void canzero_send_lateral_acceleration_calibration_target();
+
+void canzero_send_raw_vertical_acceleration();
+
+void canzero_send_vertical_acceleration();
+
+void canzero_send_error_vertical_acceleration_out_of_range();
+
+void canzero_send_vertical_acceleration_calibration_variance();
+
+void canzero_send_vertical_acceleration_calibration_offset();
+
+void canzero_send_vertical_acceleration_calibration_target();
+
+void canzero_send_error_acceleration_calibration_failed();
+
+void canzero_send_track_length();
+
+void canzero_send_bat24_voltage();
+
+void canzero_send_bat24_voltage_calibration_mode();
+
+void canzero_send_bat24_voltage_calibration_offset();
+
+void canzero_send_bat24_voltage_calibration_target();
+
+void canzero_send_error_bat24_voltage_invalid();
+
+void canzero_send_error_level_bat24_under_voltage();
+
+void canzero_send_error_level_config_bat24_under_voltage();
+
+void canzero_send_error_level_bat24_over_voltage();
+
+void canzero_send_error_level_config_bat24_over_voltage();
+
+void canzero_send_bat24_current();
+
+void canzero_send_bat24_current_calibration_offset();
+
+void canzero_send_bat24_current_calibration_target();
+
+void canzero_send_bat24_current_calibration_mode();
+
+void canzero_send_error_bat24_current_invalid();
+
+void canzero_send_error_level_bat24_over_current();
+
+void canzero_send_error_level_config_bat24_over_current();
+
+void canzero_send_link24_voltage();
+
+void canzero_send_link24_voltage_calibration_mode();
+
+void canzero_send_link24_voltage_calibration_offset();
+
+void canzero_send_link24_voltage_calibration_target();
+
+void canzero_send_error_link24_voltage_invalid();
+
+void canzero_send_error_level_link24_under_voltage();
+
+void canzero_send_error_level_config_link24_under_voltage();
+
+void canzero_send_error_level_link24_over_voltage();
+
+void canzero_send_error_level_config_link24_over_voltage();
+
+void canzero_send_link24_current();
+
+void canzero_send_link24_current_calibration_mode();
+
+void canzero_send_link24_current_calibration_offset();
+
+void canzero_send_link24_current_calibration_target();
+
+void canzero_send_error_link24_current_invalid();
+
+void canzero_send_error_level_link24_over_current();
+
+void canzero_send_error_level_config_link24_over_current();
+
+void canzero_send_link45_voltage();
+
+void canzero_send_link45_voltage_calibration_mode();
+
+void canzero_send_link45_voltage_calibration_offset();
+
+void canzero_send_link45_voltage_calibration_target();
+
+void canzero_send_error_link45_voltage_invalid();
+
+void canzero_send_error_level_link45_under_voltage();
+
+void canzero_send_error_level_config_link45_under_voltage();
+
+void canzero_send_error_level_link45_over_voltage();
+
+void canzero_send_error_level_config_link45_over_voltage();
+
+void canzero_send_link45_current();
+
+void canzero_send_link45_current_calibration_mode();
+
+void canzero_send_link45_current_calibration_offset();
+
+void canzero_send_link45_current_calibration_target();
+
+void canzero_send_error_link45_current_invalid();
+
+void canzero_send_error_level_link45_over_current();
+
+void canzero_send_error_level_config_link45_over_current();
+
+void canzero_send_cooling_cycle_pressure();
+
+void canzero_send_cooling_cycle_pressure_calibration_mode();
+
+void canzero_send_cooling_cycle_pressure_calibration_offset();
+
+void canzero_send_cooling_cycle_pressure_calibration_target();
+
+void canzero_send_error_cooling_cycle_pressure_invalid();
+
+void canzero_send_error_level_cooling_cycle_over_pressure();
+
+void canzero_send_error_level_config_cooling_cycle_over_pressure();
+
+void canzero_send_mcu_temperature();
+
+void canzero_send_error_mcu_temperature_invalid();
+
+void canzero_send_error_level_mcu_temperature();
+
+void canzero_send_error_level_config_mcu_temperature();
+
+void canzero_send_cooling_cycle_temperature();
+
+void canzero_send_error_cooling_cycle_temperature_invalid();
+
+void canzero_send_error_level_cooling_cycle_temperature();
+
+void canzero_send_error_level_config_cooling_temperature();
+
+void canzero_send_bat24_temperature();
+
+void canzero_send_error_level_bat24_temperature();
+
+void canzero_send_error_level_config_bat24_temperature();
+
+void canzero_send_error_bat24_temperature_invalid();
+
+void canzero_send_supercap_temperature();
+
+void canzero_send_error_supercap_temperature_invalid();
+
+void canzero_send_error_level_supercap_temperature();
+
+void canzero_send_error_level_config_supercap_temperature();
+
+void canzero_send_buck_temperature();
+
+void canzero_send_error_buck_temperature_invalid();
+
+void canzero_send_error_level_buck_temperature();
+
+void canzero_send_error_level_config_buck_temperature();
+
+void canzero_send_ebox_temperature();
+
+void canzero_send_error_ebox_temperature_invalid();
+
+void canzero_send_error_level_ebox_temperature();
+
+void canzero_send_error_level_config_ebox_temperature();
+
+void canzero_send_ambient_temperature();
+
+void canzero_send_error_ambient_temperature_invalid();
+
+void canzero_send_error_level_ambient_temperature();
+
+void canzero_send_error_level_config_ambient_temperature();
+
+void canzero_send_cooling_cycle_flow_rate();
+
+void canzero_send_loop_frequency();
+
+void canzero_send_assertion_fault();
+
+void canzero_send_error_heartbeat_miss();
+
 #endif
