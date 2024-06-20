@@ -1,5 +1,5 @@
 #include "sensors/accelerometer.h"
-#include "boxcar.h"
+#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "firmware/input_board.h"
 #include "state_estimation.h"
