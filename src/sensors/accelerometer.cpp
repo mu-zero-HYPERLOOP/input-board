@@ -7,7 +7,6 @@
 #include <avr/pgmspace.h>
 #include <cassert>
 #include <cmath>
-#include <iostream>
 
 static DMAMEM Acceleration max_acceleration = 0_mps2;
 

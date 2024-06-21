@@ -4,8 +4,6 @@
 #include "util/metrics.h"
 #include "util/timestamp.h"
 #include <algorithm>
-#include <iterator>
-#include <iostream>
 #include <avr/pgmspace.h>
 
 DMAMEM Acceleration previous_target_acceleration = 0_mps2;
@@ -177,7 +175,6 @@ void FASTRUN state_estimation::target_acceleration_update(const Acceleration &ac
 
 void FASTRUN state_estimation::update() {
 
-  std::cout << canzero_get_acceleration() << std::endl;
   Acceleration target_acceleration = Acceleration(canzero_get_target_acceleration());
   if ((target_acceleration - previous_target_acceleration).abs() < 0.00001_mps2) {
     target_acceleration_update(target_acceleration, Timestamp::now());

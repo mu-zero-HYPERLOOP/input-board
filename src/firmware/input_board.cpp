@@ -19,11 +19,11 @@ static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler{};
 void FLASHMEM input_board::begin() { 
   analogReadResolution(12); 
   analogReadAveraging(32);
-  pinMode(din_2, INPUT_PULLDOWN);
-  pinMode(din_3, INPUT_PULLDOWN);
-  pinMode(din_4, INPUT_PULLDOWN);
-  pinMode(din_5, INPUT_PULLDOWN);
-  pinMode(din_6, INPUT_PULLDOWN);
+  pinMode(din_2, INPUT);
+  pinMode(din_3, INPUT);
+  pinMode(din_4, INPUT);
+  pinMode(din_5, INPUT);
+  pinMode(din_6, INPUT);
 }
 
 Voltage FASTRUN input_board::sync_read(ain_pin pin) {
