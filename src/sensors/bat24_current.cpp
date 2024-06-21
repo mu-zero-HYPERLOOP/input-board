@@ -1,17 +1,20 @@
 #include "sensors/bat24_current.h"
-#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
+#include "sensors/bat24_voltage.h"
 #include "sensors/formulas/hall_sensors.h"
+#include "sensors/formulas/voltage_divider.h"
+#include "util/boxcar.h"
 #include "util/metrics.h"
 #include <avr/pgmspace.h>
 
-using sensors::bat24_current::DEFAULT_OFFSET;
+using sensors::bat24_current::ZERO_A_READING;
+using sensors::bat24_current::R1_V_DIV;
+using sensors::bat24_current::R2_V_DIV;
 using sensors::bat24_current::VOLT_PER_AMP;
 
-static DMAMEM BoxcarFilter<Current, 10> filter(0_A);
-
+static DMAMEM BoxcarFilter<Current, 100> filter(0_A);
 
 static Current offset;
 
@@ -21,9 +24,11 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                              canzero_set_error_level_bat24_over_current);
 
 static FASTRUN void on_value(const Voltage &v) {
-  const Current i =
-      sensors::formula::hall_effect_sensor(v, VOLT_PER_AMP, DEFAULT_OFFSET) +
-      offset;
+  const Voltage v_sensor =
+      sensors::formula::vin_of_voltage_divider(v, R1_V_DIV, R2_V_DIV);
+  const Current i = sensors::formula::hall_effect_sensor(v_sensor, VOLT_PER_AMP,
+                                                         ZERO_A_READING) +
+                    offset;
   filter.push(i);
   canzero_set_bat24_current(static_cast<float>(filter.get()));
 }
@@ -47,7 +52,7 @@ void FLASHMEM sensors::bat24_current::begin() {
   canzero_set_error_level_bat24_over_current(error_level_OK);
   canzero_set_error_bat24_current_invalid(error_flag_OK);
 
-  offset = DEFAULT_OFFSET;
+  offset = ZERO_A_READING;
   input_board::register_periodic_reading(MEAS_FREQUENCY, PIN, on_value);
 }
 
@@ -61,7 +66,8 @@ void PROGMEM sensors::bat24_current::calibrate() {
   }
 
   const bool sensible = filter.get() <= 100_A && filter.get() >= 0_A;
-  canzero_set_error_bat24_current_invalid(sensible ? error_flag_OK : error_flag_ERROR);
+  canzero_set_error_bat24_current_invalid(sensible ? error_flag_OK
+                                                   : error_flag_ERROR);
   const calibration_mode mode = canzero_get_bat24_current_calibration_mode();
   switch (mode) {
   case calibration_mode_USE_OFFSET: {

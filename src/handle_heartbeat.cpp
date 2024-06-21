@@ -1,6 +1,5 @@
 
 #include "canzero/canzero.h"
-#include <cstdio>
 #include "print.h"
 
 void canzero_can0_wdg_timeout(uint8_t node_id) {
