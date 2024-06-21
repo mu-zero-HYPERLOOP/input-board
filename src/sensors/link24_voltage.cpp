@@ -1,6 +1,7 @@
 #include "sensors/link24_voltage.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
+#include "print.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "sensors/formulas/isolated_voltage.h"
@@ -26,6 +27,7 @@ static DMAMEM Voltage offset = 0_V;
 static void FASTRUN on_value(const Voltage &v) {
   Voltage reading = sensors::formula::isolated_voltage_meas(v, R1, R2) +
                     + offset;
+
   filter.push(reading);
   canzero_set_link24_voltage(static_cast<float>(filter.get()));
 }
@@ -60,6 +62,7 @@ void FLASHMEM sensors::link24_voltage::begin() {
       .m_ignore_error = bool_t_FALSE,
   });
   offset = 0_V;
+
   canzero_set_error_link24_voltage_invalid(error_flag_OK);
   input_board::register_periodic_reading(MEAS_FREQUENCY, PIN, on_value);
 }
@@ -94,6 +97,8 @@ void PROGMEM sensors::link24_voltage::calibrate() {
     break;
   }
   }
+
+  debugPrintf("cali offset = %f\n", static_cast<float>(offset));
 }
 
 void FASTRUN sensors::link24_voltage::update() {

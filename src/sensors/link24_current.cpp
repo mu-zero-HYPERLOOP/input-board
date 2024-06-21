@@ -1,4 +1,5 @@
 #include "sensors/link24_current.h"
+#include "sensors/formulas/voltage_divider.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
@@ -9,7 +10,7 @@
 
 using sensors::link24_current::VOLT_PER_AMP;
 
-static DMAMEM BoxcarFilter<Current, 10> filter(0_A);
+static DMAMEM BoxcarFilter<Current, 500> filter(0_A);
 
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER> link24_over_current_check(
     canzero_get_link24_current,
@@ -19,8 +20,11 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER> link24_over_current_check(
 static DMAMEM Current offset = 0_A;
 
 static void FASTRUN on_value(const Voltage &v) {
+  const Voltage v_sensor = sensors::formula::vin_of_voltage_divider(v, 
+      sensors::link24_current::R1_V_DIV,
+      sensors::link24_current::R2_V_DIV);
   Current i = sensors::formula::hall_effect_sensor(
-      v, VOLT_PER_AMP,
+      v_sensor, VOLT_PER_AMP,
       offset);
   filter.push(i);
   canzero_set_link24_current(static_cast<float>(filter.get()));
@@ -28,7 +32,7 @@ static void FASTRUN on_value(const Voltage &v) {
 
 void FLASHMEM sensors::link24_current::begin() {
   canzero_set_link24_current(0);
-  canzero_set_link24_current_calibration_mode(calibration_mode_DISABLE);
+  canzero_set_link24_current_calibration_mode(calibration_mode_USE_TARGET);
   canzero_set_link24_current_calibration_target(0);
   canzero_set_error_level_link24_over_current(error_level_OK);
   canzero_set_error_level_config_link24_over_current(error_level_config{
