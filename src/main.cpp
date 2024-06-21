@@ -1,39 +1,37 @@
 #include "canzero/canzero.h"
 #include "firmware/input_board.h"
-#include "sensors/link24_current.h"
-#include "sensors/link24_voltage.h"
 #include "print.h"
-#include <avr/pgmspace.h>
-#include "sensors/link45_current.h"
+#include "sensors/linear_encoder.h"
+#include "state_estimation.h"
 #include "util/interval.h"
 #include "util/timing.h"
-
+#include <avr/pgmspace.h>
 
 static IntervalTiming loopIntervalTiming;
 
 int main() {
-
-
   canzero_init();
+  input_board::delay(3_s);
   input_board::begin();
 
-  sensors::link24_current::begin();
+  sensors::linear_encoder::begin();
+  state_estimation::begin();
 
-  sensors::link24_current::calibrate();
-  
-  Interval logInterval {10_Hz};
+  sensors::linear_encoder::calibrate();
+  state_estimation::calibrate();
 
-  debugPrintf("Calibration done\n");
+  Interval logInterval{10_Hz};
 
   while (true) {
-
     input_board::update_continue();
 
-    sensors::link24_current::update();
+    sensors::linear_encoder::update();
+    state_estimation::update();
 
-    if (logInterval.next()){
-      debugPrintf("I = %fA\n\n", canzero_get_link24_current());
-      debugPrintFlush();
+    input_board::delay(100_us);
+
+    if (logInterval.next()) {
+      debugPrintf("count = %u\n", canzero_get_linear_encoder_count());
     }
   }
 }
