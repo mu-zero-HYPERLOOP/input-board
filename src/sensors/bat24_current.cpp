@@ -2,7 +2,6 @@
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
-#include "sensors/bat24_voltage.h"
 #include "sensors/formulas/hall_sensors.h"
 #include "sensors/formulas/voltage_divider.h"
 #include "util/boxcar.h"

@@ -92,14 +92,14 @@ Voltage sync_read(ain_pin pin) {
       const Voltage v = sensors::formula::inv_hall_effect_sensor(
           Current(bat24_current_dist(gen)),
           sensors::bat24_current::VOLT_PER_AMP,
-          sensors::bat24_current::DEFAULT_OFFSET +
+          sensors::bat24_current::ZERO_A_READING +
               Current(canzero_get_bat24_current_calibration_offset()));
       return v;
     } else {
       constexpr Current mock = 7.5_A;
       Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::bat24_current::VOLT_PER_AMP,
-          sensors::bat24_current::DEFAULT_OFFSET +
+          sensors::bat24_current::ZERO_A_READING +
               Current(canzero_get_bat24_current_calibration_offset()));
       std::normal_distribution bat24_current_dist{static_cast<float>(v),
                                                   0.015f};
