@@ -1,6 +1,6 @@
 #include "sensors/bat24_temperature.h"
 #include "avr/pgmspace.h"
-#include "boxcar.h"
+#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"

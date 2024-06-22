@@ -1,5 +1,5 @@
 #include "sensors/mass_flow_rate.h"
-#include "boxcar.h"
+#include "util/boxcar.h"
 #include "firmware/input_board.h"
 #include "util/timing.h"
 #include "canzero/canzero.h"

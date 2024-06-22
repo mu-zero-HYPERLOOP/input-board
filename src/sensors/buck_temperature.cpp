@@ -1,5 +1,5 @@
 #include "sensors/buck_temperature.h"
-#include "boxcar.h"
+#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"

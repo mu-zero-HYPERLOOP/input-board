@@ -33,6 +33,7 @@
 #include "sensors/supercap_temperature.h"
 #include "error_handling.hpp"
 #include <avr/pgmspace.h>
+#include "state_estimation.h"
 #include "util/timing.h"
 
 
@@ -77,6 +78,8 @@ int main() {
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
 
+  state_estimation::begin();
+
 calibration:
   sdc::open();
   canzero_set_state(input_board_state_CALIBRATION);
@@ -102,6 +105,8 @@ calibration:
   sensors::link24_voltage::calibrate();
   sensors::link45_current::calibrate();
   sensors::link45_voltage::calibrate();
+
+  state_estimation::calibrate();
 
   loopIntervalTiming.reset();
   while (true) {
@@ -143,6 +148,8 @@ calibration:
     sensors::link24_voltage::update();
     sensors::link45_current::update();
     sensors::link45_voltage::update();
+
+    state_estimation::update();
 
     loopIntervalTiming.tick();
     canzero_set_loop_frequency(loopIntervalTiming.frequency() / 1_kHz);

@@ -1,5 +1,5 @@
 #include "sensors/accelerometer.h"
-#include "boxcar.h"
+#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "firmware/input_board.h"
 #include "state_estimation.h"
@@ -46,7 +46,6 @@ static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
   canzero_set_vertical_acceleration(static_cast<float>(filter_y.get()));
 
   state_estimation::acceleration_update(acceleration, now);
-  // TODO update state estimation!
 }
 
 void FLASHMEM sensors::accelerometer::begin() {
@@ -54,9 +53,12 @@ void FLASHMEM sensors::accelerometer::begin() {
   canzero_set_raw_acceleration(0);
   canzero_set_lateral_acceleration(0);
   canzero_set_raw_vertical_acceleration(0);
+
   canzero_set_error_acceleration_out_of_range(error_flag_OK);
   canzero_set_error_lateral_acceleration_out_of_range(error_flag_OK);
   canzero_set_error_vertical_acceleration_out_of_range(error_flag_OK);
+
+  canzero_set_error_acceleration_calibration_failed(error_flag_OK);
 
   canzero_set_acceleration_calibration_offset(0);
   canzero_set_acceleration_calibration_target(0);
@@ -107,9 +109,10 @@ void PROGMEM sensors::accelerometer::calibrate() {
   offset_x = x_expected - x_average;
   canzero_set_acceleration_calibration_offset(static_cast<float>(offset_x));
 
-  Acceleration z_average = y_sum / MEAN_ESTIMATION_IT;
+  Acceleration z_average = z_sum / MEAN_ESTIMATION_IT;
   Acceleration z_expected =
       Acceleration(canzero_get_lateral_acceleration_calibration_target());
+
   offset_z = z_expected - z_average;
   canzero_set_lateral_acceleration_calibration_offset(
       static_cast<float>(offset_z));

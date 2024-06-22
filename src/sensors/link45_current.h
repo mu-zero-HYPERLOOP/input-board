@@ -9,6 +9,11 @@ constexpr ain_pin PIN = ain_15;
 
 constexpr auto VOLT_PER_AMP = 6.25_mV / 1_A;
 
+// TODO properly determine this value by measuring once!
+constexpr Current ZERO_A_READING = -260_A; 
+constexpr Resistance R1_V_DIV = 620_Ohm;
+constexpr Resistance R2_V_DIV = 1200_Ohm;
+
 void begin();
 void calibrate();
 void update();
