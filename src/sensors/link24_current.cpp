@@ -2,11 +2,13 @@
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
+#include "print.h"
 #include "sensors/formulas/hall_sensors.h"
 #include "sensors/formulas/voltage_divider.h"
 #include "util/boxcar.h"
 #include "util/metrics.h"
 #include <avr/pgmspace.h>
+#include <cassert>
 
 using sensors::link24_current::R1_V_DIV;
 using sensors::link24_current::R2_V_DIV;
@@ -36,8 +38,7 @@ void FLASHMEM sensors::link24_current::begin() {
   canzero_set_link24_current(0);
   canzero_set_link24_current_calibration_mode(calibration_mode_DISABLE);
   canzero_set_link24_current_calibration_target(0);
-  canzero_set_link24_current_calibration_offset(
-      static_cast<float>(ZERO_A_READING));
+  canzero_set_link24_current_calibration_offset(0);
   canzero_set_error_level_link24_over_current(error_level_OK);
   canzero_set_error_level_config_link24_over_current(error_level_config{
       .m_info_thresh = 10,
@@ -51,12 +52,12 @@ void FLASHMEM sensors::link24_current::begin() {
       .m_ignore_error = bool_t_FALSE,
   });
   canzero_set_error_link24_current_invalid(error_flag_OK);
-  input_board::register_periodic_reading(MEAS_FREQUENCY, PIN, on_value);
+  assert(input_board::register_periodic_reading(MEAS_FREQUENCY, PIN, on_value));
 }
 void PROGMEM sensors::link24_current::calibrate() {
-  offset = ZERO_A_READING;
+  offset = 0_A;
   for (unsigned int i = 0; i < filter.size(); ++i) {
-    Voltage v = input_board::sync_read(PIN);
+    const Voltage v = input_board::sync_read(PIN);
     on_value(v);
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);

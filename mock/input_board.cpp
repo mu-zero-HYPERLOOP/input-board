@@ -3,6 +3,7 @@
 #include "firmware/ain_scheduler.h"
 #include "firmware/mux_scheduler.h"
 #include "firmware/pinout.h"
+#include "print.h"
 #include "sensors/accelerometer.h"
 #include "sensors/ambient_temperature.h"
 #include "sensors/bat24_temperature.h"
@@ -81,7 +82,7 @@ Voltage sync_read(ain_pin pin) {
   switch (pin) {
   case sensors::bat24_voltage::PIN: {
     constexpr Voltage mock = 26_V + sensors::bat24_voltage::DEFAULT_OFFSET;
-    Voltage v = sensors::formula::inv_isolated_voltage_meas(
+    const Voltage v = sensors::formula::inv_isolated_voltage_meas(
         mock, sensors::bat24_voltage::R1, sensors::bat24_voltage::R2);
     std::normal_distribution bat24_voltage_dist{static_cast<float>(v), 0.015f};
     return Voltage(bat24_voltage_dist(gen));
@@ -94,25 +95,36 @@ Voltage sync_read(ain_pin pin) {
           sensors::bat24_current::VOLT_PER_AMP,
           sensors::bat24_current::ZERO_A_READING +
               Current(canzero_get_bat24_current_calibration_offset()));
-      return v;
+      const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
+          v, sensors::link24_current::R1_V_DIV,
+          sensors::bat24_current::R2_V_DIV);
+      return v_uc;
     } else {
       constexpr Current mock = 7.5_A;
-      Voltage v = sensors::formula::inv_hall_effect_sensor(
+      const Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::bat24_current::VOLT_PER_AMP,
           sensors::bat24_current::ZERO_A_READING +
               Current(canzero_get_bat24_current_calibration_offset()));
-      std::normal_distribution bat24_current_dist{static_cast<float>(v),
+      const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
+          v, sensors::bat24_current::R1_V_DIV,
+          sensors::bat24_current::R2_V_DIV);
+      std::normal_distribution bat24_current_dist{static_cast<float>(v_uc),
                                                   0.015f};
       return Voltage(bat24_current_dist(gen));
     }
   }
   case sensors::link24_current::PIN: {
     constexpr Current mock = 7.5_A;
-    Voltage v = sensors::formula::inv_hall_effect_sensor(
+    const Voltage v = sensors::formula::inv_hall_effect_sensor(
         mock, sensors::link24_current::VOLT_PER_AMP,
-        Current(canzero_get_link24_current_calibration_offset()));
+        sensors::link24_current::ZERO_A_READING +
+            Current(canzero_get_link24_current_calibration_offset()));
+    const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
+        v, sensors::link24_current::R1_V_DIV,
+        sensors::link24_current::R2_V_DIV);
 
-    std::normal_distribution link24_current_dist{static_cast<float>(v), 0.015f};
+    std::normal_distribution link24_current_dist{static_cast<float>(v_uc),
+                                                 0.015f};
     return Voltage(link24_current_dist(gen));
   }
   case sensors::link24_voltage::PIN: {
@@ -125,20 +137,26 @@ Voltage sync_read(ain_pin pin) {
   case sensors::link45_current::PIN: {
     if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
       constexpr Current mock = 100_A;
-      Voltage v = sensors::formula::inv_hall_effect_sensor(
+      const Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::link45_current::VOLT_PER_AMP,
+          sensors::link45_current::ZERO_A_READING + 
           Current(canzero_get_link45_current_calibration_offset()));
-
-      std::normal_distribution link45_current_dist{static_cast<float>(v),
+      const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
+          v, sensors::link45_current::R1_V_DIV,
+          sensors::link45_current::R2_V_DIV);
+      std::normal_distribution link45_current_dist{static_cast<float>(v_uc),
                                                    0.015f};
       return Voltage(link45_current_dist(gen));
     } else {
       constexpr Current mock = 0_A;
-      Voltage v = sensors::formula::inv_hall_effect_sensor(
+      const Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::link45_current::VOLT_PER_AMP,
+          sensors::link45_current::ZERO_A_READING + 
           Current(canzero_get_link45_current_calibration_offset()));
-
-      std::normal_distribution link45_current_dist{static_cast<float>(v),
+      const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
+          v, sensors::link45_current::R1_V_DIV,
+          sensors::link45_current::R2_V_DIV);
+      std::normal_distribution link45_current_dist{static_cast<float>(v_uc),
                                                    0.015f};
       return Voltage(link45_current_dist(gen));
     }
@@ -146,7 +164,7 @@ Voltage sync_read(ain_pin pin) {
   case sensors::link45_voltage::PIN: {
     if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
       constexpr Voltage mock = 45_V;
-      Voltage v = sensors::formula::inv_isolated_voltage_meas(
+      const Voltage v = sensors::formula::inv_isolated_voltage_meas(
           mock, sensors::link45_voltage::R1, sensors::link45_voltage::R2);
       std::normal_distribution link45_voltage_dist{static_cast<float>(v),
                                                    0.015f};
@@ -270,13 +288,13 @@ void update_continue() {
 }
 
 void delay(const Duration &time) {
-  if (time < 1_ms) {
-    std::this_thread::sleep_for(
-        std::chrono::duration<unsigned int, std::milli>(1));
-  } else {
-    std::this_thread::sleep_for(
-        std::chrono::duration<unsigned int, std::milli>(time.as_ms()));
-  }
+  /* if (time < 1_ms) { */
+  /*   std::this_thread::sleep_for( */
+  /*       std::chrono::duration<unsigned int, std::milli>(1)); */
+  /* } else { */
+  /*   std::this_thread::sleep_for( */
+  /*       std::chrono::duration<unsigned int, std::milli>(time.as_ms())); */
+  /* } */
 }
 
 static Interval accel_interval(0_s);
@@ -294,14 +312,15 @@ bool register_periodic_accelerometer_reading(
   return true;
 }
 
-
 static constexpr float ACCEL_VARAIANCE = 0.1f;
 static std::normal_distribution lateral{0.0f, ACCEL_VARAIANCE};
-static std::normal_distribution vertical{static_cast<float>(G), ACCEL_VARAIANCE};
+static std::normal_distribution vertical{static_cast<float>(G),
+                                         ACCEL_VARAIANCE};
 
 std::tuple<Acceleration, Acceleration, Acceleration> sync_read_acceleration() {
 
-  std::normal_distribution accel{canzero_get_target_acceleration(), ACCEL_VARAIANCE};
+  std::normal_distribution accel{canzero_get_target_acceleration(),
+                                 ACCEL_VARAIANCE};
 
   Acceleration fwd = Acceleration(accel(gen));
   Acceleration vert = Acceleration(vertical(gen));
@@ -465,7 +484,7 @@ void mock_update() {
   mock_position();
   if (enable_accel && accel_interval.next()) {
 
-    const auto& [x, y, z] = sync_read_acceleration();
+    const auto &[x, y, z] = sync_read_acceleration();
     accel_callback(x, y, z);
   }
 }

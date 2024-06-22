@@ -2,6 +2,7 @@
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
+#include "print.h"
 #include "sensors/formulas/hall_sensors.h"
 #include "sensors/formulas/voltage_divider.h"
 #include "util/boxcar.h"
@@ -34,7 +35,7 @@ static FASTRUN void on_value(const Voltage &v) {
 
 void FLASHMEM sensors::bat24_current::begin() {
   canzero_set_bat24_current(0);
-  canzero_set_bat24_current_calibration_mode(calibration_mode_USE_OFFSET);
+  canzero_set_bat24_current_calibration_mode(calibration_mode_DISABLE);
   canzero_set_bat24_current_calibration_offset(0);
   canzero_set_bat24_current_calibration_target(0);
   canzero_set_error_level_config_bat24_over_current(error_level_config{
