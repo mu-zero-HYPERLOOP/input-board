@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(${PROJECT_NAME}
   mock/can.cpp
   mock/input_board.cpp
+  mock/print.cpp
   src/main.cpp
   src/canzero/canzero.cpp
   src/sensors/accelerometer.cpp
@@ -35,6 +36,7 @@ add_executable(${PROJECT_NAME}
   src/state_estimation.cpp
   src/state_estimation/ekf.cpp
   src/error_handling.cpp
+  src/handle_heartbeat.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE src/ mock/)
