@@ -1,4 +1,5 @@
 #include "sensors/link45_voltage.h"
+#include "print.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
@@ -61,6 +62,7 @@ void FLASHMEM sensors::link45_voltage::begin() {
       .m_ignore_error = bool_t_FALSE,
   });
   canzero_set_error_link45_voltage_invalid(error_flag_OK);
+  canzero_set_assert_45V_system_online(bool_t_FALSE);
 
   input_board::register_periodic_reading(MEAS_FREQUENCY, PIN, on_value);
 }
@@ -100,6 +102,8 @@ void PROGMEM sensors::link45_voltage::calibrate() {
 void FASTRUN sensors::link45_voltage::update() {
   if (canzero_get_assert_45V_system_online()) {
     link45_under_volt_check.check();
+  }else {
+    canzero_set_error_level_link45_under_voltage(error_level_OK);
   }
   link45_over_volt_check.check();
 }

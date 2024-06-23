@@ -2,6 +2,7 @@
 #include "canzero/canzero.h"
 #include <algorithm>
 #include <array>
+#include <iostream>
 
 bool error_handling::no_error() {
   const auto error_flags = std::array<error_flag, 19>{
@@ -30,6 +31,7 @@ bool error_handling::no_error() {
   const error_flag max_error_flag = *max_error_flag_it;
   if (max_error_flag == error_flag_ERROR){
     // early bail out.
+    std::cout << "ERROR_FLAG_SET" << std::endl;
     return false;
   }
 
@@ -58,12 +60,12 @@ bool error_handling::no_error() {
   switch (error_level){
   case error_level_OK:
   case error_level_INFO:
-    return true;
   case error_level_WARNING:
     return true;
   case error_level_ERROR:
-    return false;
   default:
+    std::cout << canzero_get_error_level_link45_under_voltage() << std::endl;
+    std::cout << "ERROR_LEVEL" << std::endl;
     return false;
   }
 }

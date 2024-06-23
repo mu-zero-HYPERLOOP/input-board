@@ -264,7 +264,7 @@ static void canzero_serialize_canzero_message_input_board_stream_link45(canzero_
   }
   frame->id = 0x139;
   frame->dlc = 8;
-  uint32_t link45_voltage_0 = ((msg->m_link45_voltage - 0) / 0.00000023283064370807974) + 0.5f;
+  uint32_t link45_voltage_0 = ((msg->m_link45_voltage - -100) / 0.00000004656612874161595) + 0.5f;
   if (link45_voltage_0 > 0xFFFFFFFF) {
     link45_voltage_0 = 0xFFFFFFFF;
   }
@@ -935,13 +935,13 @@ static void schedule_jobs(uint32_t time) {
         canzero_message_heartbeat_can0 heartbeat_can0;
         heartbeat_can0.m_node_id = node_id_input_board;
         heartbeat_can0.m_unregister = 0;
-        heartbeat_can0.m_ticks_next = 10;
+        heartbeat_can0.m_ticks_next = 20;
         canzero_serialize_canzero_message_heartbeat_can0(&heartbeat_can0, &heartbeat_frame);
         canzero_can0_send(&heartbeat_frame);
         canzero_message_heartbeat_can1 heartbeat_can1;
         heartbeat_can1.m_node_id = node_id_input_board;
         heartbeat_can1.m_unregister = 0;
-        heartbeat_can1.m_ticks_next = 10;
+        heartbeat_can1.m_ticks_next = 20;
         canzero_serialize_canzero_message_heartbeat_can1(&heartbeat_can1, &heartbeat_frame);
         canzero_can1_send(&heartbeat_frame);
         break;
@@ -1619,7 +1619,7 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 62: {
-    resp.m_data |= min_u32((__oe_link45_voltage - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_link45_voltage - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -3016,7 +3016,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     float link45_voltage_tmp;
-    link45_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.00000023283064370807974 + 0);
+    link45_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.00000004656612874161595 + -100);
     canzero_set_link45_voltage(link45_voltage_tmp);
     break;
   }
@@ -3818,10 +3818,10 @@ void canzero_can0_poll() {
       case 0x17E:
         canzero_handle_get_req(&frame);
         break;
-      case 0xA1:
+      case 0xA0:
         canzero_handle_mother_board_stream_motor_command(&frame);
         break;
-      case 0xA3:
+      case 0xA2:
         canzero_handle_mother_board_stream_input_board_command(&frame);
         break;
       case 0x1E5:
@@ -3898,7 +3898,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 11303641531648925212ull;
+  __oe_config_hash = 13839418029710939869ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -5313,7 +5313,7 @@ void canzero_send_error_level_config_link24_over_current() {
 }
 void canzero_send_link45_voltage() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_link45_voltage - (0)) / 0.00000023283064370807974, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_link45_voltage - (-100)) / 0.00000004656612874161595, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;

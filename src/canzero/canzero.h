@@ -724,12 +724,12 @@ typedef struct {
   float m_target_acceleration;
   motor_command m_motor_driver_command;
 } canzero_message_mother_board_stream_motor_command;
-static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0xA1;
+static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0xA0;
 typedef struct {
   input_board_command m_input_board_command;
   bool_t m_input_board_assert_45V_online;
 } canzero_message_mother_board_stream_input_board_command;
-static const uint32_t canzero_message_mother_board_stream_input_board_command_id = 0xA3;
+static const uint32_t canzero_message_mother_board_stream_input_board_command_id = 0xA2;
 void canzero_can0_poll();
 void canzero_can1_poll();
 uint32_t canzero_update_continue(uint32_t delta_time);

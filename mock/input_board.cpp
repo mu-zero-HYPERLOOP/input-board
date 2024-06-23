@@ -162,7 +162,7 @@ Voltage sync_read(ain_pin pin) {
     }
   }
   case sensors::link45_voltage::PIN: {
-    if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
+    if (canzero_get_state() == input_board_state_RUNNING) {
       constexpr Voltage mock = 45_V;
       const Voltage v = sensors::formula::inv_isolated_voltage_meas(
           mock, sensors::link45_voltage::R1, sensors::link45_voltage::R2);
@@ -170,7 +170,11 @@ Voltage sync_read(ain_pin pin) {
                                                    0.015f};
       return Voltage(link45_voltage_dist(gen));
     } else {
-      std::normal_distribution link45_voltage_dist{0.0f, 0.015f};
+      constexpr Voltage mock = 0_V;
+      const Voltage v = sensors::formula::inv_isolated_voltage_meas(
+          mock, sensors::link45_voltage::R1, sensors::link45_voltage::R2);
+      std::normal_distribution link45_voltage_dist{static_cast<float>(v),
+                                                   0.015f};
       return Voltage(link45_voltage_dist(gen));
     }
   }
