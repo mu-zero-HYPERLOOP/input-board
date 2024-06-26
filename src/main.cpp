@@ -40,8 +40,6 @@
 static IntervalTiming loopIntervalTiming;
 
 int main() {
-  input_board::delay(1_s);
-
   canzero_init();
 
   can_defaults();

@@ -29,7 +29,6 @@ static void FASTRUN on_value(const Voltage &v) {
       sensors::formula::isolated_voltage_meas(v, R1, R2) + offset;
   filter.push(reading);
   canzero_set_link45_voltage(static_cast<float>(filter.get()));
-  // TODO
 }
 
 void FLASHMEM sensors::link45_voltage::begin() {

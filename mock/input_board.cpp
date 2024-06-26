@@ -292,13 +292,13 @@ void update_continue() {
 }
 
 void delay(const Duration &time) {
-  /* if (time < 1_ms) { */
-  /*   std::this_thread::sleep_for( */
-  /*       std::chrono::duration<unsigned int, std::milli>(1)); */
-  /* } else { */
-  /*   std::this_thread::sleep_for( */
-  /*       std::chrono::duration<unsigned int, std::milli>(time.as_ms())); */
-  /* } */
+  if (time < 1_ms) {
+    std::this_thread::sleep_for(
+        std::chrono::duration<unsigned int, std::milli>(1));
+  } else {
+    std::this_thread::sleep_for(
+        std::chrono::duration<unsigned int, std::milli>(time.as_ms()));
+  }
 }
 
 static Interval accel_interval(0_s);
