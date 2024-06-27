@@ -129,6 +129,7 @@ error_level_config DMAMEM __oe_error_level_config_ambient_temperature;
 float DMAMEM __oe_cooling_cycle_flow_rate;
 float DMAMEM __oe_loop_frequency;
 error_flag DMAMEM __oe_assertion_fault;
+bool_t DMAMEM __oe_ignore_45v;
 static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
   for(uint8_t i = 0; i < 8; ++i){
@@ -423,6 +424,10 @@ static void canzero_deserialize_canzero_message_mother_board_stream_input_board_
   uint8_t* data = frame->data;
   msg->m_input_board_command = (input_board_command)(((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 1)));
   msg->m_input_board_assert_45V_online = (bool_t)((((uint32_t*)data)[0] >> 1) & (0xFFFFFFFF >> (32 - 1)));
+}
+static void canzero_deserialize_canzero_message_mother_board_stream_debug_settings(canzero_frame* frame, canzero_message_mother_board_stream_debug_settings* msg) {
+  uint8_t* data = frame->data;
+  msg->m_ignore_45v = (bool_t)(((uint32_t*)data)[0] & (0xFFFFFFFF >> (32 - 1)));
 }
 static void canzero_deserialize_canzero_message_heartbeat_can0(canzero_frame* frame, canzero_message_heartbeat_can0* msg) {
   uint8_t* data = frame->data;
@@ -771,7 +776,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_sdc_status = __oe_sdc_status;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_state(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
       case 1: {
@@ -2119,6 +2124,13 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
   }
   case 116: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 117: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -3726,6 +3738,15 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_assertion_fault(assertion_fault_tmp);
     break;
   }
+  case 117 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    bool_t ignore_45v_tmp;
+    ignore_45v_tmp = ((bool_t)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_ignore_45v(ignore_45v_tmp);
+    break;
+  }
   default:
     return;
   }
@@ -3748,6 +3769,11 @@ static void canzero_handle_mother_board_stream_input_board_command(canzero_frame
   canzero_deserialize_canzero_message_mother_board_stream_input_board_command(frame, &msg);
   canzero_set_command(msg.m_input_board_command);
   canzero_set_assert_45V_system_online(msg.m_input_board_assert_45V_online);
+}
+static void canzero_handle_mother_board_stream_debug_settings(canzero_frame* frame) {
+  canzero_message_mother_board_stream_debug_settings msg;
+  canzero_deserialize_canzero_message_mother_board_stream_debug_settings(frame, &msg);
+  canzero_set_ignore_45v(msg.m_ignore_45v);
 }
  void canzero_handle_heartbeat_can0(canzero_frame* frame) {
   canzero_message_heartbeat_can0 msg;
@@ -3818,11 +3844,11 @@ void canzero_can0_poll() {
       case 0xFE:
         canzero_handle_get_req(&frame);
         break;
-      case 0x48:
+      case 0x47:
         canzero_handle_mother_board_stream_motor_command(&frame);
         break;
-      case 0x4B:
-        canzero_handle_mother_board_stream_input_board_command(&frame);
+      case 0x4C:
+        canzero_handle_mother_board_stream_debug_settings(&frame);
         break;
       case 0x12E:
         canzero_handle_heartbeat_can0(&frame);
@@ -3836,6 +3862,9 @@ void canzero_can1_poll() {
     switch (frame.id) {
       case 0x11E:
         canzero_handle_set_req(&frame);
+        break;
+      case 0x4A:
+        canzero_handle_mother_board_stream_input_board_command(&frame);
         break;
       case 0x12D:
         canzero_handle_heartbeat_can1(&frame);
@@ -3898,7 +3927,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 6554474153445078207ull;
+  __oe_config_hash = 7882904270323860242ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -6152,6 +6181,19 @@ void canzero_send_assertion_fault() {
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
   msg.m_header.m_od_index = 116;
+  msg.m_header.m_client_id = 255;
+  msg.m_header.m_server_id = node_id_input_board;
+  canzero_frame sender_frame;
+  canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
+  canzero_can0_send(&sender_frame);
+}
+void canzero_send_ignore_45v() {
+  canzero_message_get_resp msg;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
+  msg.m_header.m_eof = 1;
+  msg.m_header.m_sof = 1;
+  msg.m_header.m_toggle = 0;
+  msg.m_header.m_od_index = 117;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;

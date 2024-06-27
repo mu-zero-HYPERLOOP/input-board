@@ -99,10 +99,12 @@ void PROGMEM sensors::link45_voltage::calibrate() {
 }
 
 void FASTRUN sensors::link45_voltage::update() {
-  if (canzero_get_assert_45V_system_online()) {
-    link45_under_volt_check.check();
-  }else {
-    canzero_set_error_level_link45_under_voltage(error_level_OK);
+  if (canzero_get_ignore_45v() == bool_t_FALSE) {
+    if (canzero_get_assert_45V_system_online()){
+      link45_under_volt_check.check();
+    }else {
+      canzero_set_error_level_link45_under_voltage(error_level_OK);
+    }
+    link45_over_volt_check.check();
   }
-  link45_over_volt_check.check();
 }

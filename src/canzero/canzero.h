@@ -601,6 +601,10 @@ static inline error_flag canzero_get_assertion_fault() {
   extern error_flag __oe_assertion_fault;
   return __oe_assertion_fault;
 }
+static inline bool_t canzero_get_ignore_45v() {
+  extern bool_t __oe_ignore_45v;
+  return __oe_ignore_45v;
+}
 typedef struct {
   get_resp_header m_header;
   uint32_t m_data;
@@ -725,12 +729,16 @@ typedef struct {
   float m_target_acceleration;
   motor_command m_motor_driver_command;
 } canzero_message_mother_board_stream_motor_command;
-static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0x48;
+static const uint32_t canzero_message_mother_board_stream_motor_command_id = 0x47;
 typedef struct {
   input_board_command m_input_board_command;
   bool_t m_input_board_assert_45V_online;
 } canzero_message_mother_board_stream_input_board_command;
-static const uint32_t canzero_message_mother_board_stream_input_board_command_id = 0x4B;
+static const uint32_t canzero_message_mother_board_stream_input_board_command_id = 0x4A;
+typedef struct {
+  bool_t m_ignore_45v;
+} canzero_message_mother_board_stream_debug_settings;
+static const uint32_t canzero_message_mother_board_stream_debug_settings_id = 0x4C;
 void canzero_can0_poll();
 void canzero_can1_poll();
 uint32_t canzero_update_continue(uint32_t delta_time);
@@ -1200,6 +1208,11 @@ static inline void canzero_set_loop_frequency(float value){
 
 void canzero_set_assertion_fault(error_flag value);
 
+static inline void canzero_set_ignore_45v(bool_t value){
+  extern bool_t __oe_ignore_45v;
+  __oe_ignore_45v = value;
+}
+
 void canzero_send_config_hash();
 
 void canzero_send_build_time();
@@ -1433,5 +1446,7 @@ void canzero_send_cooling_cycle_flow_rate();
 void canzero_send_loop_frequency();
 
 void canzero_send_assertion_fault();
+
+void canzero_send_ignore_45v();
 
 #endif
