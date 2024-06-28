@@ -139,8 +139,8 @@ Voltage sync_read(ain_pin pin) {
       constexpr Current mock = 100_A;
       const Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::link45_current::VOLT_PER_AMP,
-          sensors::link45_current::ZERO_A_READING + 
-          Current(canzero_get_link45_current_calibration_offset()));
+          sensors::link45_current::ZERO_A_READING +
+              Current(canzero_get_link45_current_calibration_offset()));
       const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
           v, sensors::link45_current::R1_V_DIV,
           sensors::link45_current::R2_V_DIV);
@@ -151,8 +151,8 @@ Voltage sync_read(ain_pin pin) {
       constexpr Current mock = 0_A;
       const Voltage v = sensors::formula::inv_hall_effect_sensor(
           mock, sensors::link45_current::VOLT_PER_AMP,
-          sensors::link45_current::ZERO_A_READING + 
-          Current(canzero_get_link45_current_calibration_offset()));
+          sensors::link45_current::ZERO_A_READING +
+              Current(canzero_get_link45_current_calibration_offset()));
       const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
           v, sensors::link45_current::R1_V_DIV,
           sensors::link45_current::R2_V_DIV);
@@ -462,10 +462,14 @@ void mock_position() {
 
   constexpr size_t STEP_COUNT = 1;
   for (unsigned int i = 0; i < STEP_COUNT; ++i) {
-    velocity +=
-        Acceleration(canzero_get_target_acceleration()) * dt / STEP_COUNT;
-    if (velocity > 3_mps) {
-      velocity = 3_mps;
+    if (canzero_get_pod_grounded()) {
+      velocity = 0_mps;
+    } else {
+      velocity +=
+          Acceleration(canzero_get_target_acceleration()) * dt / STEP_COUNT;
+      if (velocity > 3_mps) {
+        velocity = 3_mps;
+      }
     }
     position += velocity * dt / STEP_COUNT;
 
