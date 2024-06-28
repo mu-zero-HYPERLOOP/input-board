@@ -111,7 +111,7 @@ void FASTRUN sensors::linear_encoder::update() {
     if (!event.has_value()) {
       return;
     }
-    state_estimation::linear_encoder_update(event.value());
+    state_estimation::push_position_event(event.value());
   }
   assert(false);
 }

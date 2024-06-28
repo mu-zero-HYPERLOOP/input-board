@@ -1,10 +1,13 @@
 #include "state_estimation.h"
 #include "canzero/canzero.h"
+#include "sensors/linear_encoder.h"
 #include "state_estimation/ekf.hpp"
 #include "util/metrics.h"
+#include "util/static_vec.h"
 #include "util/timestamp.h"
 #include <algorithm>
 #include <avr/pgmspace.h>
+#include "print.h"
 
 DMAMEM Acceleration previous_target_acceleration = 0_mps2;
 constexpr unsigned char DIM_STATE = 3;
@@ -22,13 +25,62 @@ static Ekf<DIM_STATE, DIM_OBSER> ekf;
 
 constexpr Distance stripe_width = 5_mm;
 
+enum class StateEstimationEventType {
+  Position,
+  Acceleration,
+};
+
+struct StateEstimationEvent {
+  StateEstimationEventType m_type;
+  Timestamp m_timestamp;
+  union {
+    Acceleration m_acceleration;
+    sensors::linear_encoder::LinearEncoderEventTag m_event_tag;
+  };
+  StateEstimationEvent(
+      const Timestamp& timestamp, Acceleration acceleration): m_type(StateEstimationEventType::Acceleration), m_timestamp(timestamp), m_acceleration(acceleration){
+  }
+  StateEstimationEvent(
+      const Timestamp& timestamp, sensors::linear_encoder::LinearEncoderEventTag tag): m_type(StateEstimationEventType::Position), m_timestamp(timestamp), m_event_tag(tag){
+  }
+  StateEstimationEvent(const StateEstimationEvent &o) : m_type(o.m_type),
+    m_timestamp(o.m_timestamp){
+      switch (m_type){
+        case StateEstimationEventType::Acceleration:
+          m_acceleration = o.m_acceleration;
+          break;
+        case StateEstimationEventType::Position:
+          m_event_tag = o.m_event_tag;
+          break;
+      }
+  };
+  StateEstimationEvent& operator=(const StateEstimationEvent &o) {
+    if (this == &o){
+      return *this;
+    }
+      m_type = o.m_type;
+      m_timestamp = o.m_timestamp;
+      switch (m_type){
+        case StateEstimationEventType::Acceleration:
+          m_acceleration = o.m_acceleration;
+          break;
+        case StateEstimationEventType::Position:
+          m_event_tag = o.m_event_tag;
+          break;
+      }
+      return *this;
+  };
+};
+
+static StaticVec<StateEstimationEvent, 10> event_queue;
+
+
 
 void FLASHMEM state_estimation::begin() {
   for (int i = 0; i < DIM_STATE; i++) {
-    ekf.x_hat[i] = 0.2f; // TODO: add actual end stripe distance here?
+    ekf.x_hat[i] = 0.0f;
   }
-  ekf.x_hat[pos_i] = 0.0f;
-  ekf.x_hat[speed_i] = 0.0f;
+  ekf.x_hat[pos_i] = 0.2f; // TODO: add actual start distance here
   for (int i = 0; i < DIM_STATE; i++) {
     for (int j = 0; j < DIM_STATE; j++) {
       ekf.P_pre[i * DIM_STATE + j] = 0.0f;
@@ -72,9 +124,11 @@ void PROGMEM state_estimation::calibrate() {
 }
 
 void FASTRUN state_estimation::linear_encoder_update(
-    const sensors::linear_encoder::LinearEncoderEvent event) {
+    const sensors::linear_encoder::LinearEncoderEventTag& tag,
+    const Timestamp& timestamp) {
+  debugPrintf("linear encoder update\n");
   int16_t stripe_count = canzero_get_linear_encoder_count();
-  switch (event.m_tag) {
+  switch (tag) {
   case sensors::linear_encoder::COUNT_INCREMENT:
     stripe_count += 1;
     break;
@@ -92,11 +146,13 @@ void FASTRUN state_estimation::linear_encoder_update(
   canzero_set_linear_encoder_count(stripe_count);
   /* Distance x = STRIPE_STRIDE; */
 
-  const Timestamp &timestamp = event.m_timestamp;
+  debugPrintf("timestamp: %u\n", static_cast<uint32_t>(timestamp));
+  debugPrintf("last update at: %u\n", static_cast<uint32_t>(last_state_update));
 
   // perform actual state estimation here.
   const float dur_us = (timestamp - last_state_update).as_us();
-  last_state_update = Timestamp::now();
+  debugPrintf("durantion since last update: %f\n", dur_us);
+  last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
   float target_accel = canzero_get_target_acceleration();
@@ -105,9 +161,12 @@ void FASTRUN state_estimation::linear_encoder_update(
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] 
     + dur_us * ekf.x_hat[speed_i] / us_in_s 
     + 0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
+  debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);
+  debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);
+  debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]);
 
-  // set jacobian of process matrix
-  float target_accel_d = target_accel / ekf.x_hat[acc_i];
+  // set jacobian of process function (derivative of f)
+  float target_accel_d = 1;
   ekf.F[0 * DIM_STATE + 1] = dur_us / us_in_s;
   ekf.F[0 * DIM_STATE + 2] = 0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
   ekf.F[1 * DIM_STATE + 2] = dur_us * target_accel_d / us_in_s;
@@ -125,15 +184,21 @@ void FASTRUN state_estimation::linear_encoder_update(
   measurement[stripe_i] = static_cast<float>(STRIPE_STRIDE * stripe_count);
   measurement[imu_i] = ekf.h_x[imu_i]; // use predicted value as missing measurement
                                               // => measurement should be ignored by filter
+  debugPrintf("measurement: %f\n", measurement[stripe_i]);
   ekf.R[imu_i * DIM_OBSER + imu_i] = max_variance;
   ekf_step<DIM_STATE, DIM_OBSER>(ekf, measurement);
   ekf.R[imu_i * DIM_OBSER + imu_i] = canzero_get_acceleration_calibration_variance();
+  debugPrintf("\n");
 }
 
 void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
                                            const Timestamp &timestamp) {
+  debugPrintf("acceleration update\n");
+  debugPrintf("timestamp: %u\n", static_cast<uint32_t>(timestamp));
+  debugPrintf("last update at: %u\n", static_cast<uint32_t>(last_state_update));
   const float dur_us = (timestamp - last_state_update).as_us();
-  last_state_update = Timestamp::now();
+  debugPrintf("durantion since last update: %f\n", dur_us);
+  last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
   float target_accel = canzero_get_target_acceleration();
@@ -142,9 +207,12 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] 
     + dur_us * ekf.x_hat[speed_i] / us_in_s 
     + 0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
+  debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);
+  debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);
+  debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]);
 
-  // set jacobian of process matrix
-  float target_accel_d = target_accel / ekf.x_hat[acc_i];
+  // set jacobian of process function (derivative of f)
+  float target_accel_d = 1;
   ekf.F[0 * DIM_STATE + 1] = dur_us / us_in_s;
   ekf.F[0 * DIM_STATE + 2] = 0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
   ekf.F[1 * DIM_STATE + 2] = dur_us * target_accel_d / us_in_s;
@@ -153,7 +221,6 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   ekf.F_T[2 * DIM_STATE + 0] = 0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
   ekf.F_T[2 * DIM_STATE + 1] = dur_us * target_accel_d / us_in_s;
   ekf.F_T[2 * DIM_STATE + 2] = target_accel_d;
-
   // set expected measurements, H is constant and does not have to be changed
   // TODO: limit expected measurement by stripe count!
   ekf.h_x[stripe_i] = ekf.f_xu[pos_i];
@@ -163,17 +230,47 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   // TODO: limit simulated measurement by stripe count!
   measurement[stripe_i] = ekf.x_hat[pos_i]; // use old value as missing measurement
   measurement[imu_i] = static_cast<float>(acc); 
+  debugPrintf("measurement: %f\n", measurement[imu_i]);
 
   ekf.R[stripe_i * DIM_OBSER + stripe_i] = max_variance;
   ekf_step<DIM_STATE, DIM_OBSER>(ekf, measurement);
   ekf.R[stripe_i * DIM_OBSER + stripe_i] = stripe_variance;
+  debugPrintf("\n");
 }
 
 
 void FASTRUN state_estimation::target_acceleration_update(const Acceleration &acc, const Timestamp &timestamp) {
 }
 
+int FASTRUN state_estimation::push_acceleration_event(const Acceleration &acc, const Timestamp &timestamp) {
+  StateEstimationEvent event(timestamp, acc);
+  return event_queue.push(event);
+
+}
+
+int FASTRUN state_estimation::push_position_event(const sensors::linear_encoder::LinearEncoderEvent& e) {
+  StateEstimationEvent event(e.m_timestamp, e.m_tag);
+  return event_queue.push(event);
+}
+
 void FASTRUN state_estimation::update() {
+
+  std::sort(event_queue.begin(), event_queue.end(), [](const StateEstimationEvent& a, const StateEstimationEvent& b){
+      return static_cast<uint32_t>(a.m_timestamp) < static_cast<uint32_t>(b.m_timestamp);
+      });
+  auto it = event_queue.begin();
+  while(it != event_queue.end()){
+    StateEstimationEvent event = *it;
+    switch (event.m_type){
+    case StateEstimationEventType::Position:
+      linear_encoder_update(event.m_event_tag, event.m_timestamp);
+      break;
+    case StateEstimationEventType::Acceleration:
+      acceleration_update(event.m_acceleration, event.m_timestamp);
+   }
+    it++;
+  }
+  event_queue.clear();
 
   Acceleration target_acceleration = Acceleration(canzero_get_target_acceleration());
   if ((target_acceleration - previous_target_acceleration).abs() < 0.00001_mps2) {
@@ -192,5 +289,6 @@ void FASTRUN state_estimation::update() {
   float max_position = min_position + static_cast<float>(stripe_width);
   float possible_position = std::clamp(predicted_position, min_position, max_position);
   canzero_set_position(possible_position);
+  debugPrintf("possible position: %f\n", possible_position);
 }
 

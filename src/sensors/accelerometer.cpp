@@ -1,6 +1,7 @@
 #include "sensors/accelerometer.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
+#include "print.h"
 #include "firmware/input_board.h"
 #include "state_estimation.h"
 #include "util/metrics.h"
@@ -45,7 +46,7 @@ static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
   canzero_set_lateral_acceleration(static_cast<float>(filter_z.get()));
   canzero_set_vertical_acceleration(static_cast<float>(filter_y.get()));
 
-  state_estimation::acceleration_update(acceleration, now);
+  state_estimation::push_acceleration_event(acceleration, now);
 }
 
 void FLASHMEM sensors::accelerometer::begin() {

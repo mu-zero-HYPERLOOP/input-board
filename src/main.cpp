@@ -12,6 +12,7 @@
 
 #include "canzero/canzero.h"
 #include "defaults.h"
+#include "print.h"
 #include "firmware/input_board.h"
 #include "sdc.h"
 #include "sensors/accelerometer.h"
@@ -104,7 +105,11 @@ calibration:
   sensors::link45_current::calibrate();
   sensors::link45_voltage::calibrate();
 
-  state_estimation::calibrate();
+  //state_estimation::calibrate();
+  debugPrintf("Init DONE\n");
+  debugPrintFlush();
+
+  canzero_set_target_acceleration(0.1);
 
   loopIntervalTiming.reset();
   while (true) {
