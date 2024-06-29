@@ -28,6 +28,7 @@
 #include "sensors/formulas/voltage_divider.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
+#include "sensors/supercap_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
@@ -126,10 +127,10 @@ Voltage sync_read(ain_pin pin) {
                                                  0.015f};
     return Voltage(link24_current_dist(gen));
   }
-  case sensors::link24_voltage::PIN: {
-    constexpr Voltage mock = 24_V + sensors::link24_voltage::DEFAULT_OFFSET;
+  case sensors::supercap_voltage::PIN: {
+    constexpr Voltage mock = 45_V + sensors::supercap_voltage::DEFAULT_OFFSET;
     Voltage v = sensors::formula::inv_isolated_voltage_meas(
-        mock, sensors::link24_voltage::R1, sensors::link24_voltage::R2);
+        mock, sensors::supercap_voltage::R1, sensors::supercap_voltage::R2);
     std::normal_distribution link24_voltage_dist{static_cast<float>(v), 0.015f};
     return Voltage(link24_voltage_dist(gen));
   }

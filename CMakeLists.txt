@@ -27,7 +27,7 @@ add_executable(${PROJECT_NAME}
   src/sensors/ebox_temperature.cpp
   src/sensors/linear_encoder.cpp
   src/sensors/link24_current.cpp
-  src/sensors/link24_voltage.cpp
+  src/sensors/supercap_voltage.cpp
   src/sensors/link45_current.cpp
   src/sensors/link45_voltage.cpp
   src/sensors/mass_flow_rate.cpp
