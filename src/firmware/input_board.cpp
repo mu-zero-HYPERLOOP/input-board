@@ -4,6 +4,7 @@
 #include "firmware/mux_scheduler.h"
 #include "firmware/pinout.h"
 #include "imxrt.h"
+#include "print.h"
 
 #include <InternalTemperature.h>
 #include <SparkFunADXL313.h>
@@ -41,7 +42,7 @@ Voltage FASTRUN input_board::sync_read(mux_pin pin) {
 
 Temperature PROGMEM input_board::read_mcu_temperature() {
   float temp = InternalTemperature.readTemperatureC();
-  float temp_kelvin = temp - 273.15f;
+  float temp_kelvin = temp + 273.15f;
   return Temperature(temp_kelvin);
 }
 

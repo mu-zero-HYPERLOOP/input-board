@@ -21,7 +21,6 @@
 #include "sensors/bat24_temperature.h"
 #include "sensors/bat24_voltage.h"
 #include "sensors/buck_temperature.h"
-#include "sensors/cooling_pressure.h"
 #include "sensors/cooling_temperature.h"
 #include "sensors/ebox_temperature.h"
 #include "sensors/linear_encoder.h"
@@ -58,7 +57,6 @@ int main() {
   sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
-  sensors::cooling_pressure::begin();
   sensors::mass_flow_rate::begin();
 
   sensors::ambient_temperature::begin();
@@ -87,7 +85,6 @@ calibration:
   sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
-  sensors::cooling_pressure::calibrate(1_bar);
   sensors::mass_flow_rate::calibrate();
 
   sensors::ambient_temperature::calibrate();
@@ -131,7 +128,6 @@ calibration:
     sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
-    sensors::cooling_pressure::update();
     sensors::mass_flow_rate::update();
 
     sensors::ambient_temperature::update();

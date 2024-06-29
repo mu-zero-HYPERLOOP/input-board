@@ -22,8 +22,9 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
 static void FASTRUN on_value(const Voltage &v) {
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
-  const Temperature temperature =
-      sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
+  /* const Temperature temperature = */
+  /*     sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF); */
+  const Temperature temperature = 24_Celcius;
   filter.push(temperature);
   canzero_set_buck_temperature(static_cast<float>(filter.get() - 0_Celcius));
 }

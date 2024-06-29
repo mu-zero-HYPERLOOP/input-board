@@ -160,7 +160,7 @@ void FASTRUN state_estimation::linear_encoder_update(
                     0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
   /*debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);*/
   /*debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);*/
-  debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]);
+  /* debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]); */
 
   // set jacobian of process function (derivative of f)
   float target_accel_d = 1;
@@ -191,7 +191,7 @@ void FASTRUN state_estimation::linear_encoder_update(
 
 void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
                                                    const Timestamp &timestamp) {
-  debugPrintf("acceleration update\n");
+  /* debugPrintf("acceleration update\n"); */
 
   const float dur_us = timestamp > last_state_update
                            ? (timestamp - last_state_update).as_us()
@@ -206,7 +206,7 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
                     0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
   /*debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);*/
   /*debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);*/
-  debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]);
+  /* debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]); */
 
   // set jacobian of process function (derivative of f)
   float target_accel_d = 1;

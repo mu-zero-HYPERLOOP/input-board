@@ -31,7 +31,7 @@ bool error_handling::no_error() {
   const error_flag max_error_flag = *max_error_flag_it;
   if (max_error_flag == error_flag_ERROR){
     // early bail out.
-    std::cout << "ERROR_FLAG_SET" << std::endl;
+    /* std::cout << "ERROR_FLAG_SET" << std::endl; */
     return false;
   }
 

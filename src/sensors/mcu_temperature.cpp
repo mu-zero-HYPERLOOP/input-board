@@ -1,4 +1,5 @@
 #include "sensors/mcu_temperature.h"
+#include "print.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
