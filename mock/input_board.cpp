@@ -28,7 +28,6 @@
 #include "sensors/formulas/voltage_divider.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
-#include "sensors/link24_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"

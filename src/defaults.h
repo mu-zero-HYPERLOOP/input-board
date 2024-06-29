@@ -49,4 +49,6 @@ static void can_defaults() {
   canzero_set_error_level_cooling_cycle_over_pressure(error_level_OK);
 
   canzero_set_ignore_45v(bool_t_FALSE);
+
+  canzero_set_system_power_consumption(0);
 }

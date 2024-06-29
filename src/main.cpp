@@ -152,6 +152,11 @@ calibration:
     sensors::link45_current::update();
     sensors::link45_voltage::update();
 
+    //======== Power Consumption ==========
+    float total_power = canzero_get_bat24_voltage() * canzero_get_bat24_current() +
+      canzero_get_link45_voltage() * canzero_get_link45_current();
+    canzero_set_system_power_consumption(total_power);
+
     state_estimation::update();
 
     loopIntervalTiming.tick();
