@@ -107,9 +107,6 @@ calibration:
 
   //state_estimation::calibrate();
   debugPrintf("Init DONE\n");
-  debugPrintFlush();
-
-  canzero_set_target_acceleration(0.1);
 
   loopIntervalTiming.reset();
   while (true) {

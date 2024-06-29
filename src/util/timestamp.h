@@ -77,6 +77,62 @@ private:
   uint32_t m_time_us;
 };
 
+static inline bool operator<(const Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) < static_cast<uint32_t>(b);
+}
+static inline bool operator<(const volatile Timestamp &a,
+                             const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) < static_cast<uint32_t>(b);
+}
+static inline bool operator<(const Timestamp &a, const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) < static_cast<uint32_t>(b);
+}
+static inline bool operator<(const volatile Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) < static_cast<uint32_t>(b);
+}
+
+static inline bool operator>(const Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) > static_cast<uint32_t>(b);
+}
+static inline bool operator>(const volatile Timestamp &a,
+                             const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) > static_cast<uint32_t>(b);
+}
+static inline bool operator>(const Timestamp &a, const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) > static_cast<uint32_t>(b);
+}
+static inline bool operator>(const volatile Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) > static_cast<uint32_t>(b);
+}
+
+static inline bool operator<=(const Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) <= static_cast<uint32_t>(b);
+}
+static inline bool operator<=(const volatile Timestamp &a,
+                              const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) <= static_cast<uint32_t>(b);
+}
+static inline bool operator<=(const Timestamp &a, const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) <= static_cast<uint32_t>(b);
+}
+static inline bool operator<=(const volatile Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) <= static_cast<uint32_t>(b);
+}
+
+static inline bool operator>=(const Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) >= static_cast<uint32_t>(b);
+}
+static inline bool operator>=(const volatile Timestamp &a,
+                              const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) >= static_cast<uint32_t>(b);
+}
+static inline bool operator>=(const Timestamp &a, const volatile Timestamp &b) {
+  return static_cast<uint32_t>(a) >= static_cast<uint32_t>(b);
+}
+static inline bool operator>=(const volatile Timestamp &a, const Timestamp &b) {
+  return static_cast<uint32_t>(a) >= static_cast<uint32_t>(b);
+}
+
 class Duration {
   friend Duration operator-(const Timestamp &, const Timestamp &);
   friend Duration operator-(const volatile Timestamp &,
