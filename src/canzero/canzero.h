@@ -329,41 +329,41 @@ static inline error_level_config canzero_get_error_level_config_bat24_over_curre
   extern error_level_config __oe_error_level_config_bat24_over_current;
   return __oe_error_level_config_bat24_over_current;
 }
-static inline float canzero_get_link24_voltage() {
-  extern float __oe_link24_voltage;
-  return __oe_link24_voltage;
+static inline float canzero_get_supercap_voltage() {
+  extern float __oe_supercap_voltage;
+  return __oe_supercap_voltage;
 }
-static inline calibration_mode canzero_get_link24_voltage_calibration_mode() {
-  extern calibration_mode __oe_link24_voltage_calibration_mode;
-  return __oe_link24_voltage_calibration_mode;
+static inline calibration_mode canzero_get_supercap_voltage_calibration_mode() {
+  extern calibration_mode __oe_supercap_voltage_calibration_mode;
+  return __oe_supercap_voltage_calibration_mode;
 }
-static inline float canzero_get_link24_voltage_calibration_offset() {
-  extern float __oe_link24_voltage_calibration_offset;
-  return __oe_link24_voltage_calibration_offset;
+static inline float canzero_get_supercap_voltage_calibration_offset() {
+  extern float __oe_supercap_voltage_calibration_offset;
+  return __oe_supercap_voltage_calibration_offset;
 }
-static inline float canzero_get_link24_voltage_calibration_target() {
-  extern float __oe_link24_voltage_calibration_target;
-  return __oe_link24_voltage_calibration_target;
+static inline float canzero_get_supercap_voltage_calibration_target() {
+  extern float __oe_supercap_voltage_calibration_target;
+  return __oe_supercap_voltage_calibration_target;
 }
-static inline error_flag canzero_get_error_link24_voltage_invalid() {
-  extern error_flag __oe_error_link24_voltage_invalid;
-  return __oe_error_link24_voltage_invalid;
+static inline error_flag canzero_get_error_supercap_voltage_invalid() {
+  extern error_flag __oe_error_supercap_voltage_invalid;
+  return __oe_error_supercap_voltage_invalid;
 }
-static inline error_level canzero_get_error_level_link24_under_voltage() {
-  extern error_level __oe_error_level_link24_under_voltage;
-  return __oe_error_level_link24_under_voltage;
+static inline error_level canzero_get_error_level_supercap_under_voltage() {
+  extern error_level __oe_error_level_supercap_under_voltage;
+  return __oe_error_level_supercap_under_voltage;
 }
-static inline error_level_config canzero_get_error_level_config_link24_under_voltage() {
-  extern error_level_config __oe_error_level_config_link24_under_voltage;
-  return __oe_error_level_config_link24_under_voltage;
+static inline error_level_config canzero_get_error_level_config_supercap_under_voltage() {
+  extern error_level_config __oe_error_level_config_supercap_under_voltage;
+  return __oe_error_level_config_supercap_under_voltage;
 }
-static inline error_level canzero_get_error_level_link24_over_voltage() {
-  extern error_level __oe_error_level_link24_over_voltage;
-  return __oe_error_level_link24_over_voltage;
+static inline error_level canzero_get_error_level_supercap_over_voltage() {
+  extern error_level __oe_error_level_supercap_over_voltage;
+  return __oe_error_level_supercap_over_voltage;
 }
-static inline error_level_config canzero_get_error_level_config_link24_over_voltage() {
-  extern error_level_config __oe_error_level_config_link24_over_voltage;
-  return __oe_error_level_config_link24_over_voltage;
+static inline error_level_config canzero_get_error_level_config_supercap_over_voltage() {
+  extern error_level_config __oe_error_level_config_supercap_over_voltage;
+  return __oe_error_level_config_supercap_over_voltage;
 }
 static inline float canzero_get_link24_current() {
   extern float __oe_link24_current;
@@ -645,9 +645,9 @@ typedef struct {
   error_level m_error_level_bat24_over_voltage;
   error_flag m_error_bat24_current_invalid;
   error_level m_error_level_bat24_over_current;
-  error_flag m_error_link24_voltage_invalid;
-  error_level m_error_level_link24_under_voltage;
-  error_level m_error_level_link24_over_voltage;
+  error_flag m_error_supercap_voltage_invalid;
+  error_level m_error_level_supercap_under_voltage;
+  error_level m_error_level_supercap_over_voltage;
   error_flag m_error_link24_current_invalid;
   error_level m_error_level_link24_over_current;
   error_flag m_error_link45_voltage_invalid;
@@ -689,7 +689,7 @@ typedef struct {
 } canzero_message_input_board_stream_bat24;
 static const uint32_t canzero_message_input_board_stream_bat24_id = 0xDC;
 typedef struct {
-  float m_link24_voltage;
+  float m_supercap_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
 static const uint32_t canzero_message_input_board_stream_link24_id = 0x9B;
@@ -955,40 +955,40 @@ static inline void canzero_set_error_level_config_bat24_over_current(error_level
   __oe_error_level_config_bat24_over_current = value;
 }
 
-static inline void canzero_set_link24_voltage(float value){
-  extern float __oe_link24_voltage;
-  __oe_link24_voltage = value;
+static inline void canzero_set_supercap_voltage(float value){
+  extern float __oe_supercap_voltage;
+  __oe_supercap_voltage = value;
 }
 
-static inline void canzero_set_link24_voltage_calibration_mode(calibration_mode value){
-  extern calibration_mode __oe_link24_voltage_calibration_mode;
-  __oe_link24_voltage_calibration_mode = value;
+static inline void canzero_set_supercap_voltage_calibration_mode(calibration_mode value){
+  extern calibration_mode __oe_supercap_voltage_calibration_mode;
+  __oe_supercap_voltage_calibration_mode = value;
 }
 
-static inline void canzero_set_link24_voltage_calibration_offset(float value){
-  extern float __oe_link24_voltage_calibration_offset;
-  __oe_link24_voltage_calibration_offset = value;
+static inline void canzero_set_supercap_voltage_calibration_offset(float value){
+  extern float __oe_supercap_voltage_calibration_offset;
+  __oe_supercap_voltage_calibration_offset = value;
 }
 
-static inline void canzero_set_link24_voltage_calibration_target(float value){
-  extern float __oe_link24_voltage_calibration_target;
-  __oe_link24_voltage_calibration_target = value;
+static inline void canzero_set_supercap_voltage_calibration_target(float value){
+  extern float __oe_supercap_voltage_calibration_target;
+  __oe_supercap_voltage_calibration_target = value;
 }
 
-void canzero_set_error_link24_voltage_invalid(error_flag value);
+void canzero_set_error_supercap_voltage_invalid(error_flag value);
 
-void canzero_set_error_level_link24_under_voltage(error_level value);
+void canzero_set_error_level_supercap_under_voltage(error_level value);
 
-static inline void canzero_set_error_level_config_link24_under_voltage(error_level_config value){
-  extern error_level_config __oe_error_level_config_link24_under_voltage;
-  __oe_error_level_config_link24_under_voltage = value;
+static inline void canzero_set_error_level_config_supercap_under_voltage(error_level_config value){
+  extern error_level_config __oe_error_level_config_supercap_under_voltage;
+  __oe_error_level_config_supercap_under_voltage = value;
 }
 
-void canzero_set_error_level_link24_over_voltage(error_level value);
+void canzero_set_error_level_supercap_over_voltage(error_level value);
 
-static inline void canzero_set_error_level_config_link24_over_voltage(error_level_config value){
-  extern error_level_config __oe_error_level_config_link24_over_voltage;
-  __oe_error_level_config_link24_over_voltage = value;
+static inline void canzero_set_error_level_config_supercap_over_voltage(error_level_config value){
+  extern error_level_config __oe_error_level_config_supercap_over_voltage;
+  __oe_error_level_config_supercap_over_voltage = value;
 }
 
 static inline void canzero_set_link24_current(float value){
@@ -1330,23 +1330,23 @@ void canzero_send_error_level_bat24_over_current();
 
 void canzero_send_error_level_config_bat24_over_current();
 
-void canzero_send_link24_voltage();
+void canzero_send_supercap_voltage();
 
-void canzero_send_link24_voltage_calibration_mode();
+void canzero_send_supercap_voltage_calibration_mode();
 
-void canzero_send_link24_voltage_calibration_offset();
+void canzero_send_supercap_voltage_calibration_offset();
 
-void canzero_send_link24_voltage_calibration_target();
+void canzero_send_supercap_voltage_calibration_target();
 
-void canzero_send_error_link24_voltage_invalid();
+void canzero_send_error_supercap_voltage_invalid();
 
-void canzero_send_error_level_link24_under_voltage();
+void canzero_send_error_level_supercap_under_voltage();
 
-void canzero_send_error_level_config_link24_under_voltage();
+void canzero_send_error_level_config_supercap_under_voltage();
 
-void canzero_send_error_level_link24_over_voltage();
+void canzero_send_error_level_supercap_over_voltage();
 
-void canzero_send_error_level_config_link24_over_voltage();
+void canzero_send_error_level_config_supercap_over_voltage();
 
 void canzero_send_link24_current();
 

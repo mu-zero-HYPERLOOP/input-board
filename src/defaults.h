@@ -14,7 +14,7 @@ static void can_defaults() {
   canzero_set_error_bat24_current_invalid(error_flag_OK);
   canzero_set_error_bat24_voltage_invalid(error_flag_OK);
   canzero_set_error_link24_current_invalid(error_flag_OK);
-  canzero_set_error_link24_voltage_invalid(error_flag_OK);
+  canzero_set_error_supercap_voltage_invalid(error_flag_OK);
   canzero_set_error_link45_current_invalid(error_flag_OK);
   canzero_set_error_link45_voltage_invalid(error_flag_OK);
   canzero_set_error_mcu_temperature_invalid(error_flag_OK);
@@ -37,13 +37,13 @@ static void can_defaults() {
   canzero_set_error_level_bat24_over_current(error_level_OK);
   canzero_set_error_level_bat24_over_voltage(error_level_OK);
   canzero_set_error_level_bat24_under_voltage(error_level_OK);
-  canzero_set_error_level_link24_over_voltage(error_level_OK);
+  canzero_set_error_level_supercap_over_voltage(error_level_OK);
   canzero_set_error_level_link24_over_current(error_level_OK);
   canzero_set_error_level_link45_over_current(error_level_OK);
   canzero_set_error_level_link45_over_voltage(error_level_OK);
   canzero_set_error_level_ambient_temperature(error_level_OK);
   canzero_set_error_level_link45_under_voltage(error_level_OK);
-  canzero_set_error_level_link24_under_voltage(error_level_OK);
+  canzero_set_error_level_supercap_under_voltage(error_level_OK);
   canzero_set_error_level_supercap_temperature(error_level_OK);
   canzero_set_error_level_cooling_cycle_temperature(error_level_OK);
   canzero_set_error_level_cooling_cycle_over_pressure(error_level_OK);

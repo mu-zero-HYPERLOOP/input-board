@@ -61,15 +61,15 @@ calibration_mode DMAMEM __oe_bat24_current_calibration_mode;
 error_flag DMAMEM __oe_error_bat24_current_invalid;
 error_level DMAMEM __oe_error_level_bat24_over_current;
 error_level_config DMAMEM __oe_error_level_config_bat24_over_current;
-float DMAMEM __oe_link24_voltage;
-calibration_mode DMAMEM __oe_link24_voltage_calibration_mode;
-float DMAMEM __oe_link24_voltage_calibration_offset;
-float DMAMEM __oe_link24_voltage_calibration_target;
-error_flag DMAMEM __oe_error_link24_voltage_invalid;
-error_level DMAMEM __oe_error_level_link24_under_voltage;
-error_level_config DMAMEM __oe_error_level_config_link24_under_voltage;
-error_level DMAMEM __oe_error_level_link24_over_voltage;
-error_level_config DMAMEM __oe_error_level_config_link24_over_voltage;
+float DMAMEM __oe_supercap_voltage;
+calibration_mode DMAMEM __oe_supercap_voltage_calibration_mode;
+float DMAMEM __oe_supercap_voltage_calibration_offset;
+float DMAMEM __oe_supercap_voltage_calibration_target;
+error_flag DMAMEM __oe_error_supercap_voltage_invalid;
+error_level DMAMEM __oe_error_level_supercap_under_voltage;
+error_level_config DMAMEM __oe_error_level_config_supercap_under_voltage;
+error_level DMAMEM __oe_error_level_supercap_over_voltage;
+error_level_config DMAMEM __oe_error_level_config_supercap_over_voltage;
 float DMAMEM __oe_link24_current;
 calibration_mode DMAMEM __oe_link24_current_calibration_mode;
 float DMAMEM __oe_link24_current_calibration_offset;
@@ -210,9 +210,9 @@ static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_voltage & (0xFF >> (8 - 2))) << 10;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_bat24_current_invalid & (0xFF >> (8 - 1))) << 12;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_bat24_over_current & (0xFF >> (8 - 2))) << 13;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link24_voltage_invalid & (0xFF >> (8 - 1))) << 15;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_under_voltage & (0xFF >> (8 - 2))) << 16;
-  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_voltage & (0xFF >> (8 - 2))) << 18;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_supercap_voltage_invalid & (0xFF >> (8 - 1))) << 15;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_supercap_under_voltage & (0xFF >> (8 - 2))) << 16;
+  ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_supercap_over_voltage & (0xFF >> (8 - 2))) << 18;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link24_current_invalid & (0xFF >> (8 - 1))) << 20;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_level_link24_over_current & (0xFF >> (8 - 2))) << 21;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_link45_voltage_invalid & (0xFF >> (8 - 1))) << 23;
@@ -294,11 +294,11 @@ static void canzero_serialize_canzero_message_input_board_stream_link24(canzero_
   }
   frame->id = 0x9B;
   frame->dlc = 8;
-  uint32_t link24_voltage_0 = ((msg->m_link24_voltage - 0) / 0.000000011641532185403987) + 0.5f;
-  if (link24_voltage_0 > 0xFFFFFFFF) {
-    link24_voltage_0 = 0xFFFFFFFF;
+  uint32_t supercap_voltage_0 = ((msg->m_supercap_voltage - 0) / 0.000000011641532185403987) + 0.5f;
+  if (supercap_voltage_0 > 0xFFFFFFFF) {
+    supercap_voltage_0 = 0xFFFFFFFF;
   }
-  ((uint32_t*)data)[0] = link24_voltage_0;
+  ((uint32_t*)data)[0] = supercap_voltage_0;
   uint32_t link24_current_32 = ((msg->m_link24_current - -30) / 0.000000013969838622484784) + 0.5f;
   if (link24_current_32 > 0xFFFFFFFF) {
     link24_current_32 = 0xFFFFFFFF;
@@ -811,9 +811,9 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_error_level_bat24_over_voltage = __oe_error_level_bat24_over_voltage;
         stream_message.m_error_bat24_current_invalid = __oe_error_bat24_current_invalid;
         stream_message.m_error_level_bat24_over_current = __oe_error_level_bat24_over_current;
-        stream_message.m_error_link24_voltage_invalid = __oe_error_link24_voltage_invalid;
-        stream_message.m_error_level_link24_under_voltage = __oe_error_level_link24_under_voltage;
-        stream_message.m_error_level_link24_over_voltage = __oe_error_level_link24_over_voltage;
+        stream_message.m_error_supercap_voltage_invalid = __oe_error_supercap_voltage_invalid;
+        stream_message.m_error_level_supercap_under_voltage = __oe_error_level_supercap_under_voltage;
+        stream_message.m_error_level_supercap_over_voltage = __oe_error_level_supercap_over_voltage;
         stream_message.m_error_link24_current_invalid = __oe_error_link24_current_invalid;
         stream_message.m_error_level_link24_over_current = __oe_error_level_link24_over_current;
         stream_message.m_error_link45_voltage_invalid = __oe_error_link45_voltage_invalid;
@@ -883,7 +883,7 @@ static void schedule_jobs(uint32_t time) {
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
         canzero_message_input_board_stream_link24 stream_message;
-        stream_message.m_link24_voltage = __oe_link24_voltage;
+        stream_message.m_supercap_voltage = __oe_supercap_voltage;
         stream_message.m_link24_current = __oe_link24_current;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_link24(&stream_message, &stream_frame);
@@ -1036,8 +1036,8 @@ static uint32_t DMAMEM __oe_vertical_acceleration_calibration_target_rx_fragment
 static uint32_t DMAMEM __oe_error_level_config_bat24_under_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_current_rx_fragmentation_buffer[7];
-static uint32_t DMAMEM __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[7];
-static uint32_t DMAMEM __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link24_over_current_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_under_voltage_rx_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_over_voltage_rx_fragmentation_buffer[7];
@@ -1503,88 +1503,88 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 49: {
-    resp.m_data |= min_u32((__oe_link24_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 50: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_link24_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_supercap_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 51: {
-    resp.m_data |= min_u32((__oe_link24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_supercap_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 52: {
-    resp.m_data |= min_u32((__oe_link24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 53: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_link24_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_supercap_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 54: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_under_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 55: {
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_supercap_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-    resp.m_data = __oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer[0];
+    resp.m_data = __oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_under_voltage_rx_fragmentation_buffer, 7, 55, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_under_voltage_rx_fragmentation_buffer, 7, 55, msg.m_header.m_client_id);
     break;
   }
   case 56: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_over_voltage) & (0xFF >> (8 - 2)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 57: {
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_link24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-    __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[6] = (__oe_error_level_config_supercap_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+    __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-    resp.m_data = __oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer[0];
+    resp.m_data = __oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer[0];
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 0;
     resp.m_header.m_toggle = 0;
-    schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_voltage_rx_fragmentation_buffer, 7, 57, msg.m_header.m_client_id);
+    schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_over_voltage_rx_fragmentation_buffer, 7, 57, msg.m_header.m_client_id);
     break;
   }
   case 58: {
@@ -2189,10 +2189,10 @@ static uint32_t DMAMEM error_level_config_bat24_over_voltage_tmp_tx_fragmentatio
 static uint32_t DMAMEM error_level_config_bat24_over_voltage_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_bat24_over_current_tmp_tx_fragmentation_buffer[7];
 static uint32_t DMAMEM error_level_config_bat24_over_current_tmp_tx_fragmentation_offset = 0;
-static uint32_t DMAMEM error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t DMAMEM error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset = 0;
-static uint32_t DMAMEM error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[7];
-static uint32_t DMAMEM error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_supercap_under_voltage_tmp_tx_fragmentation_offset = 0;
+static uint32_t DMAMEM error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[7];
+static uint32_t DMAMEM error_level_config_supercap_over_voltage_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_link24_over_current_tmp_tx_fragmentation_buffer[7];
 static uint32_t DMAMEM error_level_config_link24_over_current_tmp_tx_fragmentation_offset = 0;
 static uint32_t DMAMEM error_level_config_link45_under_voltage_tmp_tx_fragmentation_buffer[7];
@@ -2867,54 +2867,54 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    float link24_voltage_tmp;
-    link24_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
-    canzero_set_link24_voltage(link24_voltage_tmp);
+    float supercap_voltage_tmp;
+    supercap_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
+    canzero_set_supercap_voltage(supercap_voltage_tmp);
     break;
   }
   case 50 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    calibration_mode link24_voltage_calibration_mode_tmp;
-    link24_voltage_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
-    canzero_set_link24_voltage_calibration_mode(link24_voltage_calibration_mode_tmp);
+    calibration_mode supercap_voltage_calibration_mode_tmp;
+    supercap_voltage_calibration_mode_tmp = ((calibration_mode)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_supercap_voltage_calibration_mode(supercap_voltage_calibration_mode_tmp);
     break;
   }
   case 51 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    float link24_voltage_calibration_offset_tmp;
-    link24_voltage_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000004656612874161595 + -10);
-    canzero_set_link24_voltage_calibration_offset(link24_voltage_calibration_offset_tmp);
+    float supercap_voltage_calibration_offset_tmp;
+    supercap_voltage_calibration_offset_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000004656612874161595 + -10);
+    canzero_set_supercap_voltage_calibration_offset(supercap_voltage_calibration_offset_tmp);
     break;
   }
   case 52 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    float link24_voltage_calibration_target_tmp;
-    link24_voltage_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
-    canzero_set_link24_voltage_calibration_target(link24_voltage_calibration_target_tmp);
+    float supercap_voltage_calibration_target_tmp;
+    supercap_voltage_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
+    canzero_set_supercap_voltage_calibration_target(supercap_voltage_calibration_target_tmp);
     break;
   }
   case 53 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_flag error_link24_voltage_invalid_tmp;
-    error_link24_voltage_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_link24_voltage_invalid(error_link24_voltage_invalid_tmp);
+    error_flag error_supercap_voltage_invalid_tmp;
+    error_supercap_voltage_invalid_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_supercap_voltage_invalid(error_supercap_voltage_invalid_tmp);
     break;
   }
   case 54 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_level error_level_link24_under_voltage_tmp;
-    error_level_link24_under_voltage_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
-    canzero_set_error_level_link24_under_voltage(error_level_link24_under_voltage_tmp);
+    error_level error_level_supercap_under_voltage_tmp;
+    error_level_supercap_under_voltage_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_error_level_supercap_under_voltage(error_level_supercap_under_voltage_tmp);
     break;
   }
   case 55 : {
@@ -2922,37 +2922,37 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
       }
-      error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset = 0;
+      error_level_config_supercap_under_voltage_tmp_tx_fragmentation_offset = 0;
     }else {
-      error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset += 1;
-      if (error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset >= 7) {
+      error_level_config_supercap_under_voltage_tmp_tx_fragmentation_offset += 1;
+      if (error_level_config_supercap_under_voltage_tmp_tx_fragmentation_offset >= 7) {
         return;
       }
     }
-    error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[error_level_config_link24_under_voltage_tmp_tx_fragmentation_offset] = msg.m_data;
+    error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[error_level_config_supercap_under_voltage_tmp_tx_fragmentation_offset] = msg.m_data;
     if (msg.m_header.m_eof == 0) {
       return;
     }
-    error_level_config error_level_config_link24_under_voltage_tmp;
-    error_level_config_link24_under_voltage_tmp.m_info_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_info_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_under_voltage_tmp.m_warning_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_warning_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_under_voltage_tmp.m_error_thresh = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_under_voltage_tmp.m_error_timeout = ((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link24_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_under_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_level_config_link24_under_voltage(error_level_config_link24_under_voltage_tmp);
+    error_level_config error_level_config_supercap_under_voltage_tmp;
+    error_level_config_supercap_under_voltage_tmp.m_info_thresh = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_under_voltage_tmp.m_info_timeout = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_under_voltage_tmp.m_warning_thresh = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_under_voltage_tmp.m_warning_timeout = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_under_voltage_tmp.m_error_thresh = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_under_voltage_tmp.m_error_timeout = ((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_under_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_supercap_under_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_supercap_under_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_supercap_under_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_level_config_supercap_under_voltage(error_level_config_supercap_under_voltage_tmp);
     break;
   }
   case 56 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_level error_level_link24_over_voltage_tmp;
-    error_level_link24_over_voltage_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
-    canzero_set_error_level_link24_over_voltage(error_level_link24_over_voltage_tmp);
+    error_level error_level_supercap_over_voltage_tmp;
+    error_level_supercap_over_voltage_tmp = ((error_level)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 2))));
+    canzero_set_error_level_supercap_over_voltage(error_level_supercap_over_voltage_tmp);
     break;
   }
   case 57 : {
@@ -2960,28 +2960,28 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       if (msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 0) {
         return; //TODO proper error response frame!
       }
-      error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset = 0;
+      error_level_config_supercap_over_voltage_tmp_tx_fragmentation_offset = 0;
     }else {
-      error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset += 1;
-      if (error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset >= 7) {
+      error_level_config_supercap_over_voltage_tmp_tx_fragmentation_offset += 1;
+      if (error_level_config_supercap_over_voltage_tmp_tx_fragmentation_offset >= 7) {
         return;
       }
     }
-    error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[error_level_config_link24_over_voltage_tmp_tx_fragmentation_offset] = msg.m_data;
+    error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[error_level_config_supercap_over_voltage_tmp_tx_fragmentation_offset] = msg.m_data;
     if (msg.m_header.m_eof == 0) {
       return;
     }
-    error_level_config error_level_config_link24_over_voltage_tmp;
-    error_level_config_link24_over_voltage_tmp.m_info_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_info_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_voltage_tmp.m_warning_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_warning_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_voltage_tmp.m_error_thresh = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
-    error_level_config_link24_over_voltage_tmp.m_error_timeout = ((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
-    error_level_config_link24_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
-    error_level_config_link24_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
-    error_level_config_link24_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_link24_over_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_level_config_link24_over_voltage(error_level_config_link24_over_voltage_tmp);
+    error_level_config error_level_config_supercap_over_voltage_tmp;
+    error_level_config_supercap_over_voltage_tmp.m_info_thresh = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[0] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_over_voltage_tmp.m_info_timeout = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[1] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_over_voltage_tmp.m_warning_thresh = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[2] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_over_voltage_tmp.m_warning_timeout = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[3] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_over_voltage_tmp.m_error_thresh = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[4] & (0xFFFFFFFF >> (32 - 32)))) * 0.0000004656612874161595 + -1000;
+    error_level_config_supercap_over_voltage_tmp.m_error_timeout = ((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[5] & (0xFFFFFFFF >> (32 - 32)))) * 0.000000013969838622484784 + 0;
+    error_level_config_supercap_over_voltage_tmp.m_ignore_info = ((bool_t)((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[6] & (0xFFFFFFFF >> (32 - 1)))));
+    error_level_config_supercap_over_voltage_tmp.m_ignore_warning = ((bool_t)((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[6] >> 1) & (0xFFFFFFFF >> (32 - 1))));
+    error_level_config_supercap_over_voltage_tmp.m_ignore_error = ((bool_t)((error_level_config_supercap_over_voltage_tmp_tx_fragmentation_buffer[6] >> 2) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_error_level_config_supercap_over_voltage(error_level_config_supercap_over_voltage_tmp);
     break;
   }
   case 58 : {
@@ -3964,7 +3964,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 2306741536625815085ull;
+  __oe_config_hash = 9975054449182555232ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -4132,30 +4132,30 @@ void canzero_set_error_level_bat24_over_current(error_level value) {
     }
   }
 }
-void canzero_set_error_link24_voltage_invalid(error_flag value) {
-  extern error_flag __oe_error_link24_voltage_invalid;
-  if (__oe_error_link24_voltage_invalid != value) {
-    __oe_error_link24_voltage_invalid = value;
+void canzero_set_error_supercap_voltage_invalid(error_flag value) {
+  extern error_flag __oe_error_supercap_voltage_invalid;
+  if (__oe_error_supercap_voltage_invalid != value) {
+    __oe_error_supercap_voltage_invalid = value;
     if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
       errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
 }
-void canzero_set_error_level_link24_under_voltage(error_level value) {
-  extern error_level __oe_error_level_link24_under_voltage;
-  if (__oe_error_level_link24_under_voltage != value) {
-    __oe_error_level_link24_under_voltage = value;
+void canzero_set_error_level_supercap_under_voltage(error_level value) {
+  extern error_level __oe_error_level_supercap_under_voltage;
+  if (__oe_error_level_supercap_under_voltage != value) {
+    __oe_error_level_supercap_under_voltage = value;
     if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
       errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
     }
   }
 }
-void canzero_set_error_level_link24_over_voltage(error_level value) {
-  extern error_level __oe_error_level_link24_over_voltage;
-  if (__oe_error_level_link24_over_voltage != value) {
-    __oe_error_level_link24_over_voltage = value;
+void canzero_set_error_level_supercap_over_voltage(error_level value) {
+  extern error_level __oe_error_level_supercap_over_voltage;
+  if (__oe_error_level_supercap_over_voltage != value) {
+    __oe_error_level_supercap_over_voltage = value;
     if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
       errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
       scheduler_promote_job(&errors_interval_job);
@@ -4406,8 +4406,8 @@ static uint32_t DMAMEM __oe_vertical_acceleration_calibration_target_send_fragme
 static uint32_t DMAMEM __oe_error_level_config_bat24_under_voltage_send_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_voltage_send_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_bat24_over_current_send_fragmentation_buffer[7];
-static uint32_t DMAMEM __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[7];
-static uint32_t DMAMEM __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[7];
+static uint32_t DMAMEM __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link24_over_current_send_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_under_voltage_send_fragmentation_buffer[7];
 static uint32_t DMAMEM __oe_error_level_config_link45_over_voltage_send_fragmentation_buffer[7];
@@ -5172,9 +5172,9 @@ void canzero_send_error_level_config_bat24_over_current() {
   schedule_get_resp_fragmentation_job(__oe_error_level_config_bat24_over_current_send_fragmentation_buffer, 7, 48, 255);
 
 }
-void canzero_send_link24_voltage() {
+void canzero_send_supercap_voltage() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_link24_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5185,9 +5185,9 @@ void canzero_send_link24_voltage() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_link24_voltage_calibration_mode() {
+void canzero_send_supercap_voltage_calibration_mode() {
   canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_link24_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_supercap_voltage_calibration_mode) & (0xFF >> (8 - 2)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5198,9 +5198,9 @@ void canzero_send_link24_voltage_calibration_mode() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_link24_voltage_calibration_offset() {
+void canzero_send_supercap_voltage_calibration_offset() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_link24_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_supercap_voltage_calibration_offset - (-10)) / 0.000000004656612874161595, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5211,9 +5211,9 @@ void canzero_send_link24_voltage_calibration_offset() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_link24_voltage_calibration_target() {
+void canzero_send_supercap_voltage_calibration_target() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_link24_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5224,9 +5224,9 @@ void canzero_send_link24_voltage_calibration_target() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_error_link24_voltage_invalid() {
+void canzero_send_error_supercap_voltage_invalid() {
   canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_link24_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_supercap_voltage_invalid) & (0xFF >> (8 - 1)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5237,9 +5237,9 @@ void canzero_send_error_link24_voltage_invalid() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_error_level_link24_under_voltage() {
+void canzero_send_error_level_supercap_under_voltage() {
   canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_under_voltage) & (0xFF >> (8 - 2)))) << 0;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_under_voltage) & (0xFF >> (8 - 2)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5250,19 +5250,19 @@ void canzero_send_error_level_link24_under_voltage() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_error_level_config_link24_under_voltage() {
+void canzero_send_error_level_config_supercap_under_voltage() {
   canzero_message_get_resp msg;
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[6] = (__oe_error_level_config_link24_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-  __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_supercap_under_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[6] = (__oe_error_level_config_supercap_under_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_under_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+  __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_under_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-  msg.m_data = __oe_error_level_config_link24_under_voltage_send_fragmentation_buffer[0];
+  msg.m_data = __oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer[0];
   msg.m_header.m_eof = 0;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5272,12 +5272,12 @@ void canzero_send_error_level_config_link24_under_voltage() {
   canzero_frame sender_frame;
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
-  schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_under_voltage_send_fragmentation_buffer, 7, 55, 255);
+  schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_under_voltage_send_fragmentation_buffer, 7, 55, 255);
 
 }
-void canzero_send_error_level_link24_over_voltage() {
+void canzero_send_error_level_supercap_over_voltage() {
   canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_link24_over_voltage) & (0xFF >> (8 - 2)))) << 0;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_level_supercap_over_voltage) & (0xFF >> (8 - 2)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5288,19 +5288,19 @@ void canzero_send_error_level_link24_over_voltage() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
 }
-void canzero_send_error_level_config_link24_over_voltage() {
+void canzero_send_error_level_config_supercap_over_voltage() {
   canzero_message_get_resp msg;
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_link24_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_link24_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_link24_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[6] = (__oe_error_level_config_link24_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
-  __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_link24_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[0] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_info_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[1] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_info_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[2] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_warning_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[3] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_warning_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[4] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_error_thresh - ((float)-1000)) / (float)0.0000004656612874161595, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[5] = (min_u32((__oe_error_level_config_supercap_over_voltage.m_error_timeout - ((float)0)) / (float)0.000000013969838622484784, 0xFFFFFFFFul) & (0xFFFFFFFF >> (32 - 32)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[6] = (__oe_error_level_config_supercap_over_voltage.m_ignore_info & (0xFFFFFFFF >> (32 - 1)));
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_over_voltage.m_ignore_warning & (0xFFFFFFFF >> (32 - 1))) << 1);
+  __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[6] |= ((__oe_error_level_config_supercap_over_voltage.m_ignore_error & (0xFFFFFFFF >> (32 - 1))) << 2);
 
-  msg.m_data = __oe_error_level_config_link24_over_voltage_send_fragmentation_buffer[0];
+  msg.m_data = __oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer[0];
   msg.m_header.m_eof = 0;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -5310,7 +5310,7 @@ void canzero_send_error_level_config_link24_over_voltage() {
   canzero_frame sender_frame;
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can1_send(&sender_frame);
-  schedule_get_resp_fragmentation_job(__oe_error_level_config_link24_over_voltage_send_fragmentation_buffer, 7, 57, 255);
+  schedule_get_resp_fragmentation_job(__oe_error_level_config_supercap_over_voltage_send_fragmentation_buffer, 7, 57, 255);
 
 }
 void canzero_send_link24_current() {

@@ -26,7 +26,7 @@
 #include "sensors/ebox_temperature.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
-#include "sensors/link24_voltage.h"
+#include "sensors/supercap_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
@@ -73,7 +73,7 @@ int main() {
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
 
-  sensors::link24_voltage::begin();
+  sensors::supercap_voltage::begin();
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
 
@@ -101,7 +101,7 @@ calibration:
   sensors::bat24_current::calibrate();
   sensors::bat24_voltage::calibrate();
   sensors::link24_current::calibrate();
-  sensors::link24_voltage::calibrate();
+  sensors::supercap_voltage::calibrate();
   sensors::link45_current::calibrate();
   sensors::link45_voltage::calibrate();
 
@@ -148,7 +148,7 @@ calibration:
     sensors::bat24_current::update();
     sensors::bat24_voltage::update();
     sensors::link24_current::update();
-    sensors::link24_voltage::update();
+    sensors::supercap_voltage::update();
     sensors::link45_current::update();
     sensors::link45_voltage::update();
 
