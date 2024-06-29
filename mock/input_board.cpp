@@ -131,8 +131,8 @@ Voltage sync_read(ain_pin pin) {
     constexpr Voltage mock = 45_V + sensors::supercap_voltage::DEFAULT_OFFSET;
     Voltage v = sensors::formula::inv_isolated_voltage_meas(
         mock, sensors::supercap_voltage::R1, sensors::supercap_voltage::R2);
-    std::normal_distribution link24_voltage_dist{static_cast<float>(v), 0.015f};
-    return Voltage(link24_voltage_dist(gen));
+    std::normal_distribution supercap_voltage_dist{static_cast<float>(v), 0.0001f};
+    return Voltage(supercap_voltage_dist(gen));
   }
   case sensors::link45_current::PIN: {
     if (canzero_get_assert_45V_system_online() == bool_t_TRUE) {
