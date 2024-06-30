@@ -22,7 +22,6 @@ add_executable(${PROJECT_NAME}
   src/sensors/bat24_temperature.cpp
   src/sensors/bat24_voltage.cpp
   src/sensors/buck_temperature.cpp
-  src/sensors/cooling_pressure.cpp
   src/sensors/cooling_temperature.cpp
   src/sensors/ebox_temperature.cpp
   src/sensors/linear_encoder.cpp

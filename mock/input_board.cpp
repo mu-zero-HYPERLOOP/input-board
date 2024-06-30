@@ -18,7 +18,6 @@
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_voltage.h"
 #include "sensors/buck_temperature.h"
-#include "sensors/cooling_pressure.h"
 #include "sensors/cooling_temperature.h"
 #include "sensors/ebox_temperature.h"
 #include "sensors/formulas/hall_sensors.h"
@@ -180,13 +179,7 @@ Voltage sync_read(ain_pin pin) {
   }
   case ain_pin::ain_ntc_mux:
   case ain_pin::ain_mux:
-    if (mux_helper(pin, sensors::cooling_pressure::PIN)) {
-      constexpr Pressure mock = 1_bar;
-      constexpr Current i_mock = sensors::formula::inv_sick_pbt(mock);
-      constexpr Voltage v_mock = i_mock * sensors::cooling_pressure::R_MEAS;
-      std::normal_distribution dist{static_cast<float>(v_mock), 0.05f};
-      return Voltage(dist(gen));
-    } else if (mux_helper(pin, sensors::cooling_temperature::PIN)) {
+    if (mux_helper(pin, sensors::cooling_temperature::PIN)) {
       constexpr Temperature mock = 24_Celcius;
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
           mock, sensors::cooling_temperature::NTC_BETA,
