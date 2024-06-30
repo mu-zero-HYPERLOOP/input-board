@@ -24,6 +24,11 @@ void FLASHMEM input_board::begin() {
   pinMode(din_4, INPUT);
   pinMode(din_5, INPUT);
   pinMode(din_6, INPUT);
+
+  pinMode(sdc_ctrl, OUTPUT);
+  pinMode(mux_sel0, OUTPUT);
+  pinMode(mux_sel1, OUTPUT);
+  pinMode(mux_sel2, OUTPUT);
 }
 
 Voltage FASTRUN input_board::sync_read(ain_pin pin) {
