@@ -62,7 +62,7 @@ void PROGMEM sensors::link24_current::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  const bool sensible = filter.get() <= 100_A && filter.get() >= 0_A;
+  const bool sensible = filter.get() <= 100_A && filter.get() >= -10_A;
   canzero_set_error_link24_current_invalid(sensible ? error_flag_OK
                                                     : error_flag_ERROR);
   const calibration_mode mode = canzero_get_link24_current_calibration_mode();
