@@ -14,7 +14,7 @@ using sensors::bat24_current::R1_V_DIV;
 using sensors::bat24_current::R2_V_DIV;
 using sensors::bat24_current::VOLT_PER_AMP;
 
-static DMAMEM BoxcarFilter<Current, 100> filter(0_A);
+static DMAMEM BoxcarFilter<Current, 10> filter(0_A);
 
 static Current offset;
 
@@ -23,7 +23,7 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                              canzero_get_error_level_config_bat24_over_current,
                              canzero_set_error_level_bat24_over_current);
 
-static FASTRUN void on_value(const Voltage &v) {
+static void FASTRUN on_value(const Voltage &v) {
   const Voltage v_sensor =
       sensors::formula::vin_of_voltage_divider(v, R1_V_DIV, R2_V_DIV);
   const Current i = sensors::formula::hall_effect_sensor(v_sensor, VOLT_PER_AMP,

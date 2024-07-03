@@ -10,7 +10,7 @@ constexpr ain_pin PIN = ain_iso_20;
 constexpr Resistance R1 = 33_kOhm;
 constexpr Resistance R2 = 560_Ohm;
 
-constexpr Voltage DEFAULT_OFFSET = -0.163040_V;
+constexpr Voltage DEFAULT_OFFSET = -0.663040_V;
 
 void begin();
 void calibrate();

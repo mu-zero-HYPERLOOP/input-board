@@ -35,7 +35,7 @@ static void FASTRUN on_value(const Voltage &v) {
 
 void FLASHMEM sensors::link45_current::begin() {
   canzero_set_link45_current(0);
-  canzero_set_link45_current_calibration_mode(calibration_mode_USE_TARGET);
+  canzero_set_link45_current_calibration_mode(calibration_mode_DISABLE);
   canzero_set_link45_current_calibration_offset(0);
   canzero_set_link45_current_calibration_target(0); //calibrate to zero A!
   canzero_set_error_level_link45_over_current(error_level_OK);

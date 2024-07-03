@@ -1,12 +1,13 @@
 #include "sensors/link45_voltage.h"
-#include "print.h"
-#include "util/boxcar.h"
 #include "canzero/canzero.h"
+#include "print.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "sensors/formulas/isolated_voltage.h"
+#include "util/boxcar.h"
 #include "util/metrics.h"
 #include <avr/pgmspace.h>
+#include <cassert>
 
 using sensors::link45_voltage::R1;
 using sensors::link45_voltage::R2;
@@ -33,8 +34,9 @@ static void FASTRUN on_value(const Voltage &v) {
 
 void FLASHMEM sensors::link45_voltage::begin() {
   canzero_set_link45_voltage(0);
-  canzero_set_link45_voltage_calibration_offset(0);
-  canzero_set_link45_voltage_calibration_mode(calibration_mode_USE_TARGET);
+  canzero_set_link45_voltage_calibration_offset(
+      static_cast<float>(DEFAULT_OFFSET));
+  canzero_set_link45_voltage_calibration_mode(calibration_mode_USE_OFFSET);
   canzero_set_link45_voltage_calibration_target(0);
   canzero_set_error_level_link45_over_voltage(error_level_OK);
   canzero_set_error_level_config_link45_over_voltage(error_level_config{
@@ -74,7 +76,7 @@ void PROGMEM sensors::link45_voltage::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  const bool sensible = filter.get() <= 100_V && filter.get() >= -3_V;
+  const bool sensible = filter.get() <= 100_V && filter.get() >= -10_V;
   canzero_set_error_link45_voltage_invalid(sensible ? error_flag_OK
                                                     : error_flag_ERROR);
   const calibration_mode mode = canzero_get_link45_voltage_calibration_mode();
@@ -100,9 +102,9 @@ void PROGMEM sensors::link45_voltage::calibrate() {
 
 void FASTRUN sensors::link45_voltage::update() {
   if (canzero_get_ignore_45v() == bool_t_FALSE) {
-    if (canzero_get_assert_45V_system_online()){
+    if (canzero_get_assert_45V_system_online()) {
       link45_under_volt_check.check();
-    }else {
+    } else {
       canzero_set_error_level_link45_under_voltage(error_level_OK);
     }
     link45_over_volt_check.check();
