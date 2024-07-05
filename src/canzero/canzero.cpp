@@ -131,6 +131,7 @@ error_level_config DMAMEM __oe_error_level_config_ambient_temperature;
 float DMAMEM __oe_cooling_cycle_flow_rate;
 float DMAMEM __oe_loop_frequency;
 error_flag DMAMEM __oe_assertion_fault;
+uint8_t DMAMEM __oe_last_node_missed;
 bool_t DMAMEM __oe_ignore_45v;
 motor_command DMAMEM __oe__motor_command;
 float DMAMEM __oe_system_power_consumption;
@@ -139,7 +140,7 @@ static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp*
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x11D;
+  frame->id = 0x19D;
   frame->dlc = 8;
   ((uint32_t*)data)[0] = (uint8_t)(msg->m_header.m_sof & (0xFF >> (8 - 1)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_header.m_eof & (0xFF >> (8 - 1))) << 1;
@@ -154,7 +155,7 @@ static void canzero_serialize_canzero_message_set_resp(canzero_message_set_resp*
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x13D;
+  frame->id = 0x1BD;
   frame->dlc = 4;
   ((uint32_t*)data)[0] = (uint16_t)(msg->m_header.m_od_index & (0xFFFF >> (16 - 13)));
   ((uint32_t*)data)[0] |= msg->m_header.m_client_id << 13;
@@ -166,7 +167,7 @@ static void canzero_serialize_canzero_message_input_board_stream_state(canzero_m
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x52;
+  frame->id = 0x157;
   frame->dlc = 1;
   ((uint32_t*)data)[0] = (uint8_t)(msg->m_state & (0xFF >> (8 - 2)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_sdc_status & (0xFF >> (8 - 1))) << 2;
@@ -176,7 +177,7 @@ static void canzero_serialize_canzero_message_input_board_stream_position_estima
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xF3;
+  frame->id = 0x137;
   frame->dlc = 6;
   uint32_t position_0 = ((msg->m_position - -10) / 0.0007629510948348211) + 0.5f;
   if (position_0 > 0xFFFF) {
@@ -194,13 +195,22 @@ static void canzero_serialize_canzero_message_input_board_stream_position_estima
   }
   ((uint32_t*)data)[1] = acceleration_32;
 }
+static void canzero_serialize_canzero_message_input_board_stream_config_hash(canzero_message_input_board_stream_config_hash* msg, canzero_frame* frame) {
+  uint8_t* data = frame->data;
+  for(uint8_t i = 0; i < 8; ++i){
+    data[i] = 0;
+  }
+  frame->id = 0x117;
+  frame->dlc = 8;
+  ((uint64_t*)data)[0] = msg->m_config_hash;
+}
 static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_message_input_board_stream_errors* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xD3;
-  frame->dlc = 7;
+  frame->id = 0x52;
+  frame->dlc = 8;
   ((uint32_t*)data)[0] = (uint8_t)(msg->m_error_assertion_fault & (0xFF >> (8 - 1)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_acceleration_out_of_range & (0xFF >> (8 - 1))) << 1;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_lateral_acceleration_out_of_range & (0xFF >> (8 - 1))) << 2;
@@ -238,13 +248,14 @@ static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_
   ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_buck_temperature & (0xFF >> (8 - 2))) << 16;
   ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_ebox_temperature & (0xFF >> (8 - 2))) << 18;
   ((uint32_t*)data)[1] |= (uint8_t)(msg->m_error_level_ambient_temperature & (0xFF >> (8 - 2))) << 20;
+  ((uint32_t*)data)[1] |= msg->m_last_node_missed << 22;
 }
 static void canzero_serialize_canzero_message_input_board_stream_linear_encoder(canzero_message_input_board_stream_linear_encoder* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xFC;
+  frame->id = 0x7C;
   frame->dlc = 2;
   ((uint32_t*)data)[0] = msg->m_linear_encoder_count;
 }
@@ -253,7 +264,7 @@ static void canzero_serialize_canzero_message_input_board_stream_accelerations(c
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x9C;
+  frame->id = 0x15D;
   frame->dlc = 6;
   uint32_t raw_acceleration_0 = ((msg->m_raw_acceleration - -50) / 0.0015259021896696422) + 0.5f;
   if (raw_acceleration_0 > 0xFFFF) {
@@ -276,7 +287,7 @@ static void canzero_serialize_canzero_message_input_board_stream_bat24(canzero_m
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xBC;
+  frame->id = 0x17D;
   frame->dlc = 8;
   uint32_t bat24_voltage_0 = ((msg->m_bat24_voltage - 0) / 0.000000011641532185403987) + 0.5f;
   if (bat24_voltage_0 > 0xFFFFFFFF) {
@@ -294,7 +305,7 @@ static void canzero_serialize_canzero_message_input_board_stream_link24(canzero_
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x5B;
+  frame->id = 0x9C;
   frame->dlc = 8;
   uint32_t supercap_voltage_0 = ((msg->m_supercap_voltage - 0) / 0.000000011641532185403987) + 0.5f;
   if (supercap_voltage_0 > 0xFFFFFFFF) {
@@ -312,7 +323,7 @@ static void canzero_serialize_canzero_message_input_board_stream_link45(canzero_
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x7B;
+  frame->id = 0xBC;
   frame->dlc = 8;
   uint32_t link45_voltage_0 = ((msg->m_link45_voltage - -100) / 0.00000004656612874161595) + 0.5f;
   if (link45_voltage_0 > 0xFFFFFFFF) {
@@ -330,7 +341,7 @@ static void canzero_serialize_canzero_message_input_board_stream_cooling(canzero
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xDC;
+  frame->id = 0x5C;
   frame->dlc = 2;
   uint32_t cooling_cycle_pressure_0 = ((msg->m_cooling_cycle_pressure - -1) / 0.0392156862745098) + 0.5f;
   if (cooling_cycle_pressure_0 > 0xFF) {
@@ -348,7 +359,7 @@ static void canzero_serialize_canzero_message_input_board_stream_temperatures(ca
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0xBB;
+  frame->id = 0xFC;
   frame->dlc = 6;
   uint32_t mcu_temperature_0 = ((msg->m_mcu_temperature - -1) / 0.592156862745098) + 0.5f;
   if (mcu_temperature_0 > 0xFF) {
@@ -386,7 +397,7 @@ static void canzero_serialize_canzero_message_input_board_stream_power_consumpti
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x9B;
+  frame->id = 0xDC;
   frame->dlc = 2;
   uint32_t system_power_consumption_0 = ((msg->m_system_power_consumption - 0) / 0.15259021896696423) + 0.5f;
   if (system_power_consumption_0 > 0xFFFF) {
@@ -399,7 +410,7 @@ static void canzero_serialize_canzero_message_heartbeat_can0(canzero_message_hea
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x14F;
+  frame->id = 0x1D4;
   frame->dlc = 2;
   ((uint32_t*)data)[0] = msg->m_node_id;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 8;
@@ -410,7 +421,7 @@ static void canzero_serialize_canzero_message_heartbeat_can1(canzero_message_hea
   for(uint8_t i = 0; i < 8; ++i){
     data[i] = 0;
   }
-  frame->id = 0x14E;
+  frame->id = 0x1D3;
   frame->dlc = 2;
   ((uint32_t*)data)[0] = msg->m_node_id;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_unregister & (0xFF >> (8 - 1))) << 8;
@@ -542,7 +553,7 @@ static void job_pool_allocator_free(job_t *job) {
   job_allocator.freelist = entry;
 }
 
-#define SCHEDULER_HEAP_SIZE 77
+#define SCHEDULER_HEAP_SIZE 78
 typedef struct {
   job_t *heap[SCHEDULER_HEAP_SIZE]; // job**
   uint32_t size;
@@ -693,13 +704,23 @@ static void schedule_position_estimation_interval_job(){
   position_estimation_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&position_estimation_interval_job);
 }
+static job_t config_hash_interval_job;
+static const uint32_t config_hash_interval = 0;
+static void schedule_config_hash_interval_job(){
+  uint32_t time = canzero_get_time();
+  config_hash_interval_job.climax = time + config_hash_interval;
+  config_hash_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
+  config_hash_interval_job.job.stream_job.stream_id = 2;
+  config_hash_interval_job.job.stream_job.last_schedule = time;
+  scheduler_schedule(&config_hash_interval_job);
+}
 static job_t errors_interval_job;
 static const uint32_t errors_interval = 1;
 static void schedule_errors_interval_job(){
   uint32_t time = canzero_get_time();
   errors_interval_job.climax = time + errors_interval;
   errors_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  errors_interval_job.job.stream_job.stream_id = 2;
+  errors_interval_job.job.stream_job.stream_id = 3;
   errors_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&errors_interval_job);
 }
@@ -709,7 +730,7 @@ static void schedule_linear_encoder_interval_job(){
   uint32_t time = canzero_get_time();
   linear_encoder_interval_job.climax = time + linear_encoder_interval;
   linear_encoder_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  linear_encoder_interval_job.job.stream_job.stream_id = 3;
+  linear_encoder_interval_job.job.stream_job.stream_id = 4;
   linear_encoder_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&linear_encoder_interval_job);
 }
@@ -719,7 +740,7 @@ static void schedule_accelerations_interval_job(){
   uint32_t time = canzero_get_time();
   accelerations_interval_job.climax = time + accelerations_interval;
   accelerations_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  accelerations_interval_job.job.stream_job.stream_id = 4;
+  accelerations_interval_job.job.stream_job.stream_id = 5;
   accelerations_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&accelerations_interval_job);
 }
@@ -729,7 +750,7 @@ static void schedule_bat24_interval_job(){
   uint32_t time = canzero_get_time();
   bat24_interval_job.climax = time + bat24_interval;
   bat24_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  bat24_interval_job.job.stream_job.stream_id = 5;
+  bat24_interval_job.job.stream_job.stream_id = 6;
   bat24_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&bat24_interval_job);
 }
@@ -739,7 +760,7 @@ static void schedule_link24_interval_job(){
   uint32_t time = canzero_get_time();
   link24_interval_job.climax = time + link24_interval;
   link24_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  link24_interval_job.job.stream_job.stream_id = 6;
+  link24_interval_job.job.stream_job.stream_id = 7;
   link24_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&link24_interval_job);
 }
@@ -749,7 +770,7 @@ static void schedule_link45_interval_job(){
   uint32_t time = canzero_get_time();
   link45_interval_job.climax = time + link45_interval;
   link45_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  link45_interval_job.job.stream_job.stream_id = 7;
+  link45_interval_job.job.stream_job.stream_id = 8;
   link45_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&link45_interval_job);
 }
@@ -759,7 +780,7 @@ static void schedule_cooling_interval_job(){
   uint32_t time = canzero_get_time();
   cooling_interval_job.climax = time + cooling_interval;
   cooling_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  cooling_interval_job.job.stream_job.stream_id = 8;
+  cooling_interval_job.job.stream_job.stream_id = 9;
   cooling_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&cooling_interval_job);
 }
@@ -769,7 +790,7 @@ static void schedule_temperatures_interval_job(){
   uint32_t time = canzero_get_time();
   temperatures_interval_job.climax = time + temperatures_interval;
   temperatures_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  temperatures_interval_job.job.stream_job.stream_id = 9;
+  temperatures_interval_job.job.stream_job.stream_id = 10;
   temperatures_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&temperatures_interval_job);
 }
@@ -779,7 +800,7 @@ static void schedule_power_consumption_interval_job(){
   uint32_t time = canzero_get_time();
   power_consumption_interval_job.climax = time + power_consumption_interval;
   power_consumption_interval_job.tag = STREAM_INTERVAL_JOB_TAG;
-  power_consumption_interval_job.job.stream_job.stream_id = 10;
+  power_consumption_interval_job.job.stream_job.stream_id = 11;
   power_consumption_interval_job.job.stream_job.last_schedule = time;
   scheduler_schedule(&power_consumption_interval_job);
 }
@@ -817,10 +838,21 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_acceleration = __oe_acceleration;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_position_estimation(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
       case 2: {
+        job->job.stream_job.last_schedule = time;
+        scheduler_reschedule(time + 5000);
+        canzero_exit_critical();
+        canzero_message_input_board_stream_config_hash stream_message;
+        stream_message.m_config_hash = __oe_config_hash;
+        canzero_frame stream_frame;
+        canzero_serialize_canzero_message_input_board_stream_config_hash(&stream_message, &stream_frame);
+        canzero_can0_send(&stream_frame);
+        break;
+      }
+      case 3: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 1000);
         canzero_exit_critical();
@@ -862,12 +894,13 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_error_level_buck_temperature = __oe_error_level_buck_temperature;
         stream_message.m_error_level_ebox_temperature = __oe_error_level_ebox_temperature;
         stream_message.m_error_level_ambient_temperature = __oe_error_level_ambient_temperature;
+        stream_message.m_last_node_missed = __oe_last_node_missed;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_errors(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
-      case 3: {
+      case 4: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 1000);
         canzero_exit_critical();
@@ -875,10 +908,10 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_linear_encoder_count = __oe_linear_encoder_count;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_linear_encoder(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
-      case 4: {
+      case 5: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 50);
         canzero_exit_critical();
@@ -891,7 +924,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can0_send(&stream_frame);
         break;
       }
-      case 5: {
+      case 6: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -903,7 +936,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 6: {
+      case 7: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -915,7 +948,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can0_send(&stream_frame);
         break;
       }
-      case 7: {
+      case 8: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 100);
         canzero_exit_critical();
@@ -927,7 +960,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 8: {
+      case 9: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 500);
         canzero_exit_critical();
@@ -939,7 +972,7 @@ static void schedule_jobs(uint32_t time) {
         canzero_can1_send(&stream_frame);
         break;
       }
-      case 9: {
+      case 10: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 500);
         canzero_exit_critical();
@@ -952,10 +985,10 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_ambient_temperature = __oe_ambient_temperature;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_temperatures(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
-      case 10: {
+      case 11: {
         job->job.stream_job.last_schedule = time;
         scheduler_reschedule(time + 500);
         canzero_exit_critical();
@@ -2183,20 +2216,27 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 119: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_data |= ((uint32_t)(__oe_last_node_missed & (0xFF >> (8 - 8)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 120: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe__motor_command) & (0xFF >> (8 - 3)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
   case 121: {
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe__motor_command) & (0xFF >> (8 - 3)))) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 122: {
     resp.m_data |= min_u32((__oe_system_power_consumption - (0)) / 0.15259021896696423, 0xFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
@@ -3827,12 +3867,21 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
+    uint8_t last_node_missed_tmp;
+    last_node_missed_tmp = ((uint8_t)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 8)))));
+    canzero_set_last_node_missed(last_node_missed_tmp);
+    break;
+  }
+  case 120 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
     bool_t ignore_45v_tmp;
     ignore_45v_tmp = ((bool_t)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
     canzero_set_ignore_45v(ignore_45v_tmp);
     break;
   }
-  case 120 : {
+  case 121 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3841,7 +3890,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set__motor_command(_motor_command_tmp);
     break;
   }
-  case 121 : {
+  case 122 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3946,16 +3995,16 @@ void canzero_can0_poll() {
   canzero_frame frame;
   while (canzero_can0_recv(&frame)) {
     switch (frame.id) {
-      case 0x11E:
+      case 0x19E:
         canzero_handle_get_req(&frame);
         break;
-      case 0x48:
-        canzero_handle_mother_board_stream_motor_command(&frame);
+      case 0x4E:
+        canzero_handle_mother_board_stream_input_board_command(&frame);
         break;
-      case 0x4D:
+      case 0x51:
         canzero_handle_mother_board_stream_debug_settings(&frame);
         break;
-      case 0x14F:
+      case 0x1D4:
         canzero_handle_heartbeat_can0(&frame);
         break;
     }
@@ -3965,13 +4014,13 @@ void canzero_can1_poll() {
   canzero_frame frame;
   while (canzero_can1_recv(&frame)) {
     switch (frame.id) {
-      case 0x13E:
+      case 0x1BE:
         canzero_handle_set_req(&frame);
         break;
-      case 0x4B:
-        canzero_handle_mother_board_stream_input_board_command(&frame);
+      case 0x4C:
+        canzero_handle_mother_board_stream_motor_command(&frame);
         break;
-      case 0x14E:
+      case 0x1D3:
         canzero_handle_heartbeat_can1(&frame);
         break;
     }
@@ -4032,7 +4081,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 6743895009175952551ull;
+  __oe_config_hash = 13292579970420444862ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -4050,6 +4099,7 @@ void canzero_init() {
   schedule_heartbeat_wdg_job();
   schedule_state_interval_job();
   schedule_position_estimation_interval_job();
+  schedule_config_hash_interval_job();
   schedule_errors_interval_job();
   schedule_linear_encoder_interval_job();
   schedule_accelerations_interval_job();
@@ -4060,6 +4110,16 @@ void canzero_init() {
   schedule_temperatures_interval_job();
   schedule_power_consumption_interval_job();
 
+}
+void canzero_set_config_hash(uint64_t value) {
+  extern uint64_t __oe_config_hash;
+  if (__oe_config_hash != value) {
+    __oe_config_hash = value;
+    if (config_hash_interval_job.climax > config_hash_interval_job.job.stream_job.last_schedule + 0) {
+      config_hash_interval_job.climax = config_hash_interval_job.job.stream_job.last_schedule + 0;
+      scheduler_promote_job(&config_hash_interval_job);
+    }
+  }
 }
 void canzero_set_state(input_board_state value) {
   extern input_board_state __oe_state;
@@ -4458,6 +4518,16 @@ void canzero_set_linear_encoder_count(int16_t value) {
     if (linear_encoder_interval_job.climax > linear_encoder_interval_job.job.stream_job.last_schedule + 50) {
       linear_encoder_interval_job.climax = linear_encoder_interval_job.job.stream_job.last_schedule + 50;
       scheduler_promote_job(&linear_encoder_interval_job);
+    }
+  }
+}
+void canzero_set_last_node_missed(uint8_t value) {
+  extern uint8_t __oe_last_node_missed;
+  if (__oe_last_node_missed != value) {
+    __oe_last_node_missed = value;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+      scheduler_promote_job(&errors_interval_job);
     }
   }
 }
@@ -6319,13 +6389,26 @@ void canzero_send_assertion_fault() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can0_send(&sender_frame);
 }
+void canzero_send_last_node_missed() {
+  canzero_message_get_resp msg;
+  msg.m_data |= ((uint32_t)(__oe_last_node_missed & (0xFF >> (8 - 8)))) << 0;
+  msg.m_header.m_eof = 1;
+  msg.m_header.m_sof = 1;
+  msg.m_header.m_toggle = 0;
+  msg.m_header.m_od_index = 119;
+  msg.m_header.m_client_id = 255;
+  msg.m_header.m_server_id = node_id_input_board;
+  canzero_frame sender_frame;
+  canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
+  canzero_can0_send(&sender_frame);
+}
 void canzero_send_ignore_45v() {
   canzero_message_get_resp msg;
   msg.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 119;
+  msg.m_header.m_od_index = 120;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6338,7 +6421,7 @@ void canzero_send__motor_command() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 120;
+  msg.m_header.m_od_index = 121;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6351,7 +6434,7 @@ void canzero_send_system_power_consumption() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 121;
+  msg.m_header.m_od_index = 122;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
