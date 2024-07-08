@@ -625,6 +625,10 @@ static inline float canzero_get_system_power_consumption() {
   extern float __oe_system_power_consumption;
   return __oe_system_power_consumption;
 }
+static inline float canzero_get_communication_power_consumption() {
+  extern float __oe_communication_power_consumption;
+  return __oe_communication_power_consumption;
+}
 typedef struct {
   get_resp_header m_header;
   uint32_t m_data;
@@ -731,6 +735,7 @@ typedef struct {
 static const uint32_t canzero_message_input_board_stream_temperatures_id = 0xFC;
 typedef struct {
   float m_system_power_consumption;
+  float m_communication_power_consumption;
 } canzero_message_input_board_stream_power_consumption;
 static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0xDC;
 typedef struct {
@@ -1262,6 +1267,11 @@ static inline void canzero_set_system_power_consumption(float value){
   __oe_system_power_consumption = value;
 }
 
+static inline void canzero_set_communication_power_consumption(float value){
+  extern float __oe_communication_power_consumption;
+  __oe_communication_power_consumption = value;
+}
+
 void canzero_send_config_hash();
 
 void canzero_send_build_time();
@@ -1507,5 +1517,7 @@ void canzero_send_ignore_45v();
 void canzero_send__motor_command();
 
 void canzero_send_system_power_consumption();
+
+void canzero_send_communication_power_consumption();
 
 #endif

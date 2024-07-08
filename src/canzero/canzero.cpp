@@ -135,6 +135,7 @@ uint8_t DMAMEM __oe_last_node_missed;
 bool_t DMAMEM __oe_ignore_45v;
 motor_command DMAMEM __oe__motor_command;
 float DMAMEM __oe_system_power_consumption;
+float DMAMEM __oe_communication_power_consumption;
 static void canzero_serialize_canzero_message_get_resp(canzero_message_get_resp* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
   for(uint8_t i = 0; i < 8; ++i){
@@ -398,12 +399,17 @@ static void canzero_serialize_canzero_message_input_board_stream_power_consumpti
     data[i] = 0;
   }
   frame->id = 0xDC;
-  frame->dlc = 2;
+  frame->dlc = 4;
   uint32_t system_power_consumption_0 = ((msg->m_system_power_consumption - 0) / 0.15259021896696423) + 0.5f;
   if (system_power_consumption_0 > 0xFFFF) {
     system_power_consumption_0 = 0xFFFF;
   }
   ((uint32_t*)data)[0] = system_power_consumption_0;
+  uint32_t communication_power_consumption_16 = ((msg->m_communication_power_consumption - 0) / 0.007629510948348211) + 0.5f;
+  if (communication_power_consumption_16 > 0xFFFF) {
+    communication_power_consumption_16 = 0xFFFF;
+  }
+  ((uint32_t*)data)[0] |= communication_power_consumption_16 << 16;
 }
 static void canzero_serialize_canzero_message_heartbeat_can0(canzero_message_heartbeat_can0* msg, canzero_frame* frame) {
   uint8_t* data = frame->data;
@@ -897,7 +903,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_last_node_missed = __oe_last_node_missed;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_errors(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
       case 4: {
@@ -994,9 +1000,10 @@ static void schedule_jobs(uint32_t time) {
         canzero_exit_critical();
         canzero_message_input_board_stream_power_consumption stream_message;
         stream_message.m_system_power_consumption = __oe_system_power_consumption;
+        stream_message.m_communication_power_consumption = __oe_communication_power_consumption;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_power_consumption(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
         default:
@@ -2238,6 +2245,13 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
   }
   case 122: {
     resp.m_data |= min_u32((__oe_system_power_consumption - (0)) / 0.15259021896696423, 0xFFFF) << 0;
+    resp.m_header.m_sof = 1;
+    resp.m_header.m_eof = 1;
+    resp.m_header.m_toggle = 0;
+    break;
+  }
+  case 123: {
+    resp.m_data |= min_u32((__oe_communication_power_consumption - (0)) / 0.007629510948348211, 0xFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -3899,6 +3913,15 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_system_power_consumption(system_power_consumption_tmp);
     break;
   }
+  case 123 : {
+    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
+      return;
+    }
+    float communication_power_consumption_tmp;
+    communication_power_consumption_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 16))) * 0.007629510948348211 + 0);
+    canzero_set_communication_power_consumption(communication_power_consumption_tmp);
+    break;
+  }
   default:
     return;
   }
@@ -4081,7 +4104,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 13292579970420444862ull;
+  __oe_config_hash = 12122592323638977801ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -6435,6 +6458,19 @@ void canzero_send_system_power_consumption() {
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
   msg.m_header.m_od_index = 122;
+  msg.m_header.m_client_id = 255;
+  msg.m_header.m_server_id = node_id_input_board;
+  canzero_frame sender_frame;
+  canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
+  canzero_can0_send(&sender_frame);
+}
+void canzero_send_communication_power_consumption() {
+  canzero_message_get_resp msg;
+  msg.m_data |= min_u32((__oe_communication_power_consumption - (0)) / 0.007629510948348211, 0xFFFF) << 0;
+  msg.m_header.m_eof = 1;
+  msg.m_header.m_sof = 1;
+  msg.m_header.m_toggle = 0;
+  msg.m_header.m_od_index = 123;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;

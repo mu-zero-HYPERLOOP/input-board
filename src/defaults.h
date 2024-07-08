@@ -52,4 +52,5 @@ static void can_defaults() {
   canzero_set_ignore_45v(bool_t_FALSE);
 
   canzero_set_system_power_consumption(0);
+  canzero_set_communication_power_consumption(0);
 }

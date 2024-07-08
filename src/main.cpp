@@ -149,6 +149,8 @@ calibration:
     float total_power = canzero_get_bat24_voltage() * canzero_get_bat24_current() +
       canzero_get_link45_voltage() * canzero_get_link45_current();
     canzero_set_system_power_consumption(total_power);
+    float communication_power = canzero_get_link24_current() * 24.0f;
+    canzero_set_communication_power_consumption(communication_power);
 
     state_estimation::update();
 
