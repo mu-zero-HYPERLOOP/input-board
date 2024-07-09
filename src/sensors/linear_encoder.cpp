@@ -1,6 +1,6 @@
 #include "sensors/linear_encoder.h"
 #include "firmware/input_board.h"
-#include "state_estimation.h"
+#include "state_estimation/state_estimation.h"
 #include "util/circular_queue.h"
 #include <avr/pgmspace.h>
 #include <cassert>

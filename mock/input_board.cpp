@@ -32,7 +32,7 @@
 #include "sensors/link45_voltage.h"
 #include "sensors/mass_flow_rate.h"
 #include "sensors/supercap_temperature.h"
-#include "state_estimation.h"
+#include "state_estimation/state_estimation.h"
 #include "util/interval.h"
 #include "util/timing.h"
 #include <iostream>

@@ -33,7 +33,7 @@
 #include "sensors/supercap_temperature.h"
 #include "error_handling.hpp"
 #include <avr/pgmspace.h>
-#include "state_estimation.h"
+#include "state_estimation/state_estimation.h"
 #include "util/timing.h"
 
 

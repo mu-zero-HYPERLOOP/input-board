@@ -3,7 +3,7 @@
 #include "canzero/canzero.h"
 #include "print.h"
 #include "firmware/input_board.h"
-#include "state_estimation.h"
+#include "state_estimation/state_estimation.h"
 #include "util/metrics.h"
 #include <avr/pgmspace.h>
 #include <cassert>

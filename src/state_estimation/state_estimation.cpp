@@ -124,7 +124,7 @@ void PROGMEM state_estimation::calibrate() {
   imu_variance = variance;
 }
 
-void FASTRUN state_estimation::linear_encoder_update(
+void FASTRUN linear_encoder_update(
     const sensors::linear_encoder::LinearEncoderEventTag &tag,
     const Timestamp &timestamp) {
   debugPrintf("linear encoder update\n");
@@ -177,7 +177,8 @@ void FASTRUN state_estimation::linear_encoder_update(
   ekf.h_x[imu_i] = ekf.f_xu[acc_i];
 
   BaseType measurement[DIM_OBSER];
-  measurement[stripe_i] = static_cast<float>(STRIPE_STRIDE / 2 * stripe_count);
+  measurement[stripe_i] = static_cast<float>(
+      state_estimation::STRIPE_STRIDE / 2 * stripe_count);
   measurement[imu_i] =
       ekf.h_x[imu_i]; // use predicted value as missing measurement
                       // => measurement should be ignored by filter
@@ -187,7 +188,7 @@ void FASTRUN state_estimation::linear_encoder_update(
 }
 
 
-void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
+void FASTRUN acceleration_update(const Acceleration &acc,
                                                    const Timestamp &timestamp) {
   const float dur_us = timestamp > last_state_update
                            ? (timestamp - last_state_update).as_us()
@@ -223,8 +224,10 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   // simulate missing position value based on predicted position and stripe
   // count
   const int16_t stripe_count = canzero_get_linear_encoder_count();
-  const float min_position = stripe_count * static_cast<float>(STRIPE_STRIDE / 2);
-  const float max_position = min_position + static_cast<float>(STRIPE_STRIDE / 2);
+  const float min_position = stripe_count * static_cast<float>(
+      state_estimation::STRIPE_STRIDE / 2);
+  const float max_position = min_position + static_cast<float>(
+      state_estimation::STRIPE_STRIDE / 2);
   const float possible_position =
       std::clamp(ekf.x_hat[pos_i], min_position, max_position);
   measurement[stripe_i] = possible_position;

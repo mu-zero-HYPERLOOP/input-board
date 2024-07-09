@@ -19,7 +19,7 @@ sdc_status DMAMEM __oe_sdc_status;
 float DMAMEM __oe_position;
 float DMAMEM __oe_velocity;
 float DMAMEM __oe_acceleration;
-error_flag DMAMEM __oe_error_assertion_fault;
+error_flag DMAMEM __oe_assertion_fault;
 error_flag DMAMEM __oe_error_acceleration_out_of_range;
 error_flag DMAMEM __oe_error_lateral_acceleration_out_of_range;
 error_flag DMAMEM __oe_error_vertical_acceleration_out_of_range;
@@ -130,7 +130,6 @@ float DMAMEM __oe_ambient_temperature;
 error_level_config DMAMEM __oe_error_level_config_ambient_temperature;
 float DMAMEM __oe_cooling_cycle_flow_rate;
 float DMAMEM __oe_loop_frequency;
-error_flag DMAMEM __oe_assertion_fault;
 uint8_t DMAMEM __oe_last_node_missed;
 bool_t DMAMEM __oe_ignore_45v;
 motor_command DMAMEM __oe__motor_command;
@@ -212,7 +211,7 @@ static void canzero_serialize_canzero_message_input_board_stream_errors(canzero_
   }
   frame->id = 0x52;
   frame->dlc = 8;
-  ((uint32_t*)data)[0] = (uint8_t)(msg->m_error_assertion_fault & (0xFF >> (8 - 1)));
+  ((uint32_t*)data)[0] = (uint8_t)(msg->m_assertion_fault & (0xFF >> (8 - 1)));
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_acceleration_out_of_range & (0xFF >> (8 - 1))) << 1;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_lateral_acceleration_out_of_range & (0xFF >> (8 - 1))) << 2;
   ((uint32_t*)data)[0] |= (uint8_t)(msg->m_error_vertical_acceleration_out_of_range & (0xFF >> (8 - 1))) << 3;
@@ -721,7 +720,7 @@ static void schedule_config_hash_interval_job(){
   scheduler_schedule(&config_hash_interval_job);
 }
 static job_t errors_interval_job;
-static const uint32_t errors_interval = 1;
+static const uint32_t errors_interval = 0;
 static void schedule_errors_interval_job(){
   uint32_t time = canzero_get_time();
   errors_interval_job.climax = time + errors_interval;
@@ -863,7 +862,7 @@ static void schedule_jobs(uint32_t time) {
         scheduler_reschedule(time + 1000);
         canzero_exit_critical();
         canzero_message_input_board_stream_errors stream_message;
-        stream_message.m_error_assertion_fault = __oe_error_assertion_fault;
+        stream_message.m_assertion_fault = __oe_assertion_fault;
         stream_message.m_error_acceleration_out_of_range = __oe_error_acceleration_out_of_range;
         stream_message.m_error_lateral_acceleration_out_of_range = __oe_error_lateral_acceleration_out_of_range;
         stream_message.m_error_vertical_acceleration_out_of_range = __oe_error_vertical_acceleration_out_of_range;
@@ -1198,7 +1197,7 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 7: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_error_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
+    resp.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -2216,41 +2215,34 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 118: {
-    resp.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
-    resp.m_header.m_sof = 1;
-    resp.m_header.m_eof = 1;
-    resp.m_header.m_toggle = 0;
-    break;
-  }
-  case 119: {
     resp.m_data |= ((uint32_t)(__oe_last_node_missed & (0xFF >> (8 - 8)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 120: {
+  case 119: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe_ignore_45v) & (0xFF >> (8 - 1)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 121: {
+  case 120: {
     resp.m_data |= ((uint32_t)(((uint8_t)__oe__motor_command) & (0xFF >> (8 - 3)))) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 122: {
+  case 121: {
     resp.m_data |= min_u32((__oe_system_power_consumption - (0)) / 0.15259021896696423, 0xFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
     break;
   }
-  case 123: {
+  case 122: {
     resp.m_data |= min_u32((__oe_communication_power_consumption - (0)) / 0.007629510948348211, 0xFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
@@ -2425,9 +2417,9 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_flag error_assertion_fault_tmp;
-    error_assertion_fault_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_error_assertion_fault(error_assertion_fault_tmp);
+    error_flag assertion_fault_tmp;
+    assertion_fault_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
+    canzero_set_assertion_fault(assertion_fault_tmp);
     break;
   }
   case 8 : {
@@ -3872,21 +3864,12 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
-    error_flag assertion_fault_tmp;
-    assertion_fault_tmp = ((error_flag)((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 1))));
-    canzero_set_assertion_fault(assertion_fault_tmp);
-    break;
-  }
-  case 119 : {
-    if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
-      return;
-    }
     uint8_t last_node_missed_tmp;
     last_node_missed_tmp = ((uint8_t)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 8)))));
     canzero_set_last_node_missed(last_node_missed_tmp);
     break;
   }
-  case 120 : {
+  case 119 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3895,7 +3878,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_ignore_45v(ignore_45v_tmp);
     break;
   }
-  case 121 : {
+  case 120 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3904,7 +3887,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set__motor_command(_motor_command_tmp);
     break;
   }
-  case 122 : {
+  case 121 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -3913,7 +3896,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
     canzero_set_system_power_consumption(system_power_consumption_tmp);
     break;
   }
-  case 123 : {
+  case 122 : {
     if (msg.m_header.m_sof != 1 || msg.m_header.m_toggle != 0 || msg.m_header.m_eof != 1) {
       return;
     }
@@ -4104,7 +4087,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 12122592323638977801ull;
+  __oe_config_hash = 18129203238361373546ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,
@@ -4164,12 +4147,12 @@ void canzero_set_sdc_status(sdc_status value) {
     }
   }
 }
-void canzero_set_error_assertion_fault(error_flag value) {
-  extern error_flag __oe_error_assertion_fault;
-  if (__oe_error_assertion_fault != value) {
-    __oe_error_assertion_fault = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+void canzero_set_assertion_fault(error_flag value) {
+  extern error_flag __oe_assertion_fault;
+  if (__oe_assertion_fault != value) {
+    __oe_assertion_fault = value;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4178,8 +4161,8 @@ void canzero_set_error_acceleration_out_of_range(error_flag value) {
   extern error_flag __oe_error_acceleration_out_of_range;
   if (__oe_error_acceleration_out_of_range != value) {
     __oe_error_acceleration_out_of_range = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4188,8 +4171,8 @@ void canzero_set_error_lateral_acceleration_out_of_range(error_flag value) {
   extern error_flag __oe_error_lateral_acceleration_out_of_range;
   if (__oe_error_lateral_acceleration_out_of_range != value) {
     __oe_error_lateral_acceleration_out_of_range = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4198,8 +4181,8 @@ void canzero_set_error_vertical_acceleration_out_of_range(error_flag value) {
   extern error_flag __oe_error_vertical_acceleration_out_of_range;
   if (__oe_error_vertical_acceleration_out_of_range != value) {
     __oe_error_vertical_acceleration_out_of_range = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4208,8 +4191,8 @@ void canzero_set_error_acceleration_calibration_failed(error_flag value) {
   extern error_flag __oe_error_acceleration_calibration_failed;
   if (__oe_error_acceleration_calibration_failed != value) {
     __oe_error_acceleration_calibration_failed = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4218,8 +4201,8 @@ void canzero_set_error_bat24_voltage_invalid(error_flag value) {
   extern error_flag __oe_error_bat24_voltage_invalid;
   if (__oe_error_bat24_voltage_invalid != value) {
     __oe_error_bat24_voltage_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4228,8 +4211,8 @@ void canzero_set_error_bat24_current_invalid(error_flag value) {
   extern error_flag __oe_error_bat24_current_invalid;
   if (__oe_error_bat24_current_invalid != value) {
     __oe_error_bat24_current_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4238,8 +4221,8 @@ void canzero_set_error_supercap_voltage_invalid(error_flag value) {
   extern error_flag __oe_error_supercap_voltage_invalid;
   if (__oe_error_supercap_voltage_invalid != value) {
     __oe_error_supercap_voltage_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4248,8 +4231,8 @@ void canzero_set_error_link24_current_invalid(error_flag value) {
   extern error_flag __oe_error_link24_current_invalid;
   if (__oe_error_link24_current_invalid != value) {
     __oe_error_link24_current_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4258,8 +4241,8 @@ void canzero_set_error_link45_voltage_invalid(error_flag value) {
   extern error_flag __oe_error_link45_voltage_invalid;
   if (__oe_error_link45_voltage_invalid != value) {
     __oe_error_link45_voltage_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4268,8 +4251,8 @@ void canzero_set_error_link45_current_invalid(error_flag value) {
   extern error_flag __oe_error_link45_current_invalid;
   if (__oe_error_link45_current_invalid != value) {
     __oe_error_link45_current_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4278,8 +4261,8 @@ void canzero_set_error_cooling_cycle_pressure_invalid(error_flag value) {
   extern error_flag __oe_error_cooling_cycle_pressure_invalid;
   if (__oe_error_cooling_cycle_pressure_invalid != value) {
     __oe_error_cooling_cycle_pressure_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4288,8 +4271,8 @@ void canzero_set_error_mcu_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_mcu_temperature_invalid;
   if (__oe_error_mcu_temperature_invalid != value) {
     __oe_error_mcu_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4298,8 +4281,8 @@ void canzero_set_error_cooling_cycle_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_cooling_cycle_temperature_invalid;
   if (__oe_error_cooling_cycle_temperature_invalid != value) {
     __oe_error_cooling_cycle_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4308,8 +4291,8 @@ void canzero_set_error_bat24_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_bat24_temperature_invalid;
   if (__oe_error_bat24_temperature_invalid != value) {
     __oe_error_bat24_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4318,8 +4301,8 @@ void canzero_set_error_supercap_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_supercap_temperature_invalid;
   if (__oe_error_supercap_temperature_invalid != value) {
     __oe_error_supercap_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4328,8 +4311,8 @@ void canzero_set_error_buck_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_buck_temperature_invalid;
   if (__oe_error_buck_temperature_invalid != value) {
     __oe_error_buck_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4338,8 +4321,8 @@ void canzero_set_error_ebox_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_ebox_temperature_invalid;
   if (__oe_error_ebox_temperature_invalid != value) {
     __oe_error_ebox_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4348,8 +4331,8 @@ void canzero_set_error_ambient_temperature_invalid(error_flag value) {
   extern error_flag __oe_error_ambient_temperature_invalid;
   if (__oe_error_ambient_temperature_invalid != value) {
     __oe_error_ambient_temperature_invalid = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4358,8 +4341,8 @@ void canzero_set_error_heartbeat_miss(error_flag value) {
   extern error_flag __oe_error_heartbeat_miss;
   if (__oe_error_heartbeat_miss != value) {
     __oe_error_heartbeat_miss = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4368,8 +4351,8 @@ void canzero_set_error_level_bat24_under_voltage(error_level value) {
   extern error_level __oe_error_level_bat24_under_voltage;
   if (__oe_error_level_bat24_under_voltage != value) {
     __oe_error_level_bat24_under_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4378,8 +4361,8 @@ void canzero_set_error_level_bat24_over_voltage(error_level value) {
   extern error_level __oe_error_level_bat24_over_voltage;
   if (__oe_error_level_bat24_over_voltage != value) {
     __oe_error_level_bat24_over_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4388,8 +4371,8 @@ void canzero_set_error_level_bat24_over_current(error_level value) {
   extern error_level __oe_error_level_bat24_over_current;
   if (__oe_error_level_bat24_over_current != value) {
     __oe_error_level_bat24_over_current = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4398,8 +4381,8 @@ void canzero_set_error_level_supercap_under_voltage(error_level value) {
   extern error_level __oe_error_level_supercap_under_voltage;
   if (__oe_error_level_supercap_under_voltage != value) {
     __oe_error_level_supercap_under_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4408,8 +4391,8 @@ void canzero_set_error_level_supercap_over_voltage(error_level value) {
   extern error_level __oe_error_level_supercap_over_voltage;
   if (__oe_error_level_supercap_over_voltage != value) {
     __oe_error_level_supercap_over_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4418,8 +4401,8 @@ void canzero_set_error_level_link24_over_current(error_level value) {
   extern error_level __oe_error_level_link24_over_current;
   if (__oe_error_level_link24_over_current != value) {
     __oe_error_level_link24_over_current = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4428,8 +4411,8 @@ void canzero_set_error_level_link45_under_voltage(error_level value) {
   extern error_level __oe_error_level_link45_under_voltage;
   if (__oe_error_level_link45_under_voltage != value) {
     __oe_error_level_link45_under_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4438,8 +4421,8 @@ void canzero_set_error_level_link45_over_voltage(error_level value) {
   extern error_level __oe_error_level_link45_over_voltage;
   if (__oe_error_level_link45_over_voltage != value) {
     __oe_error_level_link45_over_voltage = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4448,8 +4431,8 @@ void canzero_set_error_level_link45_over_current(error_level value) {
   extern error_level __oe_error_level_link45_over_current;
   if (__oe_error_level_link45_over_current != value) {
     __oe_error_level_link45_over_current = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4458,8 +4441,8 @@ void canzero_set_error_level_cooling_cycle_over_pressure(error_level value) {
   extern error_level __oe_error_level_cooling_cycle_over_pressure;
   if (__oe_error_level_cooling_cycle_over_pressure != value) {
     __oe_error_level_cooling_cycle_over_pressure = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4468,8 +4451,8 @@ void canzero_set_error_level_mcu_temperature(error_level value) {
   extern error_level __oe_error_level_mcu_temperature;
   if (__oe_error_level_mcu_temperature != value) {
     __oe_error_level_mcu_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4478,8 +4461,8 @@ void canzero_set_error_level_cooling_cycle_temperature(error_level value) {
   extern error_level __oe_error_level_cooling_cycle_temperature;
   if (__oe_error_level_cooling_cycle_temperature != value) {
     __oe_error_level_cooling_cycle_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4488,8 +4471,8 @@ void canzero_set_error_level_bat24_temperature(error_level value) {
   extern error_level __oe_error_level_bat24_temperature;
   if (__oe_error_level_bat24_temperature != value) {
     __oe_error_level_bat24_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4498,8 +4481,8 @@ void canzero_set_error_level_supercap_temperature(error_level value) {
   extern error_level __oe_error_level_supercap_temperature;
   if (__oe_error_level_supercap_temperature != value) {
     __oe_error_level_supercap_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4508,8 +4491,8 @@ void canzero_set_error_level_buck_temperature(error_level value) {
   extern error_level __oe_error_level_buck_temperature;
   if (__oe_error_level_buck_temperature != value) {
     __oe_error_level_buck_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4518,8 +4501,8 @@ void canzero_set_error_level_ebox_temperature(error_level value) {
   extern error_level __oe_error_level_ebox_temperature;
   if (__oe_error_level_ebox_temperature != value) {
     __oe_error_level_ebox_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4528,8 +4511,8 @@ void canzero_set_error_level_ambient_temperature(error_level value) {
   extern error_level __oe_error_level_ambient_temperature;
   if (__oe_error_level_ambient_temperature != value) {
     __oe_error_level_ambient_temperature = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4548,8 +4531,8 @@ void canzero_set_last_node_missed(uint8_t value) {
   extern uint8_t __oe_last_node_missed;
   if (__oe_last_node_missed != value) {
     __oe_last_node_missed = value;
-    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 1) {
-      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 1;
+    if (errors_interval_job.climax > errors_interval_job.job.stream_job.last_schedule + 0) {
+      errors_interval_job.climax = errors_interval_job.job.stream_job.last_schedule + 0;
       scheduler_promote_job(&errors_interval_job);
     }
   }
@@ -4689,9 +4672,9 @@ void canzero_send_acceleration() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can0_send(&sender_frame);
 }
-void canzero_send_error_assertion_fault() {
+void canzero_send_assertion_fault() {
   canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_error_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
+  msg.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -6399,26 +6382,13 @@ void canzero_send_loop_frequency() {
   canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
   canzero_can0_send(&sender_frame);
 }
-void canzero_send_assertion_fault() {
-  canzero_message_get_resp msg;
-  msg.m_data |= ((uint32_t)(((uint8_t)__oe_assertion_fault) & (0xFF >> (8 - 1)))) << 0;
-  msg.m_header.m_eof = 1;
-  msg.m_header.m_sof = 1;
-  msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 118;
-  msg.m_header.m_client_id = 255;
-  msg.m_header.m_server_id = node_id_input_board;
-  canzero_frame sender_frame;
-  canzero_serialize_canzero_message_get_resp(&msg, &sender_frame);
-  canzero_can0_send(&sender_frame);
-}
 void canzero_send_last_node_missed() {
   canzero_message_get_resp msg;
   msg.m_data |= ((uint32_t)(__oe_last_node_missed & (0xFF >> (8 - 8)))) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 119;
+  msg.m_header.m_od_index = 118;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6431,7 +6401,7 @@ void canzero_send_ignore_45v() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 120;
+  msg.m_header.m_od_index = 119;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6444,7 +6414,7 @@ void canzero_send__motor_command() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 121;
+  msg.m_header.m_od_index = 120;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6457,7 +6427,7 @@ void canzero_send_system_power_consumption() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 122;
+  msg.m_header.m_od_index = 121;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;
@@ -6470,7 +6440,7 @@ void canzero_send_communication_power_consumption() {
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
-  msg.m_header.m_od_index = 123;
+  msg.m_header.m_od_index = 122;
   msg.m_header.m_client_id = 255;
   msg.m_header.m_server_id = node_id_input_board;
   canzero_frame sender_frame;

@@ -161,9 +161,9 @@ static inline float canzero_get_acceleration() {
   extern float __oe_acceleration;
   return __oe_acceleration;
 }
-static inline error_flag canzero_get_error_assertion_fault() {
-  extern error_flag __oe_error_assertion_fault;
-  return __oe_error_assertion_fault;
+static inline error_flag canzero_get_assertion_fault() {
+  extern error_flag __oe_assertion_fault;
+  return __oe_assertion_fault;
 }
 static inline error_flag canzero_get_error_acceleration_out_of_range() {
   extern error_flag __oe_error_acceleration_out_of_range;
@@ -605,10 +605,6 @@ static inline float canzero_get_loop_frequency() {
   extern float __oe_loop_frequency;
   return __oe_loop_frequency;
 }
-static inline error_flag canzero_get_assertion_fault() {
-  extern error_flag __oe_assertion_fault;
-  return __oe_assertion_fault;
-}
 static inline uint8_t canzero_get_last_node_missed() {
   extern uint8_t __oe_last_node_missed;
   return __oe_last_node_missed;
@@ -654,7 +650,7 @@ typedef struct {
 } canzero_message_input_board_stream_config_hash;
 static const uint32_t canzero_message_input_board_stream_config_hash_id = 0x117;
 typedef struct {
-  error_flag m_error_assertion_fault;
+  error_flag m_assertion_fault;
   error_flag m_error_acceleration_out_of_range;
   error_flag m_error_lateral_acceleration_out_of_range;
   error_flag m_error_vertical_acceleration_out_of_range;
@@ -804,7 +800,7 @@ static inline void canzero_set_acceleration(float value){
   __oe_acceleration = value;
 }
 
-void canzero_set_error_assertion_fault(error_flag value);
+void canzero_set_assertion_fault(error_flag value);
 
 void canzero_set_error_acceleration_out_of_range(error_flag value);
 
@@ -1245,11 +1241,6 @@ static inline void canzero_set_loop_frequency(float value){
   __oe_loop_frequency = value;
 }
 
-static inline void canzero_set_assertion_fault(error_flag value){
-  extern error_flag __oe_assertion_fault;
-  __oe_assertion_fault = value;
-}
-
 void canzero_set_last_node_missed(uint8_t value);
 
 static inline void canzero_set_ignore_45v(bool_t value){
@@ -1286,7 +1277,7 @@ void canzero_send_velocity();
 
 void canzero_send_acceleration();
 
-void canzero_send_error_assertion_fault();
+void canzero_send_assertion_fault();
 
 void canzero_send_error_acceleration_out_of_range();
 
@@ -1507,8 +1498,6 @@ void canzero_send_error_level_config_ambient_temperature();
 void canzero_send_cooling_cycle_flow_rate();
 
 void canzero_send_loop_frequency();
-
-void canzero_send_assertion_fault();
 
 void canzero_send_last_node_missed();
 

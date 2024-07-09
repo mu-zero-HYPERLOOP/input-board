@@ -1,0 +1,99 @@
+#include "canzero/canzero.h"
+#include "print.h"
+#include "sensors/linear_encoder.h"
+#include "state_estimation.h"
+#include "util/metrics.h"
+#include "util/static_vec.h"
+#include "util/timestamp.h"
+#include <algorithm>
+#include <avr/pgmspace.h>
+
+static Timestamp last_stripe_update;
+static Acceleration last_acceleration = 0_mps2;
+static Velocity last_velocity = 0_mps;
+static Distance last_position = 0_m;
+
+void FLASHMEM state_estimation::begin() {
+  canzero_set_acceleration(0);
+  canzero_set_velocity(0);
+  canzero_set_position(0);
+  last_stripe_update = Timestamp::now();
+}
+
+void PROGMEM state_estimation::calibrate() {}
+
+void FASTRUN linear_encoder_update(
+    const sensors::linear_encoder::LinearEncoderEventTag &tag,
+    const Timestamp &timestamp) {
+  int16_t stripe_count = canzero_get_linear_encoder_count();
+  switch (tag) {
+  case sensors::linear_encoder::COUNT_INCREMENT:
+    stripe_count += 1;
+    break;
+  case sensors::linear_encoder::COUNT_DECREMENT:
+    stripe_count -= 1;
+    break;
+  case sensors::linear_encoder::COUNT_NONE: // when the linear encoder moves
+                                            // back and forth over the same
+                                            // edge.
+    break;
+  case sensors::linear_encoder::END_DETECTION_FRONT:
+  case sensors::linear_encoder::END_DETECTION_BACK:
+    break;
+  }
+  canzero_set_linear_encoder_count(stripe_count);
+
+  // perform actual state estimation here.
+  if (timestamp > last_stripe_update) {
+    Time time_since_last_update = Time(
+        (timestamp - last_stripe_update).as_us()/ 1e6);
+
+    Distance current_position = stripe_count * state_estimation::STRIPE_STRIDE / 2;
+    Velocity current_velocity = (current_position - last_position) / 
+      time_since_last_update;
+
+    last_acceleration = (current_velocity - last_velocity) /
+      time_since_last_update;
+    last_velocity = current_velocity;
+    last_position = current_position;
+  } else {
+    last_position = stripe_count * state_estimation::STRIPE_STRIDE / 2;
+    last_velocity = 0_mps;
+    last_acceleration = 0_mps2;
+  }
+  last_stripe_update = timestamp;
+}
+
+int FASTRUN state_estimation::push_acceleration_event(
+    const Acceleration &acc, const Timestamp &timestamp) {
+  return 1;
+}
+
+int FASTRUN state_estimation::push_position_event(
+    const sensors::linear_encoder::LinearEncoderEvent &e) {
+  linear_encoder_update(e.m_tag, e.m_timestamp);
+  return 1;
+}
+
+void FASTRUN state_estimation::update() {
+  const float dur_us = (Timestamp::now() - last_stripe_update).as_us();
+  constexpr float us_in_s = 1e6f;
+
+  float predicted_position = static_cast<float>(last_position) +
+    dur_us * static_cast<float>(last_velocity) / us_in_s +
+    0.5f * dur_us * dur_us * static_cast<float>(last_acceleration)
+    / us_in_s / us_in_s;
+  float predicted_velocity = static_cast<float>(last_velocity) +
+    dur_us * static_cast<float>(last_acceleration) / us_in_s;
+
+  int16_t stripe_count = canzero_get_linear_encoder_count();
+  float min_position = stripe_count * static_cast<float>(STRIPE_STRIDE / 2);
+  float max_position = min_position + static_cast<float>(STRIPE_STRIDE / 2);
+  float possible_position =
+      std::clamp(predicted_position, min_position, max_position);
+  canzero_set_position(possible_position);
+  canzero_set_velocity(predicted_velocity);
+  /*canzero_set_position(static_cast<float>(last_position));*/
+  /*canzero_set_velocity(static_cast<float>(last_velocity));*/
+  canzero_set_acceleration(static_cast<float>(last_acceleration));
+}
