@@ -120,8 +120,8 @@ void FLASHMEM state_estimation::begin() {
 void PROGMEM state_estimation::calibrate() {
   float variance = canzero_get_acceleration_calibration_variance();
   // idk do some shit with it.
-  // ekf.R[imu_i * DIM_OBSER + imu_i] = variance;
-  // imu_variance = variance;
+  ekf.R[imu_i * DIM_OBSER + imu_i] = variance;
+  imu_variance = variance;
 }
 
 void FASTRUN state_estimation::linear_encoder_update(
@@ -158,9 +158,6 @@ void FASTRUN state_estimation::linear_encoder_update(
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
                     0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
-  /*debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);*/
-  /*debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);*/
-  /* debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]); */
 
   // set jacobian of process function (derivative of f)
   float target_accel_d = 1;
@@ -189,10 +186,9 @@ void FASTRUN state_estimation::linear_encoder_update(
   ekf.R[imu_i * DIM_OBSER + imu_i] = imu_variance;
 }
 
+
 void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
                                                    const Timestamp &timestamp) {
-  /* debugPrintf("acceleration update\n"); */
-
   const float dur_us = timestamp > last_state_update
                            ? (timestamp - last_state_update).as_us()
                            : 0.0f;
@@ -204,9 +200,6 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
                     0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
-  /*debugPrintf("predicted acceleration: %f\n", ekf.f_xu[acc_i]);*/
-  /*debugPrintf("predicted speed: %f\n", ekf.f_xu[speed_i]);*/
-  /* debugPrintf("predicted position: %f\n", ekf.f_xu[pos_i]); */
 
   // set jacobian of process function (derivative of f)
   float target_accel_d = 1;
@@ -241,8 +234,6 @@ void FASTRUN state_estimation::acceleration_update(const Acceleration &acc,
   ekf.R[stripe_i * DIM_OBSER + stripe_i] = stripe_variance;
 }
 
-void FASTRUN state_estimation::target_acceleration_update(
-    const Acceleration &acc, const Timestamp &timestamp) {}
 
 int FASTRUN state_estimation::push_acceleration_event(
     const Acceleration &acc, const Timestamp &timestamp) {
@@ -277,13 +268,6 @@ void FASTRUN state_estimation::update() {
   }
   event_queue.clear();
 
-  Acceleration target_acceleration =
-      Acceleration(canzero_get_target_acceleration());
-  if ((target_acceleration - previous_target_acceleration).abs() <
-      0.00001_mps2) {
-    target_acceleration_update(target_acceleration, Timestamp::now());
-    previous_target_acceleration = target_acceleration;
-  }
   const float dur_us = (Timestamp::now() - last_state_update).as_us();
   constexpr float us_in_s = 1e6f;
   canzero_set_acceleration(ekf.x_hat[acc_i]);
@@ -292,6 +276,8 @@ void FASTRUN state_estimation::update() {
   float predicted_position =
       ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
       0.5 * dur_us * dur_us * ekf.x_hat[acc_i] / us_in_s / us_in_s;
+
+  debugPrintf("predicted position: %f\n", predicted_position);
   int16_t stripe_count = canzero_get_linear_encoder_count();
   float min_position = stripe_count * static_cast<float>(STRIPE_STRIDE / 2);
   float max_position = min_position + static_cast<float>(STRIPE_STRIDE / 2);
