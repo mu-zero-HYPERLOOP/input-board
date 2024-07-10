@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <avr/pgmspace.h>
 
-DMAMEM Acceleration previous_target_acceleration = 0_mps2;
 constexpr unsigned char DIM_STATE = 3;
 constexpr unsigned char DIM_OBSER = 2;
 constexpr unsigned int pos_i = 0;
@@ -153,7 +152,8 @@ void FASTRUN linear_encoder_update(
   last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
-  float target_accel = canzero_get_target_acceleration();
+  float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? 
+    0.0f : canzero_get_target_acceleration();
   ekf.f_xu[acc_i] = target_accel;
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
@@ -196,7 +196,8 @@ void FASTRUN acceleration_update(const Acceleration &acc,
   last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
-  float target_accel = canzero_get_target_acceleration();
+  float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? 
+    0.0f : canzero_get_target_acceleration();
   ekf.f_xu[acc_i] = target_accel;
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
@@ -280,7 +281,6 @@ void FASTRUN state_estimation::update() {
       ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
       0.5 * dur_us * dur_us * ekf.x_hat[acc_i] / us_in_s / us_in_s;
 
-  debugPrintf("predicted position: %f\n", predicted_position);
   int16_t stripe_count = canzero_get_linear_encoder_count();
   float min_position = stripe_count * static_cast<float>(STRIPE_STRIDE / 2);
   float max_position = min_position + static_cast<float>(STRIPE_STRIDE / 2);
