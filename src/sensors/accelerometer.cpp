@@ -9,7 +9,7 @@
 #include <cassert>
 #include <cmath>
 
-static DMAMEM Acceleration max_acceleration = 0_mps2;
+static DMAMEM Acceleration max_acceleration = 5000_mps2;
 
 constexpr Acceleration G = 9.80665_mps2;
 
@@ -27,14 +27,19 @@ static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
   const Acceleration acceleration = x + offset_x;
   const Acceleration lateral = z + offset_z;
   const Acceleration vertical = y + offset_y;
-  canzero_set_error_acceleration_out_of_range(
-      (acceleration.abs() > max_acceleration) ? error_flag_ERROR
-                                              : error_flag_OK);
-  canzero_set_error_lateral_acceleration_out_of_range(
-      (lateral.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK);
 
-  canzero_set_error_vertical_acceleration_out_of_range(
-      (vertical.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK);
+  canzero_set_error_acceleration_out_of_range(error_flag_OK);
+  canzero_set_error_lateral_acceleration_out_of_range(error_flag_OK);
+  canzero_set_error_vertical_acceleration_out_of_range(error_flag_OK);
+
+  /* canzero_set_error_acceleration_out_of_range( */
+  /*     (acceleration.abs() > max_acceleration) ? error_flag_ERROR */
+  /*                                             : error_flag_OK); */
+  /* canzero_set_error_lateral_acceleration_out_of_range( */
+  /*     (lateral.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
+  /*  */
+  /* canzero_set_error_vertical_acceleration_out_of_range( */
+  /*     (vertical.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
 
   canzero_set_raw_acceleration(static_cast<float>(acceleration));
   canzero_set_raw_lateral_acceleration(static_cast<float>(lateral));

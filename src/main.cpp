@@ -20,15 +20,12 @@
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_temperature.h"
 #include "sensors/bat24_voltage.h"
-#include "sensors/buck_temperature.h"
-#include "sensors/cooling_temperature.h"
 #include "sensors/ebox_temperature.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
 #include "sensors/supercap_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
-#include "sensors/mass_flow_rate.h"
 #include "sensors/mcu_temperature.h"
 #include "sensors/supercap_temperature.h"
 #include "error_handling.hpp"
@@ -57,12 +54,8 @@ int main() {
   sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
-  sensors::mass_flow_rate::begin();
-
   sensors::ambient_temperature::begin();
   sensors::bat24_temperature::begin();
-  sensors::buck_temperature::begin();
-  sensors::cooling_temperature::begin();
   sensors::ebox_temperature::begin();
   sensors::mcu_temperature::begin();
   sensors::supercap_temperature::begin();
@@ -85,12 +78,8 @@ calibration:
   sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
-  sensors::mass_flow_rate::calibrate();
-
   sensors::ambient_temperature::calibrate();
   sensors::bat24_temperature::calibrate();
-  sensors::buck_temperature::calibrate();
-  sensors::cooling_temperature::calibrate();
   sensors::ebox_temperature::calibrate();
   sensors::mcu_temperature::calibrate();
   sensors::supercap_temperature::calibrate();
@@ -128,12 +117,8 @@ calibration:
     sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
-    sensors::mass_flow_rate::update();
-
     sensors::ambient_temperature::update();
     sensors::bat24_temperature::update();
-    sensors::buck_temperature::update();
-    sensors::cooling_temperature::update();
     sensors::ebox_temperature::update();
     sensors::mcu_temperature::update();
     sensors::supercap_temperature::update();

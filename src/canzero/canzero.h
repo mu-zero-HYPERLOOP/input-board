@@ -205,37 +205,41 @@ static inline error_flag canzero_get_error_link45_current_invalid() {
   extern error_flag __oe_error_link45_current_invalid;
   return __oe_error_link45_current_invalid;
 }
-static inline error_flag canzero_get_error_cooling_cycle_pressure_invalid() {
-  extern error_flag __oe_error_cooling_cycle_pressure_invalid;
-  return __oe_error_cooling_cycle_pressure_invalid;
-}
 static inline error_flag canzero_get_error_mcu_temperature_invalid() {
   extern error_flag __oe_error_mcu_temperature_invalid;
   return __oe_error_mcu_temperature_invalid;
 }
-static inline error_flag canzero_get_error_cooling_cycle_temperature_invalid() {
-  extern error_flag __oe_error_cooling_cycle_temperature_invalid;
-  return __oe_error_cooling_cycle_temperature_invalid;
+static inline error_flag canzero_get_error_sac_ebox_temperature_invalid() {
+  extern error_flag __oe_error_sac_ebox_temperature_invalid;
+  return __oe_error_sac_ebox_temperature_invalid;
 }
-static inline error_flag canzero_get_error_bat24_temperature_invalid() {
-  extern error_flag __oe_error_bat24_temperature_invalid;
-  return __oe_error_bat24_temperature_invalid;
+static inline error_flag canzero_get_error_power_ebox_temperature_invalid() {
+  extern error_flag __oe_error_power_ebox_temperature_invalid;
+  return __oe_error_power_ebox_temperature_invalid;
+}
+static inline error_flag canzero_get_error_bat24_cell_temperature_1_invalid() {
+  extern error_flag __oe_error_bat24_cell_temperature_1_invalid;
+  return __oe_error_bat24_cell_temperature_1_invalid;
+}
+static inline error_flag canzero_get_error_bat24_cell_temperature_2_invalid() {
+  extern error_flag __oe_error_bat24_cell_temperature_2_invalid;
+  return __oe_error_bat24_cell_temperature_2_invalid;
 }
 static inline error_flag canzero_get_error_supercap_temperature_invalid() {
   extern error_flag __oe_error_supercap_temperature_invalid;
   return __oe_error_supercap_temperature_invalid;
 }
-static inline error_flag canzero_get_error_buck_temperature_invalid() {
-  extern error_flag __oe_error_buck_temperature_invalid;
-  return __oe_error_buck_temperature_invalid;
+static inline error_flag canzero_get_error_ambient_temperature_1_invalid() {
+  extern error_flag __oe_error_ambient_temperature_1_invalid;
+  return __oe_error_ambient_temperature_1_invalid;
 }
-static inline error_flag canzero_get_error_ebox_temperature_invalid() {
-  extern error_flag __oe_error_ebox_temperature_invalid;
-  return __oe_error_ebox_temperature_invalid;
+static inline error_flag canzero_get_error_ambient_temperature_2_invalid() {
+  extern error_flag __oe_error_ambient_temperature_2_invalid;
+  return __oe_error_ambient_temperature_2_invalid;
 }
-static inline error_flag canzero_get_error_ambient_temperature_invalid() {
-  extern error_flag __oe_error_ambient_temperature_invalid;
-  return __oe_error_ambient_temperature_invalid;
+static inline error_flag canzero_get_error_ambient_temperature_3_invalid() {
+  extern error_flag __oe_error_ambient_temperature_3_invalid;
+  return __oe_error_ambient_temperature_3_invalid;
 }
 static inline error_flag canzero_get_error_heartbeat_miss() {
   extern error_flag __oe_error_heartbeat_miss;
@@ -277,17 +281,9 @@ static inline error_level canzero_get_error_level_link45_over_current() {
   extern error_level __oe_error_level_link45_over_current;
   return __oe_error_level_link45_over_current;
 }
-static inline error_level canzero_get_error_level_cooling_cycle_over_pressure() {
-  extern error_level __oe_error_level_cooling_cycle_over_pressure;
-  return __oe_error_level_cooling_cycle_over_pressure;
-}
 static inline error_level canzero_get_error_level_mcu_temperature() {
   extern error_level __oe_error_level_mcu_temperature;
   return __oe_error_level_mcu_temperature;
-}
-static inline error_level canzero_get_error_level_cooling_cycle_temperature() {
-  extern error_level __oe_error_level_cooling_cycle_temperature;
-  return __oe_error_level_cooling_cycle_temperature;
 }
 static inline error_level canzero_get_error_level_bat24_temperature() {
   extern error_level __oe_error_level_bat24_temperature;
@@ -297,13 +293,13 @@ static inline error_level canzero_get_error_level_supercap_temperature() {
   extern error_level __oe_error_level_supercap_temperature;
   return __oe_error_level_supercap_temperature;
 }
-static inline error_level canzero_get_error_level_buck_temperature() {
-  extern error_level __oe_error_level_buck_temperature;
-  return __oe_error_level_buck_temperature;
+static inline error_level canzero_get_error_level_sac_ebox_temperature() {
+  extern error_level __oe_error_level_sac_ebox_temperature;
+  return __oe_error_level_sac_ebox_temperature;
 }
-static inline error_level canzero_get_error_level_ebox_temperature() {
-  extern error_level __oe_error_level_ebox_temperature;
-  return __oe_error_level_ebox_temperature;
+static inline error_level canzero_get_error_level_power_ebox_temperature() {
+  extern error_level __oe_error_level_power_ebox_temperature;
+  return __oe_error_level_power_ebox_temperature;
 }
 static inline error_level canzero_get_error_level_ambient_temperature() {
   extern error_level __oe_error_level_ambient_temperature;
@@ -521,26 +517,6 @@ static inline error_level_config canzero_get_error_level_config_link45_over_curr
   extern error_level_config __oe_error_level_config_link45_over_current;
   return __oe_error_level_config_link45_over_current;
 }
-static inline float canzero_get_cooling_cycle_pressure() {
-  extern float __oe_cooling_cycle_pressure;
-  return __oe_cooling_cycle_pressure;
-}
-static inline calibration_mode canzero_get_cooling_cycle_pressure_calibration_mode() {
-  extern calibration_mode __oe_cooling_cycle_pressure_calibration_mode;
-  return __oe_cooling_cycle_pressure_calibration_mode;
-}
-static inline float canzero_get_cooling_cycle_pressure_calibration_offset() {
-  extern float __oe_cooling_cycle_pressure_calibration_offset;
-  return __oe_cooling_cycle_pressure_calibration_offset;
-}
-static inline float canzero_get_cooling_cycle_pressure_calibration_target() {
-  extern float __oe_cooling_cycle_pressure_calibration_target;
-  return __oe_cooling_cycle_pressure_calibration_target;
-}
-static inline error_level_config canzero_get_error_level_config_cooling_cycle_over_pressure() {
-  extern error_level_config __oe_error_level_config_cooling_cycle_over_pressure;
-  return __oe_error_level_config_cooling_cycle_over_pressure;
-}
 static inline float canzero_get_mcu_temperature() {
   extern float __oe_mcu_temperature;
   return __oe_mcu_temperature;
@@ -549,17 +525,17 @@ static inline error_level_config canzero_get_error_level_config_mcu_temperature(
   extern error_level_config __oe_error_level_config_mcu_temperature;
   return __oe_error_level_config_mcu_temperature;
 }
-static inline float canzero_get_cooling_cycle_temperature() {
-  extern float __oe_cooling_cycle_temperature;
-  return __oe_cooling_cycle_temperature;
+static inline float canzero_get_bat24_cell_temperature_1() {
+  extern float __oe_bat24_cell_temperature_1;
+  return __oe_bat24_cell_temperature_1;
 }
-static inline error_level_config canzero_get_error_level_config_cooling_temperature() {
-  extern error_level_config __oe_error_level_config_cooling_temperature;
-  return __oe_error_level_config_cooling_temperature;
+static inline float canzero_get_bat24_cell_temperature_2() {
+  extern float __oe_bat24_cell_temperature_2;
+  return __oe_bat24_cell_temperature_2;
 }
-static inline float canzero_get_bat24_temperature() {
-  extern float __oe_bat24_temperature;
-  return __oe_bat24_temperature;
+static inline float canzero_get_bat24_temperature_max() {
+  extern float __oe_bat24_temperature_max;
+  return __oe_bat24_temperature_max;
 }
 static inline error_level_config canzero_get_error_level_config_bat24_temperature() {
   extern error_level_config __oe_error_level_config_bat24_temperature;
@@ -573,25 +549,41 @@ static inline error_level_config canzero_get_error_level_config_supercap_tempera
   extern error_level_config __oe_error_level_config_supercap_temperature;
   return __oe_error_level_config_supercap_temperature;
 }
-static inline float canzero_get_buck_temperature() {
-  extern float __oe_buck_temperature;
-  return __oe_buck_temperature;
+static inline float canzero_get_sac_ebox_temperature() {
+  extern float __oe_sac_ebox_temperature;
+  return __oe_sac_ebox_temperature;
 }
-static inline error_level_config canzero_get_error_level_config_buck_temperature() {
-  extern error_level_config __oe_error_level_config_buck_temperature;
-  return __oe_error_level_config_buck_temperature;
+static inline error_level_config canzero_get_error_level_config_sac_ebox_temperature() {
+  extern error_level_config __oe_error_level_config_sac_ebox_temperature;
+  return __oe_error_level_config_sac_ebox_temperature;
 }
-static inline float canzero_get_ebox_temperature() {
-  extern float __oe_ebox_temperature;
-  return __oe_ebox_temperature;
+static inline float canzero_get_power_ebox_temperature() {
+  extern float __oe_power_ebox_temperature;
+  return __oe_power_ebox_temperature;
 }
-static inline error_level_config canzero_get_error_level_config_ebox_temperature() {
-  extern error_level_config __oe_error_level_config_ebox_temperature;
-  return __oe_error_level_config_ebox_temperature;
+static inline error_level_config canzero_get_error_level_config_power_ebox_temperature() {
+  extern error_level_config __oe_error_level_config_power_ebox_temperature;
+  return __oe_error_level_config_power_ebox_temperature;
 }
-static inline float canzero_get_ambient_temperature() {
-  extern float __oe_ambient_temperature;
-  return __oe_ambient_temperature;
+static inline float canzero_get_ambient_temperature_1() {
+  extern float __oe_ambient_temperature_1;
+  return __oe_ambient_temperature_1;
+}
+static inline float canzero_get_ambient_temperature_2() {
+  extern float __oe_ambient_temperature_2;
+  return __oe_ambient_temperature_2;
+}
+static inline float canzero_get_ambient_temperature_3() {
+  extern float __oe_ambient_temperature_3;
+  return __oe_ambient_temperature_3;
+}
+static inline float canzero_get_ambient_temperature_avg() {
+  extern float __oe_ambient_temperature_avg;
+  return __oe_ambient_temperature_avg;
+}
+static inline float canzero_get_ambient_temperature_max() {
+  extern float __oe_ambient_temperature_max;
+  return __oe_ambient_temperature_max;
 }
 static inline error_level_config canzero_get_error_level_config_ambient_temperature() {
   extern error_level_config __oe_error_level_config_ambient_temperature;
@@ -661,14 +653,15 @@ typedef struct {
   error_flag m_error_link24_current_invalid;
   error_flag m_error_link45_voltage_invalid;
   error_flag m_error_link45_current_invalid;
-  error_flag m_error_cooling_cycle_pressure_invalid;
   error_flag m_error_mcu_temperature_invalid;
-  error_flag m_error_cooling_cycle_temperature_invalid;
-  error_flag m_error_bat24_temperature_invalid;
+  error_flag m_error_sac_ebox_temperature_invalid;
+  error_flag m_error_power_ebox_temperature_invalid;
+  error_flag m_error_bat24_cell_temperature_1_invalid;
+  error_flag m_error_bat24_cell_temperature_2_invalid;
   error_flag m_error_supercap_temperature_invalid;
-  error_flag m_error_buck_temperature_invalid;
-  error_flag m_error_ebox_temperature_invalid;
-  error_flag m_error_ambient_temperature_invalid;
+  error_flag m_error_ambient_temperature_1_invalid;
+  error_flag m_error_ambient_temperature_2_invalid;
+  error_flag m_error_ambient_temperature_3_invalid;
   error_flag m_error_heartbeat_miss;
   error_level m_error_level_bat24_under_voltage;
   error_level m_error_level_bat24_over_voltage;
@@ -679,13 +672,11 @@ typedef struct {
   error_level m_error_level_link45_under_voltage;
   error_level m_error_level_link45_over_voltage;
   error_level m_error_level_link45_over_current;
-  error_level m_error_level_cooling_cycle_over_pressure;
   error_level m_error_level_mcu_temperature;
-  error_level m_error_level_cooling_cycle_temperature;
   error_level m_error_level_bat24_temperature;
   error_level m_error_level_supercap_temperature;
-  error_level m_error_level_buck_temperature;
-  error_level m_error_level_ebox_temperature;
+  error_level m_error_level_sac_ebox_temperature;
+  error_level m_error_level_power_ebox_temperature;
   error_level m_error_level_ambient_temperature;
   uint8_t m_last_node_missed;
 } canzero_message_input_board_stream_errors;
@@ -693,7 +684,7 @@ static const uint32_t canzero_message_input_board_stream_errors_id = 0x52;
 typedef struct {
   int16_t m_linear_encoder_count;
 } canzero_message_input_board_stream_linear_encoder;
-static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x7C;
+static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x9C;
 typedef struct {
   float m_raw_acceleration;
   float m_lateral_acceleration;
@@ -704,36 +695,44 @@ typedef struct {
   float m_bat24_voltage;
   float m_bat24_current;
 } canzero_message_input_board_stream_bat24;
-static const uint32_t canzero_message_input_board_stream_bat24_id = 0x17D;
+static const uint32_t canzero_message_input_board_stream_bat24_id = 0x5C;
 typedef struct {
   float m_supercap_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
-static const uint32_t canzero_message_input_board_stream_link24_id = 0x9C;
+static const uint32_t canzero_message_input_board_stream_link24_id = 0xBC;
 typedef struct {
   float m_link45_voltage;
   float m_link45_current;
 } canzero_message_input_board_stream_link45;
-static const uint32_t canzero_message_input_board_stream_link45_id = 0xBC;
-typedef struct {
-  float m_cooling_cycle_pressure;
-  float m_cooling_cycle_temperature;
-} canzero_message_input_board_stream_cooling;
-static const uint32_t canzero_message_input_board_stream_cooling_id = 0x5C;
+static const uint32_t canzero_message_input_board_stream_link45_id = 0xDC;
 typedef struct {
   float m_mcu_temperature;
-  float m_bat24_temperature;
   float m_supercap_temperature;
-  float m_buck_temperature;
-  float m_ebox_temperature;
-  float m_ambient_temperature;
-} canzero_message_input_board_stream_temperatures;
-static const uint32_t canzero_message_input_board_stream_temperatures_id = 0xFC;
+  float m_sac_ebox_temperature;
+  float m_power_ebox_temperature;
+} canzero_message_input_board_stream_mics_temperatures;
+static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0xFC;
+typedef struct {
+  float m_bat24_cell_temperature_1;
+  float m_bat24_cell_temperature_2;
+  float m_bat24_temperature_max;
+} canzero_message_input_board_stream_bat_temperatures;
+static const uint32_t canzero_message_input_board_stream_bat_temperatures_id = 0x7C;
+typedef struct {
+  float m_ambient_temperature_1;
+  float m_ambient_temperature_2;
+  float m_ambient_temperature_3;
+  float m_ambient_temperature_max;
+  float m_ambient_temperature_avg;
+  float m_supercap_temperature;
+} canzero_message_input_board_stream_ambient_temperatures;
+static const uint32_t canzero_message_input_board_stream_ambient_temperatures_id = 0x17D;
 typedef struct {
   float m_system_power_consumption;
   float m_communication_power_consumption;
 } canzero_message_input_board_stream_power_consumption;
-static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0xDC;
+static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0x11C;
 typedef struct {
   uint8_t m_node_id;
   uint8_t m_unregister;
@@ -822,21 +821,23 @@ void canzero_set_error_link45_voltage_invalid(error_flag value);
 
 void canzero_set_error_link45_current_invalid(error_flag value);
 
-void canzero_set_error_cooling_cycle_pressure_invalid(error_flag value);
-
 void canzero_set_error_mcu_temperature_invalid(error_flag value);
 
-void canzero_set_error_cooling_cycle_temperature_invalid(error_flag value);
+void canzero_set_error_sac_ebox_temperature_invalid(error_flag value);
 
-void canzero_set_error_bat24_temperature_invalid(error_flag value);
+void canzero_set_error_power_ebox_temperature_invalid(error_flag value);
+
+void canzero_set_error_bat24_cell_temperature_1_invalid(error_flag value);
+
+void canzero_set_error_bat24_cell_temperature_2_invalid(error_flag value);
 
 void canzero_set_error_supercap_temperature_invalid(error_flag value);
 
-void canzero_set_error_buck_temperature_invalid(error_flag value);
+void canzero_set_error_ambient_temperature_1_invalid(error_flag value);
 
-void canzero_set_error_ebox_temperature_invalid(error_flag value);
+void canzero_set_error_ambient_temperature_2_invalid(error_flag value);
 
-void canzero_set_error_ambient_temperature_invalid(error_flag value);
+void canzero_set_error_ambient_temperature_3_invalid(error_flag value);
 
 void canzero_set_error_heartbeat_miss(error_flag value);
 
@@ -858,19 +859,15 @@ void canzero_set_error_level_link45_over_voltage(error_level value);
 
 void canzero_set_error_level_link45_over_current(error_level value);
 
-void canzero_set_error_level_cooling_cycle_over_pressure(error_level value);
-
 void canzero_set_error_level_mcu_temperature(error_level value);
-
-void canzero_set_error_level_cooling_cycle_temperature(error_level value);
 
 void canzero_set_error_level_bat24_temperature(error_level value);
 
 void canzero_set_error_level_supercap_temperature(error_level value);
 
-void canzero_set_error_level_buck_temperature(error_level value);
+void canzero_set_error_level_sac_ebox_temperature(error_level value);
 
-void canzero_set_error_level_ebox_temperature(error_level value);
+void canzero_set_error_level_power_ebox_temperature(error_level value);
 
 void canzero_set_error_level_ambient_temperature(error_level value);
 
@@ -1136,31 +1133,6 @@ static inline void canzero_set_error_level_config_link45_over_current(error_leve
   __oe_error_level_config_link45_over_current = value;
 }
 
-static inline void canzero_set_cooling_cycle_pressure(float value){
-  extern float __oe_cooling_cycle_pressure;
-  __oe_cooling_cycle_pressure = value;
-}
-
-static inline void canzero_set_cooling_cycle_pressure_calibration_mode(calibration_mode value){
-  extern calibration_mode __oe_cooling_cycle_pressure_calibration_mode;
-  __oe_cooling_cycle_pressure_calibration_mode = value;
-}
-
-static inline void canzero_set_cooling_cycle_pressure_calibration_offset(float value){
-  extern float __oe_cooling_cycle_pressure_calibration_offset;
-  __oe_cooling_cycle_pressure_calibration_offset = value;
-}
-
-static inline void canzero_set_cooling_cycle_pressure_calibration_target(float value){
-  extern float __oe_cooling_cycle_pressure_calibration_target;
-  __oe_cooling_cycle_pressure_calibration_target = value;
-}
-
-static inline void canzero_set_error_level_config_cooling_cycle_over_pressure(error_level_config value){
-  extern error_level_config __oe_error_level_config_cooling_cycle_over_pressure;
-  __oe_error_level_config_cooling_cycle_over_pressure = value;
-}
-
 static inline void canzero_set_mcu_temperature(float value){
   extern float __oe_mcu_temperature;
   __oe_mcu_temperature = value;
@@ -1171,19 +1143,19 @@ static inline void canzero_set_error_level_config_mcu_temperature(error_level_co
   __oe_error_level_config_mcu_temperature = value;
 }
 
-static inline void canzero_set_cooling_cycle_temperature(float value){
-  extern float __oe_cooling_cycle_temperature;
-  __oe_cooling_cycle_temperature = value;
+static inline void canzero_set_bat24_cell_temperature_1(float value){
+  extern float __oe_bat24_cell_temperature_1;
+  __oe_bat24_cell_temperature_1 = value;
 }
 
-static inline void canzero_set_error_level_config_cooling_temperature(error_level_config value){
-  extern error_level_config __oe_error_level_config_cooling_temperature;
-  __oe_error_level_config_cooling_temperature = value;
+static inline void canzero_set_bat24_cell_temperature_2(float value){
+  extern float __oe_bat24_cell_temperature_2;
+  __oe_bat24_cell_temperature_2 = value;
 }
 
-static inline void canzero_set_bat24_temperature(float value){
-  extern float __oe_bat24_temperature;
-  __oe_bat24_temperature = value;
+static inline void canzero_set_bat24_temperature_max(float value){
+  extern float __oe_bat24_temperature_max;
+  __oe_bat24_temperature_max = value;
 }
 
 static inline void canzero_set_error_level_config_bat24_temperature(error_level_config value){
@@ -1201,29 +1173,49 @@ static inline void canzero_set_error_level_config_supercap_temperature(error_lev
   __oe_error_level_config_supercap_temperature = value;
 }
 
-static inline void canzero_set_buck_temperature(float value){
-  extern float __oe_buck_temperature;
-  __oe_buck_temperature = value;
+static inline void canzero_set_sac_ebox_temperature(float value){
+  extern float __oe_sac_ebox_temperature;
+  __oe_sac_ebox_temperature = value;
 }
 
-static inline void canzero_set_error_level_config_buck_temperature(error_level_config value){
-  extern error_level_config __oe_error_level_config_buck_temperature;
-  __oe_error_level_config_buck_temperature = value;
+static inline void canzero_set_error_level_config_sac_ebox_temperature(error_level_config value){
+  extern error_level_config __oe_error_level_config_sac_ebox_temperature;
+  __oe_error_level_config_sac_ebox_temperature = value;
 }
 
-static inline void canzero_set_ebox_temperature(float value){
-  extern float __oe_ebox_temperature;
-  __oe_ebox_temperature = value;
+static inline void canzero_set_power_ebox_temperature(float value){
+  extern float __oe_power_ebox_temperature;
+  __oe_power_ebox_temperature = value;
 }
 
-static inline void canzero_set_error_level_config_ebox_temperature(error_level_config value){
-  extern error_level_config __oe_error_level_config_ebox_temperature;
-  __oe_error_level_config_ebox_temperature = value;
+static inline void canzero_set_error_level_config_power_ebox_temperature(error_level_config value){
+  extern error_level_config __oe_error_level_config_power_ebox_temperature;
+  __oe_error_level_config_power_ebox_temperature = value;
 }
 
-static inline void canzero_set_ambient_temperature(float value){
-  extern float __oe_ambient_temperature;
-  __oe_ambient_temperature = value;
+static inline void canzero_set_ambient_temperature_1(float value){
+  extern float __oe_ambient_temperature_1;
+  __oe_ambient_temperature_1 = value;
+}
+
+static inline void canzero_set_ambient_temperature_2(float value){
+  extern float __oe_ambient_temperature_2;
+  __oe_ambient_temperature_2 = value;
+}
+
+static inline void canzero_set_ambient_temperature_3(float value){
+  extern float __oe_ambient_temperature_3;
+  __oe_ambient_temperature_3 = value;
+}
+
+static inline void canzero_set_ambient_temperature_avg(float value){
+  extern float __oe_ambient_temperature_avg;
+  __oe_ambient_temperature_avg = value;
+}
+
+static inline void canzero_set_ambient_temperature_max(float value){
+  extern float __oe_ambient_temperature_max;
+  __oe_ambient_temperature_max = value;
 }
 
 static inline void canzero_set_error_level_config_ambient_temperature(error_level_config value){
@@ -1299,21 +1291,23 @@ void canzero_send_error_link45_voltage_invalid();
 
 void canzero_send_error_link45_current_invalid();
 
-void canzero_send_error_cooling_cycle_pressure_invalid();
-
 void canzero_send_error_mcu_temperature_invalid();
 
-void canzero_send_error_cooling_cycle_temperature_invalid();
+void canzero_send_error_sac_ebox_temperature_invalid();
 
-void canzero_send_error_bat24_temperature_invalid();
+void canzero_send_error_power_ebox_temperature_invalid();
+
+void canzero_send_error_bat24_cell_temperature_1_invalid();
+
+void canzero_send_error_bat24_cell_temperature_2_invalid();
 
 void canzero_send_error_supercap_temperature_invalid();
 
-void canzero_send_error_buck_temperature_invalid();
+void canzero_send_error_ambient_temperature_1_invalid();
 
-void canzero_send_error_ebox_temperature_invalid();
+void canzero_send_error_ambient_temperature_2_invalid();
 
-void canzero_send_error_ambient_temperature_invalid();
+void canzero_send_error_ambient_temperature_3_invalid();
 
 void canzero_send_error_heartbeat_miss();
 
@@ -1335,19 +1329,15 @@ void canzero_send_error_level_link45_over_voltage();
 
 void canzero_send_error_level_link45_over_current();
 
-void canzero_send_error_level_cooling_cycle_over_pressure();
-
 void canzero_send_error_level_mcu_temperature();
-
-void canzero_send_error_level_cooling_cycle_temperature();
 
 void canzero_send_error_level_bat24_temperature();
 
 void canzero_send_error_level_supercap_temperature();
 
-void canzero_send_error_level_buck_temperature();
+void canzero_send_error_level_sac_ebox_temperature();
 
-void canzero_send_error_level_ebox_temperature();
+void canzero_send_error_level_power_ebox_temperature();
 
 void canzero_send_error_level_ambient_temperature();
 
@@ -1457,25 +1447,15 @@ void canzero_send_link45_current_calibration_target();
 
 void canzero_send_error_level_config_link45_over_current();
 
-void canzero_send_cooling_cycle_pressure();
-
-void canzero_send_cooling_cycle_pressure_calibration_mode();
-
-void canzero_send_cooling_cycle_pressure_calibration_offset();
-
-void canzero_send_cooling_cycle_pressure_calibration_target();
-
-void canzero_send_error_level_config_cooling_cycle_over_pressure();
-
 void canzero_send_mcu_temperature();
 
 void canzero_send_error_level_config_mcu_temperature();
 
-void canzero_send_cooling_cycle_temperature();
+void canzero_send_bat24_cell_temperature_1();
 
-void canzero_send_error_level_config_cooling_temperature();
+void canzero_send_bat24_cell_temperature_2();
 
-void canzero_send_bat24_temperature();
+void canzero_send_bat24_temperature_max();
 
 void canzero_send_error_level_config_bat24_temperature();
 
@@ -1483,15 +1463,23 @@ void canzero_send_supercap_temperature();
 
 void canzero_send_error_level_config_supercap_temperature();
 
-void canzero_send_buck_temperature();
+void canzero_send_sac_ebox_temperature();
 
-void canzero_send_error_level_config_buck_temperature();
+void canzero_send_error_level_config_sac_ebox_temperature();
 
-void canzero_send_ebox_temperature();
+void canzero_send_power_ebox_temperature();
 
-void canzero_send_error_level_config_ebox_temperature();
+void canzero_send_error_level_config_power_ebox_temperature();
 
-void canzero_send_ambient_temperature();
+void canzero_send_ambient_temperature_1();
+
+void canzero_send_ambient_temperature_2();
+
+void canzero_send_ambient_temperature_3();
+
+void canzero_send_ambient_temperature_avg();
+
+void canzero_send_ambient_temperature_max();
 
 void canzero_send_error_level_config_ambient_temperature();
 
