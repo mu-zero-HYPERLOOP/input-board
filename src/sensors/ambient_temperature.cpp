@@ -1,10 +1,10 @@
 #include "sensors/ambient_temperature.h"
-#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "sensors/formulas/ntc_north_star.h"
 #include "sensors/formulas/voltage_divider.h"
+#include "util/boxcar.h"
 #include "util/metrics.h"
 #include <avr/pgmspace.h>
 #include <cassert>
@@ -14,20 +14,42 @@ using sensors::ambient_temperature::NTC_R_REF;
 using sensors::ambient_temperature::NTC_T_REF;
 using sensors::ambient_temperature::R_MEAS;
 
-static DMAMEM BoxcarFilter<Temperature, 10> filter(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 10> filter_ambient1(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 10> filter_ambient2(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 10> filter_ambient3(24_Celcius);
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
-    error_check(canzero_get_ambient_temperature,
+    error_check(canzero_get_ambient_temperature_max,
                 canzero_get_error_level_config_ambient_temperature,
                 canzero_set_error_level_ambient_temperature);
 
-static void FASTRUN on_value(const Voltage &v) {
+static void FASTRUN on_value_ambient1(const Voltage &v) {
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
-  /* const Temperature temperature = */
-  /*     sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF); */
-  const Temperature temperature = 24_Celcius;
-  filter.push(temperature);
-  canzero_set_ambient_temperature(static_cast<float>(filter.get() - 0_Celcius));
+  const Temperature temperature =
+      sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
+  filter_ambient1.push(temperature);
+  canzero_set_ambient_temperature_1(
+      static_cast<float>(filter_ambient1.get() - 0_Celcius));
+}
+
+static void FASTRUN on_value_ambient2(const Voltage &v) {
+  const Resistance r_ntc =
+      sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
+  const Temperature temperature =
+      sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
+  filter_ambient2.push(temperature);
+  canzero_set_ambient_temperature_1(
+      static_cast<float>(filter_ambient2.get() - 0_Celcius));
+}
+
+static void FASTRUN on_value_ambient3(const Voltage &v) {
+  const Resistance r_ntc =
+      sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
+  const Temperature temperature =
+      sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
+  filter_ambient3.push(temperature);
+  canzero_set_ambient_temperature_1(
+      static_cast<float>(filter_ambient3.get() - 0_Celcius));
 }
 
 void FLASHMEM sensors::ambient_temperature::begin() {
@@ -43,24 +65,68 @@ void FLASHMEM sensors::ambient_temperature::begin() {
       .m_ignore_error = bool_t_FALSE,
   });
   canzero_set_error_level_ambient_temperature(error_level_OK);
-  canzero_set_error_ambient_temperature_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_1_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
 
-  canzero_set_ambient_temperature(24);
-  assert(input_board::register_periodic_reading(FREQUENCY, PIN, on_value));
+  canzero_set_ambient_temperature_1(20);
+  canzero_set_ambient_temperature_2(20);
+  canzero_set_ambient_temperature_3(20);
+  canzero_set_ambient_temperature_avg(20);
+  canzero_set_ambient_temperature_max(20);
+  assert(input_board::register_periodic_reading(FREQUENCY, PIN_AMBIENT_1,
+                                                on_value_ambient1));
+  assert(input_board::register_periodic_reading(FREQUENCY, PIN_AMBIENT_2,
+                                                on_value_ambient2));
+  assert(input_board::register_periodic_reading(FREQUENCY, PIN_AMBIENT_3,
+                                                on_value_ambient3));
 }
 
 void PROGMEM sensors::ambient_temperature::calibrate() {
-  for (size_t i = 0; i < filter.size(); ++i) {
-    on_value(input_board::sync_read(PIN));
+  for (size_t i = 0; i < filter_ambient1.size(); ++i) {
+    on_value_ambient1(input_board::sync_read(PIN_AMBIENT_1));
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  const bool sensible =
-      filter.get() <= 100_Celcius && filter.get() >= 0_Celcius;
-  canzero_set_error_ambient_temperature_invalid(sensible ? error_flag_OK
-                                                         : error_flag_ERROR);
+  for (size_t i = 0; i < filter_ambient2.size(); ++i) {
+    on_value_ambient2(input_board::sync_read(PIN_AMBIENT_2));
+    canzero_update_continue(canzero_get_time());
+    input_board::delay(1_ms);
+  }
+  for (size_t i = 0; i < filter_ambient3.size(); ++i) {
+    on_value_ambient3(input_board::sync_read(PIN_AMBIENT_3));
+    canzero_update_continue(canzero_get_time());
+    input_board::delay(1_ms);
+  }
 }
 
-void FASTRUN sensors::ambient_temperature::update() { 
-  error_check.check(); 
+void FASTRUN sensors::ambient_temperature::update() {
+  canzero_set_ambient_temperature_max(
+      std::max(std::max(canzero_get_ambient_temperature_1(),
+                        canzero_get_ambient_temperature_2()),
+               canzero_get_ambient_temperature_3()));
+  canzero_set_ambient_temperature_avg((canzero_get_ambient_temperature_1() +
+                                       canzero_get_ambient_temperature_2() +
+                                       canzero_get_ambient_temperature_3()) /
+                                      3.0f);
+
+  {
+    const bool sensible =
+        filter_ambient1.get() <= 100_Celcius && filter_ambient1.get() >= 0_Celcius;
+    canzero_set_error_ambient_temperature_1_invalid(sensible ? error_flag_OK
+                                                           : error_flag_ERROR);
+  }
+  {
+    const bool sensible =
+        filter_ambient2.get() <= 100_Celcius && filter_ambient2.get() >= 0_Celcius;
+    canzero_set_error_ambient_temperature_2_invalid(sensible ? error_flag_OK
+                                                           : error_flag_ERROR);
+  }
+  {
+    const bool sensible =
+        filter_ambient3.get() <= 100_Celcius && filter_ambient3.get() >= 0_Celcius;
+    canzero_set_error_ambient_temperature_3_invalid(sensible ? error_flag_OK
+                                                           : error_flag_ERROR);
+  }
+  error_check.check();
 }

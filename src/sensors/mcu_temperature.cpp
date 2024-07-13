@@ -1,5 +1,4 @@
 #include "sensors/mcu_temperature.h"
-#include "print.h"
 #include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
@@ -20,7 +19,7 @@ void FLASHMEM sensors::mcu_temperature::begin() {
   canzero_set_error_mcu_temperature_invalid(error_flag_OK);
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_config_mcu_temperature(error_level_config{
-      .m_info_thresh = 45,
+      .m_info_thresh = 55,
       .m_info_timeout = 5,
       .m_warning_thresh = 65,
       .m_warning_timeout = 5,
@@ -30,8 +29,6 @@ void FLASHMEM sensors::mcu_temperature::begin() {
       .m_ignore_warning = bool_t_FALSE,
       .m_ignore_error = bool_t_FALSE,
   });
-
-  // pass
 }
 
 void PROGMEM sensors::mcu_temperature::calibrate() {
@@ -40,16 +37,15 @@ void PROGMEM sensors::mcu_temperature::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  const bool sensible =
-      filter.get() <= 200_Celcius && filter.get() >= 0_Celcius;
-  canzero_set_error_mcu_temperature_invalid(sensible ? error_flag_OK
-                                                     : error_flag_ERROR);
 }
 
 void FASTRUN sensors::mcu_temperature::update() {
   if (interval.next()) {
     filter.push(input_board::read_mcu_temperature());
     canzero_set_mcu_temperature(static_cast<float>(filter.get() - 0_Celcius));
+
+    const bool sensible = filter.get() <= 200_Celcius && filter.get() >= 0_Celcius;
+    canzero_set_error_mcu_temperature_invalid(sensible ? error_flag_OK : error_flag_ERROR);
   }
   error_check.check();
 }

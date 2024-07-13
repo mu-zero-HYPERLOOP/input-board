@@ -1,5 +1,5 @@
 /** @author      : kistenklaus (karlsasssie@gmail.com)
- * @file        : main
+ readonly* @file        : main
  * @created     : Dienstag Apr 09, 2024 14:48:23 CEST
  */
 

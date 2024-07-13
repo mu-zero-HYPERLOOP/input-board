@@ -17,8 +17,6 @@
 
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_voltage.h"
-#include "sensors/buck_temperature.h"
-#include "sensors/cooling_temperature.h"
 #include "sensors/ebox_temperature.h"
 #include "sensors/formulas/hall_sensors.h"
 #include "sensors/formulas/isolated_voltage.h"
@@ -179,17 +177,17 @@ Voltage sync_read(ain_pin pin) {
   }
   case ain_pin::ain_ntc_mux:
   case ain_pin::ain_mux:
-    if (mux_helper(pin, sensors::cooling_temperature::PIN)) {
+    if (mux_helper(pin, sensors::ebox_temperature::PIN_SAC)) {
       constexpr Temperature mock = 24_Celcius;
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
-          mock, sensors::cooling_temperature::NTC_BETA,
-          sensors::cooling_temperature::NTC_R_REF,
-          sensors::cooling_temperature::NTC_T_REF);
+          mock, sensors::ebox_temperature::NTC_BETA,
+          sensors::ebox_temperature::NTC_R_REF,
+          sensors::ebox_temperature::NTC_T_REF);
       const Voltage v = sensors::formula::vout_of_voltage_divider(
-          5_V, r_ntc, sensors::cooling_temperature::R_MEAS);
+          5_V, r_ntc, sensors::ebox_temperature::R_MEAS);
       std::normal_distribution dist{static_cast<float>(v), 0.1f};
       return Voltage(dist(gen));
-    } else if (mux_helper(pin, sensors::ebox_temperature::PIN)) {
+    } else if (mux_helper(pin, sensors::ebox_temperature::PIN_POWER)) {
       constexpr Temperature mock = 24_Celcius;
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
           mock, sensors::ebox_temperature::NTC_BETA,
@@ -209,7 +207,8 @@ Voltage sync_read(ain_pin pin) {
           5_V, r_ntc, sensors::supercap_temperature::R_MEAS);
       std::normal_distribution dist{static_cast<float>(v), 0.1f};
       return Voltage(dist(gen));
-    } else if (mux_helper(pin, sensors::bat24_temperature::PIN)) {
+    } else if (mux_helper(pin, sensors::bat24_temperature::PIN_CELL1)
+        || mux_helper(pin, sensors::bat24_temperature::PIN_CELL2)) {
       constexpr Temperature mock = 24_Celcius;
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
           mock, sensors::bat24_temperature::NTC_BETA,
@@ -219,7 +218,9 @@ Voltage sync_read(ain_pin pin) {
           5_V, r_ntc, sensors::bat24_temperature::R_MEAS);
       std::normal_distribution dist{static_cast<float>(v), 0.1f};
       return Voltage(dist(gen));
-    } else if (mux_helper(pin, sensors::ambient_temperature::PIN)) {
+    } else if (mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_1)
+        || mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_2) 
+        || mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_3)) {
       constexpr Temperature mock = 24_Celcius;
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
           mock, sensors::ambient_temperature::NTC_BETA,
@@ -227,16 +228,6 @@ Voltage sync_read(ain_pin pin) {
           sensors::ambient_temperature::NTC_T_REF);
       const Voltage v = sensors::formula::vout_of_voltage_divider(
           5_V, r_ntc, sensors::ambient_temperature::R_MEAS);
-      std::normal_distribution dist{static_cast<float>(v), 0.1f};
-      return Voltage(dist(gen));
-    } else if (mux_helper(pin, sensors::buck_temperature::PIN)) {
-      constexpr Temperature mock = 24_Celcius;
-      const Resistance r_ntc = sensors::formula::inv_ntc_beta(
-          mock, sensors::buck_temperature::NTC_BETA,
-          sensors::buck_temperature::NTC_R_REF,
-          sensors::buck_temperature::NTC_T_REF);
-      const Voltage v = sensors::formula::vout_of_voltage_divider(
-          5_V, r_ntc, sensors::buck_temperature::R_MEAS);
       std::normal_distribution dist{static_cast<float>(v), 0.1f};
       return Voltage(dist(gen));
     } else {

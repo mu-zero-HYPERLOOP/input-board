@@ -6,7 +6,7 @@
 
 bool error_handling::no_error() {
   return true;
-  const auto error_flags = std::array<error_flag, 18>{
+  const auto error_flags = std::array<error_flag, 25>{
     canzero_get_error_heartbeat_miss(),
     canzero_get_error_bat24_current_invalid(),
     canzero_get_error_bat24_voltage_invalid(),
@@ -21,10 +21,17 @@ bool error_handling::no_error() {
     canzero_get_error_ambient_temperature_1_invalid(),
     canzero_get_error_ambient_temperature_2_invalid(),
     canzero_get_error_ambient_temperature_3_invalid(),
+    canzero_get_error_acceleration_out_of_range(),
     canzero_get_error_supercap_temperature_invalid(),
     canzero_get_error_acceleration_calibration_failed(),
     canzero_get_error_lateral_acceleration_out_of_range(),
     canzero_get_error_vertical_acceleration_out_of_range(),
+    canzero_get_error_mcu_temperature_invalid(),
+    canzero_get_error_ambient_temperature_1_invalid(),
+    canzero_get_error_ambient_temperature_2_invalid(),
+    canzero_get_error_ambient_temperature_3_invalid(),
+    canzero_get_error_bat24_cell_temperature_1_invalid(),
+    canzero_get_error_bat24_cell_temperature_2_invalid(),
   };
 
   const auto max_error_flag_it = std::max_element(error_flags.begin(), error_flags.end());
@@ -35,7 +42,7 @@ bool error_handling::no_error() {
     return false;
   }
 
-  const auto error_levels = std::array<error_level, 15>{
+  const auto error_levels = std::array<error_level, 13>{
       canzero_get_error_level_mcu_temperature(),
       canzero_get_error_level_sac_ebox_temperature(),
       canzero_get_error_level_power_ebox_temperature(),

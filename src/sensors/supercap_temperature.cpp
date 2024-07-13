@@ -1,9 +1,9 @@
 #include "sensors/supercap_temperature.h"
-#include "util/boxcar.h"
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
 #include "sensors/formulas/ntc_north_star.h"
+#include "util/boxcar.h"
 #include <avr/pgmspace.h>
 #include <cassert>
 
@@ -22,9 +22,8 @@ static void FASTRUN on_value(const Voltage &v) {
   const Current i_ntc = v / R_MEAS;
   const Voltage v_ntc = 5_V - v;
   const Resistance r_ntc = v_ntc / i_ntc;
-  /* const Temperature temperature = */
-  /*     sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF); */
-  const Temperature temperature = 24_Celcius;
+  const Temperature temperature =
+      sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
   filter.push(temperature);
 
   canzero_set_supercap_temperature(
@@ -55,10 +54,13 @@ void PROGMEM sensors::supercap_temperature::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
+}
+
+void FASTRUN sensors::supercap_temperature::update() {
+
   const bool sensable =
       filter.get() <= 200_Celcius && filter.get() >= 0_Celcius;
   canzero_set_error_supercap_temperature_invalid(sensable ? error_flag_OK
                                                           : error_flag_ERROR);
+  error_check.check();
 }
-
-void FASTRUN sensors::supercap_temperature::update() { error_check.check(); }
