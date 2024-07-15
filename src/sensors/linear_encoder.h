@@ -25,8 +25,8 @@ enum Direction : uint8_t {
   DIRECTION_NONE = 2,
 };
 
-constexpr din_pin PIN_FRONT = din_pin::din_2;
-constexpr din_pin PIN_BACK = din_pin::din_3;
+constexpr din_pin PIN_FRONT = din_pin::din_3;
+constexpr din_pin PIN_BACK = din_pin::din_2;
 constexpr din_pin PIN_END_DETECTION_FRONT = din_pin::din_4;
 constexpr din_pin PIN_END_DETECTION_BACK = din_pin::din_5;
 

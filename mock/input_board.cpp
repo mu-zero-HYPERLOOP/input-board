@@ -28,7 +28,6 @@
 #include "sensors/supercap_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
-#include "sensors/mass_flow_rate.h"
 #include "sensors/supercap_temperature.h"
 #include "state_estimation/state_estimation.h"
 #include "util/interval.h"
@@ -229,7 +228,7 @@ Voltage sync_read(ain_pin pin) {
       const Voltage v = sensors::formula::vout_of_voltage_divider(
           5_V, r_ntc, sensors::ambient_temperature::R_MEAS);
       std::normal_distribution dist{static_cast<float>(v), 0.1f};
-      return Voltage(dist(gen));
+      return 0_V;
     } else {
       return 0_V;
     }
@@ -469,10 +468,6 @@ void mock_position() {
 }
 
 void mock_update() {
-  if (m_mass_flow_interval.next()) {
-    set_digtal_state(sensors::mass_flow_rate::PIN,
-                     !read_digital(sensors::mass_flow_rate::PIN));
-  }
   mock_position();
   if (enable_accel && accel_interval.next()) {
 

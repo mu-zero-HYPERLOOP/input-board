@@ -28,6 +28,9 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
 static FASTRUN void on_value(const Voltage &v) {
   const Voltage reading = sensors::formula::isolated_voltage_meas(v, R1, R2) + offset;
   filter.push(reading);
+  bool sensible = filter.get() <= 100_V && filter.get() >= 0_V;
+  canzero_set_error_bat24_voltage_invalid(sensible ? error_flag_OK
+                                                           : error_flag_ERROR);
   canzero_set_bat24_voltage(static_cast<float>(filter.get()));
 }
 
@@ -72,9 +75,6 @@ void PROGMEM sensors::bat24_voltage::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  bool sensible = filter.get() <= 100_V && filter.get() >= 0_V;
-  canzero_set_error_bat24_voltage_invalid(sensible ? error_flag_OK
-                                                           : error_flag_ERROR);
   const calibration_mode mode = canzero_get_bat24_voltage_calibration_mode();
   switch (mode) {
   case calibration_mode_USE_OFFSET: {

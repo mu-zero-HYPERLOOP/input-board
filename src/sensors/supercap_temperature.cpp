@@ -19,6 +19,12 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                 canzero_set_error_level_supercap_temperature);
 
 static void FASTRUN on_value(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_supercap_temperature_invalid(error_flag_ERROR);
+    canzero_set_supercap_temperature(0);
+    return;
+  }
+  canzero_set_error_supercap_temperature_invalid(error_flag_OK);
   const Current i_ntc = v / R_MEAS;
   const Voltage v_ntc = 5_V - v;
   const Resistance r_ntc = v_ntc / i_ntc;
@@ -57,10 +63,5 @@ void PROGMEM sensors::supercap_temperature::calibrate() {
 }
 
 void FASTRUN sensors::supercap_temperature::update() {
-
-  const bool sensable =
-      filter.get() <= 200_Celcius && filter.get() >= 0_Celcius;
-  canzero_set_error_supercap_temperature_invalid(sensable ? error_flag_OK
-                                                          : error_flag_ERROR);
   error_check.check();
 }

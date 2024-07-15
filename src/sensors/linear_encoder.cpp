@@ -1,5 +1,6 @@
 #include "sensors/linear_encoder.h"
 #include "firmware/input_board.h"
+#include "print.h"
 #include "state_estimation/state_estimation.h"
 #include "util/circular_queue.h"
 #include <avr/pgmspace.h>
@@ -10,6 +11,7 @@ DMAMEM static CircularQueue<sensors::linear_encoder::LinearEncoderEvent, 16>
     m_event_queue {};
 
 void FASTRUN back_pin_isr() {
+  debugPrintf("BACK_PIN\n");
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);
@@ -44,6 +46,7 @@ void FASTRUN back_pin_isr() {
 }
 
 static void FASTRUN front_pin_isr() {
+  debugPrintf("FRONT_PIN\n");
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);

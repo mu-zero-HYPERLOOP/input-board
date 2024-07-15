@@ -2,6 +2,7 @@
 #include "canzero/canzero.h"
 #include "error_level_range_checks.h"
 #include "firmware/input_board.h"
+#include "print.h"
 #include "sensors/formulas/ntc_north_star.h"
 #include "sensors/formulas/voltage_divider.h"
 #include "util/boxcar.h"
@@ -23,6 +24,12 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                 canzero_set_error_level_ambient_temperature);
 
 static void FASTRUN on_value_ambient1(const Voltage &v) {
+  if (v < 0.1_V) {
+    canzero_set_error_ambient_temperature_1_invalid(error_flag_ERROR);
+    canzero_set_ambient_temperature_1(0);
+    return;
+  }
+  canzero_set_error_ambient_temperature_1_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -33,6 +40,12 @@ static void FASTRUN on_value_ambient1(const Voltage &v) {
 }
 
 static void FASTRUN on_value_ambient2(const Voltage &v) {
+  if (v < 0.1_V) {
+    canzero_set_error_ambient_temperature_2_invalid(error_flag_ERROR);
+    canzero_set_ambient_temperature_2(0);
+    return;
+  }
+  canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -43,6 +56,12 @@ static void FASTRUN on_value_ambient2(const Voltage &v) {
 }
 
 static void FASTRUN on_value_ambient3(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_ambient_temperature_3_invalid(error_flag_ERROR);
+    canzero_set_ambient_temperature_3(0);
+    return;
+  }
+  canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -101,32 +120,28 @@ void PROGMEM sensors::ambient_temperature::calibrate() {
 }
 
 void FASTRUN sensors::ambient_temperature::update() {
-  canzero_set_ambient_temperature_max(
-      std::max(std::max(canzero_get_ambient_temperature_1(),
-                        canzero_get_ambient_temperature_2()),
-               canzero_get_ambient_temperature_3()));
-  canzero_set_ambient_temperature_avg((canzero_get_ambient_temperature_1() +
-                                       canzero_get_ambient_temperature_2() +
-                                       canzero_get_ambient_temperature_3()) /
-                                      3.0f);
+  float max = 0;
+  float avg = 0;
+  int div = 0;
+  if (canzero_get_error_ambient_temperature_1_invalid() == error_flag_OK){
+    max = canzero_get_ambient_temperature_1();
+    avg += canzero_get_ambient_temperature_1();
+    div += 1;
+  }
+  if (canzero_get_error_ambient_temperature_2_invalid() == error_flag_ERROR){
+    max = std::max(canzero_get_ambient_temperature_2(), max);
+    avg += canzero_get_ambient_temperature_2();
+    div += 1;
+  }
+  if (canzero_get_error_ambient_temperature_3_invalid() == error_flag_ERROR){
+    max = std::max(canzero_get_ambient_temperature_3(), max);
+    avg += canzero_get_ambient_temperature_3();
+    div += 1;
+  }
+  avg /= static_cast<float>(div);
 
-  {
-    const bool sensible =
-        filter_ambient1.get() <= 100_Celcius && filter_ambient1.get() >= 0_Celcius;
-    canzero_set_error_ambient_temperature_1_invalid(sensible ? error_flag_OK
-                                                           : error_flag_ERROR);
-  }
-  {
-    const bool sensible =
-        filter_ambient2.get() <= 100_Celcius && filter_ambient2.get() >= 0_Celcius;
-    canzero_set_error_ambient_temperature_2_invalid(sensible ? error_flag_OK
-                                                           : error_flag_ERROR);
-  }
-  {
-    const bool sensible =
-        filter_ambient3.get() <= 100_Celcius && filter_ambient3.get() >= 0_Celcius;
-    canzero_set_error_ambient_temperature_3_invalid(sensible ? error_flag_OK
-                                                           : error_flag_ERROR);
-  }
+
+  canzero_set_ambient_temperature_max(max);
+  canzero_set_ambient_temperature_avg(avg);
   error_check.check();
 }

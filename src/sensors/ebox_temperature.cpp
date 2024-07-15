@@ -27,6 +27,12 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                       canzero_set_error_level_power_ebox_temperature);
 
 static void FASTRUN on_value_sac(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_sac_ebox_temperature_invalid(error_flag_ERROR);
+    canzero_set_sac_ebox_temperature(0);
+    return;
+  }
+  canzero_set_error_sac_ebox_temperature_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -37,6 +43,12 @@ static void FASTRUN on_value_sac(const Voltage &v) {
 }
 
 static void FASTRUN on_value_power(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_power_ebox_temperature_invalid(error_flag_ERROR);
+    canzero_set_power_ebox_temperature(0);
+    return;
+  }
+  canzero_set_error_power_ebox_temperature_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -100,19 +112,6 @@ void PROGMEM sensors::ebox_temperature::calibrate() {
 }
 
 void FASTRUN sensors::ebox_temperature::update() {
-  {
-    const bool sensible =
-        filter_sac.get() <= 100_Celcius && filter_sac.get() >= 0_Celcius;
-    canzero_set_error_sac_ebox_temperature_invalid(sensible ? error_flag_OK
-                                                            : error_flag_ERROR);
-  }
-
-  {
-    const bool sensible =
-        filter_power.get() <= 100_Celcius && filter_power.get() >= 0_Celcius;
-    canzero_set_error_power_ebox_temperature_invalid(
-        sensible ? error_flag_OK : error_flag_ERROR);
-  }
 
   sac_error_check.check();
   power_error_check.check();

@@ -25,6 +25,10 @@ static inline void can_defaults() {
   canzero_set_error_lateral_acceleration_out_of_range(error_flag_OK);
   canzero_set_error_vertical_acceleration_out_of_range(error_flag_OK);
 
+  canzero_set_error_ambient_temperature_1_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
+
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_bat24_temperature(error_level_OK);
   canzero_set_error_level_bat24_over_current(error_level_OK);

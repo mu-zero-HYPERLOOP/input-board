@@ -29,6 +29,9 @@ static void FASTRUN on_value(const Voltage &v) {
   const Voltage reading =
       sensors::formula::isolated_voltage_meas(v, R1, R2) + +offset;
   filter.push(reading);
+  const bool sensible = filter.get() <= 100_V && filter.get() >= -10_V;
+  canzero_set_error_supercap_voltage_invalid(sensible ? error_flag_OK
+                                                      : error_flag_ERROR);
   canzero_set_supercap_voltage(static_cast<float>(filter.get()));
 }
 

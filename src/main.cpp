@@ -51,10 +51,10 @@ int main() {
 
   sdc::begin();
 
+  sensors::ambient_temperature::begin();
   sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
-  sensors::ambient_temperature::begin();
   sensors::bat24_temperature::begin();
   sensors::ebox_temperature::begin();
   sensors::mcu_temperature::begin();
@@ -83,6 +83,7 @@ calibration:
   sensors::ebox_temperature::calibrate();
   sensors::mcu_temperature::calibrate();
   sensors::supercap_temperature::calibrate();
+  sensors::ambient_temperature::calibrate();
 
   sensors::bat24_current::calibrate();
   sensors::bat24_voltage::calibrate();

@@ -21,6 +21,12 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                 canzero_set_error_level_bat24_temperature);
 
 static void FASTRUN on_value_cell1(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_bat24_cell_temperature_1_invalid(error_flag_ERROR);
+    canzero_set_bat24_cell_temperature_1(0);
+    return;
+  }
+  canzero_set_error_bat24_cell_temperature_1_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -31,6 +37,11 @@ static void FASTRUN on_value_cell1(const Voltage &v) {
 }
 
 static void FASTRUN on_value_cell2(const Voltage &v) {
+  if (v < 0.1_V){
+    canzero_set_error_bat24_cell_temperature_2_invalid(error_flag_ERROR);
+    canzero_set_bat24_cell_temperature_2(0);
+  }
+  canzero_set_error_bat24_cell_temperature_2_invalid(error_flag_OK);
   const Resistance r_ntc =
       sensors::formula::r1_of_voltage_divider(5_V, v, R_MEAS);
   const Temperature temperature =
@@ -88,18 +99,16 @@ void PROGMEM sensors::bat24_temperature::calibrate() {
         invalid_reading ? error_flag_ERROR : error_flag_OK);
   }
 }
-
+ 
 void FASTRUN sensors::bat24_temperature::update() {
-  {
-    bool invalid_reading = filter_cell1.get() >= 100_Celcius || filter_cell1.get() <= 0_Celcius;
-    canzero_set_error_bat24_cell_temperature_1_invalid(
-        invalid_reading ? error_flag_ERROR : error_flag_OK);
+  float max = 0;
+  if (canzero_get_error_bat24_cell_temperature_1_invalid() == error_flag_OK){
+    max = std::max(canzero_get_bat24_cell_temperature_1(), max);
   }
-  {
-    bool invalid_reading = filter_cell2.get() >= 100_Celcius || filter_cell2.get() <= 0_Celcius;
-    canzero_set_error_bat24_cell_temperature_1_invalid(
-        invalid_reading ? error_flag_ERROR : error_flag_OK);
+  if (canzero_get_error_bat24_cell_temperature_2_invalid() == error_flag_OK){
+    max = std::max(canzero_get_bat24_cell_temperature_2(), max);
   }
+
   canzero_set_bat24_temperature_max(
       std::max(canzero_get_bat24_cell_temperature_1(),
                canzero_get_bat24_cell_temperature_2()));
