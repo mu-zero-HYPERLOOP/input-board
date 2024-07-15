@@ -97,6 +97,7 @@ calibration:
 
   loopIntervalTiming.reset();
   while (true) {
+    debugPrintf("running\n");
     canzero_can0_poll();
     canzero_can1_poll();
     canzero_set_state(input_board_state_RUNNING);

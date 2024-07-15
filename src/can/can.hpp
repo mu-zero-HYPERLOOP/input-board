@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <FlexCAN_T4.h>
 #include <imxrt.h>
 #include <inttypes.h>
@@ -112,7 +113,11 @@ public:
    * NOTE: Sending is not buffered sending a lot might overflow the TX_QUEUE,
    * which leads to dropped messages!
    */
-  static int FASTRUN send(const CAN_message_t &msg) { return m_flexcan.write(msg); }
+  static int FASTRUN send(const CAN_message_t &msg) { 
+    int s =  m_flexcan.write(msg); 
+    assert(s);
+    return s;
+  }
 
 private:
   static constexpr CAN_DEV_TABLE FlexCanModule() {
@@ -125,7 +130,7 @@ private:
     }
   }
 
-  typedef FlexCAN_T4<CAN::FlexCanModule(), RX_SIZE_256, TX_SIZE_16> FlexCAN;
+  typedef FlexCAN_T4<CAN::FlexCanModule(), RX_SIZE_256, TX_SIZE_128> FlexCAN;
 
   static FlexCAN m_flexcan;
   static RxSoftwareFifo m_fifo;

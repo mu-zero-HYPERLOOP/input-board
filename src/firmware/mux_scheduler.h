@@ -1,4 +1,5 @@
 #pragma once
+#include "canzero/canzero.h"
 #include "firmware/input_board.h"
 #include "firmware/pinout.h"
 #include "util/heap.h"
@@ -150,7 +151,10 @@ public:
                         std::chrono::duration<unsigned int, std::micro>>(
                         time_until_mux_converges)
                         .count();
-      input_board::delay(Duration::from_us(us));
+      const auto now = Timestamp::now();
+      while (Timestamp::now() - now < Duration::from_us(us)){
+        canzero_update_continue(canzero_get_time());
+      }
     }
     return input_board::sync_read(mux_pin);
   }
