@@ -196,8 +196,9 @@ void FASTRUN acceleration_update(const Acceleration &acc,
   last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
   // predict new state based on old one
-  float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? 
-    0.0f : canzero_get_target_acceleration();
+  /*float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? */
+  /*  0.0f : canzero_get_target_acceleration();*/
+  float target_accel = canzero_get_target_acceleration();
   ekf.f_xu[acc_i] = target_accel;
   ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
   ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +

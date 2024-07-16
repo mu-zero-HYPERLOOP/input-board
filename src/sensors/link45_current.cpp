@@ -87,5 +87,8 @@ void PROGMEM sensors::link45_current::calibrate() {
 }
 
 void FASTRUN sensors::link45_current::update() {
+  const bool sensible = filter.get() <= 500_A && filter.get() >= -10_A;
+  canzero_set_error_link45_current_invalid(sensible ? error_flag_OK
+                                                    : error_flag_ERROR);
   link45_over_current_check.check();
 }
