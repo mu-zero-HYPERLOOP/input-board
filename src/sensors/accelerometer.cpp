@@ -15,6 +15,7 @@ constexpr Acceleration G = 9.80665_mps2;
 
 static DMAMEM BoxcarFilter<Acceleration, 10> filter_y(G);
 static DMAMEM BoxcarFilter<Acceleration, 10> filter_z(0_mps2);
+static DMAMEM BoxcarFilter<Acceleration, 100> filter_acc(0_mps2);
 
 static DMAMEM Acceleration offset_x = 0_mps2;
 static DMAMEM Acceleration offset_y = 0_mps2;
@@ -47,11 +48,14 @@ static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
 
   filter_y.push(vertical);
   filter_z.push(lateral);
+  filter_acc.push(acceleration);
+  Acceleration filtered_acc = filter_acc.get();
 
   canzero_set_lateral_acceleration(static_cast<float>(filter_z.get()));
   canzero_set_vertical_acceleration(static_cast<float>(filter_y.get()));
+  canzero_set_acceleration(static_cast<float>(filtered_acc));
 
-  state_estimation::push_acceleration_event(acceleration, now);
+  state_estimation::push_acceleration_event(filtered_acc, now);
 }
 
 void FLASHMEM sensors::accelerometer::begin() {

@@ -137,7 +137,6 @@ void PROGMEM state_estimation::calibrate() {
 void FASTRUN linear_encoder_update(
     const sensors::linear_encoder::LinearEncoderEventTag &tag,
     const Timestamp &timestamp) {
-  debugPrintf("linear encoder update\n");
   int16_t stripe_count = canzero_get_linear_encoder_count();
   switch (tag) {
   case sensors::linear_encoder::COUNT_INCREMENT:
@@ -152,16 +151,14 @@ void FASTRUN linear_encoder_update(
     break;
   case sensors::linear_encoder::END_DETECTION_FRONT: 
     {
-    debugPrintf("end detection front state estimation event\n");
     float relative_position = 
       stripe_count * static_cast<float>(state_estimation::STRIPE_STRIDE / 2);
-    canzero_set_absolute_position_offset(18.0 - relative_position);
+    canzero_set_absolute_position_offset(8.0 - relative_position);
     canzero_set_absolute_position_known(bool_t_TRUE);
     return;
     }
   case sensors::linear_encoder::END_DETECTION_BACK:
     {
-    debugPrintf("end detection back state estimation event\n");
     float relative_position = 
       stripe_count * static_cast<float>(state_estimation::STRIPE_STRIDE / 2);
     canzero_set_absolute_position_offset(2.0 - relative_position);
@@ -218,13 +215,11 @@ void FASTRUN linear_encoder_update(
 
 void FASTRUN acceleration_update(const Acceleration &acc,
                                                    const Timestamp &timestamp) {
-  debugPrintf("acceleration update: %f\n", static_cast<float>(acc));
   const float dur_us = timestamp > last_state_update
                            ? (timestamp - last_state_update).as_us()
                            : 0.0f;
   last_state_update = timestamp;
   constexpr float us_in_s = 1e6f;
-  debugPrintf("timestamp: %f\n", dur_us);
   // predict new state based on old one
   /*float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? */
   /*  0.0f : canzero_get_target_acceleration();*/
@@ -263,8 +258,6 @@ void FASTRUN acceleration_update(const Acceleration &acc,
   measurement[stripe_i] = ekf.f_xu[pos_i];
   static float acc_acc = 0.0f;
   acc_acc += measurement[imu_i];
-  debugPrintf("acc_acc: %f\n", acc_acc);
-  debugPrintf("acc_used: %f\n", acc_used);
 
   //ekf.R[stripe_i * DIM_OBSER + stripe_i] = max_variance;
   //ekf.Q[pos_i * DIM_STATE + pos_i] = 0.0f;
@@ -309,7 +302,7 @@ void FASTRUN state_estimation::update() {
 
   const float dur_us = (Timestamp::now() - last_state_update).as_us();
   constexpr float us_in_s = 1e6f;
-  canzero_set_acceleration(ekf.x_hat[acc_i]);
+  //canzero_set_acceleration(ekf.x_hat[acc_i]);
   canzero_set_velocity(ekf.x_hat[speed_i] +
                        dur_us * ekf.x_hat[acc_i] / us_in_s);
   float predicted_position =
@@ -321,7 +314,8 @@ void FASTRUN state_estimation::update() {
   float max_position = min_position + static_cast<float>(STRIPE_STRIDE / 2);
   float possible_position =
       std::clamp(predicted_position, min_position, max_position);
-  canzero_set_position(possible_position);
+
+  canzero_set_position(possible_position + canzero_get_absolute_position_offset());
   //canzero_set_position(ekf.x_hat[pos_i]);
   //debugPrintf("%f, %f, %f\n", ekf.x_hat[pos_i], ekf.x_hat[speed_i], ekf.x_hat[acc_i]);
 }

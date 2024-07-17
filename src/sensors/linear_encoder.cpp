@@ -45,7 +45,6 @@ void FASTRUN back_pin_isr() {
 }
 
 static void FASTRUN front_pin_isr() {
-  debugPrintf("FRONT_PIN\n");
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);
@@ -77,12 +76,11 @@ static void FASTRUN front_pin_isr() {
 }
 
 void FASTRUN end_detection_front_isr() {
-  debugPrintf("front isr\n");
   using namespace sensors::linear_encoder;
+  // pin inverted!!
   bool back = input_board::read_digital(PIN_END_DETECTION_BACK);
   // should always be true
-  if (!back) {
-    debugPrintf("enqueue encoder event\n");
+  if (back) {
     m_event_queue.enqueue(LinearEncoderEvent {
         .m_tag = LinearEncoderEventTag::END_DETECTION_FRONT,
         .m_timestamp = Timestamp::now(),
@@ -90,12 +88,11 @@ void FASTRUN end_detection_front_isr() {
   }
 }
 void FASTRUN end_detection_back_isr() {
-  debugPrintf("back isr\n");
   using namespace sensors::linear_encoder;
+  // pin inverted!!
   bool front = input_board::read_digital(PIN_END_DETECTION_FRONT);
   // should always be true!
-  if (!front) {
-    debugPrintf("enqueue encoder event\n");
+  if (front) {
     m_event_queue.enqueue(LinearEncoderEvent{
         .m_tag = LinearEncoderEventTag::END_DETECTION_BACK,
         .m_timestamp = Timestamp::now(),

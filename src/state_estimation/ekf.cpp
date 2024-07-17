@@ -159,23 +159,13 @@ void update_mean(Ekf<dim_state, dim_obser>& ekf, BaseType* z) {
   mat_sub<dim_obser, 1>(z, ekf.h_x, ekf.temp5);
   mat_mul<dim_state, dim_obser, 1>(ekf.K, ekf.temp5, ekf.temp6);
   mat_add<dim_state, 1>(ekf.x_hat, ekf.temp6, ekf.x_hat);
-
-  debugPrintf("mean:\n");
-  mat_print<dim_state, 1>(ekf.x_hat);
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
 void update_state_cov(Ekf<dim_state, dim_obser>& ekf) {
   mat_mul<dim_state, dim_obser, dim_state>(ekf.K, ekf.H, ekf.temp1);
-
-  debugPrintf("k*h\n");
-  mat_print<dim_state, dim_state>(ekf.temp1);
-
   mat_mul<dim_state, dim_state, dim_state>(ekf.temp1, ekf.P, ekf.P_pre);
   mat_sub<dim_state, dim_state>(ekf.P, ekf.P_pre, ekf.P_pre);
-
-  debugPrintf("cov mat:\n");
-  mat_print<dim_state, dim_state>(ekf.P);
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
