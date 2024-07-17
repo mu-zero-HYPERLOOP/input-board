@@ -11,7 +11,6 @@ DMAMEM static CircularQueue<sensors::linear_encoder::LinearEncoderEvent, 16>
     m_event_queue {};
 
 void FASTRUN back_pin_isr() {
-  debugPrintf("BACK_PIN\n");
   using namespace sensors::linear_encoder;
   bool left = input_board::read_digital(PIN_BACK);
   bool right = input_board::read_digital(PIN_FRONT);
@@ -78,18 +77,30 @@ static void FASTRUN front_pin_isr() {
 }
 
 void FASTRUN end_detection_front_isr() {
+  debugPrintf("front isr\n");
   using namespace sensors::linear_encoder;
-  m_event_queue.enqueue(LinearEncoderEvent{
-      .m_tag = LinearEncoderEventTag::END_DETECTION_FRONT,
-      .m_timestamp = Timestamp::now(),
-  });
+  bool back = input_board::read_digital(PIN_END_DETECTION_BACK);
+  // should always be true
+  if (!back) {
+    debugPrintf("enqueue encoder event\n");
+    m_event_queue.enqueue(LinearEncoderEvent {
+        .m_tag = LinearEncoderEventTag::END_DETECTION_FRONT,
+        .m_timestamp = Timestamp::now(),
+    });
+  }
 }
 void FASTRUN end_detection_back_isr() {
+  debugPrintf("back isr\n");
   using namespace sensors::linear_encoder;
-  m_event_queue.enqueue(LinearEncoderEvent{
-      .m_tag = LinearEncoderEventTag::END_DETECTION_BACK,
-      .m_timestamp = Timestamp::now(),
-  });
+  bool front = input_board::read_digital(PIN_END_DETECTION_FRONT);
+  // should always be true!
+  if (!front) {
+    debugPrintf("enqueue encoder event\n");
+    m_event_queue.enqueue(LinearEncoderEvent{
+        .m_tag = LinearEncoderEventTag::END_DETECTION_BACK,
+        .m_timestamp = Timestamp::now(),
+    });
+  }
 }
 
 void FLASHMEM sensors::linear_encoder::begin() {

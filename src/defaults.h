@@ -8,6 +8,12 @@ static inline void can_defaults() {
   canzero_set_assert_45V_system_online(bool_t_FALSE);
   canzero_set_sdc_status(sdc_status_OPEN);
 
+  canzero_set_position(0);
+  canzero_set_velocity(0);
+  canzero_set_acceleration(0);
+  canzero_set_absolute_position_known(bool_t_FALSE);
+  canzero_set_absolute_position_offset(0);
+
   canzero_set_assertion_fault(error_flag_OK);
 
   canzero_set_last_node_missed(255);

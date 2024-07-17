@@ -113,7 +113,7 @@ static const node_id CANZERO_NODE_ID = node_id_input_board;
 typedef struct {
   uint32_t id;
   uint8_t dlc;
-  uint8_t data[8];
+  __attribute__((aligned(alignof(uint64_t)))) uint8_t data[8];
 } canzero_frame;
 typedef enum : uint32_t {
   CANZERO_FRAME_IDE_BIT = 0x40000000, // 1 << 30
@@ -324,6 +324,14 @@ static inline bool_t canzero_get_assert_45V_system_online() {
 static inline int16_t canzero_get_linear_encoder_count() {
   extern int16_t __oe_linear_encoder_count;
   return __oe_linear_encoder_count;
+}
+static inline bool_t canzero_get_absolute_position_known() {
+  extern bool_t __oe_absolute_position_known;
+  return __oe_absolute_position_known;
+}
+static inline float canzero_get_absolute_position_offset() {
+  extern float __oe_absolute_position_offset;
+  return __oe_absolute_position_offset;
 }
 static inline float canzero_get_raw_acceleration() {
   extern float __oe_raw_acceleration;
@@ -686,6 +694,8 @@ typedef struct {
 static const uint32_t canzero_message_input_board_stream_errors2_id = 0x137;
 typedef struct {
   int16_t m_linear_encoder_count;
+  bool_t m_absolute_position_known;
+  float m_absolute_position_offset;
 } canzero_message_input_board_stream_linear_encoder;
 static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x7C;
 typedef struct {
@@ -895,6 +905,10 @@ static inline void canzero_set_assert_45V_system_online(bool_t value){
 }
 
 void canzero_set_linear_encoder_count(int16_t value);
+
+void canzero_set_absolute_position_known(bool_t value);
+
+void canzero_set_absolute_position_offset(float value);
 
 static inline void canzero_set_raw_acceleration(float value){
   extern float __oe_raw_acceleration;
@@ -1353,6 +1367,10 @@ void canzero_send_pod_grounded();
 void canzero_send_assert_45V_system_online();
 
 void canzero_send_linear_encoder_count();
+
+void canzero_send_absolute_position_known();
+
+void canzero_send_absolute_position_offset();
 
 void canzero_send_raw_acceleration();
 
