@@ -27,12 +27,12 @@ static DMAMEM Current offset = 0_A;
 static void FASTRUN on_value(const Voltage &v) {
   const Voltage v_sensor =
       sensors::formula::vin_of_voltage_divider(v, R1_V_DIV, R2_V_DIV);
-  const Current i = sensors::formula::hall_effect_sensor(v_sensor, VOLT_PER_AMP,
+  const Current i = -(sensors::formula::hall_effect_sensor(v_sensor, VOLT_PER_AMP,
                                                          ZERO_A_READING) +
-                    offset;
+                    offset);
   filter.push(i);
 
-  const bool sensible = filter.get() <= 100_A && filter.get() >= -10_A;
+  const bool sensible = filter.get() <= 100_A && filter.get() >= -1_A;
   canzero_set_error_link24_current_invalid(sensible ? error_flag_OK
                                                     : error_flag_ERROR);
   canzero_set_link24_current(static_cast<float>(filter.get()));
