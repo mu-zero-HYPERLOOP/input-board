@@ -14,7 +14,7 @@ using sensors::bat24_current::R1_V_DIV;
 using sensors::bat24_current::R2_V_DIV;
 using sensors::bat24_current::VOLT_PER_AMP;
 
-static DMAMEM BoxcarFilter<Current, 10> filter(0_A);
+static DMAMEM BoxcarFilter<Current, 1000> filter(0_A);
 
 static Current offset;
 

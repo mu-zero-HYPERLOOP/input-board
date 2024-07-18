@@ -14,7 +14,7 @@ using sensors::link45_current::R2_V_DIV;
 using sensors::link45_current::VOLT_PER_AMP;
 using sensors::link45_current::ZERO_A_READING;
 
-static DMAMEM BoxcarFilter<Current, 10> filter(0_A);
+static DMAMEM BoxcarFilter<Current, 1000> filter(0_A);
 
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER> link45_over_current_check(
     canzero_get_link45_current,
