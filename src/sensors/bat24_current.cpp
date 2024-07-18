@@ -31,7 +31,7 @@ static void FASTRUN on_value(const Voltage &v) {
                     offset;
   filter.push(i);
 
-  const bool sensible = filter.get() <= 50_A && filter.get() >= -50_A;
+  const bool sensible = filter.get() <= 50_A && filter.get() >= -20_A;
   canzero_set_error_bat24_current_invalid(sensible ? error_flag_OK
                                                    : error_flag_ERROR);
   canzero_set_bat24_current(static_cast<float>(filter.get()));

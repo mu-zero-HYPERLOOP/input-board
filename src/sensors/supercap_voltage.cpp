@@ -27,7 +27,7 @@ static DMAMEM Voltage offset = 0_V;
 
 static void FASTRUN on_value(const Voltage &v) {
   const Voltage reading =
-      sensors::formula::isolated_voltage_meas(v, R1, R2) + +offset;
+      sensors::formula::isolated_voltage_meas(v, R1, R2) + offset;
   filter.push(reading);
   const bool sensible = filter.get() <= 100_V && filter.get() >= -10_V;
   canzero_set_error_supercap_voltage_invalid(sensible ? error_flag_OK
@@ -43,8 +43,8 @@ void FLASHMEM sensors::supercap_voltage::begin() {
   canzero_set_supercap_voltage_calibration_target(0);
   canzero_set_error_level_supercap_over_voltage(error_level_OK);
   canzero_set_error_level_config_supercap_over_voltage(error_level_config{
-      .m_info_thresh = 46,
-      .m_info_timeout = 0.1,
+      .m_info_thresh = 47,
+      .m_info_timeout = 1,
       .m_warning_thresh = 48,
       .m_warning_timeout = 0.1,
       .m_error_thresh = 50,
@@ -55,12 +55,12 @@ void FLASHMEM sensors::supercap_voltage::begin() {
   });
   canzero_set_error_level_supercap_under_voltage(error_level_OK);
   canzero_set_error_level_config_supercap_under_voltage(error_level_config{
-      .m_info_thresh = 35,
+      .m_info_thresh = 40,
       .m_info_timeout = 1,
-      .m_warning_thresh = -100,
-      .m_warning_timeout = 10,
-      .m_error_thresh = -100,
-      .m_error_timeout = 10,
+      .m_warning_thresh = 35,
+      .m_warning_timeout = 1,
+      .m_error_thresh = 30,
+      .m_error_timeout = 1,
       .m_ignore_info = bool_t_FALSE,
       .m_ignore_warning = bool_t_TRUE,
       .m_ignore_error = bool_t_TRUE,
@@ -104,6 +104,5 @@ void PROGMEM sensors::supercap_voltage::calibrate() {
 
 void FASTRUN sensors::supercap_voltage::update() {
   supercap_over_volt_check.check();
-  /* canzero_set_error_level_supercap_under_voltage(error_level_OK); */
   supercap_under_volt_check.check();
 }

@@ -58,11 +58,11 @@ void FLASHMEM sensors::link45_voltage::begin() {
   canzero_set_error_level_link45_under_voltage(error_level_OK);
   canzero_set_error_level_config_link45_under_voltage(error_level_config{
       .m_info_thresh = 40,
-      .m_info_timeout = 0.1,
+      .m_info_timeout = 1,
       .m_warning_thresh = 35,
-      .m_warning_timeout = 0.1,
+      .m_warning_timeout = 1,
       .m_error_thresh = 30,
-      .m_error_timeout = 0.1,
+      .m_error_timeout = 1,
       .m_ignore_info = bool_t_FALSE,
       .m_ignore_warning = bool_t_FALSE,
       .m_ignore_error = bool_t_FALSE,
