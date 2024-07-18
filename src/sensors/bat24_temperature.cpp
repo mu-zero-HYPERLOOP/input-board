@@ -13,8 +13,8 @@ using sensors::bat24_temperature::NTC_R_REF;
 using sensors::bat24_temperature::NTC_T_REF;
 using sensors::bat24_temperature::R_MEAS;
 
-static DMAMEM BoxcarFilter<Temperature, 10> filter_cell1(24_Celcius);
-static DMAMEM BoxcarFilter<Temperature, 10> filter_cell2(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 100> filter_cell1(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 100> filter_cell2(24_Celcius);
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
     error_check(canzero_get_bat24_temperature_max,
                 canzero_get_error_level_config_bat24_temperature,

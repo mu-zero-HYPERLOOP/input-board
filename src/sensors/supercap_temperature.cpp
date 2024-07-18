@@ -12,7 +12,7 @@ using sensors::supercap_temperature::NTC_R_REF;
 using sensors::supercap_temperature::NTC_T_REF;
 using sensors::supercap_temperature::R_MEAS;
 
-static DMAMEM BoxcarFilter<Temperature, 10> filter(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 100> filter(24_Celcius);
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
     error_check(canzero_get_supercap_temperature,
                 canzero_get_error_level_config_supercap_temperature,

@@ -13,8 +13,8 @@ using sensors::ebox_temperature::NTC_R_REF;
 using sensors::ebox_temperature::NTC_T_REF;
 using sensors::ebox_temperature::R_MEAS;
 
-static DMAMEM BoxcarFilter<Temperature, 10> filter_sac(24_Celcius);
-static DMAMEM BoxcarFilter<Temperature, 10> filter_power(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 100> filter_sac(24_Celcius);
+static DMAMEM BoxcarFilter<Temperature, 100> filter_power(24_Celcius);
 
 static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
     sac_error_check(canzero_get_sac_ebox_temperature,
