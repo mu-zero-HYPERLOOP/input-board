@@ -55,7 +55,7 @@ static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
   canzero_set_vertical_acceleration(static_cast<float>(filter_y.get()));
   canzero_set_acceleration(static_cast<float>(filtered_acc));
 
-  state_estimation::push_acceleration_event(filtered_acc, now);
+  state_estimation::push_acceleration_event(acceleration, now);
 }
 
 void FLASHMEM sensors::accelerometer::begin() {
