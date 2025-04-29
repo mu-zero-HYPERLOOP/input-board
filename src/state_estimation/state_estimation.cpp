@@ -104,7 +104,7 @@ void FLASHMEM state_estimation::begin() {
     }
   }
   ekf.R[stripe_i * DIM_OBSER + stripe_i] =
-      linear_encoder_variance; // variance of feducial
+      linear_encoder_variance; // variance of fiducial
   ekf.R[imu_i * DIM_OBSER + imu_i] = imu_variance;
 
   for (int i = 0; i < DIM_OBSER; i++) {
