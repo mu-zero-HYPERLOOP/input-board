@@ -4,7 +4,7 @@
 # @created     : Friday Apr 07, 2023 15:39:05 CEST
 ######################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(input_board CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -33,6 +33,31 @@ add_executable(${PROJECT_NAME}
   src/state_estimation/ekf.cpp
   src/error_handling.cpp
   src/handle_heartbeat.cpp
+  
+  src/fsm/states/acceleration.cpp
+  src/fsm/states/arming45.cpp
+  src/fsm/states/calibrating.cpp
+  src/fsm/states/controller.cpp
+  src/fsm/states/cruising.cpp
+  src/fsm/states/deceleration.cpp
+  src/fsm/states/disarming45.cpp
+  src/fsm/states/guidance_stable.cpp
+  src/fsm/states/idle.cpp
+  src/fsm/states/init.cpp
+  src/fsm/states/levitation_stable.cpp
+  src/fsm/states/precharge.cpp
+  src/fsm/states/ready.cpp
+  src/fsm/states/restarting.cpp
+  src/fsm/states/shutdown.cpp
+  src/fsm/states/start_guidance.cpp
+  src/fsm/states/start_levitation.cpp
+  src/fsm/states/stop_levitation.cpp
+  src/fsm/states/stop_guidance.cpp
+  src/fsm/error_handling.cpp
+  src/fsm/fsm.cpp
+  src/fsm/sdc.cpp
+
+  src/control/velocity.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE src/ mock/)

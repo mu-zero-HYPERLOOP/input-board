@@ -32,7 +32,6 @@
 #include "state_estimation/state_estimation.h"
 #include "util/interval.h"
 #include "util/timing.h"
-#include <iostream>
 
 using namespace std::chrono;
 
@@ -110,18 +109,23 @@ Voltage sync_read(ain_pin pin) {
     }
   }
   case sensors::link24_current::PIN: {
+    debugPrintf("offset %fA\n", canzero_get_link24_current_calibration_offset());
     constexpr Current mock = 7.5_A;
+
+    std::normal_distribution dist{static_cast<float>(mock), 0.2f};
+    Current c = Current(dist(gen));
+
     const Voltage v = sensors::formula::inv_hall_effect_sensor(
-        mock, sensors::link24_current::VOLT_PER_AMP,
+        -c, sensors::link24_current::VOLT_PER_AMP,
         sensors::link24_current::ZERO_A_READING +
             Current(canzero_get_link24_current_calibration_offset()));
+
+
     const Voltage v_uc = sensors::formula::vout_of_voltage_divider(
         v, sensors::link24_current::R1_V_DIV,
         sensors::link24_current::R2_V_DIV);
 
-    std::normal_distribution link24_current_dist{static_cast<float>(v_uc),
-                                                 0.015f};
-    return Voltage(link24_current_dist(gen));
+    return v_uc;
   }
   case sensors::supercap_voltage::PIN: {
     constexpr Voltage mock = 45_V + sensors::supercap_voltage::DEFAULT_OFFSET;
@@ -158,7 +162,7 @@ Voltage sync_read(ain_pin pin) {
     }
   }
   case sensors::link45_voltage::PIN: {
-    if (canzero_get_state() == input_board_state_RUNNING) {
+    if (canzero_get_global_state() != global_state_INIT) {
       constexpr Voltage mock = 45_V;
       const Voltage v = sensors::formula::inv_isolated_voltage_meas(
           mock, sensors::link45_voltage::R1, sensors::link45_voltage::R2);
@@ -220,15 +224,17 @@ Voltage sync_read(ain_pin pin) {
     } else if (mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_1)
         || mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_2) 
         || mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_3)) {
+
       constexpr Temperature mock = 24_Celcius;
+      std::normal_distribution dist{static_cast<float>(mock), 1.0f};
+      Temperature t = Temperature(dist(gen));
       const Resistance r_ntc = sensors::formula::inv_ntc_beta(
-          mock, sensors::ambient_temperature::NTC_BETA,
+          t, sensors::ambient_temperature::NTC_BETA,
           sensors::ambient_temperature::NTC_R_REF,
           sensors::ambient_temperature::NTC_T_REF);
       const Voltage v = sensors::formula::vout_of_voltage_divider(
           5_V, r_ntc, sensors::ambient_temperature::R_MEAS);
-      std::normal_distribution dist{static_cast<float>(v), 0.1f};
-      return 0_V;
+      return v;
     } else {
       return 0_V;
     }

@@ -19,6 +19,15 @@ public:
     }
   }
 
+  inline Frequency frequency() const {
+    return 1.0f / static_cast<Time>(m_period);
+  }
+
+
+  inline Time period() const {
+    return static_cast<Time>(m_period);
+  }
+
 private:
   Duration m_period;
   Timestamp m_last;

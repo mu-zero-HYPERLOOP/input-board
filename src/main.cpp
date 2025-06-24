@@ -32,6 +32,7 @@
 #include <avr/pgmspace.h>
 #include "state_estimation/state_estimation.h"
 #include "util/timing.h"
+#include "fsm/fsm.h"
 
 
 static IntervalTiming loopIntervalTiming;
@@ -40,8 +41,6 @@ int main() {
   canzero_init();
 
   can_defaults();
-
-  canzero_set_state(input_board_state_INIT);
 
   canzero_update_continue(canzero_get_time());
 
@@ -70,9 +69,8 @@ int main() {
 
   state_estimation::begin();
 
-calibration:
   sdc::open();
-  canzero_set_state(input_board_state_CALIBRATION);
+  canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
   sensors::accelerometer::calibrate();
@@ -92,6 +90,8 @@ calibration:
   sensors::link45_current::calibrate();
   sensors::link45_voltage::calibrate();
 
+  fsm::begin();
+
   //state_estimation::calibrate();
   debugPrintf("Init DONE\n");
 
@@ -99,13 +99,6 @@ calibration:
   while (true) {
     canzero_can0_poll();
     canzero_can1_poll();
-    canzero_set_state(input_board_state_RUNNING);
-
-    if (input_board_command_CALIBRATE == canzero_get_command()) {
-      canzero_set_command(input_board_command_NONE);
-      goto calibration;
-    }
-
     
     if (error_handling::no_error()) {
       sdc::close();
@@ -135,10 +128,12 @@ calibration:
     float total_power = canzero_get_bat24_voltage() * canzero_get_bat24_current() +
       canzero_get_link45_voltage() * canzero_get_link45_current();
     canzero_set_system_power_consumption(total_power);
-    float communication_power = canzero_get_link24_current() * 24.0f;
+    float communication_power = canzero_get_link24_current() * 24.0;
     canzero_set_communication_power_consumption(communication_power);
 
     state_estimation::update();
+
+    fsm::update();
 
     loopIntervalTiming.tick();
     canzero_set_loop_frequency(loopIntervalTiming.frequency() / 1_kHz);

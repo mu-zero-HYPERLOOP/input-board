@@ -3,8 +3,8 @@
 #include "canzero/canzero.h"
 
 static inline void can_defaults() {
-  canzero_set_state(input_board_state_INIT);
-  canzero_set_command(input_board_command_NONE);
+  canzero_set_global_state(global_state_CALIBRATING);
+  canzero_set_global_command(global_command_NONE);
   canzero_set_assert_45V_system_online(bool_t_FALSE);
   canzero_set_sdc_status(sdc_status_OPEN);
 
