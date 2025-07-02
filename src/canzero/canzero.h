@@ -326,6 +326,14 @@ static inline error_flag canzero_get_assertion_fault() {
   extern error_flag __oe_assertion_fault;
   return __oe_assertion_fault;
 }
+static inline error_flag canzero_get_error_heartbeat_miss() {
+  extern error_flag __oe_error_heartbeat_miss;
+  return __oe_error_heartbeat_miss;
+}
+static inline uint8_t canzero_get_last_node_missed() {
+  extern uint8_t __oe_last_node_missed;
+  return __oe_last_node_missed;
+}
 static inline float canzero_get_acceleration_target_velocity() {
   extern float __oe_acceleration_target_velocity;
   return __oe_acceleration_target_velocity;
@@ -754,13 +762,41 @@ static inline error_level_config canzero_get_error_level_config_ambient_temperat
   extern error_level_config __oe_error_level_config_ambient_temperature;
   return __oe_error_level_config_ambient_temperature;
 }
-static inline float canzero_get_cooling_cycle_flow_rate() {
-  extern float __oe_cooling_cycle_flow_rate;
-  return __oe_cooling_cycle_flow_rate;
+static inline float canzero_get_cooling_flow_rate_begin() {
+  extern float __oe_cooling_flow_rate_begin;
+  return __oe_cooling_flow_rate_begin;
 }
-static inline uint8_t canzero_get_cooling_cycle_control() {
-  extern uint8_t __oe_cooling_cycle_control;
-  return __oe_cooling_cycle_control;
+static inline float canzero_get_cooling_flow_rate_end() {
+  extern float __oe_cooling_flow_rate_end;
+  return __oe_cooling_flow_rate_end;
+}
+static inline error_flag canzero_get_error_cooling_flow_rate_low() {
+  extern error_flag __oe_error_cooling_flow_rate_low;
+  return __oe_error_cooling_flow_rate_low;
+}
+static inline error_flag canzero_get_error_cooling_flow_rate_mismatch() {
+  extern error_flag __oe_error_cooling_flow_rate_mismatch;
+  return __oe_error_cooling_flow_rate_mismatch;
+}
+static inline float canzero_get_cooling_cycle_temp_begin() {
+  extern float __oe_cooling_cycle_temp_begin;
+  return __oe_cooling_cycle_temp_begin;
+}
+static inline float canzero_get_cooling_cycle_temp_end() {
+  extern float __oe_cooling_cycle_temp_end;
+  return __oe_cooling_cycle_temp_end;
+}
+static inline error_flag canzero_get_error_cooling_cycle_temp_begin_invalid() {
+  extern error_flag __oe_error_cooling_cycle_temp_begin_invalid;
+  return __oe_error_cooling_cycle_temp_begin_invalid;
+}
+static inline error_flag canzero_get_error_cooling_cycle_temp_end_invalid() {
+  extern error_flag __oe_error_cooling_cycle_temp_end_invalid;
+  return __oe_error_cooling_cycle_temp_end_invalid;
+}
+static inline error_level canzero_get_error_level_cooling_cycle_overtemp() {
+  extern error_level __oe_error_level_cooling_cycle_overtemp;
+  return __oe_error_level_cooling_cycle_overtemp;
 }
 static inline motor_state canzero_get_motor_driver_state() {
   extern motor_state __oe_motor_driver_state;
@@ -1470,14 +1506,6 @@ static inline float canzero_get_gamepad_rt2() {
   extern float __oe_gamepad_rt2;
   return __oe_gamepad_rt2;
 }
-static inline error_flag canzero_get_error_heartbeat_miss() {
-  extern error_flag __oe_error_heartbeat_miss;
-  return __oe_error_heartbeat_miss;
-}
-static inline uint8_t canzero_get_last_node_missed() {
-  extern uint8_t __oe_last_node_missed;
-  return __oe_last_node_missed;
-}
 static inline float canzero_get_target_airgap() {
   extern float __oe_target_airgap;
   return __oe_target_airgap;
@@ -1586,13 +1614,13 @@ typedef struct {
   float m_velocity;
   float m_acceleration;
 } canzero_message_input_board_stream_position_estimation;
-static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x5A;
+static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x9A;
 typedef struct {
   int16_t m_linear_encoder_count;
   bool_t m_absolute_position_known;
   float m_absolute_position_offset;
 } canzero_message_input_board_stream_linear_encoder;
-static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0xBB;
+static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0xFB;
 typedef struct {
   float m_raw_acceleration;
   float m_lateral_acceleration;
@@ -1608,25 +1636,32 @@ typedef struct {
   float m_supercap_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
-static const uint32_t canzero_message_input_board_stream_link24_id = 0xDB;
+static const uint32_t canzero_message_input_board_stream_link24_id = 0x11B;
 typedef struct {
   float m_link45_voltage;
   float m_link45_current;
 } canzero_message_input_board_stream_link45;
-static const uint32_t canzero_message_input_board_stream_link45_id = 0xFB;
+static const uint32_t canzero_message_input_board_stream_link45_id = 0x5A;
 typedef struct {
   float m_mcu_temperature;
   float m_supercap_temperature;
   float m_sac_ebox_temperature;
   float m_power_ebox_temperature;
 } canzero_message_input_board_stream_mics_temperatures;
-static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0x11B;
+static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0x7A;
 typedef struct {
   float m_bat24_cell_temperature_1;
   float m_bat24_cell_temperature_2;
   float m_bat24_temperature_max;
 } canzero_message_input_board_stream_bat_temperatures;
 static const uint32_t canzero_message_input_board_stream_bat_temperatures_id = 0xDC;
+typedef struct {
+  float m_cooling_flow_rate_begin;
+  float m_cooling_flow_rate_end;
+  float m_cooling_cycle_temp_begin;
+  float m_cooling_cycle_temp_end;
+} canzero_message_input_board_stream_cooling_cycle;
+static const uint32_t canzero_message_input_board_stream_cooling_cycle_id = 0x11C;
 typedef struct {
   float m_ambient_temperature_1;
   float m_ambient_temperature_2;
@@ -1640,7 +1675,7 @@ typedef struct {
   float m_system_power_consumption;
   float m_communication_power_consumption;
 } canzero_message_input_board_stream_power_consumption;
-static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0x7A;
+static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0xBA;
 typedef struct {
   error_flag m_assertion_fault;
   error_flag m_error_acceleration_out_of_range;
@@ -1667,7 +1702,7 @@ typedef struct {
   error_level m_error_level_bat24_over_voltage;
   error_level m_error_level_bat24_over_current;
 } canzero_message_input_board_stream_errors;
-static const uint32_t canzero_message_input_board_stream_errors_id = 0x11C;
+static const uint32_t canzero_message_input_board_stream_errors_id = 0x5B;
 typedef struct {
   error_level m_error_level_supercap_under_voltage;
   error_level m_error_level_supercap_over_voltage;
@@ -1683,7 +1718,15 @@ typedef struct {
   error_level m_error_level_ambient_temperature;
   uint8_t m_last_node_missed;
 } canzero_message_input_board_stream_errors2;
-static const uint32_t canzero_message_input_board_stream_errors2_id = 0x5B;
+static const uint32_t canzero_message_input_board_stream_errors2_id = 0x7B;
+typedef struct {
+  error_flag m_error_cooling_flow_rate_low;
+  error_flag m_error_cooling_flow_rate_mismatch;
+  error_flag m_error_cooling_cycle_temp_begin_invalid;
+  error_flag m_error_cooling_cycle_temp_end_invalid;
+  error_level m_error_level_cooling_cycle_overtemp;
+} canzero_message_input_board_stream_errors3;
+static const uint32_t canzero_message_input_board_stream_errors3_id = 0x9B;
 typedef struct {
   uint64_t m_config_hash;
 } canzero_message_input_board_stream_config_hash;
@@ -1693,7 +1736,7 @@ typedef struct {
   global_command m_global_command;
   sdc_status m_system_sdc_status;
 } canzero_message_input_board_stream_state;
-static const uint32_t canzero_message_input_board_stream_state_id = 0x9A;
+static const uint32_t canzero_message_input_board_stream_state_id = 0xDA;
 typedef struct {
   guidance_command m_guidance_command;
 } canzero_message_input_board_stream_guidance_command;
@@ -1707,7 +1750,7 @@ typedef struct {
   float m_airgap_transition_duration;
   airgap_transition_mode m_airgap_transition_mode;
 } canzero_message_input_board_stream_levitation_conifg;
-static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0x9B;
+static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0xDB;
 typedef struct {
   pdu_12v_command m_power_board12_command;
 } canzero_message_input_board_stream_pdu_12v_command;
@@ -1724,7 +1767,7 @@ typedef struct {
   error_level m_error_level_config_consistency;
   uint8_t m_last_node_missed;
 } canzero_message_input_board_stream_global_fsm_errors;
-static const uint32_t canzero_message_input_board_stream_global_fsm_errors_id = 0x7B;
+static const uint32_t canzero_message_input_board_stream_global_fsm_errors_id = 0xBB;
 typedef struct {
   float m_target_airgap;
   float m_airgap_transition_duration;
@@ -2133,6 +2176,10 @@ static inline void canzero_set_loop_frequency(float value){
 }
 
 void canzero_set_assertion_fault(error_flag value);
+
+void canzero_set_error_heartbeat_miss(error_flag value);
+
+void canzero_set_last_node_missed(uint8_t value);
 
 static inline void canzero_set_acceleration_target_velocity(float value){
   extern float __oe_acceleration_target_velocity;
@@ -2558,15 +2605,35 @@ static inline void canzero_set_error_level_config_ambient_temperature(error_leve
   __oe_error_level_config_ambient_temperature = value;
 }
 
-static inline void canzero_set_cooling_cycle_flow_rate(float value){
-  extern float __oe_cooling_cycle_flow_rate;
-  __oe_cooling_cycle_flow_rate = value;
+static inline void canzero_set_cooling_flow_rate_begin(float value){
+  extern float __oe_cooling_flow_rate_begin;
+  __oe_cooling_flow_rate_begin = value;
 }
 
-static inline void canzero_set_cooling_cycle_control(uint8_t value){
-  extern uint8_t __oe_cooling_cycle_control;
-  __oe_cooling_cycle_control = value;
+static inline void canzero_set_cooling_flow_rate_end(float value){
+  extern float __oe_cooling_flow_rate_end;
+  __oe_cooling_flow_rate_end = value;
 }
+
+void canzero_set_error_cooling_flow_rate_low(error_flag value);
+
+void canzero_set_error_cooling_flow_rate_mismatch(error_flag value);
+
+static inline void canzero_set_cooling_cycle_temp_begin(float value){
+  extern float __oe_cooling_cycle_temp_begin;
+  __oe_cooling_cycle_temp_begin = value;
+}
+
+static inline void canzero_set_cooling_cycle_temp_end(float value){
+  extern float __oe_cooling_cycle_temp_end;
+  __oe_cooling_cycle_temp_end = value;
+}
+
+void canzero_set_error_cooling_cycle_temp_begin_invalid(error_flag value);
+
+void canzero_set_error_cooling_cycle_temp_end_invalid(error_flag value);
+
+void canzero_set_error_level_cooling_cycle_overtemp(error_level value);
 
 static inline void canzero_set_motor_driver_state(motor_state value){
   extern motor_state __oe_motor_driver_state;
@@ -3438,10 +3505,6 @@ static inline void canzero_set_gamepad_rt2(float value){
   __oe_gamepad_rt2 = value;
 }
 
-void canzero_set_error_heartbeat_miss(error_flag value);
-
-void canzero_set_last_node_missed(uint8_t value);
-
 void canzero_set_target_airgap(float value);
 
 void canzero_set_airgap_transition_duration(float value);
@@ -3564,6 +3627,10 @@ void canzero_send_sdc_status();
 void canzero_send_loop_frequency();
 
 void canzero_send_assertion_fault();
+
+void canzero_send_error_heartbeat_miss();
+
+void canzero_send_last_node_missed();
 
 void canzero_send_acceleration_target_velocity();
 
@@ -3779,9 +3846,23 @@ void canzero_send_error_level_ambient_temperature();
 
 void canzero_send_error_level_config_ambient_temperature();
 
-void canzero_send_cooling_cycle_flow_rate();
+void canzero_send_cooling_flow_rate_begin();
 
-void canzero_send_cooling_cycle_control();
+void canzero_send_cooling_flow_rate_end();
+
+void canzero_send_error_cooling_flow_rate_low();
+
+void canzero_send_error_cooling_flow_rate_mismatch();
+
+void canzero_send_cooling_cycle_temp_begin();
+
+void canzero_send_cooling_cycle_temp_end();
+
+void canzero_send_error_cooling_cycle_temp_begin_invalid();
+
+void canzero_send_error_cooling_cycle_temp_end_invalid();
+
+void canzero_send_error_level_cooling_cycle_overtemp();
 
 void canzero_send_motor_driver_state();
 
@@ -4136,10 +4217,6 @@ void canzero_send_gamepad_max_acceleration();
 void canzero_send_gamepad_lt2();
 
 void canzero_send_gamepad_rt2();
-
-void canzero_send_error_heartbeat_miss();
-
-void canzero_send_last_node_missed();
 
 void canzero_send_target_airgap();
 

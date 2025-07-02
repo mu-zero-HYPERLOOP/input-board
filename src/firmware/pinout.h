@@ -43,6 +43,7 @@ enum din_pin {
   din_4 = 4,
   din_5 = 5,
   din_6 = 6,
+  din_hack = 7,
   din_COUNT,
 };
 

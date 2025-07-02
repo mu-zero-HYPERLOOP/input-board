@@ -51,7 +51,7 @@ int main() {
   sdc::begin();
 
   sensors::ambient_temperature::begin();
-  sensors::accelerometer::begin();
+  /* sensors::accelerometer::begin(); */
   sensors::linear_encoder::begin();
 
   sensors::bat24_temperature::begin();
@@ -73,7 +73,7 @@ int main() {
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
-  sensors::accelerometer::calibrate();
+  /* sensors::accelerometer::calibrate(); */
   sensors::linear_encoder::calibrate();
 
   sensors::ambient_temperature::calibrate();
@@ -108,7 +108,7 @@ int main() {
 
     input_board::update_continue();
 
-    sensors::accelerometer::update();
+    /* sensors::accelerometer::update(); */
     sensors::linear_encoder::update();
 
     sensors::ambient_temperature::update();

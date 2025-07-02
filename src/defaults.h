@@ -49,6 +49,12 @@ static inline void can_defaults() {
   canzero_set_error_level_supercap_under_voltage(error_level_OK);
   canzero_set_error_level_supercap_temperature(error_level_OK);
 
+  canzero_set_error_cooling_cycle_temp_begin_invalid(error_flag_OK);
+  canzero_set_error_cooling_cycle_temp_end_invalid(error_flag_OK);
+
+  canzero_set_error_cooling_flow_rate_low(error_flag_OK);
+  canzero_set_error_cooling_flow_rate_mismatch(error_flag_OK);
+
   canzero_set_ignore_45v(bool_t_FALSE);
 
   canzero_set_system_power_consumption(0);

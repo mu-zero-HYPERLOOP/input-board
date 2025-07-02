@@ -56,7 +56,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   }
 
   // === External Temperatures ===
-  const auto ext_temps = std::array<error_level, 14>{
+  const auto ext_temps = std::array<error_level, 15>{
       canzero_get_levitation_board1_error_level_magnet_temperature_left(),
       canzero_get_levitation_board1_error_level_magnet_temperature_right(),
       canzero_get_levitation_board2_error_level_magnet_temperature_left(),
@@ -71,6 +71,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_motor_driver_error_level_board_temperature(),
       canzero_get_error_level_ambient_temperature(),
       canzero_get_error_level_supercap_temperature(),
+      canzero_get_error_level_cooling_cycle_overtemp(),
   };
   const auto ext_temp_error_level_it =
       std::max_element(ext_temps.begin(), ext_temps.end());
@@ -113,7 +114,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   }
 
   // === Remaining Error Flags ===
-  const auto error_flags = std::array<error_flag, 46>{
+  const auto error_flags = std::array<error_flag, 50>{
       canzero_get_motor_driver_assertion_fault(),
       canzero_get_motor_driver_error_arming_failed(),
       canzero_get_motor_driver_error_precharge_failed(),
@@ -161,6 +162,11 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_error_acceleration_calibration_failed(),
       canzero_get_error_lateral_acceleration_out_of_range(),
       canzero_get_error_vertical_acceleration_out_of_range(),
+
+      canzero_get_error_cooling_flow_rate_mismatch(),
+      canzero_get_error_cooling_flow_rate_low(),
+      canzero_get_error_cooling_cycle_temp_begin_invalid(),
+      canzero_get_error_cooling_cycle_temp_end_invalid(),
 
       canzero_get_power_board12_assertion_fault(),
       canzero_get_power_board12_error_any_short(),
