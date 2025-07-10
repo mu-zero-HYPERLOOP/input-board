@@ -11,6 +11,10 @@ IntervalTiming endTiming;
 Timestamp lastBeginInterrupt;
 Timestamp lastEndInterrupt;
 
+const auto& rpmT = sensors::cooling_flowrate::rpmTable;
+const auto& lphT = sensors::cooling_flowrate::lphTable;
+const int size = sensors::cooling_flowrate::tableSize;
+
 void on_flow_rate_begin_edge() {
   beginTiming.tick();
   lastBeginInterrupt = Timestamp::now();
@@ -28,6 +32,17 @@ void sensors::cooling_flowrate::begin() {
 }
 
 float frequencyToFlowRate(Frequency frequency) {
+  unsigned long rpm = static_cast<unsigned long>(static_cast<float>(frequency) * 60);
+
+  if (rpm <= rpmT[0]) return static_cast<float> (lphT[0]);
+  if (rpm >= rpmT[size - 1]) return static_cast<float>(lphT[size - 1]);
+
+  for (int i = 0; i < size - 1; i++) {
+    if (rpmT[i] <= rpm && rpm < rpmT[i + 1]) {
+      float slope = (float)(lphT[i + 1] - lphT[i]) / (rpmT[i + 1] - rpmT[i]);
+      return static_cast<float>(lphT[i] + slope * (rpm - rpmT[i]));
+    }
+  }
 
   return 0.0f;
 }

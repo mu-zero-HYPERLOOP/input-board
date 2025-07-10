@@ -197,6 +197,10 @@ typedef enum {
   pdu_24v_command_START = 1,
   pdu_24v_command_STOP = 2,
 } pdu_24v_command;
+typedef enum {
+  led_board_command_NONE = 0,
+  led_board_command_DO_SHIT = 1,
+} led_board_command;
 typedef struct {
   uint16_t m_year;
   uint8_t m_month;
@@ -226,10 +230,6 @@ typedef struct {
   bool_t m_ignore_warning;
   bool_t m_ignore_error;
 } error_level_config;
-typedef enum {
-  led_board_command_NONE = 0,
-  led_board_command_DO_SHIT = 1,
-} led_board_command;
 static const node_id CANZERO_NODE_ID = node_id_input_board;
 typedef struct {
   uint32_t id;
@@ -1590,6 +1590,14 @@ static inline error_level canzero_get_error_level_over_temperature_system() {
   extern error_level __oe_error_level_over_temperature_system;
   return __oe_error_level_over_temperature_system;
 }
+static inline global_state canzero_get_state() {
+  extern global_state __oe_state;
+  return __oe_state;
+}
+static inline global_command canzero_get_command() {
+  extern global_command __oe_command;
+  return __oe_command;
+}
 typedef struct {
   get_resp_header m_header;
   uint32_t m_data;
@@ -1604,23 +1612,23 @@ typedef struct {
   float m_target_acceleration;
   bool_t m_pod_grounded;
 } canzero_message_input_board_stream_motor_command;
-static const uint32_t canzero_message_input_board_stream_motor_command_id = 0x4A;
+static const uint32_t canzero_message_input_board_stream_motor_command_id = 0x49;
 typedef struct {
   bool_t m_ignore_45v;
 } canzero_message_input_board_stream_debug_settings;
-static const uint32_t canzero_message_input_board_stream_debug_settings_id = 0x4D;
+static const uint32_t canzero_message_input_board_stream_debug_settings_id = 0x4C;
 typedef struct {
   float m_position;
   float m_velocity;
   float m_acceleration;
 } canzero_message_input_board_stream_position_estimation;
-static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x9A;
+static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x11B;
 typedef struct {
   int16_t m_linear_encoder_count;
   bool_t m_absolute_position_known;
   float m_absolute_position_offset;
 } canzero_message_input_board_stream_linear_encoder;
-static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0xFB;
+static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x9B;
 typedef struct {
   float m_raw_acceleration;
   float m_lateral_acceleration;
@@ -1636,19 +1644,19 @@ typedef struct {
   float m_supercap_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
-static const uint32_t canzero_message_input_board_stream_link24_id = 0x11B;
+static const uint32_t canzero_message_input_board_stream_link24_id = 0xBB;
 typedef struct {
   float m_link45_voltage;
   float m_link45_current;
 } canzero_message_input_board_stream_link45;
-static const uint32_t canzero_message_input_board_stream_link45_id = 0x5A;
+static const uint32_t canzero_message_input_board_stream_link45_id = 0xDB;
 typedef struct {
   float m_mcu_temperature;
   float m_supercap_temperature;
   float m_sac_ebox_temperature;
   float m_power_ebox_temperature;
 } canzero_message_input_board_stream_mics_temperatures;
-static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0x7A;
+static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0xFB;
 typedef struct {
   float m_bat24_cell_temperature_1;
   float m_bat24_cell_temperature_2;
@@ -1661,7 +1669,7 @@ typedef struct {
   float m_cooling_cycle_temp_begin;
   float m_cooling_cycle_temp_end;
 } canzero_message_input_board_stream_cooling_cycle;
-static const uint32_t canzero_message_input_board_stream_cooling_cycle_id = 0x11C;
+static const uint32_t canzero_message_input_board_stream_cooling_cycle_id = 0x4D;
 typedef struct {
   float m_ambient_temperature_1;
   float m_ambient_temperature_2;
@@ -1675,7 +1683,7 @@ typedef struct {
   float m_system_power_consumption;
   float m_communication_power_consumption;
 } canzero_message_input_board_stream_power_consumption;
-static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0xBA;
+static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0x5A;
 typedef struct {
   error_flag m_assertion_fault;
   error_flag m_error_acceleration_out_of_range;
@@ -1702,7 +1710,7 @@ typedef struct {
   error_level m_error_level_bat24_over_voltage;
   error_level m_error_level_bat24_over_current;
 } canzero_message_input_board_stream_errors;
-static const uint32_t canzero_message_input_board_stream_errors_id = 0x5B;
+static const uint32_t canzero_message_input_board_stream_errors_id = 0x6D;
 typedef struct {
   error_level m_error_level_supercap_under_voltage;
   error_level m_error_level_supercap_over_voltage;
@@ -1718,7 +1726,7 @@ typedef struct {
   error_level m_error_level_ambient_temperature;
   uint8_t m_last_node_missed;
 } canzero_message_input_board_stream_errors2;
-static const uint32_t canzero_message_input_board_stream_errors2_id = 0x7B;
+static const uint32_t canzero_message_input_board_stream_errors2_id = 0x11C;
 typedef struct {
   error_flag m_error_cooling_flow_rate_low;
   error_flag m_error_cooling_flow_rate_mismatch;
@@ -1726,7 +1734,7 @@ typedef struct {
   error_flag m_error_cooling_cycle_temp_end_invalid;
   error_level m_error_level_cooling_cycle_overtemp;
 } canzero_message_input_board_stream_errors3;
-static const uint32_t canzero_message_input_board_stream_errors3_id = 0x9B;
+static const uint32_t canzero_message_input_board_stream_errors3_id = 0x5B;
 typedef struct {
   uint64_t m_config_hash;
 } canzero_message_input_board_stream_config_hash;
@@ -1735,31 +1743,33 @@ typedef struct {
   global_state m_global_state;
   global_command m_global_command;
   sdc_status m_system_sdc_status;
+  global_state m_state;
+  global_command m_command;
 } canzero_message_input_board_stream_state;
-static const uint32_t canzero_message_input_board_stream_state_id = 0xDA;
+static const uint32_t canzero_message_input_board_stream_state_id = 0xCD;
 typedef struct {
   guidance_command m_guidance_command;
 } canzero_message_input_board_stream_guidance_command;
-static const uint32_t canzero_message_input_board_stream_guidance_command_id = 0x4C;
+static const uint32_t canzero_message_input_board_stream_guidance_command_id = 0x4B;
 typedef struct {
   levitation_command m_levitation_command;
 } canzero_message_input_board_stream_levitation_command;
-static const uint32_t canzero_message_input_board_stream_levitation_command_id = 0x4B;
+static const uint32_t canzero_message_input_board_stream_levitation_command_id = 0x4A;
 typedef struct {
   float m_target_airgap;
   float m_airgap_transition_duration;
   airgap_transition_mode m_airgap_transition_mode;
 } canzero_message_input_board_stream_levitation_conifg;
-static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0xDB;
+static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0x7B;
 typedef struct {
   pdu_12v_command m_power_board12_command;
 } canzero_message_input_board_stream_pdu_12v_command;
-static const uint32_t canzero_message_input_board_stream_pdu_12v_command_id = 0x49;
+static const uint32_t canzero_message_input_board_stream_pdu_12v_command_id = 0x48;
 typedef struct {
   pdu_24v_command m_power_board24_command;
   bool_t m_power_board24_cooling_pump_channel_ctrl;
 } canzero_message_input_board_stream_pdu_24v_command;
-static const uint32_t canzero_message_input_board_stream_pdu_24v_command_id = 0x48;
+static const uint32_t canzero_message_input_board_stream_pdu_24v_command_id = 0x47;
 typedef struct {
   error_flag m_error_heartbeat_miss;
   error_level m_error_any;
@@ -1767,13 +1777,17 @@ typedef struct {
   error_level m_error_level_config_consistency;
   uint8_t m_last_node_missed;
 } canzero_message_input_board_stream_global_fsm_errors;
-static const uint32_t canzero_message_input_board_stream_global_fsm_errors_id = 0xBB;
+static const uint32_t canzero_message_input_board_stream_global_fsm_errors_id = 0x8D;
 typedef struct {
   float m_target_airgap;
   float m_airgap_transition_duration;
   airgap_transition_mode m_airgap_transition_mode;
 } canzero_message_input_board_stream_levitation_config;
-static const uint32_t canzero_message_input_board_stream_levitation_config_id = 0x6B;
+static const uint32_t canzero_message_input_board_stream_levitation_config_id = 0x6A;
+typedef struct {
+  led_board_command m_led_board_command;
+} canzero_message_input_board_stream_led_board_command;
+static const uint32_t canzero_message_input_board_stream_led_board_command_id = 0xAD;
 typedef struct {
   uint8_t m_node_id;
   uint8_t m_unregister;
@@ -2091,6 +2105,7 @@ typedef struct {
   error_flag m_assertion_fault;
   error_flag m_error_heartbeat_miss;
   error_level m_error_level_mcu_temperature;
+  uint8_t m_last_node_missed;
 } canzero_message_led_board_stream_errors;
 static const uint32_t canzero_message_led_board_stream_errors_id = 0x52;
 typedef struct {
@@ -3460,10 +3475,7 @@ static inline void canzero_set_led_board_state(led_board_state value){
   __oe_led_board_state = value;
 }
 
-static inline void canzero_set_led_board_command(led_board_command value){
-  extern led_board_command __oe_led_board_command;
-  __oe_led_board_command = value;
-}
+void canzero_set_led_board_command(led_board_command value);
 
 static inline void canzero_set_led_board_sdc_status(sdc_status value){
   extern sdc_status __oe_led_board_sdc_status;
@@ -3591,6 +3603,10 @@ void canzero_set_error_level_config_consistency(error_level value);
 void canzero_set_error_any(error_level value);
 
 void canzero_set_error_level_over_temperature_system(error_level value);
+
+void canzero_set_state(global_state value);
+
+void canzero_set_command(global_command value);
 
 void canzero_send_config_hash();
 
@@ -4259,5 +4275,9 @@ void canzero_send_error_level_config_consistency();
 void canzero_send_error_any();
 
 void canzero_send_error_level_over_temperature_system();
+
+void canzero_send_state();
+
+void canzero_send_command();
 
 #endif

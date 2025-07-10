@@ -32,7 +32,7 @@ static void FASTRUN on_value(const Voltage &v) {
                                                          ZERO_A_READING) +
                     offset);
   filter.push(i);
-  debugPrintf("voltage: %f\ncurrent: %f\noffset: %fA\n", v / 1_V, i / 1_A, offset / 1_A);
+  // debugPrintf("voltage: %f\ncurrent: %f\noffset: %fA\n", v / 1_V, i / 1_A, offset / 1_A);
 
   const bool sensible = filter.get() <= 100_A && filter.get() >= -1_A;
   canzero_set_error_link24_current_invalid(sensible ? error_flag_OK

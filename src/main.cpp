@@ -33,6 +33,7 @@
 #include "state_estimation/state_estimation.h"
 #include "util/timing.h"
 #include "fsm/fsm.h"
+#include "Arduino.h"
 
 
 static IntervalTiming loopIntervalTiming;
@@ -49,16 +50,14 @@ int main() {
   input_board::begin();
 
   sdc::begin();
-
   sensors::ambient_temperature::begin();
-  /* sensors::accelerometer::begin(); */
-  sensors::linear_encoder::begin();
 
+  //csensors::accelerometer::begin();
+  sensors::linear_encoder::begin();
   sensors::bat24_temperature::begin();
   sensors::ebox_temperature::begin();
   sensors::mcu_temperature::begin();
   sensors::supercap_temperature::begin();
-
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
@@ -73,7 +72,7 @@ int main() {
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
-  /* sensors::accelerometer::calibrate(); */
+  // sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
   sensors::ambient_temperature::calibrate();
@@ -108,7 +107,7 @@ int main() {
 
     input_board::update_continue();
 
-    /* sensors::accelerometer::update(); */
+    // sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
     sensors::ambient_temperature::update();
@@ -130,6 +129,9 @@ int main() {
     canzero_set_system_power_consumption(total_power);
     float communication_power = canzero_get_link24_current() * 24.0;
     canzero_set_communication_power_consumption(communication_power);
+
+
+    //debugPrintf("Acceleration: %f\n", canzero_get_acceleration());
 
     state_estimation::update();
 
