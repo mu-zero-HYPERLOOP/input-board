@@ -3,6 +3,9 @@
 #include "canzero/canzero.h"
 
 static inline void can_defaults() {
+  canzero_set_error_level_config_consistency(error_level_OK);
+  canzero_set_power_board12_command(pdu_12v_command_START);
+
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_set_global_command(global_command_NONE);
   canzero_set_assert_45V_system_online(bool_t_FALSE);
@@ -34,6 +37,30 @@ static inline void can_defaults() {
   canzero_set_error_ambient_temperature_1_invalid(error_flag_OK);
   canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
   canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
+
+  canzero_set_error_guidance_front_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_guidance_front_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_guidance_back_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_guidance_back_magnet_temperature_right_invalid(error_flag_OK);
+
+  canzero_set_error_level_guidance_front_magnet_temperature_left(error_level_OK);
+  canzero_set_error_level_guidance_front_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_guidance_back_magnet_temperature_left(error_level_OK);
+  canzero_set_error_level_guidance_back_magnet_temperature_right(error_level_OK);
+
+  canzero_set_error_levitation_front_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_levitation_front_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_levitation_middle_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_levitation_middle_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_levitation_back_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_levitation_back_magnet_temperature_right_invalid(error_flag_OK);
+
+  canzero_set_error_level_levitation_front_magnet_temperature_left(error_level_OK);
+  canzero_set_error_level_levitation_front_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_levitation_middle_magnet_temperature_left(error_level_OK);
+  canzero_set_error_level_levitation_middle_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_levitation_back_magnet_temperature_left(error_level_OK);
+  canzero_set_error_level_levitation_back_magnet_temperature_right(error_level_OK);
 
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_bat24_temperature(error_level_OK);

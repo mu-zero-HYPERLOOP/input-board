@@ -762,6 +762,130 @@ static inline error_level_config canzero_get_error_level_config_ambient_temperat
   extern error_level_config __oe_error_level_config_ambient_temperature;
   return __oe_error_level_config_ambient_temperature;
 }
+static inline float canzero_get_guidance_front_magnet_temperature_left() {
+  extern float __oe_guidance_front_magnet_temperature_left;
+  return __oe_guidance_front_magnet_temperature_left;
+}
+static inline error_flag canzero_get_error_guidance_front_magnet_temperature_left_invalid() {
+  extern error_flag __oe_error_guidance_front_magnet_temperature_left_invalid;
+  return __oe_error_guidance_front_magnet_temperature_left_invalid;
+}
+static inline error_level canzero_get_error_level_guidance_front_magnet_temperature_left() {
+  extern error_level __oe_error_level_guidance_front_magnet_temperature_left;
+  return __oe_error_level_guidance_front_magnet_temperature_left;
+}
+static inline float canzero_get_guidance_front_magnet_temperature_right() {
+  extern float __oe_guidance_front_magnet_temperature_right;
+  return __oe_guidance_front_magnet_temperature_right;
+}
+static inline error_flag canzero_get_error_guidance_front_magnet_temperature_right_invalid() {
+  extern error_flag __oe_error_guidance_front_magnet_temperature_right_invalid;
+  return __oe_error_guidance_front_magnet_temperature_right_invalid;
+}
+static inline error_level canzero_get_error_level_guidance_front_magnet_temperature_right() {
+  extern error_level __oe_error_level_guidance_front_magnet_temperature_right;
+  return __oe_error_level_guidance_front_magnet_temperature_right;
+}
+static inline float canzero_get_guidance_back_magnet_temperature_left() {
+  extern float __oe_guidance_back_magnet_temperature_left;
+  return __oe_guidance_back_magnet_temperature_left;
+}
+static inline error_flag canzero_get_error_guidance_back_magnet_temperature_left_invalid() {
+  extern error_flag __oe_error_guidance_back_magnet_temperature_left_invalid;
+  return __oe_error_guidance_back_magnet_temperature_left_invalid;
+}
+static inline error_level canzero_get_error_level_guidance_back_magnet_temperature_left() {
+  extern error_level __oe_error_level_guidance_back_magnet_temperature_left;
+  return __oe_error_level_guidance_back_magnet_temperature_left;
+}
+static inline float canzero_get_guidance_back_magnet_temperature_right() {
+  extern float __oe_guidance_back_magnet_temperature_right;
+  return __oe_guidance_back_magnet_temperature_right;
+}
+static inline error_flag canzero_get_error_guidance_back_magnet_temperature_right_invalid() {
+  extern error_flag __oe_error_guidance_back_magnet_temperature_right_invalid;
+  return __oe_error_guidance_back_magnet_temperature_right_invalid;
+}
+static inline error_level canzero_get_error_level_guidance_back_magnet_temperature_right() {
+  extern error_level __oe_error_level_guidance_back_magnet_temperature_right;
+  return __oe_error_level_guidance_back_magnet_temperature_right;
+}
+static inline float canzero_get_levitation_front_magnet_temperature_left() {
+  extern float __oe_levitation_front_magnet_temperature_left;
+  return __oe_levitation_front_magnet_temperature_left;
+}
+static inline error_flag canzero_get_error_levitation_front_magnet_temperature_left_invalid() {
+  extern error_flag __oe_error_levitation_front_magnet_temperature_left_invalid;
+  return __oe_error_levitation_front_magnet_temperature_left_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_front_magnet_temperature_left() {
+  extern error_level __oe_error_level_levitation_front_magnet_temperature_left;
+  return __oe_error_level_levitation_front_magnet_temperature_left;
+}
+static inline float canzero_get_levitation_front_magnet_temperature_right() {
+  extern float __oe_levitation_front_magnet_temperature_right;
+  return __oe_levitation_front_magnet_temperature_right;
+}
+static inline error_flag canzero_get_error_levitation_front_magnet_temperature_right_invalid() {
+  extern error_flag __oe_error_levitation_front_magnet_temperature_right_invalid;
+  return __oe_error_levitation_front_magnet_temperature_right_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_front_magnet_temperature_right() {
+  extern error_level __oe_error_level_levitation_front_magnet_temperature_right;
+  return __oe_error_level_levitation_front_magnet_temperature_right;
+}
+static inline float canzero_get_levitation_middle_magnet_temperature_left() {
+  extern float __oe_levitation_middle_magnet_temperature_left;
+  return __oe_levitation_middle_magnet_temperature_left;
+}
+static inline error_flag canzero_get_error_levitation_middle_magnet_temperature_left_invalid() {
+  extern error_flag __oe_error_levitation_middle_magnet_temperature_left_invalid;
+  return __oe_error_levitation_middle_magnet_temperature_left_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_middle_magnet_temperature_left() {
+  extern error_level __oe_error_level_levitation_middle_magnet_temperature_left;
+  return __oe_error_level_levitation_middle_magnet_temperature_left;
+}
+static inline float canzero_get_levitation_middle_magnet_temperature_right() {
+  extern float __oe_levitation_middle_magnet_temperature_right;
+  return __oe_levitation_middle_magnet_temperature_right;
+}
+static inline error_flag canzero_get_error_levitation_middle_magnet_temperature_right_invalid() {
+  extern error_flag __oe_error_levitation_middle_magnet_temperature_right_invalid;
+  return __oe_error_levitation_middle_magnet_temperature_right_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_middle_magnet_temperature_right() {
+  extern error_level __oe_error_level_levitation_middle_magnet_temperature_right;
+  return __oe_error_level_levitation_middle_magnet_temperature_right;
+}
+static inline float canzero_get_levitation_back_magnet_temperature_left() {
+  extern float __oe_levitation_back_magnet_temperature_left;
+  return __oe_levitation_back_magnet_temperature_left;
+}
+static inline error_flag canzero_get_error_levitation_back_magnet_temperature_left_invalid() {
+  extern error_flag __oe_error_levitation_back_magnet_temperature_left_invalid;
+  return __oe_error_levitation_back_magnet_temperature_left_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_back_magnet_temperature_left() {
+  extern error_level __oe_error_level_levitation_back_magnet_temperature_left;
+  return __oe_error_level_levitation_back_magnet_temperature_left;
+}
+static inline float canzero_get_levitation_back_magnet_temperature_right() {
+  extern float __oe_levitation_back_magnet_temperature_right;
+  return __oe_levitation_back_magnet_temperature_right;
+}
+static inline error_flag canzero_get_error_levitation_back_magnet_temperature_right_invalid() {
+  extern error_flag __oe_error_levitation_back_magnet_temperature_right_invalid;
+  return __oe_error_levitation_back_magnet_temperature_right_invalid;
+}
+static inline error_level canzero_get_error_level_levitation_back_magnet_temperature_right() {
+  extern error_level __oe_error_level_levitation_back_magnet_temperature_right;
+  return __oe_error_level_levitation_back_magnet_temperature_right;
+}
+static inline error_level_config canzero_get_error_level_config_magnet_temperature() {
+  extern error_level_config __oe_error_level_config_magnet_temperature;
+  return __oe_error_level_config_magnet_temperature;
+}
 static inline float canzero_get_cooling_flow_rate_begin() {
   extern float __oe_cooling_flow_rate_begin;
   return __oe_cooling_flow_rate_begin;
@@ -1622,13 +1746,13 @@ typedef struct {
   float m_velocity;
   float m_acceleration;
 } canzero_message_input_board_stream_position_estimation;
-static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0x11B;
+static const uint32_t canzero_message_input_board_stream_position_estimation_id = 0xDA;
 typedef struct {
   int16_t m_linear_encoder_count;
   bool_t m_absolute_position_known;
   float m_absolute_position_offset;
 } canzero_message_input_board_stream_linear_encoder;
-static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x9B;
+static const uint32_t canzero_message_input_board_stream_linear_encoder_id = 0x5A;
 typedef struct {
   float m_raw_acceleration;
   float m_lateral_acceleration;
@@ -1644,19 +1768,19 @@ typedef struct {
   float m_supercap_voltage;
   float m_link24_current;
 } canzero_message_input_board_stream_link24;
-static const uint32_t canzero_message_input_board_stream_link24_id = 0xBB;
+static const uint32_t canzero_message_input_board_stream_link24_id = 0x7A;
 typedef struct {
   float m_link45_voltage;
   float m_link45_current;
 } canzero_message_input_board_stream_link45;
-static const uint32_t canzero_message_input_board_stream_link45_id = 0xDB;
+static const uint32_t canzero_message_input_board_stream_link45_id = 0x9A;
 typedef struct {
   float m_mcu_temperature;
   float m_supercap_temperature;
   float m_sac_ebox_temperature;
   float m_power_ebox_temperature;
 } canzero_message_input_board_stream_mics_temperatures;
-static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0xFB;
+static const uint32_t canzero_message_input_board_stream_mics_temperatures_id = 0xBA;
 typedef struct {
   float m_bat24_cell_temperature_1;
   float m_bat24_cell_temperature_2;
@@ -1680,10 +1804,26 @@ typedef struct {
 } canzero_message_input_board_stream_ambient_temperatures;
 static const uint32_t canzero_message_input_board_stream_ambient_temperatures_id = 0x9C;
 typedef struct {
+  float m_guidance_front_magnet_temperature_left;
+  float m_guidance_front_magnet_temperature_right;
+  float m_guidance_back_magnet_temperature_left;
+  float m_guidance_back_magnet_temperature_right;
+} canzero_message_input_board_stream_guidance_temperatures;
+static const uint32_t canzero_message_input_board_stream_guidance_temperatures_id = 0xDB;
+typedef struct {
+  float m_levitation_front_magnet_temperature_left;
+  float m_levitation_front_magnet_temperature_right;
+  float m_levitation_middle_magnet_temperature_left;
+  float m_levitation_middle_magnet_temperature_right;
+  float m_levitation_back_magnet_temperature_left;
+  float m_levitation_back_magnet_temperature_right;
+} canzero_message_input_board_stream_levitation_temperatures;
+static const uint32_t canzero_message_input_board_stream_levitation_temperatures_id = 0x11B;
+typedef struct {
   float m_system_power_consumption;
   float m_communication_power_consumption;
 } canzero_message_input_board_stream_power_consumption;
-static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0x5A;
+static const uint32_t canzero_message_input_board_stream_power_consumption_id = 0xFA;
 typedef struct {
   error_flag m_assertion_fault;
   error_flag m_error_acceleration_out_of_range;
@@ -1733,8 +1873,37 @@ typedef struct {
   error_flag m_error_cooling_cycle_temp_begin_invalid;
   error_flag m_error_cooling_cycle_temp_end_invalid;
   error_level m_error_level_cooling_cycle_overtemp;
+  error_flag m_error_guidance_front_magnet_temperature_left_invalid;
+  error_flag m_error_guidance_front_magnet_temperature_right_invalid;
+  error_flag m_error_guidance_back_magnet_temperature_left_invalid;
+  error_flag m_error_guidance_back_magnet_temperature_right_invalid;
 } canzero_message_input_board_stream_errors3;
 static const uint32_t canzero_message_input_board_stream_errors3_id = 0x5B;
+typedef struct {
+  error_flag m_error_levitation_front_magnet_temperature_left_invalid;
+  error_flag m_error_levitation_front_magnet_temperature_right_invalid;
+  error_flag m_error_levitation_middle_magnet_temperature_left_invalid;
+  error_flag m_error_levitation_middle_magnet_temperature_right_invalid;
+  error_flag m_error_levitation_back_magnet_temperature_left_invalid;
+  error_flag m_error_levitation_back_magnet_temperature_right_invalid;
+} canzero_message_input_board_stream_errors4;
+static const uint32_t canzero_message_input_board_stream_errors4_id = 0x7B;
+typedef struct {
+  error_level m_error_level_guidance_front_magnet_temperature_left;
+  error_level m_error_level_guidance_front_magnet_temperature_right;
+  error_level m_error_level_guidance_back_magnet_temperature_left;
+  error_level m_error_level_guidance_back_magnet_temperature_right;
+  error_level m_error_level_levitation_front_magnet_temperature_left;
+  error_level m_error_level_levitation_front_magnet_temperature_right;
+} canzero_message_input_board_stream_errors5;
+static const uint32_t canzero_message_input_board_stream_errors5_id = 0x9B;
+typedef struct {
+  error_level m_error_level_levitation_middle_magnet_temperature_left;
+  error_level m_error_level_levitation_middle_magnet_temperature_right;
+  error_level m_error_level_levitation_back_magnet_temperature_left;
+  error_level m_error_level_levitation_back_magnet_temperature_right;
+} canzero_message_input_board_stream_errors6;
+static const uint32_t canzero_message_input_board_stream_errors6_id = 0xBB;
 typedef struct {
   uint64_t m_config_hash;
 } canzero_message_input_board_stream_config_hash;
@@ -1760,7 +1929,7 @@ typedef struct {
   float m_airgap_transition_duration;
   airgap_transition_mode m_airgap_transition_mode;
 } canzero_message_input_board_stream_levitation_conifg;
-static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0x7B;
+static const uint32_t canzero_message_input_board_stream_levitation_conifg_id = 0xFB;
 typedef struct {
   pdu_12v_command m_power_board12_command;
 } canzero_message_input_board_stream_pdu_12v_command;
@@ -2618,6 +2787,149 @@ void canzero_set_error_level_ambient_temperature(error_level value);
 static inline void canzero_set_error_level_config_ambient_temperature(error_level_config value){
   extern error_level_config __oe_error_level_config_ambient_temperature;
   __oe_error_level_config_ambient_temperature = value;
+}
+
+static inline void canzero_set_guidance_front_magnet_temperature_left(float value){
+  extern float __oe_guidance_front_magnet_temperature_left;
+  __oe_guidance_front_magnet_temperature_left = value;
+}
+
+void canzero_set_error_guidance_front_magnet_temperature_left_invalid(error_flag value);
+
+static inline void canzero_set_error_level_guidance_front_magnet_temperature_left(error_level value){
+  extern error_level __oe_error_level_guidance_front_magnet_temperature_left;
+  __oe_error_level_guidance_front_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_guidance_front_magnet_temperature_right(float value){
+  extern float __oe_guidance_front_magnet_temperature_right;
+  __oe_guidance_front_magnet_temperature_right = value;
+}
+
+void canzero_set_error_guidance_front_magnet_temperature_right_invalid(error_flag value);
+
+static inline void canzero_set_error_level_guidance_front_magnet_temperature_right(error_level value){
+  extern error_level __oe_error_level_guidance_front_magnet_temperature_right;
+  __oe_error_level_guidance_front_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_guidance_back_magnet_temperature_left(float value){
+  extern float __oe_guidance_back_magnet_temperature_left;
+  __oe_guidance_back_magnet_temperature_left = value;
+}
+
+void canzero_set_error_guidance_back_magnet_temperature_left_invalid(error_flag value);
+
+static inline void canzero_set_error_level_guidance_back_magnet_temperature_left(error_level value){
+  extern error_level __oe_error_level_guidance_back_magnet_temperature_left;
+  __oe_error_level_guidance_back_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_guidance_back_magnet_temperature_right(float value){
+  extern float __oe_guidance_back_magnet_temperature_right;
+  __oe_guidance_back_magnet_temperature_right = value;
+}
+
+void canzero_set_error_guidance_back_magnet_temperature_right_invalid(error_flag value);
+
+static inline void canzero_set_error_level_guidance_back_magnet_temperature_right(error_level value){
+  extern error_level __oe_error_level_guidance_back_magnet_temperature_right;
+  __oe_error_level_guidance_back_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_levitation_front_magnet_temperature_left(float value){
+  extern float __oe_levitation_front_magnet_temperature_left;
+  __oe_levitation_front_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_error_levitation_front_magnet_temperature_left_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_front_magnet_temperature_left_invalid;
+  __oe_error_levitation_front_magnet_temperature_left_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_front_magnet_temperature_left(error_level value){
+  extern error_level __oe_error_level_levitation_front_magnet_temperature_left;
+  __oe_error_level_levitation_front_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_levitation_front_magnet_temperature_right(float value){
+  extern float __oe_levitation_front_magnet_temperature_right;
+  __oe_levitation_front_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_error_levitation_front_magnet_temperature_right_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_front_magnet_temperature_right_invalid;
+  __oe_error_levitation_front_magnet_temperature_right_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_front_magnet_temperature_right(error_level value){
+  extern error_level __oe_error_level_levitation_front_magnet_temperature_right;
+  __oe_error_level_levitation_front_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_levitation_middle_magnet_temperature_left(float value){
+  extern float __oe_levitation_middle_magnet_temperature_left;
+  __oe_levitation_middle_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_error_levitation_middle_magnet_temperature_left_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_middle_magnet_temperature_left_invalid;
+  __oe_error_levitation_middle_magnet_temperature_left_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_middle_magnet_temperature_left(error_level value){
+  extern error_level __oe_error_level_levitation_middle_magnet_temperature_left;
+  __oe_error_level_levitation_middle_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_levitation_middle_magnet_temperature_right(float value){
+  extern float __oe_levitation_middle_magnet_temperature_right;
+  __oe_levitation_middle_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_error_levitation_middle_magnet_temperature_right_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_middle_magnet_temperature_right_invalid;
+  __oe_error_levitation_middle_magnet_temperature_right_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_middle_magnet_temperature_right(error_level value){
+  extern error_level __oe_error_level_levitation_middle_magnet_temperature_right;
+  __oe_error_level_levitation_middle_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_levitation_back_magnet_temperature_left(float value){
+  extern float __oe_levitation_back_magnet_temperature_left;
+  __oe_levitation_back_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_error_levitation_back_magnet_temperature_left_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_back_magnet_temperature_left_invalid;
+  __oe_error_levitation_back_magnet_temperature_left_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_back_magnet_temperature_left(error_level value){
+  extern error_level __oe_error_level_levitation_back_magnet_temperature_left;
+  __oe_error_level_levitation_back_magnet_temperature_left = value;
+}
+
+static inline void canzero_set_levitation_back_magnet_temperature_right(float value){
+  extern float __oe_levitation_back_magnet_temperature_right;
+  __oe_levitation_back_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_error_levitation_back_magnet_temperature_right_invalid(error_flag value){
+  extern error_flag __oe_error_levitation_back_magnet_temperature_right_invalid;
+  __oe_error_levitation_back_magnet_temperature_right_invalid = value;
+}
+
+static inline void canzero_set_error_level_levitation_back_magnet_temperature_right(error_level value){
+  extern error_level __oe_error_level_levitation_back_magnet_temperature_right;
+  __oe_error_level_levitation_back_magnet_temperature_right = value;
+}
+
+static inline void canzero_set_error_level_config_magnet_temperature(error_level_config value){
+  extern error_level_config __oe_error_level_config_magnet_temperature;
+  __oe_error_level_config_magnet_temperature = value;
 }
 
 static inline void canzero_set_cooling_flow_rate_begin(float value){
@@ -3861,6 +4173,68 @@ void canzero_send_error_ambient_temperature_3_invalid();
 void canzero_send_error_level_ambient_temperature();
 
 void canzero_send_error_level_config_ambient_temperature();
+
+void canzero_send_guidance_front_magnet_temperature_left();
+
+void canzero_send_error_guidance_front_magnet_temperature_left_invalid();
+
+void canzero_send_error_level_guidance_front_magnet_temperature_left();
+
+void canzero_send_guidance_front_magnet_temperature_right();
+
+void canzero_send_error_guidance_front_magnet_temperature_right_invalid();
+
+void canzero_send_error_level_guidance_front_magnet_temperature_right();
+
+void canzero_send_guidance_back_magnet_temperature_left();
+
+void canzero_send_error_guidance_back_magnet_temperature_left_invalid();
+
+void canzero_send_error_level_guidance_back_magnet_temperature_left();
+
+void canzero_send_guidance_back_magnet_temperature_right();
+
+void canzero_send_error_guidance_back_magnet_temperature_right_invalid();
+
+void canzero_send_error_level_guidance_back_magnet_temperature_right();
+
+void canzero_send_levitation_front_magnet_temperature_left();
+
+void canzero_send_error_levitation_front_magnet_temperature_left_invalid();
+
+void canzero_send_error_level_levitation_front_magnet_temperature_left();
+
+void canzero_send_levitation_front_magnet_temperature_right();
+
+void canzero_send_error_levitation_front_magnet_temperature_right_invalid();
+
+void canzero_send_error_level_levitation_front_magnet_temperature_right();
+
+void canzero_send_levitation_middle_magnet_temperature_left();
+
+void canzero_send_error_levitation_middle_magnet_temperature_left_invalid();
+
+void canzero_send_error_level_levitation_middle_magnet_temperature_left();
+
+void canzero_send_levitation_middle_magnet_temperature_right();
+
+void canzero_send_error_levitation_middle_magnet_temperature_right_invalid();
+
+void canzero_send_error_level_levitation_middle_magnet_temperature_right();
+
+void canzero_send_levitation_back_magnet_temperature_left();
+
+void canzero_send_error_levitation_back_magnet_temperature_left_invalid();
+
+void canzero_send_error_level_levitation_back_magnet_temperature_left();
+
+void canzero_send_levitation_back_magnet_temperature_right();
+
+void canzero_send_error_levitation_back_magnet_temperature_right_invalid();
+
+void canzero_send_error_level_levitation_back_magnet_temperature_right();
+
+void canzero_send_error_level_config_magnet_temperature();
 
 void canzero_send_cooling_flow_rate_begin();
 

@@ -115,7 +115,7 @@ public:
    */
   static int FASTRUN send(const CAN_message_t &msg) { 
     int s =  m_flexcan.write(msg); 
-    assert(s);
+    //assert(s);
     return s;
   }
 

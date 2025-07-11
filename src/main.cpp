@@ -38,6 +38,16 @@
 
 static IntervalTiming loopIntervalTiming;
 
+// int main() {
+//   canzero_init();
+
+//   while (true) {
+//     canzero_can0_poll();
+//     canzero_can1_poll();
+//     canzero_update_continue(canzero_get_time());
+//   }
+// }
+
 int main() {
   canzero_init();
 
@@ -52,8 +62,9 @@ int main() {
   sdc::begin();
   sensors::ambient_temperature::begin();
 
-  //csensors::accelerometer::begin();
+  //sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
+
   sensors::bat24_temperature::begin();
   sensors::ebox_temperature::begin();
   sensors::mcu_temperature::begin();
@@ -62,9 +73,13 @@ int main() {
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
 
+    
+
   sensors::supercap_voltage::begin();
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
+
+
 
   state_estimation::begin();
 
@@ -72,7 +87,7 @@ int main() {
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
-  // sensors::accelerometer::calibrate();
+  //sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
   sensors::ambient_temperature::calibrate();
@@ -98,7 +113,7 @@ int main() {
   while (true) {
     canzero_can0_poll();
     canzero_can1_poll();
-    
+
     if (error_handling::no_error()) {
       sdc::close();
     } else {
@@ -107,7 +122,7 @@ int main() {
 
     input_board::update_continue();
 
-    // sensors::accelerometer::update();
+    //sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
     sensors::ambient_temperature::update();
@@ -129,9 +144,6 @@ int main() {
     canzero_set_system_power_consumption(total_power);
     float communication_power = canzero_get_link24_current() * 24.0;
     canzero_set_communication_power_consumption(communication_power);
-
-
-    //debugPrintf("Acceleration: %f\n", canzero_get_acceleration());
 
     state_estimation::update();
 
