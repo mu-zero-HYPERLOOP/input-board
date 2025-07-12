@@ -28,6 +28,7 @@
 #include "sensors/link45_voltage.h"
 #include "sensors/mcu_temperature.h"
 #include "sensors/supercap_temperature.h"
+#include "sensors/guidance_temperature.h"
 #include "error_handling.hpp"
 #include <avr/pgmspace.h>
 #include "state_estimation/state_estimation.h"
@@ -72,12 +73,14 @@ int main() {
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
+  sensors::guidance_temperature::begin();
 
     
 
   sensors::supercap_voltage::begin();
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
+  
 
 
 
@@ -96,6 +99,7 @@ int main() {
   sensors::mcu_temperature::calibrate();
   sensors::supercap_temperature::calibrate();
   sensors::ambient_temperature::calibrate();
+  sensors::guidance_temperature::calibrate();
 
   sensors::bat24_current::calibrate();
   sensors::bat24_voltage::calibrate();
@@ -130,6 +134,7 @@ int main() {
     sensors::ebox_temperature::update();
     sensors::mcu_temperature::update();
     sensors::supercap_temperature::update();
+    sensors::guidance_temperature::update();
 
     sensors::bat24_current::update();
     sensors::bat24_voltage::update();
