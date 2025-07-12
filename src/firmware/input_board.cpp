@@ -12,7 +12,7 @@
 #include <avr/pgmspace.h>
 
 constexpr size_t MAX_AIN_PERIODIC_JOBS = 6;
-constexpr size_t MAX_MUX_PERIODIC_JOBS = 16;
+constexpr size_t MAX_MUX_PERIODIC_JOBS = 30;
 
 static AinScheduler<MAX_AIN_PERIODIC_JOBS> m_ain_scheduler{};
 static MuxScheduler<MAX_MUX_PERIODIC_JOBS> m_mux_scheduler{};
@@ -30,6 +30,8 @@ void FLASHMEM input_board::begin() {
   pinMode(mux_sel0, OUTPUT);
   pinMode(mux_sel1, OUTPUT);
   pinMode(mux_sel2, OUTPUT);
+
+  pinMode(ain_mux, INPUT);
 }
 
 Voltage FASTRUN input_board::sync_read(ain_pin pin) {
