@@ -53,15 +53,16 @@ void sensors::cooling_flowrate::update() {
 
   Duration timeSinceLastBeginInterrupt = Timestamp::now() - lastBeginInterrupt;
   Duration timeSinceLastEndInterrupt = Timestamp::now() - lastEndInterrupt;
+  
 
   float beginFlowRate = frequencyToFlowRate(beginFrequency);
   float endFlowRate = frequencyToFlowRate(endFrequency);
   if (timeSinceLastBeginInterrupt > 3_s) {
-    beginTiming.reset();
+    // beginTiming.reset();
     beginFlowRate = 0.0f;
   }
   if (timeSinceLastEndInterrupt > 3_s) {
-    endTiming.reset();
+    // endTiming.reset();
     endFlowRate = 0.0f;
   }
 

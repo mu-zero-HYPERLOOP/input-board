@@ -29,6 +29,7 @@
 #include "sensors/mcu_temperature.h"
 #include "sensors/supercap_temperature.h"
 #include "sensors/guidance_temperature.h"
+#include "sensors/cooling_flowrate.h"
 #include "error_handling.hpp"
 #include <avr/pgmspace.h>
 #include "state_estimation/state_estimation.h"
@@ -38,16 +39,6 @@
 
 
 static IntervalTiming loopIntervalTiming;
-
-// int main() {
-//   canzero_init();
-
-//   while (true) {
-//     canzero_can0_poll();
-//     canzero_can1_poll();
-//     canzero_update_continue(canzero_get_time());
-//   }
-// }
 
 int main() {
   canzero_init();
@@ -74,6 +65,8 @@ int main() {
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
   sensors::guidance_temperature::begin();
+
+  sensors::cooling_flowrate::begin();
 
     
 
@@ -135,6 +128,9 @@ int main() {
     sensors::mcu_temperature::update();
     sensors::supercap_temperature::update();
     sensors::guidance_temperature::update();
+
+
+    sensors::cooling_flowrate::update();
 
     sensors::bat24_current::update();
     sensors::bat24_voltage::update();
