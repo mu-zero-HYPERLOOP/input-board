@@ -52,15 +52,15 @@ int main() {
   input_board::begin();
 
   sdc::begin();
-  sensors::ambient_temperature::begin();
+  // sensors::ambient_temperature::begin();
 
   //sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
   sensors::bat24_temperature::begin();
-  sensors::ebox_temperature::begin();
+  // sensors::ebox_temperature::begin();
   sensors::mcu_temperature::begin();
-  sensors::supercap_temperature::begin();
+  // sensors::supercap_temperature::begin();
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
@@ -86,11 +86,11 @@ int main() {
   //sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
-  sensors::ambient_temperature::calibrate();
+  // sensors::ambient_temperature::calibrate();
   sensors::bat24_temperature::calibrate();
-  sensors::ebox_temperature::calibrate();
+  // sensors::ebox_temperature::calibrate();
   sensors::mcu_temperature::calibrate();
-  sensors::supercap_temperature::calibrate();
+  // sensors::supercap_temperature::calibrate();
   sensors::ambient_temperature::calibrate();
   sensors::guidance_temperature::calibrate();
 
@@ -122,11 +122,11 @@ int main() {
     //sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
-    sensors::ambient_temperature::update();
+    // sensors::ambient_temperature::update();
     sensors::bat24_temperature::update();
-    sensors::ebox_temperature::update();
+    // sensors::ebox_temperature::update();
     sensors::mcu_temperature::update();
-    sensors::supercap_temperature::update();
+    // sensors::supercap_temperature::update();
     sensors::guidance_temperature::update();
 
 
