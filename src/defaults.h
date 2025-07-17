@@ -38,29 +38,48 @@ static inline void can_defaults() {
   canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
   canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
 
-  canzero_set_error_guidance_front_magnet_temperature_left_invalid(error_flag_OK);
-  canzero_set_error_guidance_front_magnet_temperature_right_invalid(error_flag_OK);
-  canzero_set_error_guidance_back_magnet_temperature_left_invalid(error_flag_OK);
-  canzero_set_error_guidance_back_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_guidance_front_magnet_temperature_left_invalid(
+      error_flag_OK);
+  canzero_set_error_guidance_front_magnet_temperature_right_invalid(
+      error_flag_OK);
+  canzero_set_error_guidance_back_magnet_temperature_left_invalid(
+      error_flag_OK);
+  canzero_set_error_guidance_back_magnet_temperature_right_invalid(
+      error_flag_OK);
 
-  canzero_set_error_level_guidance_front_magnet_temperature_left(error_level_OK);
-  canzero_set_error_level_guidance_front_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_guidance_front_magnet_temperature_left(
+      error_level_OK);
+  canzero_set_error_level_guidance_front_magnet_temperature_right(
+      error_level_OK);
   canzero_set_error_level_guidance_back_magnet_temperature_left(error_level_OK);
-  canzero_set_error_level_guidance_back_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_guidance_back_magnet_temperature_right(
+      error_level_OK);
 
-  canzero_set_error_levitation_front_magnet_temperature_left_invalid(error_flag_OK);
-  canzero_set_error_levitation_front_magnet_temperature_right_invalid(error_flag_OK);
-  canzero_set_error_levitation_middle_magnet_temperature_left_invalid(error_flag_OK);
-  canzero_set_error_levitation_middle_magnet_temperature_right_invalid(error_flag_OK);
-  canzero_set_error_levitation_back_magnet_temperature_left_invalid(error_flag_OK);
-  canzero_set_error_levitation_back_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_levitation_front_magnet_temperature_left_invalid(
+      error_flag_OK);
+  canzero_set_error_levitation_front_magnet_temperature_right_invalid(
+      error_flag_OK);
+  canzero_set_error_levitation_middle_magnet_temperature_left_invalid(
+      error_flag_OK);
+  canzero_set_error_levitation_middle_magnet_temperature_right_invalid(
+      error_flag_OK);
+  canzero_set_error_levitation_back_magnet_temperature_left_invalid(
+      error_flag_OK);
+  canzero_set_error_levitation_back_magnet_temperature_right_invalid(
+      error_flag_OK);
 
-  canzero_set_error_level_levitation_front_magnet_temperature_left(error_level_OK);
-  canzero_set_error_level_levitation_front_magnet_temperature_right(error_level_OK);
-  canzero_set_error_level_levitation_middle_magnet_temperature_left(error_level_OK);
-  canzero_set_error_level_levitation_middle_magnet_temperature_right(error_level_OK);
-  canzero_set_error_level_levitation_back_magnet_temperature_left(error_level_OK);
-  canzero_set_error_level_levitation_back_magnet_temperature_right(error_level_OK);
+  canzero_set_error_level_levitation_front_magnet_temperature_left(
+      error_level_OK);
+  canzero_set_error_level_levitation_front_magnet_temperature_right(
+      error_level_OK);
+  canzero_set_error_level_levitation_middle_magnet_temperature_left(
+      error_level_OK);
+  canzero_set_error_level_levitation_middle_magnet_temperature_right(
+      error_level_OK);
+  canzero_set_error_level_levitation_back_magnet_temperature_left(
+      error_level_OK);
+  canzero_set_error_level_levitation_back_magnet_temperature_right(
+      error_level_OK);
 
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_bat24_temperature(error_level_OK);
@@ -86,4 +105,27 @@ static inline void can_defaults() {
 
   canzero_set_system_power_consumption(0);
   canzero_set_communication_power_consumption(0);
+
+  canzero_set_error_level_ambient_temperature(error_level_OK);
+  canzero_set_error_ambient_temperature_1_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_2_invalid(error_flag_OK);
+  canzero_set_error_ambient_temperature_3_invalid(error_flag_OK);
+
+  canzero_set_ambient_temperature_avg(0);
+  canzero_set_ambient_temperature_max(0);
+
+  canzero_set_ambient_temperature_1(0);
+  canzero_set_ambient_temperature_2(0);
+  canzero_set_ambient_temperature_3(0);
+
+  canzero_set_error_supercap_temperature_invalid(error_flag_OK);
+  canzero_set_error_level_supercap_temperature(error_level_OK);
+  canzero_set_supercap_temperature(0);
+
+  canzero_set_sac_ebox_temperature(0);
+  canzero_set_power_ebox_temperature(0);
+  canzero_set_error_power_ebox_temperature_invalid(error_flag_OK);
+  canzero_set_error_sac_ebox_temperature_invalid(error_flag_OK);
+  canzero_set_error_level_power_ebox_temperature(error_level_OK);
+  canzero_set_error_level_power_ebox_temperature(error_level_OK);
 }

@@ -8,7 +8,7 @@
 
 constexpr Velocity VEL_CONSIDERED_STOPPED = 0.01_mps;
 
-constexpr Duration STATE_TIMEOUT = 60_s;
+constexpr Duration STATE_TIMEOUT = 2_s;
 
 // Invariants:
 // - guidance in control

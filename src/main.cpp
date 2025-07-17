@@ -10,33 +10,32 @@
 /*                    canzero_get_error_level_config_mcu_temperature, */
 /*                    canzero_set_error_level_mcu_temperature); */
 
+#include "Arduino.h"
 #include "canzero/canzero.h"
 #include "defaults.h"
-#include "print.h"
+#include "error_handling.hpp"
 #include "firmware/input_board.h"
+#include "fsm/fsm.h"
+#include "print.h"
 #include "sdc.h"
 #include "sensors/accelerometer.h"
 #include "sensors/ambient_temperature.h"
 #include "sensors/bat24_current.h"
 #include "sensors/bat24_temperature.h"
 #include "sensors/bat24_voltage.h"
+#include "sensors/cooling_flowrate.h"
 #include "sensors/ebox_temperature.h"
+#include "sensors/guidance_temperature.h"
 #include "sensors/linear_encoder.h"
 #include "sensors/link24_current.h"
-#include "sensors/supercap_voltage.h"
 #include "sensors/link45_current.h"
 #include "sensors/link45_voltage.h"
 #include "sensors/mcu_temperature.h"
 #include "sensors/supercap_temperature.h"
-#include "sensors/guidance_temperature.h"
-#include "sensors/cooling_flowrate.h"
-#include "error_handling.hpp"
-#include <avr/pgmspace.h>
+#include "sensors/supercap_voltage.h"
 #include "state_estimation/state_estimation.h"
 #include "util/timing.h"
-#include "fsm/fsm.h"
-#include "Arduino.h"
-
+#include <avr/pgmspace.h>
 
 static IntervalTiming loopIntervalTiming;
 
@@ -54,7 +53,7 @@ int main() {
   sdc::begin();
   // sensors::ambient_temperature::begin();
 
-  //sensors::accelerometer::begin();
+  // sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
   sensors::bat24_temperature::begin();
@@ -68,14 +67,9 @@ int main() {
 
   sensors::cooling_flowrate::begin();
 
-    
-
   sensors::supercap_voltage::begin();
   sensors::link45_current::begin();
   sensors::link45_voltage::begin();
-  
-
-
 
   state_estimation::begin();
 
@@ -83,15 +77,15 @@ int main() {
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
-  //sensors::accelerometer::calibrate();
+  // sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
+
 
   // sensors::ambient_temperature::calibrate();
   sensors::bat24_temperature::calibrate();
   // sensors::ebox_temperature::calibrate();
   sensors::mcu_temperature::calibrate();
   // sensors::supercap_temperature::calibrate();
-  sensors::ambient_temperature::calibrate();
   sensors::guidance_temperature::calibrate();
 
   sensors::bat24_current::calibrate();
@@ -103,7 +97,7 @@ int main() {
 
   fsm::begin();
 
-  //state_estimation::calibrate();
+  // state_estimation::calibrate();
   debugPrintf("Init DONE\n");
 
   loopIntervalTiming.reset();
@@ -119,8 +113,9 @@ int main() {
 
     input_board::update_continue();
 
-    //sensors::accelerometer::update();
+    // sensors::accelerometer::update();
     sensors::linear_encoder::update();
+
 
     // sensors::ambient_temperature::update();
     sensors::bat24_temperature::update();
@@ -128,7 +123,6 @@ int main() {
     sensors::mcu_temperature::update();
     // sensors::supercap_temperature::update();
     sensors::guidance_temperature::update();
-
 
     sensors::cooling_flowrate::update();
 
@@ -140,8 +134,9 @@ int main() {
     sensors::link45_voltage::update();
 
     //======== Power Consumption ==========
-    float total_power = canzero_get_bat24_voltage() * canzero_get_bat24_current() +
-      canzero_get_link45_voltage() * canzero_get_link45_current();
+    float total_power =
+        canzero_get_bat24_voltage() * canzero_get_bat24_current() +
+        canzero_get_link45_voltage() * canzero_get_link45_current();
     canzero_set_system_power_consumption(total_power);
     float communication_power = canzero_get_link24_current() * 24.0;
     canzero_set_communication_power_consumption(communication_power);
