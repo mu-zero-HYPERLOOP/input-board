@@ -24,6 +24,7 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER>
                              canzero_set_error_level_bat24_over_current);
 
 static void FASTRUN on_value(const Voltage &v) {
+  debugPrintf("Bat24 Voltage %f\n", v / 1_V);
   const Voltage v_sensor =
       sensors::formula::vin_of_voltage_divider(v, R1_V_DIV, R2_V_DIV);
   const Current i = sensors::formula::hall_effect_sensor(v_sensor, VOLT_PER_AMP,

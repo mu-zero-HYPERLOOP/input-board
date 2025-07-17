@@ -54,11 +54,11 @@ void FLASHMEM sensors::bat24_voltage::begin() {
   });
   canzero_set_error_level_bat24_over_voltage(error_level_OK);
   canzero_set_error_level_config_bat24_under_voltage(error_level_config{
-      .m_info_thresh = 24,
+      .m_info_thresh = 23.5,
       .m_info_timeout = 1,
       .m_warning_thresh = 23,
       .m_warning_timeout = 1,
-      .m_error_thresh = 22,
+      .m_error_thresh = 22.2,
       .m_error_timeout = 1,
       .m_ignore_info = bool_t_FALSE,
       .m_ignore_warning = bool_t_FALSE,
