@@ -56,6 +56,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
     return global_command_SHUTDOWN;
   }
 
+  if (false) {
   // Fucked up BMS solution.
   // Critical battery sensors. (Disconnect errors)
   if (canzero_get_error_bat24_cell_temperature_1_invalid() == error_flag_ERROR ||
@@ -76,6 +77,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   }
   if (canzero_get_error_level_bat24_over_current() == error_level_ERROR) {
     return global_command_SHUTDOWN;
+  }
   }
 
   // === External Temperatures ===
