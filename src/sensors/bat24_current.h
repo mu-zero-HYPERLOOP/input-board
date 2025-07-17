@@ -5,7 +5,7 @@
 namespace sensors::bat24_current {
 
 constexpr Frequency MEAS_FREQUENCY = 1_kHz;
-constexpr ain_pin PIN = ain_17;
+constexpr ain_pin PIN = ain_16;
 
 constexpr Resistance VOLT_PER_AMP = 66_mV / 1_A;
 constexpr Current ZERO_A_READING = -38_A;
