@@ -27,7 +27,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
                                                           : error_level_OK);
 
   // === MCU Over-Temperatures ===
-  const auto mcu_overtemps = std::array<error_level, 9>{
+  const auto mcu_overtemps = std::array<error_level, 10>{
       canzero_get_power_board12_error_level_mcu_temperature(),
       canzero_get_power_board24_error_level_mcu_temperature(),
       canzero_get_guidance_board_front_error_level_mcu_temperature(),
@@ -37,6 +37,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_levitation_board2_error_level_mcu_temperature(),
       canzero_get_levitation_board3_error_level_mcu_temperature(),
       canzero_get_motor_driver_error_level_mcu_temperature(),
+      canzero_get_error_level_bat24_temperature(),
   };
   const auto mcu_temp_error_level_it =
       std::max_element(mcu_overtemps.begin(), mcu_overtemps.end());
@@ -52,6 +53,28 @@ global_command fsm::error_handling::approve(global_command cmd) {
   case error_level_ERROR:
     debugPrintf("ERROR_CMD: Shutdown\n");
     canzero_set_global_command(global_command_NONE);
+    return global_command_SHUTDOWN;
+  }
+
+  // Fucked up BMS solution.
+  // Critical battery sensors. (Disconnect errors)
+  if (canzero_get_error_bat24_cell_temperature_1_invalid() == error_flag_ERROR ||
+      canzero_get_error_bat24_cell_temperature_2_invalid() == error_flag_ERROR ||
+      canzero_get_error_bat24_voltage_invalid() == error_flag_ERROR) {
+    return global_command_SHUTDOWN;
+  }
+  // Over temps
+  if (canzero_get_error_level_bat24_temperature() == error_level_ERROR) {
+    return global_command_SHUTDOWN;
+  }
+  // Over / under voltages
+  if (canzero_get_error_level_bat24_under_voltage() == error_level_ERROR) {
+    return global_command_SHUTDOWN;
+  }
+  if (canzero_get_error_level_bat24_over_voltage() == error_level_ERROR) {
+    return global_command_SHUTDOWN;
+  }
+  if (canzero_get_error_level_bat24_over_current() == error_level_ERROR) {
     return global_command_SHUTDOWN;
   }
 
