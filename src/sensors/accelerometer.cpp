@@ -21,7 +21,7 @@ static DMAMEM Acceleration offset_x = 0_mps2;
 static DMAMEM Acceleration offset_y = 0_mps2;
 static DMAMEM Acceleration offset_z = 0_mps2;
 
-static void FASTRUN on_value(const Acceleration &x, const Acceleration &y,
+static void FASTRUN on_value(const Acceleration &y, const Acceleration &x,
                              const Acceleration &z) {
 
   const Timestamp now = Timestamp::now();
@@ -107,7 +107,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
 
   constexpr float MEAN_ESTIMATION_IT = static_cast<float>(MEAS_FREQUENCY);
   for (unsigned int i = 0; i < static_cast<size_t>(MEAN_ESTIMATION_IT); ++i) {
-    const auto &[x, y, z] = input_board::sync_read_acceleration();
+    const auto &[y, x, z] = input_board::sync_read_acceleration();
     x_sum += x;
     y_sum += y;
     z_sum += z;
@@ -151,7 +151,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
   float z_var = 0;
   for (unsigned int i = 0; i < static_cast<size_t>(VARIANCE_ESTIMATION_IT);
        ++i) {
-    const auto &[x, y, z] = input_board::sync_read_acceleration();
+    const auto &[y, x, z] = input_board::sync_read_acceleration();
     x_var += std::pow(static_cast<float>((x - x_average)), 2);
     y_var += std::pow(static_cast<float>((y - y_average)), 2);
     z_var += std::pow(static_cast<float>((z - z_average)), 2);
@@ -182,7 +182,7 @@ void PROGMEM sensors::accelerometer::calibrate() {
       calibration_ok ? error_flag_OK : error_flag_ERROR);
 
   for (size_t i = 0; i < std::max(filter_y.size(), filter_z.size()); ++i) {
-    const auto &[x, y, z] = input_board::sync_read_acceleration();
+    const auto &[y, x, z] = input_board::sync_read_acceleration();
     on_value(x, y, z);
   }
 }
