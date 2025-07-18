@@ -12,7 +12,7 @@ constexpr std::array<motor_state, 2> ALLOWED_MOTOR_STATES = {
     motor_state_READY, motor_state_CONTROL};
 
 constexpr Duration MAX_MOTOR_TRANSITION_TIME = 1_s;
-constexpr Duration MAX_STATE_TIME = 60_s;
+constexpr Duration MAX_STATE_TIME = 3_s;
 
 // Invariants:
 // - levitation stable

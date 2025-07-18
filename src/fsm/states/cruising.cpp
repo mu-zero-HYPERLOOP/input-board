@@ -10,7 +10,7 @@
 constexpr std::array<motor_state, 2> ALLOWED_MOTOR_STATES = {
     motor_state_CONTROL, motor_state_READY};
 
-constexpr Duration STATE_TIMEOUT = 30_s;
+constexpr Duration STATE_TIMEOUT = 1_s;
 
 // Invariants:
 // - guidance is in control
@@ -84,10 +84,12 @@ global_state fsm::states::cruising(global_command cmd,
   }
 
   if (canzero_get_position() > 7.0f) {
+    return global_state_DISARMING45; // TODO: remove me if the motor works.
     return global_state_DECELERATION;
   }
 
   if (time_since_last_transition > STATE_TIMEOUT){
+    return global_state_DISARMING45; // TODO: Remove me if the motor works.
     return global_state_DECELERATION;
   }
 
@@ -101,6 +103,7 @@ global_state fsm::states::cruising(global_command cmd,
   }
 
   if (global_command_STOP_PROPULSION == cmd || global_command_ABORT == cmd) {
+    return global_state_DISARMING45; // TODO: Remove me if the motor works.
     return global_state_DECELERATION;
   }
 

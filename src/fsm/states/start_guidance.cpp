@@ -9,7 +9,7 @@
 
 constexpr Duration MIN_START_TIME = 2_s;
 
-constexpr Duration STATE_TIMEOUT = 5_s;
+constexpr Duration STATE_TIMEOUT = 4_s;
 
 constexpr std::array<guidance_state, 2> ALLOWED_GUIDANCE_STATES = {
     guidance_state_READY, guidance_state_CONTROL};

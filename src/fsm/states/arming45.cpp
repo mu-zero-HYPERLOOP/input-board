@@ -17,7 +17,7 @@ constexpr std::array<levitation_state, 2> ALLOWED_LEVITATION_STATES = {
 constexpr std::array<motor_state, 2> ALLOWED_MOTOR_STATES = {
     motor_state_IDLE, motor_state_ARMING45};
 
-constexpr Duration STATE_TIMEOUT = 5_s;
+constexpr Duration STATE_TIMEOUT = 2_s;
 
 // Invariant:
 // - guidance is [idle, arming45]
@@ -108,7 +108,7 @@ global_state fsm::states::arming45(global_command cmd,
   // - levitation is in arming45
   // - motor is in arming45
   // - SDC IS CLOSED!!!
-  if ( ((pdu_12v_state_CHANNELS_ON == pdu12_state &&
+  if (((pdu_12v_state_CHANNELS_ON == pdu12_state &&
         pdu_24v_state_CHANNELS_ON == pdu24_state) ||
        DISABLE_POWER_SUBSYSTEM) &&
 
@@ -125,7 +125,7 @@ global_state fsm::states::arming45(global_command cmd,
 
       sdc::status() == sdc_status_CLOSED
 
-      && time_since_last_transition > 500_ms) {
+      && time_since_last_transition > 1000_ms) {
     return global_state_PRECHARGE;
   }
 
@@ -136,7 +136,8 @@ global_state fsm::states::arming45(global_command cmd,
   canzero_set_pod_grounded(bool_t_TRUE);
   canzero_set_power_board12_command(pdu_12v_command_NONE);
   canzero_set_power_board24_command(pdu_24v_command_NONE);
-  canzero_set_assert_45V_system_online(bool_t_FALSE);
+  canzero_set_assert_45V_system_online(
+      time_since_last_transition > 500_ms ? bool_t_TRUE : bool_t_FALSE);
   control::velocity::disable();
 
   return global_state_ARMING45;
