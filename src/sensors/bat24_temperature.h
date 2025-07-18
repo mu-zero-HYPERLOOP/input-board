@@ -9,8 +9,8 @@ constexpr float NTC_BETA = 3900;
 constexpr Resistance NTC_R_REF = 10_kOhm;
 constexpr Temperature NTC_T_REF = 25_Celcius;
 
-constexpr mux_pin PIN_CELL1 = mux_pin::mux_ntc_2;
-constexpr mux_pin PIN_CELL2 = mux_pin::mux_ntc_5;
+constexpr mux_pin PIN_CELL1 = mux_pin::mux_ntc_3;
+constexpr mux_pin PIN_CELL2 = mux_pin::mux_ntc_6;
 constexpr Frequency FREQUENCY = 10_Hz;
 
 void begin();
