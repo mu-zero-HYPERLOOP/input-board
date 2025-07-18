@@ -128,4 +128,16 @@ static inline void can_defaults() {
   canzero_set_error_sac_ebox_temperature_invalid(error_flag_OK);
   canzero_set_error_level_power_ebox_temperature(error_level_OK);
   canzero_set_error_level_power_ebox_temperature(error_level_OK);
+
+  canzero_set_guidance_board_back_error_level_magnet_temperature_left(error_level_OK);
+  canzero_set_guidance_board_front_error_level_magnet_temperature_left(error_level_OK);
+  canzero_set_guidance_back_magnet_temperature_left(0);
+  canzero_set_guidance_back_magnet_temperature_right(0);
+  canzero_set_guidance_front_magnet_temperature_left(0);
+  canzero_set_guidance_front_magnet_temperature_right(0);
+
+  canzero_set_error_guidance_back_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_guidance_back_magnet_temperature_right_invalid(error_flag_OK);
+  canzero_set_error_guidance_front_magnet_temperature_left_invalid(error_flag_OK);
+  canzero_set_error_guidance_front_magnet_temperature_right_invalid(error_flag_OK);
 }

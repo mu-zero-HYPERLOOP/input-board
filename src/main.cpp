@@ -63,7 +63,7 @@ int main() {
   sensors::bat24_current::begin();
   sensors::bat24_voltage::begin();
   sensors::link24_current::begin();
-  sensors::guidance_temperature::begin();
+  //sensors::guidance_temperature::begin();
 
   sensors::cooling_flowrate::begin();
 
@@ -86,7 +86,7 @@ int main() {
   // sensors::ebox_temperature::calibrate();
   sensors::mcu_temperature::calibrate();
   // sensors::supercap_temperature::calibrate();
-  sensors::guidance_temperature::calibrate();
+  //sensors::guidance_temperature::calibrate();
 
   sensors::bat24_current::calibrate();
   sensors::bat24_voltage::calibrate();
@@ -122,7 +122,7 @@ int main() {
     // sensors::ebox_temperature::update();
     sensors::mcu_temperature::update();
     // sensors::supercap_temperature::update();
-    sensors::guidance_temperature::update();
+    //sensors::guidance_temperature::update();
 
     sensors::cooling_flowrate::update();
 
