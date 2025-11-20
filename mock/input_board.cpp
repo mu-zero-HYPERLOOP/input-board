@@ -3,7 +3,6 @@
 #include "firmware/ain_scheduler.h"
 #include "firmware/mux_scheduler.h"
 #include "firmware/pinout.h"
-#include "print.h"
 #include "sensors/accelerometer.h"
 #include "sensors/ambient_temperature.h"
 #include "sensors/bat24_temperature.h"
@@ -109,8 +108,7 @@ Voltage sync_read(ain_pin pin) {
     }
   }
   case sensors::link24_current::PIN: {
-    debugPrintf("offset %fA\n", canzero_get_link24_current_calibration_offset());
-    constexpr Current mock = 7.5_A;
+    constexpr Current mock = -7.5_A;
 
     std::normal_distribution dist{static_cast<float>(mock), 0.2f};
     Current c = Current(dist(gen));

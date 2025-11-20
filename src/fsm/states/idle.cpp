@@ -35,7 +35,6 @@ global_state fsm::states::idle(global_command cmd,
   // Invariant: guidance
   if ((guidance_state_IDLE != g1_state || guidance_state_IDLE != g2_state) &&
       !DISABLE_GUIDANCE_SUBSYSTEM) {
-    debugPrintf("GUIDANCE Invariant Broken\n");
     return fsm::error_handling::invariant_broken_idle();
   }
 
@@ -43,25 +42,21 @@ global_state fsm::states::idle(global_command cmd,
   if ((levitation_state_IDLE != l1_state || levitation_state_IDLE != l2_state ||
        levitation_state_IDLE != l3_state) &&
       !DISABLE_LEVITATION_SUBSYSTEM) {
-    debugPrintf("LEVITATION Invariant broken: %d, %d, %d\n", l1_state, l2_state, l3_state);
     return fsm::error_handling::invariant_broken_idle();
   }
   // Invariant: motor
   if (motor_state_IDLE != motor_state && !DISABLE_MOTOR_SUBSYSTEM) {
-    debugPrintf("Motor Invariant Broken\n");
     return fsm::error_handling::invariant_broken_idle();
   }
 
   // Invariant: PDUs
   if ((pdu_12v_state_CHANNELS_ON != pdu12_state || pdu_24v_state_CHANNELS_ON != pdu24_state) &&
       !DISABLE_POWER_SUBSYSTEM) {
-    debugPrintf("Pdu Invariant Broken\n");
     return fsm::error_handling::invariant_broken_idle();
   }
 
   // Invariant: SDC
   if (sdc::status() != sdc_status_OPEN) {
-    debugPrintf("SDC Invariant broken\n");
     return fsm::error_handling::invariant_broken_idle();
   }
 

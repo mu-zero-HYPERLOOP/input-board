@@ -47,11 +47,9 @@ global_command fsm::error_handling::approve(global_command cmd) {
   case error_level_INFO:
     return cmd;
   case error_level_WARNING:
-    debugPrintf("ERROR_CMD: Abort\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_ABORT;
   case error_level_ERROR:
-    debugPrintf("ERROR_CMD: Shutdown\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_SHUTDOWN;
   }
@@ -108,11 +106,9 @@ global_command fsm::error_handling::approve(global_command cmd) {
   case error_level_INFO:
     return cmd;
   case error_level_WARNING:
-    debugPrintf("ERROR_CMD: Abort\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_ABORT;
   case error_level_ERROR:
-    debugPrintf("ERROR_CMD: Emergency\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_EMERGENCY;
   }
@@ -205,7 +201,6 @@ global_command fsm::error_handling::approve(global_command cmd) {
       std::max_element(error_flags.begin(), error_flags.end());
   const error_flag max_error_flag = *max_error_flag_it;
   if (max_error_flag == error_flag_ERROR) {
-    debugPrintf("ERROR_CMD: Emergency\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_EMERGENCY;
   }
@@ -262,11 +257,9 @@ global_command fsm::error_handling::approve(global_command cmd) {
   case error_level_INFO:
     return cmd;
   case error_level_WARNING:
-    debugPrintf("ERROR_CMD: Abort\n");
     canzero_set_global_command(global_command_NONE);
     return global_command_ABORT;
   case error_level_ERROR:
-    debugPrintf("ERROR_CMD: Emergency\n");
     return global_command_EMERGENCY;
   }
 

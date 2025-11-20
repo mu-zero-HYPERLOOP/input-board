@@ -188,5 +188,4 @@ void PROGMEM sensors::accelerometer::calibrate() {
 }
 
 void FASTRUN sensors::accelerometer::update() {
-  debugPrintf("Accel %f\n", canzero_get_acceleration());
 }

@@ -25,7 +25,6 @@ static DMAMEM ErrorLevelRangeCheck<EXPECT_UNDER> link24_over_current_check(
 static DMAMEM Current offset = 0_A;
 
 static void FASTRUN on_value(const Voltage &v) {
-  debugPrintf("link24: Current V %f\n", v / 1_V);
   const Voltage v_sensor =
       sensors::formula::vin_of_voltage_divider(v, R1_V_DIV, R2_V_DIV);
 
@@ -33,8 +32,6 @@ static void FASTRUN on_value(const Voltage &v) {
                                                          ZERO_A_READING) +
                     offset;
   filter.push(i);
-  // debugPrintf("voltage: %f\ncurrent: %f\noffset: %fA\n", v / 1_V, i / 1_A,
-  // offset / 1_A);
 
   const bool sensible = filter.get() <= 100_A && filter.get() >= -1_A;
   canzero_set_error_link24_current_invalid(sensible ? error_flag_OK

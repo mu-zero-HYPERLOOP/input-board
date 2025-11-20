@@ -54,7 +54,6 @@ global_state fsm::states::arming45(global_command cmd,
   if ((!contains(ALLOWED_GUIDANCE_STATES, g1_state) ||
        !contains(ALLOWED_GUIDANCE_STATES, g2_state)) &&
       !DISABLE_GUIDANCE_SUBSYSTEM) {
-    debugPrintf("GUIDANCE INVARIANT BROKEN\n");
     return fsm::error_handling::invariant_broken();
   }
 
@@ -63,14 +62,12 @@ global_state fsm::states::arming45(global_command cmd,
        !contains(ALLOWED_LEVITATION_STATES, l2_state) ||
        !contains(ALLOWED_LEVITATION_STATES, l3_state)) &&
       !DISABLE_LEVITATION_SUBSYSTEM) {
-    debugPrintf("LEVI INVARIANT Broken\n");
     return fsm::error_handling::invariant_broken();
   }
 
   // Invariant: motor state
   if (!contains(ALLOWED_MOTOR_STATES, motor_state) &&
       !DISABLE_MOTOR_SUBSYSTEM) {
-    debugPrintf("Motor Invariant Broken\n");
     return fsm::error_handling::invariant_broken();
   }
 
@@ -78,7 +75,6 @@ global_state fsm::states::arming45(global_command cmd,
   if ((pdu_12v_state_CHANNELS_ON != pdu12_state ||
        pdu_24v_state_CHANNELS_ON != pdu24_state) &&
       !DISABLE_POWER_SUBSYSTEM) {
-    debugPrintf("PDU Invariant Broken\n");
     return fsm::error_handling::invariant_broken();
   }
 
@@ -92,12 +88,10 @@ global_state fsm::states::arming45(global_command cmd,
   }
 
   if (global_command_STOP_45 == cmd || global_command_ABORT == cmd) {
-    debugPrintf("ARMING Aborted\n");
     return global_state_DISARMING45;
   }
 
   if (time_since_last_transition > STATE_TIMEOUT) {
-    debugPrintf("ARMING timeout\n");
     return fsm::error_handling::invariant_broken();
   }
 

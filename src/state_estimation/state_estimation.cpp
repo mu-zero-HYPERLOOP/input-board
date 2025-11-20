@@ -316,6 +316,4 @@ void FASTRUN state_estimation::update() {
       std::clamp(predicted_position, min_position, max_position);
 
   canzero_set_position(possible_position + canzero_get_absolute_position_offset());
-  //canzero_set_position(ekf.x_hat[pos_i]);
-  //debugPrintf("%f, %f, %f\n", ekf.x_hat[pos_i], ekf.x_hat[speed_i], ekf.x_hat[acc_i]);
 }

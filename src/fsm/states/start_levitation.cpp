@@ -56,7 +56,6 @@ fsm::states::start_levitation(global_command cmd,
   // Invariant: guidance
   if ((guidance_state_READY != g1_state || guidance_state_READY != g2_state) &&
       !DISABLE_GUIDANCE_SUBSYSTEM) {
-    debugPrintf("GUIDANCE INVARIANT BROKEN\n");
     return error_handling::invariant_broken();
   }
 
@@ -65,13 +64,11 @@ fsm::states::start_levitation(global_command cmd,
        !contains(ALLOWED_LEVITATION_STATES, l2_state) ||
        !contains(ALLOWED_LEVITATION_STATES, l3_state)) &&
       !DISABLE_LEVITATION_SUBSYSTEM) {
-    debugPrintf("LEVITATION INVARIANT BROKEN: %d, %d, %d\n", l1_state, l2_state, l3_state);
     return error_handling::invariant_broken();
   }
 
   // Invariant: motor
   if (motor_state_READY != motor_state && !DISABLE_MOTOR_SUBSYSTEM) {
-    debugPrintf("MOTOR INVARIANT BROKEN\n");
     return error_handling::invariant_broken();
   }
 
@@ -79,23 +76,19 @@ fsm::states::start_levitation(global_command cmd,
   if ((pdu_12v_state_CHANNELS_ON != pdu12_state ||
        pdu_24v_state_CHANNELS_ON != pdu24_state) &&
       !DISABLE_POWER_SUBSYSTEM) {
-    debugPrintf("PDU INVARIANT BROKEN\n");
     return error_handling::invariant_broken();
   }
 
   // Invariant: SDC
   if (sdc::status() == sdc_status_OPEN) {
-    debugPrintf("SDC Invariant broken\n");
     return error_handling::invariant_broken();
   }
 
   if (global_command_STOP_45 == cmd) {
-    debugPrintf("STOP 45V Command (INVALID)\n");
     return global_state_DISARMING45;
   }
 
   if (time_since_last_transition > STATE_TIMEOUT) {
-    debugPrintf("STATE timeout\n");
     canzero_set_global_command(global_command_NONE);
     return global_state_STOP_LEVITATION;
   }

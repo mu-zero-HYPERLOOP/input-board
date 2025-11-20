@@ -10,7 +10,6 @@
 /*                    canzero_get_error_level_config_mcu_temperature, */
 /*                    canzero_set_error_level_mcu_temperature); */
 
-#include "Arduino.h"
 #include "canzero/canzero.h"
 #include "defaults.h"
 #include "error_handling.hpp"
@@ -96,9 +95,6 @@ int main() {
   sensors::link45_voltage::calibrate();
 
   fsm::begin();
-
-  // state_estimation::calibrate();
-  debugPrintf("Init DONE\n");
 
   loopIntervalTiming.reset();
   while (true) {

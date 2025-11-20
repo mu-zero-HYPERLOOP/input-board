@@ -51,7 +51,6 @@ global_state fsm::states::deceleration(global_command cmd,
   if ((guidance_state_CONTROL != g1_state ||
        guidance_state_CONTROL != g2_state) &&
       !DISABLE_GUIDANCE_SUBSYSTEM) {
-    debugPrintf("GUIDANCE_INVARIANT_BROKEN\n");
     return error_handling::invariant_broken();
   }
 
@@ -60,31 +59,26 @@ global_state fsm::states::deceleration(global_command cmd,
        levitation_state_CONTROL != l2_state ||
        levitation_state_CONTROL != l3_state) &&
       !DISABLE_LEVITATION_SUBSYSTEM) {
-    debugPrintf("LEVITATION INVARIANT BROKEN\n");
     return error_handling::invariant_broken();
   }
 
   // Invariant: motor
   if (motor_state_CONTROL != motor_state && !DISABLE_MOTOR_SUBSYSTEM) {
-    debugPrintf("MOTOR INVARIANT BROKEN\n");
     return error_handling::invariant_broken();
   }
 
   // Invariant: pdus
   if ((pdu_12v_state_CHANNELS_ON != pdu12_state || pdu_24v_state_CHANNELS_ON != pdu24_state) &&
       !DISABLE_POWER_SUBSYSTEM) {
-    debugPrintf("PDU Invariant Broken\n");
     return error_handling::invariant_broken();
   }
 
   // Invariant: SDC
   if (sdc::status() == sdc_status_OPEN) {
-    debugPrintf("SDC Invariant broken\n");
     return error_handling::invariant_broken();
   }
 
   if (time_since_last_transition > STATE_TIMEOUT){
-    debugPrintf("STATE timeout\n");
     canzero_set_global_command(global_command_NONE);
     return global_state_DISARMING45;
   }

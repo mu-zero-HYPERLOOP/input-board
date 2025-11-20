@@ -29,6 +29,7 @@ add_executable(${PROJECT_NAME}
   src/sensors/link45_voltage.cpp
   src/sensors/mcu_temperature.cpp
   src/sensors/supercap_temperature.cpp
+  src/sensors/cooling_flowrate.cpp
   src/state_estimation/state_estimation.cpp
   src/state_estimation/ekf.cpp
   src/error_handling.cpp

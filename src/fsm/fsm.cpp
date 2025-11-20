@@ -137,67 +137,6 @@ void fsm::update() {
       fsm_last_transition = now;
       canzero_set_global_state(next_state);
       canzero_update_continue(canzero_get_time());
-      switch (next_state) {
-      case global_state_INIT:
-        debugPrintf("INIT\n");
-        break;
-      case global_state_IDLE:
-        debugPrintf("IDLE\n");
-        break;
-      case global_state_ARMING45:
-        debugPrintf("ARMING45\n");
-        break;
-      case global_state_PRECHARGE:
-        debugPrintf("PRECHARGE\n");
-        break;
-      case global_state_DISARMING45:
-        debugPrintf("DISARMING45\n");
-        break;
-      case global_state_READY:
-        debugPrintf("READY\n");
-        break;
-      case global_state_START_LEVITATION:
-        debugPrintf("START_LEVI\n");
-      case global_state_LEVITATION_STABLE:
-        debugPrintf("LEVI_STABLE\n");
-        break;
-      case global_state_START_GUIDANCE:
-        debugPrintf("START_GUI\n");
-        break;
-      case global_state_GUIDANCE_STABLE:
-        debugPrintf("GUI_STABLE\n");
-        break;
-      case global_state_ACCELERATION:
-        debugPrintf("ACCEL\n");
-        break;
-      case global_state_CONTROLLER:
-        debugPrintf("CONTROLLER\n");
-        break;
-      case global_state_CRUISING:
-        debugPrintf("CRUISING\n");
-        break;
-      case global_state_DECELERATION:
-        debugPrintf("DECELERATION\n");
-        break;
-      case global_state_STOP_LEVITATION:
-        debugPrintf("STOP_LEVI\n");
-        break;
-      case global_state_STOP_GUIDANCE:
-        debugPrintf("STOP_GUI\n");
-        break;
-      case global_state_SHUTDOWN:
-        debugPrintf("STUTDOWN\n");
-        break;
-      case global_state_RESTARTING:
-        debugPrintf("RESTARTING\n");
-        break;
-      case global_state_CALIBRATING:
-        debugPrintf("CALI\n");
-        break;
-      default:
-        debugPrintf("UNDEFINED_STATE\n");
-        break;
-      }
     }
   } while (next_state != state);
 }

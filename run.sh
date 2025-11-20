@@ -10,7 +10,7 @@
 
 canzero gen input_board src/canzero
 cmake -Bbuild
-make -C build
+cmake --build build -j8
 alacritty -e ./build/input_board&
 
 
