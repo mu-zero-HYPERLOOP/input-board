@@ -81,6 +81,12 @@ static inline void can_defaults() {
   canzero_set_error_level_levitation_back_magnet_temperature_right(
       error_level_OK);
 
+  canzero_set_levitation_board1_error_level_magnet_temperature_left(error_level_OK);
+  canzero_set_levitation_board1_error_level_magnet_temperature_right(error_level_OK);
+  canzero_set_levitation_board2_error_level_magnet_temperature_left(error_level_OK);
+  canzero_set_levitation_board2_error_level_magnet_temperature_right(error_level_OK);
+  canzero_set_levitation_board3_error_level_magnet_temperature_right(error_level_OK);
+
   canzero_set_error_level_mcu_temperature(error_level_OK);
   canzero_set_error_level_bat24_temperature(error_level_OK);
   canzero_set_error_level_bat24_over_current(error_level_OK);
@@ -128,6 +134,7 @@ static inline void can_defaults() {
   canzero_set_error_sac_ebox_temperature_invalid(error_flag_OK);
   canzero_set_error_level_power_ebox_temperature(error_level_OK);
   canzero_set_error_level_power_ebox_temperature(error_level_OK);
+
 
   canzero_set_guidance_board_back_error_level_magnet_temperature_left(error_level_OK);
   canzero_set_guidance_board_front_error_level_magnet_temperature_left(error_level_OK);

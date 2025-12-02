@@ -17,7 +17,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_config_hash(),
       canzero_get_power_board12_config_hash(),
       canzero_get_power_board24_config_hash(),
-      canzero_get_led_board_config_hash(),
+      canzero_get_led_board_config_hash(), // TODO : missing telemetry_board
   };
   const uint64_t mother_hash = canzero_get_config_hash();
   const bool inconsistent =
@@ -96,6 +96,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_error_level_supercap_temperature(),
       canzero_get_error_level_cooling_cycle_overtemp(),
   };
+
   const auto ext_temp_error_level_it =
       std::max_element(ext_temps.begin(), ext_temps.end());
   const error_level max_ext_temp = *ext_temp_error_level_it;
