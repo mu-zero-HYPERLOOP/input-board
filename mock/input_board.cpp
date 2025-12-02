@@ -217,7 +217,7 @@ Voltage sync_read(ain_pin pin) {
           sensors::bat24_temperature::NTC_T_REF);
       const Voltage v = sensors::formula::vout_of_voltage_divider(
           5_V, r_ntc, sensors::bat24_temperature::R_MEAS);
-      std::normal_distribution dist{static_cast<float>(v), 0.1f};
+      std::normal_distribution dist{static_cast<float>(v), 0.01f};
       return Voltage(dist(gen));
     } else if (mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_1)
         || mux_helper(pin, sensors::ambient_temperature::PIN_AMBIENT_2) 
