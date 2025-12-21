@@ -4,6 +4,7 @@
 #include "fsm/states.h"
 #include "print.h"
 #include "util/timestamp.h"
+#include "fsm/sdc.h"
 
 static Timestamp fsm_last_transition = Timestamp::now();
 
@@ -59,7 +60,7 @@ void fsm::update() {
   global_state state;
   global_state next_state;
   do {
-
+    sdc::update_sdc_status();
     Timestamp now = Timestamp::now();
     Duration time_since_last_transition = now - fsm_last_transition;
 

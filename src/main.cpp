@@ -39,6 +39,8 @@
 static IntervalTiming loopIntervalTiming;
 
 int main() {
+
+ 
   canzero_init();
 
   can_defaults();
@@ -48,11 +50,10 @@ int main() {
   canzero_set_target_acceleration(0);
 
   input_board::begin();
-
   sdc::begin();
   // sensors::ambient_temperature::begin();
 
-  sensors::accelerometer::begin();
+  //sensors::accelerometer::begin();
   sensors::linear_encoder::begin();
 
   sensors::bat24_temperature::begin();
@@ -76,7 +77,7 @@ int main() {
   canzero_set_global_state(global_state_CALIBRATING);
   canzero_update_continue(canzero_get_time());
 
-  sensors::accelerometer::calibrate();
+  //sensors::accelerometer::calibrate();
   sensors::linear_encoder::calibrate();
 
 
@@ -93,14 +94,13 @@ int main() {
   sensors::supercap_voltage::calibrate();
   sensors::link45_current::calibrate();
   sensors::link45_voltage::calibrate();
-
+  
   fsm::begin();
 
   loopIntervalTiming.reset();
   while (true) {
     canzero_can0_poll();
     canzero_can1_poll();
-
     if (error_handling::no_error()) {
       sdc::close();
     } else {
@@ -109,7 +109,7 @@ int main() {
 
     input_board::update_continue();
 
-    sensors::accelerometer::update();
+    //sensors::accelerometer::update();
     sensors::linear_encoder::update();
 
 
