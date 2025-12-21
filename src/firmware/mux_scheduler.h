@@ -1,5 +1,4 @@
 #pragma once
-#include "canzero/canzero.h"
 #include "firmware/input_board.h"
 #include "firmware/pinout.h"
 #include "util/heap.h"
@@ -153,7 +152,7 @@ public:
                         .count();
       const auto now = Timestamp::now();
       while (Timestamp::now() - now < Duration::from_us(us)){
-        canzero_update_continue(canzero_get_time());
+        
       }
     }
     return input_board::sync_read(mux_pin);
