@@ -52,6 +52,7 @@ static void FASTRUN on_value_ambient2(const Voltage &v) {
       sensors::formula::ntc_beta(r_ntc, NTC_BETA, NTC_R_REF, NTC_T_REF);
   filter_ambient2.push(temperature);
   canzero_set_ambient_temperature_1(
+  canzero_set_ambient_temperature_2(
       static_cast<float>(filter_ambient2.get() - 0_Celcius));
 }
 
