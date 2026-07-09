@@ -2000,7 +2000,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_supercap_temperature = __oe_supercap_temperature;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_ambient_temperatures(&stream_message, &stream_frame);
-        canzero_can1_send(&stream_frame);
+        canzero_can0_send(&stream_frame);
         break;
       }
       case 12: {
@@ -2030,7 +2030,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_levitation_back_magnet_temperature_right = __oe_levitation_back_magnet_temperature_right;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_levitation_temperatures(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
       case 14: {
@@ -2118,7 +2118,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_error_guidance_back_magnet_temperature_right_invalid = __oe_error_guidance_back_magnet_temperature_right_invalid;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_errors3(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
       case 18: {
@@ -2175,7 +2175,7 @@ static void schedule_jobs(uint32_t time) {
         stream_message.m_config_hash = __oe_config_hash;
         canzero_frame stream_frame;
         canzero_serialize_canzero_message_input_board_stream_config_hash(&stream_message, &stream_frame);
-        canzero_can0_send(&stream_frame);
+        canzero_can1_send(&stream_frame);
         break;
       }
       case 22: {
@@ -9478,35 +9478,38 @@ void canzero_can0_poll() {
       case 0x13E:
         canzero_handle_get_req(&frame);
         break;
+      case 0xD1:
+        canzero_handle_motor_driver_stream_config_hash(&frame);
+        break;
       case 0xF3:
         canzero_handle_guidance_board_front_stream_state(&frame);
         break;
-      case 0x53:
-        canzero_handle_guidance_board_back_stream_config_hash(&frame);
+      case 0xB3:
+        canzero_handle_guidance_board_front_stream_config_hash(&frame);
         break;
       case 0x73:
         canzero_handle_guidance_board_back_stream_errors(&frame);
         break;
-      case 0x92:
-        canzero_handle_levitation_board1_stream_config_hash(&frame);
-        break;
       case 0x51:
         canzero_handle_levitation_board2_stream_state(&frame);
+        break;
+      case 0xF2:
+        canzero_handle_levitation_board2_stream_config_hash(&frame);
         break;
       case 0x112:
         canzero_handle_levitation_board2_stream_errors(&frame);
         break;
-      case 0x71:
-        canzero_handle_levitation_board3_stream_config_hash(&frame);
-        break;
-      case 0x50:
-        canzero_handle_power_board12_stream_config_hash(&frame);
+      case 0xB0:
+        canzero_handle_power_board24_stream_config_hash(&frame);
         break;
       case 0xD0:
         canzero_handle_power_board24_stream_errors(&frame);
         break;
       case 0x72:
         canzero_handle_led_board_stream_state(&frame);
+        break;
+      case 0x113:
+        canzero_handle_led_board_stream_config_hash(&frame);
         break;
       case 0x5F:
         canzero_handle_gamepad_stream_input(&frame);
@@ -9527,14 +9530,8 @@ void canzero_can1_poll() {
       case 0x111:
         canzero_handle_motor_driver_stream_state(&frame);
         break;
-      case 0xD1:
-        canzero_handle_motor_driver_stream_config_hash(&frame);
-        break;
       case 0xF1:
         canzero_handle_motor_driver_stream_errors(&frame);
-        break;
-      case 0xB3:
-        canzero_handle_guidance_board_front_stream_config_hash(&frame);
         break;
       case 0xD3:
         canzero_handle_guidance_board_front_stream_errors(&frame);
@@ -9542,17 +9539,23 @@ void canzero_can1_poll() {
       case 0x93:
         canzero_handle_guidance_board_back_stream_state(&frame);
         break;
+      case 0x53:
+        canzero_handle_guidance_board_back_stream_config_hash(&frame);
+        break;
       case 0xD2:
         canzero_handle_levitation_board1_stream_state(&frame);
+        break;
+      case 0x92:
+        canzero_handle_levitation_board1_stream_config_hash(&frame);
         break;
       case 0xB2:
         canzero_handle_levitation_board1_stream_errors(&frame);
         break;
-      case 0xF2:
-        canzero_handle_levitation_board2_stream_config_hash(&frame);
-        break;
       case 0xB1:
         canzero_handle_levitation_board3_stream_state(&frame);
+        break;
+      case 0x71:
+        canzero_handle_levitation_board3_stream_config_hash(&frame);
         break;
       case 0x91:
         canzero_handle_levitation_board3_stream_errors(&frame);
@@ -9560,17 +9563,14 @@ void canzero_can1_poll() {
       case 0x90:
         canzero_handle_power_board12_stream_state(&frame);
         break;
+      case 0x50:
+        canzero_handle_power_board12_stream_config_hash(&frame);
+        break;
       case 0x70:
         canzero_handle_power_board12_stream_errors(&frame);
         break;
       case 0xF0:
         canzero_handle_power_board24_stream_state(&frame);
-        break;
-      case 0xB0:
-        canzero_handle_power_board24_stream_config_hash(&frame);
-        break;
-      case 0x113:
-        canzero_handle_led_board_stream_config_hash(&frame);
         break;
       case 0x52:
         canzero_handle_led_board_stream_errors(&frame);
@@ -9636,7 +9636,7 @@ uint32_t canzero_update_continue(uint32_t time){
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 void canzero_init() {
-  __oe_config_hash = 969764988675021836ull;
+  __oe_config_hash = 5399977892005846672ull;
   __oe_build_time = {
     .m_year = BUILD_YEAR,
     .m_month = BUILD_MONTH,

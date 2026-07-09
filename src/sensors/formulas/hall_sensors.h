@@ -14,7 +14,7 @@ static FASTRUN Current hall_effect_sensor(Voltage v, Conductance slope,
 // slope should be given as A / V
 static FASTRUN Current hall_effect_sensor(Voltage v, Resistance inv_slope, 
     Current offset) {
-  return v / inv_slope + offset;
+  return (v / inv_slope) + offset;
 }
 
 static FASTRUN Voltage inv_hall_effect_sensor(Current i, Conductance slope, 
