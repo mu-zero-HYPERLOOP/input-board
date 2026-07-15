@@ -26,93 +26,33 @@ global_command fsm::error_handling::approve(global_command cmd) {
   canzero_set_error_level_config_consistency(inconsistent ? error_level_INFO
                                                           : error_level_OK);
 
-  // === MCU Over-Temperatures ===
-  const auto mcu_overtemps = std::array<error_level, 10>{
-      canzero_get_power_board12_error_level_mcu_temperature(),
-      canzero_get_power_board24_error_level_mcu_temperature(),
-      canzero_get_guidance_board_front_error_level_mcu_temperature(),
-      canzero_get_guidance_board_back_error_level_mcu_temperature(),
-      canzero_get_error_level_mcu_temperature(),
-      canzero_get_levitation_board1_error_level_mcu_temperature(),
-      canzero_get_levitation_board2_error_level_mcu_temperature(),
-      canzero_get_levitation_board3_error_level_mcu_temperature(),
-      canzero_get_motor_driver_error_level_mcu_temperature(),
-      canzero_get_error_level_bat24_temperature(),
-  };
-  const auto mcu_temp_error_level_it =
-      std::max_element(mcu_overtemps.begin(), mcu_overtemps.end());
-  const error_level max_mcu_overtemp = *mcu_temp_error_level_it;
-  switch (max_mcu_overtemp) {
-  case error_level_OK:
-  case error_level_INFO:
-    return cmd;
-  case error_level_WARNING:
-    canzero_set_global_command(global_command_NONE);
-    return global_command_ABORT;
-  case error_level_ERROR:
-    canzero_set_global_command(global_command_NONE);
-    return global_command_SHUTDOWN;
-  }
 
   if (false) {
-  // Fucked up BMS solution.
-  // Critical battery sensors. (Disconnect errors)
-  if (canzero_get_error_bat24_cell_temperature_1_invalid() == error_flag_ERROR ||
-      canzero_get_error_bat24_cell_temperature_2_invalid() == error_flag_ERROR ||
-      canzero_get_error_bat24_voltage_invalid() == error_flag_ERROR) {
-    return global_command_SHUTDOWN;
-  }
-  // Over temps
-  if (canzero_get_error_level_bat24_temperature() == error_level_ERROR) {
-    return global_command_SHUTDOWN;
-  }
-  // Over / under voltages
-  if (canzero_get_error_level_bat24_under_voltage() == error_level_ERROR) {
-    return global_command_SHUTDOWN;
-  }
-  if (canzero_get_error_level_bat24_over_voltage() == error_level_ERROR) {
-    return global_command_SHUTDOWN;
-  }
-  if (canzero_get_error_level_bat24_over_current() == error_level_ERROR) {
-    return global_command_SHUTDOWN;
-  }
+    // Fucked up BMS solution.
+    // Critical battery sensors. (Disconnect errors)
+    if (canzero_get_error_bat24_cell_temperature_1_invalid() ==
+            error_flag_ERROR ||
+        canzero_get_error_bat24_cell_temperature_2_invalid() ==
+            error_flag_ERROR ||
+        canzero_get_error_bat24_voltage_invalid() == error_flag_ERROR) {
+      return global_command_SHUTDOWN;
+    }
+    // Over temps
+    if (canzero_get_error_level_bat24_temperature() == error_level_ERROR) {
+      return global_command_SHUTDOWN;
+    }
+    // Over / under voltages
+    if (canzero_get_error_level_bat24_under_voltage() == error_level_ERROR) {
+      return global_command_SHUTDOWN;
+    }
+    if (canzero_get_error_level_bat24_over_voltage() == error_level_ERROR) {
+      return global_command_SHUTDOWN;
+    }
+    if (canzero_get_error_level_bat24_over_current() == error_level_ERROR) {
+      return global_command_SHUTDOWN;
+    }
   }
 
-  // === External Temperatures ===
-  const auto ext_temps = std::array<error_level, 15>{
-      canzero_get_levitation_board1_error_level_magnet_temperature_left(),
-      canzero_get_levitation_board1_error_level_magnet_temperature_right(),
-      canzero_get_levitation_board2_error_level_magnet_temperature_left(),
-      canzero_get_levitation_board2_error_level_magnet_temperature_right(),
-      canzero_get_levitation_board3_error_level_magnet_temperature_left(),
-      canzero_get_levitation_board3_error_level_magnet_temperature_right(),
-      canzero_get_guidance_board_front_error_level_magnet_temperature_left(),
-      canzero_get_guidance_board_front_error_level_magnet_temperature_right(),
-      canzero_get_guidance_board_back_error_level_magnet_temperature_left(),
-      canzero_get_guidance_board_back_error_level_magnet_temperature_right(),
-      canzero_get_motor_driver_error_level_lim_temperature(),
-      canzero_get_motor_driver_error_level_board_temperature(),
-      canzero_get_error_level_ambient_temperature(),
-      canzero_get_error_level_supercap_temperature(),
-      canzero_get_error_level_cooling_cycle_overtemp(),
-  };
-
-  const auto ext_temp_error_level_it =
-      std::max_element(ext_temps.begin(), ext_temps.end());
-  const error_level max_ext_temp = *ext_temp_error_level_it;
-  canzero_set_error_level_over_temperature_system(
-      std::max(max_ext_temp, max_mcu_overtemp));
-  switch (max_ext_temp) {
-  case error_level_OK:
-  case error_level_INFO:
-    return cmd;
-  case error_level_WARNING:
-    canzero_set_global_command(global_command_NONE);
-    return global_command_ABORT;
-  case error_level_ERROR:
-    canzero_set_global_command(global_command_NONE);
-    return global_command_EMERGENCY;
-  }
 
   // === Heartbeats ===
   const auto heartbeat_misses = std::array<error_flag, 10>{
@@ -134,6 +74,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
     canzero_set_global_command(global_command_NONE);
     return global_command_RESTART;
   }
+
 
   // === Remaining Error Flags ===
   const auto error_flags = std::array<error_flag, 50>{
@@ -198,6 +139,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
 
       canzero_get_led_board_assertion_fault(),
   };
+
   const auto max_error_flag_it =
       std::max_element(error_flags.begin(), error_flags.end());
   const error_flag max_error_flag = *max_error_flag_it;
@@ -205,6 +147,48 @@ global_command fsm::error_handling::approve(global_command cmd) {
     canzero_set_global_command(global_command_NONE);
     return global_command_EMERGENCY;
   }
+
+  // === MCU Over-Temperatures ===
+  const auto mcu_overtemps = std::array<error_level, 10>{
+      canzero_get_power_board12_error_level_mcu_temperature(),
+      canzero_get_power_board24_error_level_mcu_temperature(),
+      canzero_get_guidance_board_front_error_level_mcu_temperature(),
+      canzero_get_guidance_board_back_error_level_mcu_temperature(),
+      canzero_get_error_level_mcu_temperature(),
+      canzero_get_levitation_board1_error_level_mcu_temperature(),
+      canzero_get_levitation_board2_error_level_mcu_temperature(),
+      canzero_get_levitation_board3_error_level_mcu_temperature(),
+      canzero_get_motor_driver_error_level_mcu_temperature(),
+      canzero_get_error_level_bat24_temperature(),
+  };
+  const auto mcu_temp_error_level_it =
+      std::max_element(mcu_overtemps.begin(), mcu_overtemps.end());
+  const error_level max_mcu_overtemp = *mcu_temp_error_level_it;
+
+  // === External Temperatures ===
+  const auto ext_temps = std::array<error_level, 15>{
+      canzero_get_levitation_board1_error_level_magnet_temperature_left(),
+      canzero_get_levitation_board1_error_level_magnet_temperature_right(),
+      canzero_get_levitation_board2_error_level_magnet_temperature_left(),
+      canzero_get_levitation_board2_error_level_magnet_temperature_right(),
+      canzero_get_levitation_board3_error_level_magnet_temperature_left(),
+      canzero_get_levitation_board3_error_level_magnet_temperature_right(),
+      canzero_get_guidance_board_front_error_level_magnet_temperature_left(),
+      canzero_get_guidance_board_front_error_level_magnet_temperature_right(),
+      canzero_get_guidance_board_back_error_level_magnet_temperature_left(),
+      canzero_get_guidance_board_back_error_level_magnet_temperature_right(),
+      canzero_get_motor_driver_error_level_lim_temperature(),
+      canzero_get_motor_driver_error_level_board_temperature(),
+      canzero_get_error_level_ambient_temperature(),
+      canzero_get_error_level_supercap_temperature(),
+      canzero_get_error_level_cooling_cycle_overtemp(),
+  };
+
+  const auto ext_temp_error_level_it =
+      std::max_element(ext_temps.begin(), ext_temps.end());
+  const error_level max_ext_temp = *ext_temp_error_level_it;
+  canzero_set_error_level_over_temperature_system(
+      std::max(max_ext_temp, max_mcu_overtemp));
 
   // === Remaining Error Levels ===
   const auto error_levels = std::array<error_level, 35>{
@@ -252,15 +236,18 @@ global_command fsm::error_handling::approve(global_command cmd) {
   };
   const auto error_level_it =
       std::max_element(error_levels.begin(), error_levels.end());
-  const error_level max_error_level = *error_level_it;
+
+  error_level max_error_level = std::max(std::max(max_mcu_overtemp, max_ext_temp), *error_level_it);
+
   switch (max_error_level) {
   case error_level_OK:
   case error_level_INFO:
-    return cmd;
+    break;
   case error_level_WARNING:
     canzero_set_global_command(global_command_NONE);
     return global_command_ABORT;
   case error_level_ERROR:
+    canzero_set_global_command(global_command_NONE);
     return global_command_EMERGENCY;
   }
 
