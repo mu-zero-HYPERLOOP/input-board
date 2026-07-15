@@ -164,7 +164,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   const auto mcu_temp_error_level_it =
       std::max_element(mcu_overtemps.begin(), mcu_overtemps.end());
   const error_level max_mcu_overtemp = *mcu_temp_error_level_it;
-
+/*
   // === External Temperatures ===
   const auto ext_temps = std::array<error_level, 15>{
       canzero_get_levitation_board1_error_level_magnet_temperature_left(),
@@ -183,12 +183,12 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_error_level_supercap_temperature(),
       canzero_get_error_level_cooling_cycle_overtemp(),
   };
-
-  const auto ext_temp_error_level_it =
-      std::max_element(ext_temps.begin(), ext_temps.end());
-  const error_level max_ext_temp = *ext_temp_error_level_it;
+*/
+  // const auto ext_temp_error_level_it =
+      // std::max_element(ext_temps.begin(), ext_temps.end());
+  // const error_level max_ext_temp = *ext_temp_error_level_it;
   canzero_set_error_level_over_temperature_system(
-      std::max(max_ext_temp, max_mcu_overtemp));
+      std::max(max_mcu_overtemp));
 
   // === Remaining Error Levels ===
   const auto error_levels = std::array<error_level, 35>{
@@ -237,7 +237,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   const auto error_level_it =
       std::max_element(error_levels.begin(), error_levels.end());
 
-  error_level max_error_level = std::max(std::max(max_mcu_overtemp, max_ext_temp), *error_level_it);
+  error_level max_error_level = std::max(std::max(max_mcu_overtemp), *error_level_it);
 
   switch (max_error_level) {
   case error_level_OK:
