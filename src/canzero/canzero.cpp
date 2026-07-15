@@ -506,7 +506,7 @@ static void canzero_serialize_canzero_message_input_board_stream_link24(canzero_
   }
   frame->id = 0x7A;
   frame->dlc = 8;
-  uint32_t supercap_voltage_0 = ((msg->m_supercap_voltage - 0) / 0.000000011641532185403987) + 0.5f;
+  uint32_t supercap_voltage_0 = ((msg->m_supercap_voltage - 0) / 0.000000014901161197317103) + 0.5f;
   if (supercap_voltage_0 > 0xFFFFFFFF) {
     supercap_voltage_0 = 0xFFFFFFFF;
   }
@@ -2977,7 +2977,7 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 62: {
-    resp.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000014901161197317103, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -2998,7 +2998,7 @@ static PROGMEM void canzero_handle_get_req(canzero_frame* frame) {
     break;
   }
   case 65: {
-    resp.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+    resp.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000014901161197317103, 0xFFFFFFFF) << 0;
     resp.m_header.m_sof = 1;
     resp.m_header.m_eof = 1;
     resp.m_header.m_toggle = 0;
@@ -6102,7 +6102,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     float supercap_voltage_tmp;
-    supercap_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
+    supercap_voltage_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000014901161197317103 + 0);
     canzero_set_supercap_voltage(supercap_voltage_tmp);
     break;
   }
@@ -6129,7 +6129,7 @@ static PROGMEM void canzero_handle_set_req(canzero_frame* frame) {
       return;
     }
     float supercap_voltage_calibration_target_tmp;
-    supercap_voltage_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000011641532185403987 + 0);
+    supercap_voltage_calibration_target_tmp = (float)(((msg.m_data >> 0) & (0xFFFFFFFF >> (32 - 32))) * 0.000000014901161197317103 + 0);
     canzero_set_supercap_voltage_calibration_target(supercap_voltage_calibration_target_tmp);
     break;
   }
@@ -11390,7 +11390,7 @@ void canzero_send_error_level_config_bat24_over_current() {
 }
 void canzero_send_supercap_voltage() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_supercap_voltage - (0)) / 0.000000014901161197317103, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;
@@ -11429,7 +11429,7 @@ void canzero_send_supercap_voltage_calibration_offset() {
 }
 void canzero_send_supercap_voltage_calibration_target() {
   canzero_message_get_resp msg;
-  msg.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000011641532185403987, 0xFFFFFFFF) << 0;
+  msg.m_data |= min_u32((__oe_supercap_voltage_calibration_target - (0)) / 0.000000014901161197317103, 0xFFFFFFFF) << 0;
   msg.m_header.m_eof = 1;
   msg.m_header.m_sof = 1;
   msg.m_header.m_toggle = 0;

@@ -43,11 +43,11 @@ void FLASHMEM sensors::supercap_voltage::begin() {
   canzero_set_supercap_voltage_calibration_target(0);
   canzero_set_error_level_supercap_over_voltage(error_level_OK);
   canzero_set_error_level_config_supercap_over_voltage(error_level_config{
-      .m_info_thresh = 47,
+      .m_info_thresh = 45,
       .m_info_timeout = 1,
-      .m_warning_thresh = 50,
+      .m_warning_thresh = 65,
       .m_warning_timeout = 0.1,
-      .m_error_thresh = 52,
+      .m_error_thresh = 67,
       .m_error_timeout = 0.1,
       .m_ignore_info = bool_t_FALSE,
       .m_ignore_warning = bool_t_FALSE,
