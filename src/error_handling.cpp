@@ -6,7 +6,7 @@
 
 bool error_handling::no_error() {
   return true;
-  const auto error_flags = std::array<error_flag, 25>{
+  const auto error_flags = std::array<error_flag, 14>{
     canzero_get_error_heartbeat_miss(),
     canzero_get_error_bat24_current_invalid(),
     canzero_get_error_bat24_voltage_invalid(),
@@ -15,23 +15,23 @@ bool error_handling::no_error() {
     canzero_get_error_link45_current_invalid(),
     canzero_get_error_link45_voltage_invalid(),
     canzero_get_error_mcu_temperature_invalid(),
-    canzero_get_error_sac_ebox_temperature_invalid(),
-    canzero_get_error_power_ebox_temperature_invalid(),
+    //canzero_get_error_sac_ebox_temperature_invalid(),
+    //canzero_get_error_power_ebox_temperature_invalid(),
     canzero_get_error_acceleration_out_of_range(),
-    canzero_get_error_ambient_temperature_1_invalid(),
-    canzero_get_error_ambient_temperature_2_invalid(),
-    canzero_get_error_ambient_temperature_3_invalid(),
+    //canzero_get_error_ambient_temperature_1_invalid(),
+    //canzero_get_error_ambient_temperature_2_invalid(),
+    //canzero_get_error_ambient_temperature_3_invalid(),
     canzero_get_error_acceleration_out_of_range(),
-    canzero_get_error_supercap_temperature_invalid(),
+    //canzero_get_error_supercap_temperature_invalid(),
     canzero_get_error_acceleration_calibration_failed(),
     canzero_get_error_lateral_acceleration_out_of_range(),
     canzero_get_error_vertical_acceleration_out_of_range(),
     canzero_get_error_mcu_temperature_invalid(),
-    canzero_get_error_ambient_temperature_1_invalid(),
-    canzero_get_error_ambient_temperature_2_invalid(),
-    canzero_get_error_ambient_temperature_3_invalid(),
-    canzero_get_error_bat24_cell_temperature_1_invalid(),
-    canzero_get_error_bat24_cell_temperature_2_invalid(),
+    //canzero_get_error_ambient_temperature_1_invalid(),
+    //canzero_get_error_ambient_temperature_2_invalid(),
+    //canzero_get_error_ambient_temperature_3_invalid(),
+    //canzero_get_error_bat24_cell_temperature_1_invalid(),
+    //canzero_get_error_bat24_cell_temperature_2_invalid(),
   };
 
   const auto max_error_flag_it = std::max_element(error_flags.begin(), error_flags.end());

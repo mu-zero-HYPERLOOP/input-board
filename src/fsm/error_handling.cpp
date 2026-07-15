@@ -77,14 +77,14 @@ global_command fsm::error_handling::approve(global_command cmd) {
 
 
   // === Remaining Error Flags ===
-  const auto error_flags = std::array<error_flag, 50>{
+  const auto error_flags = std::array<error_flag, 45>{
       canzero_get_motor_driver_assertion_fault(),
       canzero_get_motor_driver_error_arming_failed(),
       canzero_get_motor_driver_error_precharge_failed(),
-      canzero_get_motor_driver_error_lim_temperature1_invalid(),
-      canzero_get_motor_driver_error_lim_temperature2_invalid(),
-      canzero_get_motor_driver_error_lim_temperature3_invalid(),
-      canzero_get_motor_driver_error_lim_temperature4_invalid(),
+      //canzero_get_motor_driver_error_lim_temperature1_invalid(),
+      //canzero_get_motor_driver_error_lim_temperature2_invalid(),
+      //canzero_get_motor_driver_error_lim_temperature3_invalid(),
+      //canzero_get_motor_driver_error_lim_temperature4_invalid(),
       canzero_get_motor_driver_error_acceleration_out_of_range(),
       canzero_get_motor_driver_error_board_temperature1_invalid(),
       canzero_get_motor_driver_error_board_temperature2_invalid(),
@@ -126,7 +126,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       canzero_get_error_lateral_acceleration_out_of_range(),
       canzero_get_error_vertical_acceleration_out_of_range(),
 
-      canzero_get_error_cooling_flow_rate_mismatch(),
+      // canzero_get_error_cooling_flow_rate_mismatch(),
       canzero_get_error_cooling_flow_rate_low(),
       canzero_get_error_cooling_cycle_temp_begin_invalid(),
       canzero_get_error_cooling_cycle_temp_end_invalid(),
@@ -188,7 +188,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
       // std::max_element(ext_temps.begin(), ext_temps.end());
   // const error_level max_ext_temp = *ext_temp_error_level_it;
   canzero_set_error_level_over_temperature_system(
-      std::max(max_mcu_overtemp));
+      (max_mcu_overtemp));
 
   // === Remaining Error Levels ===
   const auto error_levels = std::array<error_level, 35>{
@@ -237,7 +237,7 @@ global_command fsm::error_handling::approve(global_command cmd) {
   const auto error_level_it =
       std::max_element(error_levels.begin(), error_levels.end());
 
-  error_level max_error_level = std::max(std::max(max_mcu_overtemp), *error_level_it);
+  error_level max_error_level = std::max(max_mcu_overtemp, *error_level_it);
 
   switch (max_error_level) {
   case error_level_OK:
