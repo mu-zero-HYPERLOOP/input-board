@@ -53,6 +53,7 @@ static void FASTRUN front_pin_isr() {
 
   Timestamp now = Timestamp::now();
 
+  auto _lock = input_board::InterruptLock::acquire();
   if (dir == m_dir) {
     if (dir == DIRECTION_LEFT) {
       m_event_queue.enqueue(LinearEncoderEvent{
@@ -81,6 +82,7 @@ void FASTRUN end_detection_front_isr() {
   bool back = input_board::read_digital(PIN_END_DETECTION_BACK);
   // should always be true
   if (back) {
+    auto _lock = input_board::InterruptLock::acquire();
     m_event_queue.enqueue(LinearEncoderEvent {
         .m_tag = LinearEncoderEventTag::END_DETECTION_FRONT,
         .m_timestamp = Timestamp::now(),
@@ -93,6 +95,7 @@ void FASTRUN end_detection_back_isr() {
   bool front = input_board::read_digital(PIN_END_DETECTION_FRONT);
   // should always be true!
   if (front) {
+    auto _lock = input_board::InterruptLock::acquire();
     m_event_queue.enqueue(LinearEncoderEvent{
         .m_tag = LinearEncoderEventTag::END_DETECTION_BACK,
         .m_timestamp = Timestamp::now(),
@@ -122,7 +125,14 @@ void FASTRUN sensors::linear_encoder::update() {
     if (!event.has_value()) {
       return;
     }
-    state_estimation::push_position_event(event.value());
+    // If the state-estimation queue is full, the event is lost -> permanent
+    // position offset. Surface it rather than dropping silently.
+    if (state_estimation::push_position_event(event.value()) != 0) {
+      debugPrintf("linear_encoder: state estimation queue full, event dropped\n");
+    }
   }
-  assert(false);
+  // Drained 100 events in one tick without emptying the ISR queue: run the
+  // scheduler faster or raise the queue size. Do NOT assert(false) -- that
+  // would brick the board mid-run under a burst.
+  debugPrintf("linear_encoder: ISR queue backlog >100 in one update\n");
 }

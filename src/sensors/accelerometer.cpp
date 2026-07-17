@@ -8,6 +8,7 @@
 #include <avr/pgmspace.h>
 #include <cassert>
 #include <cmath>
+#include <algorithm> // FIX: Added for std::max
 
 static DMAMEM Acceleration max_acceleration = 5000_mps2;
 
@@ -34,13 +35,13 @@ static void FASTRUN on_value(const Acceleration &y, const Acceleration &x,
   canzero_set_error_vertical_acceleration_out_of_range(error_flag_OK);
 
   /* canzero_set_error_acceleration_out_of_range( */
-  /*     (acceleration.abs() > max_acceleration) ? error_flag_ERROR */
-  /*                                             : error_flag_OK); */
+  /* (acceleration.abs() > max_acceleration) ? error_flag_ERROR */
+  /* : error_flag_OK); */
   /* canzero_set_error_lateral_acceleration_out_of_range( */
-  /*     (lateral.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
-  /*  */
+  /* (lateral.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
+  /* */
   /* canzero_set_error_vertical_acceleration_out_of_range( */
-  /*     (vertical.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
+  /* (vertical.abs() > max_acceleration) ? error_flag_ERROR : error_flag_OK); */
 
   canzero_set_raw_acceleration(static_cast<float>(acceleration));
   canzero_set_raw_lateral_acceleration(static_cast<float>(lateral));
@@ -55,7 +56,8 @@ static void FASTRUN on_value(const Acceleration &y, const Acceleration &x,
   canzero_set_vertical_acceleration(static_cast<float>(filter_y.get()));
   canzero_set_acceleration(static_cast<float>(filtered_acc));
 
-  state_estimation::push_acceleration_event(acceleration, now);
+  // FIX: Passing the filtered acceleration to the state estimation instead of the raw value
+  state_estimation::push_acceleration_event(filtered_acc, now);
 }
 
 void FLASHMEM sensors::accelerometer::begin() {
@@ -114,7 +116,8 @@ void PROGMEM sensors::accelerometer::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
-  Acceleration x_average = x_sum / (double)MEAN_ESTIMATION_IT;
+  // FIX: Replaced C-style cast with static_cast
+  Acceleration x_average = x_sum / static_cast<double>(MEAN_ESTIMATION_IT);
   Acceleration x_expected = 0_mps2;
   offset_x = x_expected - x_average;
   canzero_set_acceleration_calibration_offset(static_cast<float>(offset_x));
@@ -135,15 +138,6 @@ void PROGMEM sensors::accelerometer::calibrate() {
       static_cast<float>(offset_y));
 
   bool calibration_ok = true;
-  /* if (std::abs(canzero_get_acceleration_calibration_offset()) > 0.1) { */
-  /*   calibration_ok = false; */
-  /* } */
-  /* if (std::abs(canzero_get_lateral_acceleration_calibration_offset()) > 0.1) { */
-  /*   calibration_ok = false; */
-  /* } */
-  /* if (std::abs(canzero_get_vertical_acceleration_calibration_offset()) > 0.1) { */
-  /*   calibration_ok = false; */
-  /* } */
 
   constexpr float VARIANCE_ESTIMATION_IT = static_cast<float>(MEAS_FREQUENCY);
   float x_var = 0;
@@ -158,12 +152,13 @@ void PROGMEM sensors::accelerometer::calibrate() {
     canzero_update_continue(canzero_get_time());
     input_board::delay(1_ms);
   }
+  
+  // FIX: This is now correctly Variance. The std::sqrt() calls were removed.
+  // Standard Deviation (sqrt of variance) is incorrect for EKF tuning.
   x_var /= VARIANCE_ESTIMATION_IT - 1;
   y_var /= VARIANCE_ESTIMATION_IT - 1;
   z_var /= VARIANCE_ESTIMATION_IT - 1;
-  x_var = std::sqrt(x_var);
-  y_var = std::sqrt(y_var);
-  z_var = std::sqrt(z_var);
+
   canzero_set_acceleration_calibration_variance(x_var);
   canzero_set_lateral_acceleration_calibration_variance(z_var);
   canzero_set_vertical_acceleration_calibration_variance(y_var);
@@ -181,9 +176,11 @@ void PROGMEM sensors::accelerometer::calibrate() {
   canzero_set_error_acceleration_calibration_failed(
       calibration_ok ? error_flag_OK : error_flag_ERROR);
 
-  for (size_t i = 0; i < std::max(filter_y.size(), filter_z.size()); ++i) {
+  // FIX: Include filter_acc.size() so the 100-sample filter is fully primed
+  for (size_t i = 0; i < std::max({filter_y.size(), filter_z.size(), filter_acc.size()}); ++i) {
     const auto &[y, x, z] = input_board::sync_read_acceleration();
-    on_value(x, y, z);
+    // FIX: Match the function signature `on_value(y, x, z)` to prevent swapping axes
+    on_value(y, x, z);
   }
 }
 

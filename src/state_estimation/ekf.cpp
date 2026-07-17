@@ -23,6 +23,7 @@ void mat_sub(const BaseType* a, const BaseType* b, BaseType* res) {
     }
   }
 }
+
 template<uint8_t n_row, uint8_t n_col>
 void mat_add(const BaseType* a, const BaseType* b, BaseType* res) {
   for (uint8_t row = 0; row < n_row; row++) {
@@ -31,6 +32,7 @@ void mat_add(const BaseType* a, const BaseType* b, BaseType* res) {
     }
   }
 }
+
 template<uint8_t n_1, uint8_t n_2, uint8_t n_3>
 void mat_mul(const BaseType* a, const BaseType* b, BaseType* res) {
   memset(res, 0, sizeof(BaseType) * n_1 * n_3);
@@ -50,13 +52,13 @@ void mat_mv(const BaseType* a, BaseType* res) {
 
 template<uint8_t N>
 int choldc1(BaseType* res, BaseType* acc) {
-    int i,j,k;
+    int i, j, k;
     double sum;
     for (i = 0; i < N; i++) {
         for (j = i; j < N; j++) {
-            sum = res[i*N+j];
+            sum = res[i * N + j];
             for (k = i - 1; k >= 0; k--) {
-                sum -= res[i*N+k] * res[j*N+k];
+                sum -= res[i * N + k] * res[j * N + k];
             }
             if (i == j) {
                 if (sum <= 0) {
@@ -65,7 +67,7 @@ int choldc1(BaseType* res, BaseType* acc) {
                 acc[i] = sqrt(sum);
             }
             else {
-                res[j*N+i] = sum / acc[i];
+                res[j * N + i] = sum / acc[i];
             }
         }
     }
@@ -74,24 +76,26 @@ int choldc1(BaseType* res, BaseType* acc) {
 
 template<uint8_t N>
 int choldcsl(BaseType* a, BaseType* res, BaseType* acc) {
-    int i,j,k; double sum;
+    int i, j, k; 
+    double sum;
     for (i = 0; i < N; i++) 
         for (j = 0; j < N; j++) 
-            res[i*N+j] = a[i*N+j];
+            res[i * N + j] = a[i * N + j];
+            
     if (choldc1<N>(res, acc)) return 1;
+    
     for (i = 0; i < N; i++) {
-        res[i*N+i] = 1 / acc[i];
+        res[i * N + i] = 1 / acc[i];
         for (j = i + 1; j < N; j++) {
             sum = 0;
             for (k = i; k < j; k++) {
-                sum -= res[j*N+k] * res[k*N+i];
+                sum -= res[j * N + k] * res[k * N + i];
             }
-            res[j*N+i] = sum / acc[j];
+            res[j * N + i] = sum / acc[j];
         }
     }
     return 0; /* success */
 }
-
 
 template<uint8_t N>
 int mat_inv(BaseType* a, BaseType* res, BaseType* acc) {
@@ -103,31 +107,31 @@ int mat_inv(BaseType* a, BaseType* res, BaseType* acc) {
     res[3] = a[0] * scalar;
     return 0;
   } else {
-    int i,j,k;
-    if (choldcsl<N>(a,res,acc)) return 1;
+    int i, j, k;
+    if (choldcsl<N>(a, res, acc)) return 1;
     for (i = 0; i < N; i++) {
         for (j = i + 1; j < N; j++) {
-            res[i*N+j] = 0.0;
+            res[i * N + j] = 0.0;
         }
     }
     for (i = 0; i < N; i++) {
-        res[i*N+i] *= res[i*N+i];
+        res[i * N + i] *= res[i * N + i];
         for (k = i + 1; k < N; k++) {
-            res[i*N+i] += res[k*N+i] * res[k*N+i];
+            res[i * N + i] += res[k * N + i] * res[k * N + i];
         }
         for (j = i + 1; j < N; j++) {
             for (k = j; k < N; k++) {
-                res[i*N+j] += res[k*N+i] * res[k*N+j];
+                res[i * N + j] += res[k * N + i] * res[k * N + j];
             }
         }
     }
     for (i = 0; i < N; i++) {
         for (j = 0; j < i; j++) {
-            res[i*N+j] = res[j*N+i];
+            res[i * N + j] = res[j * N + i];
         }
     }
     return 0; /* success */
-    }
+  }
 }
 
 template<uint8_t dim_state, uint8_t dim_obser>
@@ -178,7 +182,5 @@ int ekf_step(Ekf<dim_state, dim_obser>& ekf, BaseType* z) {
   return 0;
 }
 
-// needed for compiler to know which template instanciations are actually used
+// Ensure compiler instances the template for our dimensional inputs
 template int ekf_step<3,2>(Ekf<3, 2> &ekf, BaseType *z);
-
-

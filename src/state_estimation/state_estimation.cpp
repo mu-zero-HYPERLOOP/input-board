@@ -173,29 +173,23 @@ void FASTRUN linear_encoder_update(
                            ? (timestamp - last_state_update).as_us()
                            : 0.0f;
   last_state_update = timestamp;
-  constexpr float us_in_s = 1e6f;
-  // predict new state based on old one
-  /*float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? */
-  /*  0.0f : canzero_get_target_acceleration();*/
-  float target_accel = canzero_get_target_acceleration();
-  target_accel = 0;
-  ekf.f_xu[acc_i] = target_accel;
-  ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
-  ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
-                    0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
+  const float dt = dur_us / us_in_s;
+  // predict new state based on old one (constant-acceleration model:
+  // acceleration is a *state* we estimate, not the commanded target)
+  ekf.f_xu[acc_i] = ekf.x_hat[acc_i];
+  ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dt * ekf.x_hat[acc_i];
+  ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dt * ekf.x_hat[speed_i] +
+                    0.5f * dt * dt * ekf.x_hat[acc_i];
 
-  // set jacobian of process function (derivative of f)
-  float target_accel_d = 1;
-  ekf.F[0 * DIM_STATE + 1] = dur_us / us_in_s;
-  ekf.F[0 * DIM_STATE + 2] =
-      0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
-  ekf.F[1 * DIM_STATE + 2] = dur_us * target_accel_d / us_in_s;
-  ekf.F[2 * DIM_STATE + 2] = target_accel_d;
-  ekf.F_T[1 * DIM_STATE + 0] = dur_us / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 0] =
-      0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 1] = dur_us * target_accel_d / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 2] = target_accel_d;
+  // set jacobian of process function (derivative of f) -- must match f above
+  ekf.F[0 * DIM_STATE + 1] = dt;
+  ekf.F[0 * DIM_STATE + 2] = 0.5f * dt * dt;
+  ekf.F[1 * DIM_STATE + 2] = dt;
+  ekf.F[2 * DIM_STATE + 2] = 1.0f;
+  ekf.F_T[1 * DIM_STATE + 0] = dt;
+  ekf.F_T[2 * DIM_STATE + 0] = 0.5f * dt * dt;
+  ekf.F_T[2 * DIM_STATE + 1] = dt;
+  ekf.F_T[2 * DIM_STATE + 2] = 1.0f;
 
   // set expected measurements, H is constant and does not have to be changed
   ekf.h_x[stripe_i] = ekf.f_xu[pos_i];
@@ -205,11 +199,13 @@ void FASTRUN linear_encoder_update(
   measurement[stripe_i] = static_cast<float>(
       state_estimation::STRIPE_STRIDE / 2 * stripe_count);
   measurement[imu_i] =
-      ekf.h_x[imu_i]; // use predicted value as missing measurement
-                      // => measurement should be ignored by filter
-  //ekf.R[imu_i * DIM_OBSER + imu_i] = max_variance;
+      ekf.h_x[imu_i]; // no IMU reading in this event -> use prediction
+  // Inflate IMU measurement noise so the filter ignores the faked channel.
+  // Without this the prediction is treated as a real, low-noise measurement
+  // and the covariance collapses (filter becomes overconfident).
+  ekf.R[imu_i * DIM_OBSER + imu_i] = max_variance;
   ekf_step<DIM_STATE, DIM_OBSER>(ekf, measurement);
-  //ekf.R[imu_i * DIM_OBSER + imu_i] = imu_variance;
+  ekf.R[imu_i * DIM_OBSER + imu_i] = imu_variance;
 }
 
 
@@ -219,51 +215,41 @@ void FASTRUN acceleration_update(const Acceleration &acc,
                            ? (timestamp - last_state_update).as_us()
                            : 0.0f;
   last_state_update = timestamp;
-  constexpr float us_in_s = 1e6f;
-  // predict new state based on old one
-  /*float target_accel = canzero_get_pod_grounded() == bool_t_TRUE ? */
-  /*  0.0f : canzero_get_target_acceleration();*/
-  float target_accel = canzero_get_target_acceleration();
-  target_accel = 0.0;
-  ekf.f_xu[acc_i] = target_accel;
-  ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dur_us * target_accel / us_in_s;
-  ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dur_us * ekf.x_hat[speed_i] / us_in_s +
-                    0.5 * dur_us * dur_us * target_accel / us_in_s / us_in_s;
+  const float dt = dur_us / us_in_s;
+  // predict new state based on old one (constant-acceleration model)
+  ekf.f_xu[acc_i] = ekf.x_hat[acc_i];
+  ekf.f_xu[speed_i] = ekf.x_hat[speed_i] + dt * ekf.x_hat[acc_i];
+  ekf.f_xu[pos_i] = ekf.x_hat[pos_i] + dt * ekf.x_hat[speed_i] +
+                    0.5f * dt * dt * ekf.x_hat[acc_i];
 
-  // set jacobian of process function (derivative of f)
-  float target_accel_d = 1;
-  ekf.F[0 * DIM_STATE + 1] = dur_us / us_in_s;
-  ekf.F[0 * DIM_STATE + 2] =
-      0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
-  ekf.F[1 * DIM_STATE + 2] = dur_us * target_accel_d / us_in_s;
-  ekf.F[2 * DIM_STATE + 2] = target_accel_d;
-  ekf.F_T[1 * DIM_STATE + 0] = dur_us / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 0] =
-      0.5f * dur_us * dur_us * target_accel_d / us_in_s / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 1] = dur_us * target_accel_d / us_in_s;
-  ekf.F_T[2 * DIM_STATE + 2] = target_accel_d;
+  // set jacobian of process function (derivative of f) -- must match f above
+  ekf.F[0 * DIM_STATE + 1] = dt;
+  ekf.F[0 * DIM_STATE + 2] = 0.5f * dt * dt;
+  ekf.F[1 * DIM_STATE + 2] = dt;
+  ekf.F[2 * DIM_STATE + 2] = 1.0f;
+  ekf.F_T[1 * DIM_STATE + 0] = dt;
+  ekf.F_T[2 * DIM_STATE + 0] = 0.5f * dt * dt;
+  ekf.F_T[2 * DIM_STATE + 1] = dt;
+  ekf.F_T[2 * DIM_STATE + 2] = 1.0f;
   // set expected measurements, H is constant and does not have to be changed
   ekf.h_x[stripe_i] = ekf.f_xu[pos_i];
   ekf.h_x[imu_i] = ekf.f_xu[acc_i];
 
   BaseType measurement[DIM_OBSER];
   float acc_used = static_cast<float>(acc);
-  if (acc_used < 0.0f) {
-    acc_used = std::clamp(acc_used + 0.2f, acc_used, 0.0f);
-  } else if (acc_used > 0.0f) {
-    acc_used = std::clamp(acc_used - 0.2f, 0.0f, acc_used);
+  // Deadband: only zero out readings *near* zero (sensor noise floor).
+  // The old code subtracted 0.2 from every reading, biasing the whole scale.
+  constexpr float acc_deadband = 0.2f;
+  if (acc_used > -acc_deadband && acc_used < acc_deadband) {
+    acc_used = 0.0f;
   }
   measurement[imu_i] = acc_used;
-  // use expected measurement as reading
-  measurement[stripe_i] = ekf.f_xu[pos_i];
-  static float acc_acc = 0.0f;
-  acc_acc += measurement[imu_i];
+  measurement[stripe_i] = ekf.f_xu[pos_i]; // no stripe reading in this event
 
-  //ekf.R[stripe_i * DIM_OBSER + stripe_i] = max_variance;
-  //ekf.Q[pos_i * DIM_STATE + pos_i] = 0.0f;
+  // Inflate stripe measurement noise so the filter ignores the faked channel.
+  ekf.R[stripe_i * DIM_OBSER + stripe_i] = max_variance;
   ekf_step<DIM_STATE, DIM_OBSER>(ekf, measurement);
-  //ekf.R[stripe_i * DIM_OBSER + stripe_i] = linear_encoder_variance;
-  //ekf.Q[pos_i * DIM_STATE + pos_i] = position_process_variance;
+  ekf.R[stripe_i * DIM_OBSER + stripe_i] = linear_encoder_variance;
 }
 
 
