@@ -35,7 +35,7 @@ static void FASTRUN on_value(const Voltage &v) {
 
 void FLASHMEM sensors::link45_current::begin() {
   canzero_set_link45_current(0);
-  canzero_set_link45_current_calibration_mode(calibration_mode_DISABLE);
+  canzero_set_link45_current_calibration_mode(calibration_mode_USE_OFFSET);
   canzero_set_link45_current_calibration_offset(0);
   canzero_set_link45_current_calibration_target(0); //calibrate to zero A!
   canzero_set_error_level_link45_over_current(error_level_OK);
@@ -55,7 +55,7 @@ void FLASHMEM sensors::link45_current::begin() {
 }
 
 void PROGMEM sensors::link45_current::calibrate() {
-  offset = 0_A;
+  offset = 0.4_A;
   for (unsigned int i = 0; i < filter.size(); ++i) {
     const Voltage v = input_board::sync_read(PIN);
     on_value(v);
